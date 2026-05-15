@@ -1,0 +1,312 @@
+@import "tailwindcss";
+
+html[data-theme="Dark"] {
+  --theme-background: var(--color-neutral-950);
+  --theme-secondary: var(--color-neutral-900);
+  --theme-surface: color-mix(
+    in oklab,
+    var(--color-white) 5%,
+    var(--color-secondary)
+  );
+  --theme-primary: var(--color-neutral-200);
+  --theme-text: var(--color-white);
+  --theme-text-placeholder: var(--color-neutral-400);
+  --theme-text-inverse: var(--color-black);
+  --theme-border: color-mix(in oklab, var(--color-white) 10%, transparent);
+  --theme-border-primary: color-mix(
+    in oklab,
+    var(--color-white) 15%,
+    transparent
+  );
+}
+
+html[data-theme="Light"] {
+  --theme-background: var(--color-neutral-50);
+  --theme-secondary: var(--color-white);
+  --theme-surface: color-mix(
+    in oklab,
+    var(--color-neutral-950) 5%,
+    var(--color-secondary)
+  );
+  --theme-primary: var(--color-neutral-900);
+  --theme-text: var(--color-neutral-950);
+  --theme-text-placeholder: var(--color-neutral-500);
+  --theme-text-inverse: var(--color-white);
+  --theme-border: color-mix(
+    in oklab,
+    var(--color-neutral-950) 10%,
+    transparent
+  );
+  --theme-border-primary: var(--color-primary);
+}
+
+html[data-theme="Valve"] {
+  --theme-background: #171d25;
+  --theme-secondary: #2b2d34;
+  --theme-surface: #3d4450;
+  --theme-primary: #1a9fff;
+  --theme-text: #ffffff;
+  --theme-text-placeholder: #b8bcbf;
+  --theme-text-inverse: #171d25;
+  --theme-border: color-mix(in oklab, var(--color-white) 10%, transparent);
+  --theme-border-primary: color-mix(
+    in oklab,
+    var(--color-white) 15%,
+    transparent
+  );
+}
+
+html[data-theme="Turtle"] {
+  --theme-background: #101114;
+  --theme-secondary: #1a1b1e;
+  --theme-surface: #2d3036;
+  --theme-primary: #028746;
+  --theme-text: var(--color-white);
+  --theme-text-placeholder: #a7a7a7;
+  --theme-text-inverse: var(--color-white);
+  --theme-border: color-mix(in oklab, var(--color-white) 10%, transparent);
+  --theme-border-primary: color-mix(
+    in oklab,
+    var(--color-white) 15%,
+    transparent
+  );
+}
+
+html[data-theme="Nord"] {
+  --theme-background: #2e3440;
+  --theme-secondary: #3b4252;
+  --theme-surface: #4c566a;
+  --theme-primary: #88c0d0;
+  --theme-text: #eceff4;
+  --theme-text-placeholder: var(--color-slate-400);
+  --theme-text-inverse: #2e3440;
+  --theme-border: color-mix(in oklab, var(--color-white) 10%, transparent);
+  --theme-border-primary: color-mix(
+    in oklab,
+    var(--color-white) 15%,
+    transparent
+  );
+}
+
+html[data-theme="Fractal"] {
+  --theme-background: #222;
+  --theme-secondary: #333;
+  --theme-surface: color-mix(
+    in oklab,
+    var(--color-white) 5%,
+    var(--color-secondary)
+  );
+  --theme-primary: #f971e4;
+  --theme-text: color-mix(in oklab, var(--color-white) 60%, #f971e4);
+  --theme-text-placeholder: color-mix(
+    in oklab,
+    var(--color-neutral-400) 60%,
+    #f971e4
+  );
+  --theme-text-inverse: var(--color-black);
+  --theme-border: color-mix(in oklab, var(--color-white) 10%, transparent);
+  --theme-border-primary: color-mix(
+    in oklab,
+    var(--color-white) 15%,
+    transparent
+  );
+}
+
+html[data-theme="Molten"] {
+  --theme-background: black;
+  --theme-secondary: #211414;
+  --theme-surface: color-mix(
+    in oklab,
+    var(--color-white) 8%,
+    var(--color-secondary)
+  );
+  --theme-primary: #ff6868;
+  --theme-text: var(--color-white);
+  --theme-text-placeholder: var(--color-neutral-400);
+  --theme-text-inverse: var(--color-black);
+  --theme-border: color-mix(in oklab, var(--color-white) 10%, transparent);
+  --theme-border-primary: color-mix(
+    in oklab,
+    var(--color-white) 15%,
+    transparent
+  );
+}
+
+html[data-theme="Metallic"] {
+  --theme-background: #0c1618;
+  --theme-secondary: #002931;
+  --theme-surface: color-mix(
+    in oklab,
+    var(--color-white) 5%,
+    var(--color-secondary)
+  );
+  --theme-primary: #2a7152;
+  --theme-text: var(--color-white);
+  --theme-text-placeholder: var(--color-neutral-400);
+  --theme-text-inverse: var(--color-white);
+  --theme-border: color-mix(in oklab, var(--color-white) 10%, transparent);
+  --theme-border-primary: color-mix(
+    in oklab,
+    var(--color-white) 15%,
+    transparent
+  );
+}
+
+html[data-theme="Catppuccin Mocha"] {
+  --theme-background: #11111b;
+  --theme-secondary: #1e1e2e;
+  --theme-surface: #313244;
+  --theme-primary: #89b4fa;
+  --theme-text: #cdd6f4;
+  --theme-text-placeholder: #a6adc8;
+  --theme-text-inverse: #181825;
+  --theme-border: color-mix(in oklab, var(--color-white) 10%, transparent);
+  --theme-border-primary: color-mix(
+    in oklab,
+    var(--color-white) 15%,
+    transparent
+  );
+}
+
+html[data-theme="Catppuccin Macchiato"] {
+  --theme-background: #181926;
+  --theme-secondary: #24273a;
+  --theme-surface: #363a4f;
+  --theme-primary: #8aadf4;
+  --theme-text: #cad3f5;
+  --theme-text-placeholder: #a5adcb;
+  --theme-text-inverse: #1e2030;
+  --theme-border: color-mix(in oklab, var(--color-white) 10%, transparent);
+  --theme-border-primary: color-mix(
+    in oklab,
+    var(--color-white) 15%,
+    transparent
+  );
+}
+
+html[data-theme="Catppuccin Frappé"] {
+  --theme-background: #232634;
+  --theme-secondary: #303446;
+  --theme-surface: #414559;
+  --theme-primary: #8caaee;
+  --theme-text: #c6d0f5;
+  --theme-text-placeholder: #a5adce;
+  --theme-text-inverse: #292c3c;
+  --theme-border: color-mix(in oklab, var(--color-white) 10%, transparent);
+  --theme-border-primary: color-mix(
+    in oklab,
+    var(--color-white) 15%,
+    transparent
+  );
+}
+
+html[data-theme="Catppuccin Latte"] {
+  --theme-background: #dce0e8;
+  --theme-secondary: #eff1f5;
+  --theme-surface: #ccd0da;
+  --theme-primary: #1e66f5;
+  --theme-text: #4c4f69;
+  --theme-text-placeholder: #6c6f85;
+  --theme-text-inverse: #e6e9ef;
+  --theme-border: color-mix(
+    in oklab,
+    var(--color-neutral-950) 10%,
+    transparent
+  );
+  --theme-border-primary: color-mix(
+    in oklab,
+    var(--color-neutral-950) 15%,
+    transparent
+  );
+}
+
+html[data-theme="3kh0"] {
+  --theme-background: var(--color-mist-900);
+  --theme-secondary: var(--color-mist-800);
+  --theme-surface: var(--color-mist-700);
+  --theme-primary: #4caf50;
+  --theme-text: var(--color-white);
+  --theme-text-placeholder: var(--color-gray-400);
+  --theme-text-inverse: var(--color-black);
+  --theme-border: color-mix(in oklab, var(--color-white) 10%, transparent);
+  --theme-border-primary: color-mix(
+    in oklab,
+    var(--color-white) 15%,
+    transparent
+  );
+}
+
+html[data-theme="Space"] {
+  --theme-background: var(--color-slate-900);
+  --theme-secondary: var(--color-slate-800);
+  --theme-surface: color-mix(
+    in oklab,
+    var(--color-white) 5%,
+    var(--color-secondary)
+  );
+  --theme-primary: var(--color-blue-700);
+  --theme-text: var(--color-white);
+  --theme-text-placeholder: var(--color-gray-400);
+  --theme-text-inverse: var(--color-white);
+  --theme-border: color-mix(in oklab, var(--color-white) 10%, transparent);
+  --theme-border-primary: color-mix(
+    in oklab,
+    var(--color-white) 15%,
+    transparent
+  );
+}
+
+html[data-theme="Snail"] {
+  --theme-background: var(--color-orange-50);
+  --theme-secondary: var(--color-orange-100);
+  --theme-surface: color-mix(
+    in oklab,
+    var(--color-neutral-950) 5%,
+    var(--color-secondary)
+  );
+  --theme-primary: var(--color-rose-400);
+  --theme-text: var(--color-stone-800);
+  --theme-text-placeholder: var(--color-stone-500);
+  --theme-text-inverse: var(--color-white);
+  --theme-border: color-mix(
+    in oklab,
+    var(--color-neutral-950) 10%,
+    transparent
+  );
+  --theme-border-primary: color-mix(
+    in oklab,
+    var(--color-white) 15%,
+    transparent
+  );
+}
+
+@theme inline {
+  --color-background: var(--theme-background);
+  --color-secondary: var(--theme-secondary);
+  --color-surface: var(--theme-surface);
+  --color-primary: var(--theme-primary);
+  --color-text: var(--theme-text);
+  --color-text-placeholder: var(--theme-text-placeholder);
+  --color-text-inverse: var(--theme-text-inverse);
+  --color-border: var(--theme-border);
+  --color-border-primary: var(--theme-border-primary);
+  --color-overlay: color-mix(
+    in oklab,
+    var(--color-text-inverse) 40%,
+    transparent
+  );
+}
+
+@utility no-scrollbar {
+  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}
+
+@utility scrollbar {
+  @apply [&::-webkit-scrollbar]:w-4 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-4 [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:[background:var(--color-border)_content-box] [&::-webkit-scrollbar-corner]:bg-transparent;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 150ms;
+  animation-timing-function: ease-in-out;
+}

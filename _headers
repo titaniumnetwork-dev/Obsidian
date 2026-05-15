@@ -1,0 +1,10 @@
+/*
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Embedder-Policy: credentialless
+  Cross-Origin-Resource-Policy: cross-origin
+
+/emulatorjs/*
+  Cache-Control: public, max-age=3600, s-maxage=3600
+
+/ruffle/*
+  Cache-Control: public, max-age=3600, s-maxage=3600

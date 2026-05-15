@@ -1,0 +1,78 @@
+{
+  "id": "obsidian",
+  "name": "Obsidian",
+  "description": "Your new favorite place on the internet!",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "orientation": "landscape",
+  "background_color": "#0a0a0a",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "icons": [
+    {
+      "src": "/logo-180.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    },
+    {
+      "src": "/logo-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/logo-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Library",
+      "url": "/library",
+      "icons": [
+        {
+          "src": "library-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Store",
+      "url": "/store",
+      "icons": [
+        {
+          "src": "store-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Settings",
+      "url": "/settings",
+      "icons": [
+        {
+          "src": "settings-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot_home.png",
+      "sizes": "1280x720",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "The Obsidian homepage"
+    },
+    {
+      "src": "screenshot_slope.png",
+      "sizes": "1280x720",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Slope ready to be played"
+    }
+  ]
+}

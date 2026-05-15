@@ -1,0 +1,13 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "games",
+  "compatibility_date": "2026-04-14",
+  "pages_build_output_dir": ".svelte-kit/cloudflare",
+  "r2_buckets": [
+    {
+      "binding": "GAMES",
+      "bucket_name": "games",
+      "remote": true
+    }
+  ]
+}
