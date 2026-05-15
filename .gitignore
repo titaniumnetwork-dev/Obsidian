@@ -32,5 +32,5 @@ logs
 .idea
 .zed
 
-/static/emulatorjs/*
-/static/ruffle/*
+static/emulatorjs
+static/ruffle

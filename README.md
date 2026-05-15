@@ -2,16 +2,12 @@
 Your new favorite place on the internet!
 
 ## Todo
-- Fix tab cloak
-- Reset button creator
-- Console fun message
-- Lazy load images
-- Host game art
-- Mobile Warning
+- Fix emulation on deploy
+- Reset button on creator
+- Fun console message
+- Mobile warning
 - Controller support
 - Terms of service + privacy policy + dmca + contact
-- Standardize tags
-- Use IDs for games
-- Intercept achivements on applicable games
+- Intercept achivements
 - Export/import data
 - Accessibility
