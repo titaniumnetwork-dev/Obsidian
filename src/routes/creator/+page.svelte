@@ -13,6 +13,7 @@
     Ellipsis,
     Play,
     Plus,
+    RefreshCcw,
     Share,
     Sparkles,
     Tag,
@@ -282,6 +283,22 @@
       };
     }
     stopListening();
+  }
+
+  function reset() {
+    title = "";
+    developer = "";
+    description = "";
+    id = "";
+    version = "";
+    tags = [];
+    hero = "";
+    cover = "";
+    icon = "";
+    type = "HTML";
+    path = "";
+    rom = "";
+    controls = [];
   }
 </script>
 
@@ -704,6 +721,13 @@
       <span>Download Assets</span>
     </button>
   {/if}
+  <button
+    onclick={reset}
+    class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+  >
+    <RefreshCcw size="20" />
+    <span>Reset All</span>
+  </button>
 </div>
 <div class="w-full overflow-auto flex flex-col scrollbar">
   <Navbar />
