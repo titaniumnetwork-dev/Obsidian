@@ -2,7 +2,6 @@
 Your new favorite place on the internet!
 
 ## Todo
-- Fix emulation on deploy
 - Reset button on creator
 - Fun console message
 - Mobile warning

@@ -45,7 +45,7 @@
         );
       case "Emulation":
         return (
-          "/emulation.html?rom=/cdn/emulation/" +
+          "/emulation/cdn/emulation/" +
           data.currentData.id +
           "/" +
           (data.currentData.version || data.currentData.internalVersion) +
@@ -383,7 +383,7 @@
 
 <Head
   title={data.currentData.title}
-  icon={'/cdn/assets/" + data.currentData.id + "/icon.webp'}
+  icon={"/cdn/assets/" + data.currentData.id + "/icon.webp"}
 />
 
 <svelte:window onclick={handleClickOutside} onkeydown={handleKeydown} />
