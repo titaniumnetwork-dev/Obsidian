@@ -7,7 +7,7 @@
     "dev": "vite dev",
     "preview": "vite preview",
     "build": "node build-ruffle.js && node build-emulatorjs.js && vite build",
-    "deploy": "pnpm run build && wrangler pages deploy .svelte-kit/cloudflare"
+    "deploy": "pnpm run build && wrangler pages deploy .svelte-kit/cloudflare --branch production"
   },
   "devDependencies": {
     "@inlang/cli": "^3.0.0",
