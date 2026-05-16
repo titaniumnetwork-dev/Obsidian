@@ -3,7 +3,6 @@ Your new favorite place on the internet!
 
 ## Todo
 - Reset button on creator
-- Fun console message
 - Mobile warning
 - Controller support
 - Terms of service + privacy policy + dmca + contact

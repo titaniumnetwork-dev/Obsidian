@@ -1,9 +1,11 @@
 <script>
+  import "$lib/consoleMessage.js";
   import "$lib/konami.svelte.js";
   import { storage } from "$lib/storage.svelte";
   import "$lib/style/layout.css";
   import { onMount } from "svelte";
   import { Toaster } from "svelte-sonner";
+
   let { children, data } = $props();
 
   onMount(async () => {
