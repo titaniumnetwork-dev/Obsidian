@@ -1,4 +1,5 @@
 <script>
+  import MobileBlocker from "$lib/components/MobileBlocker.svelte";
   import "$lib/consoleMessage.js";
   import "$lib/konami.svelte.js";
   import { storage } from "$lib/storage.svelte";
@@ -74,5 +75,7 @@
 />
 
 {#if storage.isLoaded}
-  {@render children()}
+  <MobileBlocker>
+    {@render children()}
+  </MobileBlocker>
 {/if}

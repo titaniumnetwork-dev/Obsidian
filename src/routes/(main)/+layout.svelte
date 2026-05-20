@@ -1,5 +1,6 @@
 <script>
   import Footer from "$lib/components/Footer.svelte";
+  import MobileBlocker from "$lib/components/MobileBlocker.svelte";
   import Navbar from "$lib/components/Navbar.svelte";
   import Sidebar from "$lib/components/Sidebar.svelte";
   import "$lib/consoleMessage.js";
@@ -77,10 +78,12 @@
 />
 
 {#if storage.isLoaded}
-  <Sidebar />
-  <div class="w-full overflow-auto flex flex-col scrollbar">
-    <Navbar />
-    {@render children()}
-    <Footer />
-  </div>
+  <MobileBlocker>
+    <Sidebar />
+    <div class="w-full overflow-auto flex flex-col scrollbar">
+      <Navbar />
+      {@render children()}
+      <Footer />
+    </div>
+  </MobileBlocker>
 {/if}
