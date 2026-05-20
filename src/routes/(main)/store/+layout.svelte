@@ -94,6 +94,7 @@
     />
     {#if searchQuery.length > 0}
       <button
+        aria-label="Clear Search"
         class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
         onclick={() => (searchQuery = "")}
       >
@@ -106,7 +107,7 @@
       href="/store"
       data-active={!filterCategory && !filterTag}
       class="px-4 py-2 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border transition-colors data-[active=true]:bg-surface"
-      >Home</a
+      >All</a
     >
     {#each categories as category}
       <a
@@ -185,6 +186,7 @@
             </div>
             <div class="ml-auto flex gap-4 items-center">
               <button
+                aria-label="Previous Slide"
                 onclick={prev}
                 class="bg-surface border border-border w-10 h-10 cursor-pointer rounded-full flex justify-center items-center"
               >
@@ -192,6 +194,7 @@
               </button>
               <p>{carouselIndex + 1} / {carouselData.length}</p>
               <button
+                aria-label="Next Slide"
                 onclick={next}
                 class="bg-surface border border-border w-10 h-10 cursor-pointer rounded-full flex justify-center items-center"
               >

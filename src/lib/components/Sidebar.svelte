@@ -84,7 +84,7 @@
   >
     {#if storage.favorites.length > 0}
       <div class="grid grid-cols-[repeat(auto-fit,minmax(3.5rem,1fr))] gap-2">
-        {#each favoritesLibrary as item}
+        {#each favoritesLibrary as item (item.id)}
           <a
             href={"/library/" + item.id}
             style={"--icon: url('/cdn/assets/" + item.id + "/icon.webp')"}
@@ -103,7 +103,7 @@
         {/each}
       </div>
     {/if}
-    {#each filteredLibrary as item}
+    {#each filteredLibrary as item (item.id)}
       <a
         href={"/library/" + item.id}
         data-current={$page.url.pathname === "/library/" + item.id}
@@ -113,7 +113,7 @@
           <img
             draggable="false"
             loading="lazy"
-            alt={item.title}
+            alt={item.title + " logo"}
             class="h-10 w-10 rounded-xl"
             src={"/cdn/assets/" + item.id + "/icon.webp"}
           />

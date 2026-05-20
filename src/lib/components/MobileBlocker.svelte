@@ -18,7 +18,7 @@
 </script>
 
 {#if isMobile}
-  <div class="w-full h-full flex flex-col items-center justify-center p-4 gap-4 text-center">
+  <div class="w-full h-full flex flex-col items-center justify-center p-4 gap-2 text-center">
     <Smartphone size="128" />
     <h1 class="text-2xl font-bold">Mobile Not Supported</h1>
     <p class="text-text-placeholder">

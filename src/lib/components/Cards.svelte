@@ -11,7 +11,7 @@
   <div
     class="p-4 pt-0 grid grid-cols-[repeat(auto-fill,minmax(13rem,1fr))] gap-4"
   >
-    {#each data as item}
+    {#each data as item (item.id)}
       <Card data={item} {link} {buttons} />
     {/each}
   </div>

@@ -31,6 +31,7 @@
   Show a search bar in the sidebar
 </p>
 <input
+  aria-label="Sidebar Search"
   disabled={storage.settings.sidebarStyle !== "default"}
   checked={storage.settings.sidebarSearch}
   onchange={(e) => storage.updateSetting("sidebarSearch", e.target.checked)}
@@ -45,6 +46,7 @@
   Show currently playing games at the top of the sidebar
 </p>
 <input
+  aria-label="Playing FIrst"
   checked={storage.settings.playingFirst}
   onchange={(e) => storage.updateSetting("playingFirst", e.target.checked)}
   class="appearance-none cursor-pointer transition-colors bg-secondary checked:bg-surface border border-border w-11 h-6 rounded-full flex items-center px-0.5 before:content-[''] before:h-4 before:w-4 before:rounded-full before:border before:border-border checked:before:border-border-primary before:bg-surface checked:before:bg-primary before:block checked:before:translate-x-5.5 before:transition-[translate,background,border]"

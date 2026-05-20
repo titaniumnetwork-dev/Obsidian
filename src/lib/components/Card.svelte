@@ -14,7 +14,7 @@
   <img
     draggable="false"
     loading="lazy"
-    alt={data.title}
+    alt={data.title + " cover"}
     class="w-full h-full rounded-2xl border border-border object-cover group-data-[cards-style=default]:object-center group-data-[cards-style=square]:object-top"
     src={"/cdn/assets/" + data.id + "/cover.webp"}
   />
@@ -27,6 +27,7 @@
         {#if storage.active[data.id]}
           <div class="flex gap-2">
             <button
+              aria-label="Pause"
               onclick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -38,6 +39,7 @@
               <Pause size="16" />
             </button>
             <button
+              aria-label="Quit"
               onclick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -51,6 +53,7 @@
           </div>
         {:else}
           <button
+            aria-label="Play"
             onclick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -70,6 +73,7 @@
           </div>
         {:else}
           <button
+            aria-label="Install"
             onclick={(e) => {
               e.preventDefault();
               e.stopPropagation();

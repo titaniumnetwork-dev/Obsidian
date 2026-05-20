@@ -56,6 +56,7 @@
 <p class="text-sm text-text-placeholder mb-4">Disguise your tab</p>
 <div class="flex gap-4">
   <button
+    aria-label="No Mask"
     onclick={() => setMask("", "")}
     data-active={storage.settings.maskTitle === "" &&
       storage.settings.maskIcon === ""}
@@ -65,6 +66,7 @@
   </button>
   {#each maskTemplates as mask}
     <button
+      aria-label={mask.title}
       onclick={() => setMask(mask.title, mask.icon)}
       data-active={storage.settings.maskTitle === mask.title &&
         storage.settings.maskIcon === mask.icon}
@@ -131,6 +133,7 @@
   Prevent the tab from being closed
 </p>
 <input
+  aria-label="Close Prevention"
   checked={storage.settings.closePrevention}
   onchange={(e) => storage.updateSetting("closePrevention", e.target.checked)}
   class="appearance-none cursor-pointer transition-colors bg-secondary checked:bg-surface border border-border w-11 h-6 rounded-full flex items-center px-0.5 before:content-[''] before:h-4 before:w-4 before:rounded-full before:border before:border-border checked:before:border-border-primary before:bg-surface checked:before:bg-primary before:block checked:before:translate-x-5.5 before:transition-[translate,background,border]"

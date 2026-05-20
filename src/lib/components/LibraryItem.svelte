@@ -61,6 +61,7 @@
                 <span>Resume</span>
               </button>
               <button
+                aria-label="Quit"
                 onclick={() => storage.quitActive(data.currentData.id)}
                 class="bg-primary w-10 h-10 cursor-pointer rounded-full flex justify-center items-center text-text-inverse border border-border-primary"
               >
@@ -76,6 +77,7 @@
               </button>
             {/if}
             <button
+              aria-label="Share"
               onclick={async () =>
                 await navigator.share({
                   title: data.currentData.title,

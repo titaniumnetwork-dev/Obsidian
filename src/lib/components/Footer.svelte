@@ -17,11 +17,7 @@
   <div class="flex items-center gap-4">
     <a
       class="transition-colors text-text-placeholder hover:text-text"
-      href="/contact">Contact</a
-    >
-    <a
-      class="transition-colors text-text-placeholder hover:text-text"
-      href="/contact">DMCA</a
+      href="mailto:support@obsidian.com">Contact</a
     >
     <a
       class="transition-colors text-text-placeholder hover:text-text"
@@ -30,6 +26,10 @@
     <a
       class="transition-colors text-text-placeholder hover:text-text"
       href="/privacy">Privacy Policy</a
+    >
+    <a
+      class="transition-colors text-text-placeholder hover:text-text"
+      href="/dmca">DMCA</a
     >
     <div class="flex items-center gap-6 mx-2">
       <!--
