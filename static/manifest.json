@@ -12,17 +12,17 @@
   },
   "icons": [
     {
-      "src": "/logo-180.png",
+      "src": "/assets/logo-180.png",
       "type": "image/png",
       "sizes": "180x180"
     },
     {
-      "src": "/logo-192.png",
+      "src": "/assets/logo-192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/logo-512.png",
+      "src": "/assets/logo-512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
@@ -33,7 +33,7 @@
       "url": "/library",
       "icons": [
         {
-          "src": "library-192.png",
+          "src": "/assets/library-192.png",
           "sizes": "192x192"
         }
       ]
@@ -43,7 +43,7 @@
       "url": "/store",
       "icons": [
         {
-          "src": "store-192.png",
+          "src": "/assets/store-192.png",
           "sizes": "192x192"
         }
       ]
@@ -53,7 +53,7 @@
       "url": "/settings",
       "icons": [
         {
-          "src": "settings-192.png",
+          "src": "/assets/settings-192.png",
           "sizes": "192x192"
         }
       ]
@@ -61,14 +61,14 @@
   ],
   "screenshots": [
     {
-      "src": "screenshot_home.png",
+      "src": "/assets/screenshot_home.png",
       "sizes": "1280x720",
       "type": "image/webp",
       "form_factor": "wide",
       "label": "The Obsidian homepage"
     },
     {
-      "src": "screenshot_slope.png",
+      "src": "/assets/screenshot_slope.png",
       "sizes": "1280x720",
       "type": "image/webp",
       "form_factor": "wide",
