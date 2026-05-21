@@ -2,5 +2,6 @@
 Your new favorite place on the internet!
 
 ## Todo
-- Controller support
+- Controller remapping support
 - Export/import data
+- 

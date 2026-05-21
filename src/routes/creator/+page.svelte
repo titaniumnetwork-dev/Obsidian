@@ -38,6 +38,7 @@
   let path = $state("");
   let rom = $state("");
   let controls = $state([]);
+  let controllerSupport = $state(false);
 
   async function formatImage(file, sizeWidth, sizeHeight) {
     if (!file) return null;
@@ -157,6 +158,7 @@
       id,
       type,
       controls,
+      controllerSupport,
       tags: [...tags],
     };
 
@@ -299,6 +301,7 @@
     path = "";
     rom = "";
     controls = [];
+    controllerSupport = false;
   }
 </script>
 
@@ -707,6 +710,15 @@
       {/each}
     </div>
   {/if}
+  <p>Controller Support</p>
+  <input
+    aria-label="Controller Support"
+    checked={controllerSupport}
+    onchange={(e) => (controllerSupport = e.target.checked)}
+    class="shrink-0 appearance-none cursor-pointer transition-colors bg-secondary checked:bg-surface border border-border w-11 h-6 rounded-full flex items-center px-0.5 before:content-[''] before:h-4 before:w-4 before:rounded-full before:border before:border-border checked:before:border-border-primary before:bg-surface checked:before:bg-primary before:block checked:before:translate-x-5.5 before:transition-[translate,background,border]"
+    type="checkbox"
+  />
+
   {#if isComplete}
     <textarea
       class="bg-surface rounded-xl items-center flex border border-border h-96 w-full px-4 outline-none placeholder:text-text-placeholder py-2 resize-none shrink-0"

@@ -1,7 +1,8 @@
 <script>
   import { goto } from "$app/navigation";
   import Head from "$lib/components/Head.svelte";
-  import { keyIcon } from "$lib/keyIcon.js";
+  import KenneyGamepadIcon from "$lib/components/KenneyGamepadIcon.svelte";
+  import KenneyKeyboardIcon from "$lib/components/KenneyKeyboardIcon.svelte";
   import { storage } from "$lib/storage.svelte.js";
   import {
     ChevronDown,
@@ -10,6 +11,7 @@
     Download,
     FolderOpen,
     Gamepad,
+    Gamepad2,
     Keyboard,
     Maximize,
     RotateCw,
@@ -22,6 +24,7 @@
   let { data } = $props();
 
   let frame = $state(null);
+  let activeControllerType = $state("xbox");
 
   let framePath = $derived.by(() => {
     switch (data.currentData.type) {
@@ -70,6 +73,9 @@
   let shaderNode = $state();
   let binding = $state({});
   let shader = $state();
+  let controlsTab = $derived(
+    data.currentData.controls ? "keyboard" : "controller",
+  );
 
   $effect(() => {
     if (data.currentData.type === "Emulation") {
@@ -122,72 +128,208 @@
   }
 
   function frameLoaded(e) {
-    frame.contentWindow.addEventListener("click", () => {
+    frame.contentWindow.addEventListener("click", (clickEvent) => {
       if (controlsMenu) {
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        e.preventDefault();
+        clickEvent.stopPropagation();
+        clickEvent.stopImmediatePropagation();
+        clickEvent.preventDefault();
         controlsMenu.hidePopover();
       }
       if (recordingMenu) {
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        e.preventDefault();
+        clickEvent.stopPropagation();
+        clickEvent.stopImmediatePropagation();
+        clickEvent.preventDefault();
         recordingMenu.hidePopover();
       }
       if (emulationMenu) {
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        e.preventDefault();
+        clickEvent.stopPropagation();
+        clickEvent.stopImmediatePropagation();
+        clickEvent.preventDefault();
         emulationMenu.hidePopover();
       }
     });
 
-    function interceptKeybinds(e, eventType) {
-      if (!e.isTrusted) return;
+    function dispatchGameEvent(eventType, keyString, keyCodeNum) {
+      const fakeEvent = new KeyboardEvent(eventType, {
+        bubbles: true,
+        cancelable: true,
+        composed: true,
+        key: keyString,
+        code: keyCodeNum,
+      });
+
+      Object.defineProperty(fakeEvent, "keyCode", {
+        get: () => keyCodeNum,
+      });
+      Object.defineProperty(fakeEvent, "which", {
+        get: () => keyCodeNum,
+      });
+
+      const canvas = frame.contentWindow.document.querySelector("canvas");
+
+      if (canvas) {
+        canvas.dispatchEvent(fakeEvent);
+      } else {
+        frame.contentWindow.document.dispatchEvent(fakeEvent);
+      }
+    }
+
+    function interceptKeybinds(event, eventType) {
+      if (!event.isTrusted) return;
 
       const targetAction = Object.keys(keybinds).find(
-        (action) => keybinds[action].key === e.code,
+        (action) => keybinds[action].key === event.code,
       );
 
       if (targetAction) {
         const targetKeyCode = keybinds[targetAction].keyCode;
 
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        e.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+        event.preventDefault();
 
-        const fakeEvent = new KeyboardEvent(eventType, {
-          bubbles: true,
-          cancelable: true,
-          composed: true,
-          key: targetAction,
-          code: targetKeyCode,
-        });
-
-        Object.defineProperty(fakeEvent, "keyCode", {
-          get: () => targetKeyCode,
-        });
-        Object.defineProperty(fakeEvent, "which", {
-          get: () => targetKeyCode,
-        });
-
-        const canvas = frame.contentWindow.document.querySelector("canvas");
-
-        if (canvas) {
-          canvas.dispatchEvent(fakeEvent);
-        } else {
-          frame.contentWindow.document.dispatchEvent(fakeEvent);
-        }
+        dispatchGameEvent(eventType, targetAction, targetKeyCode);
       }
     }
 
-    frame.contentWindow.addEventListener("keydown", (e) =>
-      interceptKeybinds(e, "keydown"),
+    frame.contentWindow.addEventListener("keydown", (event) =>
+      interceptKeybinds(event, "keydown"),
     );
-    frame.contentWindow.addEventListener("keyup", (e) =>
-      interceptKeybinds(e, "keyup"),
+    frame.contentWindow.addEventListener("keyup", (event) =>
+      interceptKeybinds(event, "keyup"),
     );
+
+    let previousGamepadState = {};
+    let previousAxisState = {};
+    const DEADZONE = 0.4;
+    let gamepadPollingActive = false;
+
+    function startGamepadPolling() {
+      if (gamepadPollingActive) return;
+      gamepadPollingActive = true;
+
+      const controlsConfig = data.currentData.controls || [];
+      const gamepadConfig = data.currentData.gamepadControls || [];
+
+      function triggerGamepadEvent(eventType, matchFn) {
+        if (data.currentData.controllerSupport) {
+          return;
+        }
+
+        const gamepadDef = gamepadConfig.find(matchFn);
+        if (!gamepadDef) return;
+
+        const controlDef = controlsConfig.find(
+          (c) => c.action === gamepadDef.action,
+        );
+        if (!controlDef || !controlDef.keys || controlDef.keys.length === 0)
+          return;
+
+        const targetKeyString = controlDef.keys[0].key;
+        const targetKeyCode = controlDef.keys[0].keyCode;
+
+        dispatchGameEvent(eventType, targetKeyString, targetKeyCode);
+      }
+
+      function poll() {
+        const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+
+        for (let i = 0; i < gamepads.length; i++) {
+          const gp = gamepads[i];
+          if (!gp) continue;
+
+          const id = gp.id.toLowerCase();
+          if (
+            id.includes("playstation") ||
+            id.includes("dualshock") ||
+            id.includes("dualsense")
+          ) {
+            activeControllerType = "playstation";
+          } else if (
+            id.includes("nintendo") ||
+            id.includes("joy-con") ||
+            id.includes("pro controller")
+          ) {
+            activeControllerType = "nintendo";
+          } else {
+            activeControllerType = "xbox";
+          }
+
+          if (!previousGamepadState[i]) previousGamepadState[i] = [];
+          if (!previousAxisState[i]) previousAxisState[i] = [];
+
+          if (gp.buttons) {
+            gp.buttons.forEach((button, btnIndex) => {
+              const wasPressed = previousGamepadState[i][btnIndex];
+              const isPressed = button.pressed;
+
+              if (isPressed && !wasPressed) {
+                triggerGamepadEvent(
+                  "keydown",
+                  (c) => c.buttons && c.buttons.includes(btnIndex),
+                );
+              } else if (!isPressed && wasPressed) {
+                triggerGamepadEvent(
+                  "keyup",
+                  (c) => c.buttons && c.buttons.includes(btnIndex),
+                );
+              }
+              previousGamepadState[i][btnIndex] = isPressed;
+            });
+          }
+
+          if (gp.axes) {
+            gp.axes.forEach((value, axisIndex) => {
+              let currentDirection = 0;
+              if (value > DEADZONE) currentDirection = 1;
+              else if (value < -DEADZONE) currentDirection = -1;
+
+              const previousDirection = previousAxisState[i][axisIndex] || 0;
+
+              if (currentDirection !== previousDirection) {
+                if (previousDirection !== 0) {
+                  triggerGamepadEvent(
+                    "keyup",
+                    (c) =>
+                      c.axes &&
+                      c.axes.some(
+                        (a) =>
+                          a.index === axisIndex &&
+                          a.direction === previousDirection,
+                      ),
+                  );
+                }
+                if (currentDirection !== 0) {
+                  triggerGamepadEvent(
+                    "keydown",
+                    (c) =>
+                      c.axes &&
+                      c.axes.some(
+                        (a) =>
+                          a.index === axisIndex &&
+                          a.direction === currentDirection,
+                      ),
+                  );
+                }
+                previousAxisState[i][axisIndex] = currentDirection;
+              }
+            });
+          }
+        }
+
+        requestAnimationFrame(poll);
+      }
+
+      requestAnimationFrame(poll);
+    }
+
+    // Only start polling if this specific game has gamepad controls configured
+    if (
+      data.currentData.gamepadControls &&
+      data.currentData.gamepadControls.length > 0
+    ) {
+      startGamepadPolling();
+    }
   }
 
   const aspectRatio = $derived(
@@ -499,10 +641,10 @@
         </details>
       </div>
     {/if}
-    {#if data.currentData.controls.length > 0}
+    {#if data.currentData.controls || data.currentData.gamepadControls}
       <button
         popovertarget="controls"
-        class="[anchor-name:--controls-button] px-4 py-2 cursor-pointer text-sm bg-surface border border-border rounded-xl flex gap-2"
+        class="[anchor-name:--controls-button] px-4 py-2 cursor-pointer text-sm bg-surface border border-border rounded-xl flex gap-2 outline-none"
       >
         <Keyboard size="20" />
         <span>Controls</span>
@@ -516,7 +658,7 @@
         popover="auto"
         id="controls"
         bind:this={controlsMenu}
-        class={"[&:popover-open]:flex flex-col bg-secondary rounded-xl text-text [position-anchor:--controls-button] top-[calc(anchor(bottom)+0.5rem)] left-[calc(anchor(left))] z-20 p-4 w-72 border border-surface" +
+        class={"[&:popover-open]:flex flex-col bg-secondary rounded-xl text-text [position-anchor:--controls-button] top-[calc(anchor(bottom)+0.5rem)] left-[calc(anchor(left))] z-20 p-4 border border-surface min-w-[299.117px]" +
           (binding.key ? " min-h-26" : "")}
       >
         {#if binding.key}
@@ -527,46 +669,106 @@
               <button
                 class="px-4 py-2 cursor-pointer text-sm bg-surface border border-border rounded-xl"
               >
-                <span>{keyIcon(binding.key)}</span>
+                <KenneyKeyboardIcon key={binding.key} />
               </button>
               <ChevronRight size="20" />
               <button
                 aria-label="New keybind"
                 class="px-4 py-2 cursor-pointer text-sm bg-surface border border-border rounded-xl"
               >
-                <div class="text-surface select-none">
-                  {keyIcon(binding.key)}
+                <div class="opacity-0 select-none">
+                  <KenneyKeyboardIcon key={binding.key} />
                 </div>
               </button>
             </div>
             <p class="text-sm text-text-placeholder">Press Esc to reset</p>
           </div>
-        {/if}
-        {#each data.currentData.controls as control}
-          <div class="flex gap-2">
-            {control.action}: {#each control.keys as keys}
-              {#if keybinds[keys.key]}
-                <button
-                  onclick={() =>
-                    (binding = { key: keys.key, keyCode: keys.keyCode })}
-                  class="flex items-center justify-center my-0.5 text-xs rounded-md cursor-pointer outline-none bg-surface border border-border overflow-hidden"
+        {:else}
+          <div class="flex gap-4 relative mb-2">
+            {#if data.currentData.controls}
+              <button
+                onclick={() => (controlsTab = "keyboard")}
+                data-active={controlsTab === "keyboard"}
+                class="px-4 py-2 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border transition-colors data-[active=true]:bg-surface flex gap-2 items-center"
+              >
+                <Keyboard size="20" />
+                <span>Keyboard</span>
+              </button>
+            {/if}
+            {#if data.currentData.gamepadControls}
+              <button
+                onclick={() => (controlsTab = "controller")}
+                data-active={controlsTab === "controller"}
+                class="px-4 py-2 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border transition-colors data-[active=true]:bg-surface flex gap-2 items-center"
+              >
+                <Gamepad2 size="20" />
+                <span
+                  >Controller{data.currentData.controllerSupport
+                    ? " (Native)"
+                    : ""}</span
                 >
-                  <div class="px-1.5 py-0.5 bg-primary text-text-inverse">
-                    {keyIcon(keybinds[keys.key].key)}
-                  </div>
-                  <div class="px-1.5 py-0.5">{keyIcon(keys.key)}</div>
-                </button>
-              {:else}
-                <button
-                  onclick={() =>
-                    (binding = { key: keys.key, keyCode: keys.keyCode })}
-                  class="flex items-center justify-center px-1.5 py-0.5 my-0.5 text-xs rounded-md cursor-pointer outline-none bg-surface border border-border"
-                  >{keyIcon(keys.key)}</button
-                >
-              {/if}
-            {/each}
+              </button>
+            {/if}
           </div>
-        {/each}
+          {#if controlsTab === "keyboard"}
+            {#each data.currentData.controls as control}
+              <div class="flex gap-2 items-center my-1">
+                <span>{control.action}:</span>
+                {#each control.keys as keys}
+                  {#if keybinds[keys.key]}
+                    <button
+                      onclick={() =>
+                        (binding = { key: keys.key, keyCode: keys.keyCode })}
+                      class="flex items-center justify-center rounded-md cursor-pointer outline-none bg-surface border border-border overflow-hidden hover:bg-surface-hover transition-colors"
+                    >
+                      <div class="p-0.5 border-r border-border">
+                        <KenneyKeyboardIcon key={keybinds[keys.key].key} />
+                      </div>
+                      <div class="p-0.5">
+                        <KenneyKeyboardIcon key={keys.key} />
+                      </div>
+                    </button>
+                  {:else}
+                    <button
+                      onclick={() =>
+                        (binding = { key: keys.key, keyCode: keys.keyCode })}
+                      class="flex items-center justify-center p-0.5 rounded-md cursor-pointer outline-none bg-surface border border-border hover:bg-surface-hover transition-colors"
+                    >
+                      <KenneyKeyboardIcon key={keys.key} />
+                    </button>
+                  {/if}
+                {/each}
+              </div>
+            {/each}
+          {:else if controlsTab === "controller"}
+            {#each data.currentData.gamepadControls as control}
+              <div class="flex gap-2 items-center my-1">
+                <span>{control.action}:</span>
+                {#if control.buttons}
+                  {#each control.buttons as btn}
+                    <button
+                      class="flex items-center justify-center p-0.5 rounded-md cursor-pointer outline-none bg-surface border border-border hover:bg-surface-hover transition-colors"
+                    >
+                      <KenneyGamepadIcon
+                        button={btn}
+                        type={activeControllerType}
+                      />
+                    </button>
+                  {/each}
+                {/if}
+                {#if control.axes}
+                  {#each control.axes as axis}
+                    <button
+                      class="flex items-center justify-center p-0.5 rounded-md cursor-pointer outline-none bg-surface border border-border hover:bg-surface-hover transition-colors"
+                    >
+                      <KenneyGamepadIcon {axis} type={activeControllerType} />
+                    </button>
+                  {/each}
+                {/if}
+              </div>
+            {/each}
+          {/if}
+        {/if}
       </div>
     {/if}
     <button

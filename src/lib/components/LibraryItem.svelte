@@ -7,6 +7,7 @@
     Clock,
     Download,
     Ellipsis,
+    Gamepad2,
     Pause,
     Play,
     Share,
@@ -184,6 +185,18 @@
             >
               <Tag size="20" />
               <span>{data.currentData.version}</span>
+            </div>
+          {/if}
+          {#if data.currentData.controllerSupport || data.currentData.gamepadControls}
+            <div
+              class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border"
+            >
+              <Gamepad2 size="20" />
+              <span
+                >Controller{data.currentData.controllerSupport
+                  ? " (Native)"
+                  : ""}</span
+              >
             </div>
           {/if}
         </div>
