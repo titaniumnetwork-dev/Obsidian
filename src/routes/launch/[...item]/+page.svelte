@@ -76,7 +76,7 @@
   let gamepadBinding = $state({});
   let shader = $state();
 
-  let controlsTab = $state(
+  let controlsTab = $derived(
     data.currentData.controls ? "keyboard" : "controller",
   );
 

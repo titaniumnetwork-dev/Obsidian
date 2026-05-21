@@ -1,8 +1,9 @@
 <script>
   import Footer from "$lib/components/Footer.svelte";
   import Head from "$lib/components/Head.svelte";
+  import KenneyGamepadIcon from "$lib/components/KenneyGamepadIcon.svelte";
+  import KenneyKeyboardIcon from "$lib/components/KenneyKeyboardIcon.svelte";
   import Navbar from "$lib/components/Navbar.svelte";
-  import { keyIcon } from "$lib/keyIcon";
   import { storage } from "$lib/storage.svelte";
   import {
     ChartPie,
@@ -38,6 +39,7 @@
   let path = $state("");
   let rom = $state("");
   let controls = $state([]);
+  let gamepadControls = $state([]);
   let controllerSupport = $state(false);
 
   async function formatImage(file, sizeWidth, sizeHeight) {
@@ -157,10 +159,12 @@
       description,
       id,
       type,
-      controls,
       controllerSupport,
       tags: [...tags],
     };
+
+    if (controls.length > 0) data.controls = controls;
+    if (gamepadControls.length > 0) data.gamepadControls = gamepadControls;
 
     if (version) {
       data.version = version;
@@ -233,6 +237,7 @@
     isGenerating = false;
   }
 
+  // --- Keyboard Controls Logic ---
   let activeListeningIndex = $state({ actionIdx: null, keyIdx: null });
   let newActionName = $state("");
 
@@ -274,8 +279,100 @@
     window.removeEventListener("keydown", handleKeyDown);
   }
 
+  // --- Gamepad Controls Logic ---
+  let activeGamepadListeningIndex = $state(null);
+  let newGamepadActionName = $state("");
+  let gamepadPollingFrame = null;
+
+  function addGamepadAction() {
+    if (!newGamepadActionName.trim()) return;
+    gamepadControls.push({
+      action: newGamepadActionName.trim(),
+      buttons: [],
+      axes: [],
+    });
+    newGamepadActionName = "";
+  }
+
+  function removeGamepadAction(actionIdx) {
+    gamepadControls.splice(actionIdx, 1);
+  }
+
+  function startGamepadListening(actionIdx) {
+    activeGamepadListeningIndex = actionIdx;
+
+    // Prevent the button click from immediately registering as the mapped input
+    setTimeout(() => {
+      if (activeGamepadListeningIndex === actionIdx) {
+        pollForGamepadInput();
+      }
+    }, 200);
+  }
+
+  function stopGamepadListening() {
+    activeGamepadListeningIndex = null;
+    if (gamepadPollingFrame) cancelAnimationFrame(gamepadPollingFrame);
+  }
+
+  function pollForGamepadInput() {
+    if (activeGamepadListeningIndex === null) return;
+
+    const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+    let mapped = false;
+    const DEADZONE = 0.5;
+
+    for (let gp of gamepads) {
+      if (!gp) continue;
+
+      // Check buttons
+      for (let i = 0; i < gp.buttons.length; i++) {
+        if (gp.buttons[i].pressed) {
+          const action = gamepadControls[activeGamepadListeningIndex];
+          if (!action.buttons) action.buttons = [];
+          if (!action.buttons.includes(i)) action.buttons.push(i);
+          mapped = true;
+        }
+      }
+
+      // Check axes
+      if (!mapped && gp.axes) {
+        for (let i = 0; i < gp.axes.length; i++) {
+          const val = gp.axes[i];
+          if (Math.abs(val) > DEADZONE) {
+            const dir = val > 0 ? 1 : -1;
+            const action = gamepadControls[activeGamepadListeningIndex];
+            if (!action.axes) action.axes = [];
+            if (
+              !action.axes.some((a) => a.index === i && a.direction === dir)
+            ) {
+              action.axes.push({ index: i, direction: dir });
+            }
+            mapped = true;
+          }
+        }
+      }
+
+      if (mapped) break;
+    }
+
+    if (mapped) {
+      stopGamepadListening();
+    } else {
+      gamepadPollingFrame = requestAnimationFrame(pollForGamepadInput);
+    }
+  }
+
+  // --- Shared Event Listener ---
   function handleKeyDown(e) {
     e.preventDefault();
+
+    // Cancel Gamepad mapping with Escape
+    if (activeGamepadListeningIndex !== null) {
+      if (e.code === "Escape") {
+        stopGamepadListening();
+      }
+      return;
+    }
 
     const { actionIdx, keyIdx } = activeListeningIndex;
     if (actionIdx !== null && keyIdx !== null) {
@@ -301,6 +398,7 @@
     path = "";
     rom = "";
     controls = [];
+    gamepadControls = [];
     controllerSupport = false;
   }
 </script>
@@ -637,7 +735,8 @@
       }}
     />
   </label>
-  <p>Controls</p>
+
+  <p>Keyboard Controls</p>
   <div class="flex gap-2">
     <input
       class="h-9 w-full px-4 focus-within:bg-surface bg-secondary rounded-xl placeholder:text-text-placeholder border border-border outline-none"
@@ -675,7 +774,7 @@
                 activeListeningIndex.keyIdx === keyIdx}
               <div class="flex gap-2">
                 <button
-                  class="outline-none px-4 py-2 text-sm cursor-pointer rounded-xl whitespace-nowrap bg-surface border border-border w-full flex justify-center"
+                  class="outline-none px-4 py-2 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border w-full flex justify-center"
                   class:listening={isListening}
                   onclick={() => startListening(actionIdx, keyIdx)}
                 >
@@ -683,9 +782,9 @@
                     <span>Waiting for key...</span>
                   {:else}
                     <div
-                      class="flex items-center justify-center px-1.5 text-xs rounded-md bg-primary border border-border-primary text-text-inverse"
+                      class="flex items-center justify-center p-0.5 rounded-md outline-none bg-surface border border-border"
                     >
-                      {keyIcon(keyItem.key)}
+                      <KenneyKeyboardIcon key={keyItem.key} />
                     </div>
                   {/if}
                 </button>
@@ -699,7 +798,7 @@
             {/each}
 
             <button
-              class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm outline-none"
+              class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm outline-none justify-center"
               onclick={() => addKeySlot(actionIdx)}
             >
               <Plus size="20" />
@@ -710,6 +809,102 @@
       {/each}
     </div>
   {/if}
+
+  <p>Gamepad Controls</p>
+  <div class="flex gap-2">
+    <input
+      class="h-9 w-full px-4 focus-within:bg-surface bg-secondary rounded-xl placeholder:text-text-placeholder border border-border outline-none"
+      placeholder="Action"
+      bind:value={newGamepadActionName}
+      onkeydown={(e) => e.key === "Enter" && addGamepadAction()}
+    />
+    <button
+      class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+      onclick={addGamepadAction}
+      disabled={!newGamepadActionName.trim()}>Add</button
+    >
+  </div>
+  {#if gamepadControls.length > 0}
+    <div class="flex flex-col gap-4">
+      {#each gamepadControls as actionItem, actionIdx}
+        <div class="flex flex-col gap-2 border border-border rounded-2xl p-2">
+          <div class="flex gap-2">
+            <input
+              type="text"
+              bind:value={actionItem.action}
+              class="h-9 w-full px-4 focus-within:bg-surface bg-secondary rounded-xl placeholder:text-text-placeholder border border-border outline-none"
+            />
+            <button
+              class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+              onclick={() => removeGamepadAction(actionIdx)}
+            >
+              <Trash size="20" />
+            </button>
+          </div>
+          <div class="flex flex-col gap-2">
+            {#if actionItem.buttons}
+              {#each actionItem.buttons as btn, btnIdx}
+                <div class="flex gap-2">
+                  <button
+                    class="outline-none px-4 py-2 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border w-full flex justify-center"
+                  >
+                    <div
+                      class="flex items-center justify-center p-0.5 rounded-md outline-none bg-surface border border-border"
+                    >
+                      <KenneyGamepadIcon
+                        button={btn}
+                        type="xbox"
+                        size="w-6 h-6"
+                      />
+                    </div>
+                  </button>
+                  <button
+                    class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+                    onclick={() => actionItem.buttons.splice(btnIdx, 1)}
+                  >
+                    <X size="20" />
+                  </button>
+                </div>
+              {/each}
+            {/if}
+            {#if actionItem.axes}
+              {#each actionItem.axes as axis, axisIdx}
+                <div class="flex gap-2">
+                  <button
+                    class="outline-none px-4 py-2 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border w-full flex justify-center"
+                  >
+                    <div
+                      class="flex items-center justify-center p-0.5 rounded-md outline-none bg-surface border border-border"
+                    >
+                      <KenneyGamepadIcon {axis} type="xbox" size="w-6 h-6" />
+                    </div>
+                  </button>
+                  <button
+                    class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+                    onclick={() => actionItem.axes.splice(axisIdx, 1)}
+                  >
+                    <X size="20" />
+                  </button>
+                </div>
+              {/each}
+            {/if}
+          </div>
+          <button
+            class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm outline-none w-full justify-center transition-colors"
+            onclick={() => startGamepadListening(actionIdx)}
+          >
+            {#if activeGamepadListeningIndex === actionIdx}
+              <span>Waiting for input...</span>
+            {:else}
+              <Plus size="20" />
+              <span>Add Bind</span>
+            {/if}
+          </button>
+        </div>
+      {/each}
+    </div>
+  {/if}
+
   <p>Controller Support</p>
   <input
     aria-label="Controller Support"
