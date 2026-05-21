@@ -25,6 +25,7 @@
 
   let frame = $state(null);
   let activeControllerType = $state("xbox");
+  let isGamepadConnected = $state(false);
 
   let framePath = $derived.by(() => {
     switch (data.currentData.type) {
@@ -72,14 +73,15 @@
   let recordingMenu = $state();
   let shaderNode = $state();
   let binding = $state({});
+  let gamepadBinding = $state({});
   let shader = $state();
-  let controlsTab = $derived(
+
+  let controlsTab = $state(
     data.currentData.controls ? "keyboard" : "controller",
   );
 
   $effect(() => {
     if (data.currentData.type === "Emulation") {
-      //Very hacky solution but it should hold up
       try {
         let emulationSettings = Object.entries(localStorage).filter((entry) =>
           entry[0].endsWith(
@@ -98,9 +100,56 @@
     }
   });
 
+  $effect(() => {
+    const updateGamepadStatus = () => {
+      const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+      isGamepadConnected = Array.from(gamepads).some((gp) => gp !== null);
+
+      if (
+        !isGamepadConnected &&
+        controlsTab === "controller" &&
+        data.currentData.controls
+      ) {
+        controlsTab = "keyboard";
+      }
+    };
+
+    window.addEventListener("gamepadconnected", updateGamepadStatus);
+    window.addEventListener("gamepaddisconnected", updateGamepadStatus);
+    updateGamepadStatus();
+
+    return () => {
+      window.removeEventListener("gamepadconnected", updateGamepadStatus);
+      window.removeEventListener("gamepaddisconnected", updateGamepadStatus);
+    };
+  });
+
   const keybinds = $derived(storage.keybinds[data.currentData.id] || {});
+  const gamepadBinds = $derived(
+    storage.gamepadBinds[data.currentData.id] || {},
+  );
+
+  const resolvedGamepadControls = $derived.by(() => {
+    const defaults = data.currentData.gamepadControls || [];
+    return defaults.map((def) => {
+      if (gamepadBinds[def.action]) {
+        return { action: def.action, ...gamepadBinds[def.action] };
+      }
+      return def;
+    });
+  });
 
   function handleKeydown(e) {
+    if (gamepadBinding.action) {
+      if (e.code === "Escape") {
+        e.preventDefault();
+        e.stopPropagation();
+        storage.removeGamepadBind(data.currentData.id, gamepadBinding.action);
+        gamepadBinding = {};
+      }
+      return;
+    }
+
     if (!binding.key || !keybinds) return;
 
     e.preventDefault();
@@ -209,14 +258,13 @@
       gamepadPollingActive = true;
 
       const controlsConfig = data.currentData.controls || [];
-      const gamepadConfig = data.currentData.gamepadControls || [];
 
       function triggerGamepadEvent(eventType, matchFn) {
         if (data.currentData.controllerSupport) {
           return;
         }
 
-        const gamepadDef = gamepadConfig.find(matchFn);
+        const gamepadDef = resolvedGamepadControls.find(matchFn);
         if (!gamepadDef) return;
 
         const controlDef = controlsConfig.find(
@@ -257,6 +305,43 @@
 
           if (!previousGamepadState[i]) previousGamepadState[i] = [];
           if (!previousAxisState[i]) previousAxisState[i] = [];
+
+          if (gamepadBinding.action) {
+            let mapped = false;
+
+            if (gp.buttons) {
+              gp.buttons.forEach((button, btnIndex) => {
+                if (button.pressed && !previousGamepadState[i][btnIndex]) {
+                  storage.updateGamepadBind(
+                    data.currentData.id,
+                    gamepadBinding.action,
+                    { buttons: [btnIndex] },
+                  );
+                  mapped = true;
+                }
+                previousGamepadState[i][btnIndex] = button.pressed;
+              });
+            }
+            if (!mapped && gp.axes) {
+              gp.axes.forEach((value, axisIndex) => {
+                let dir = value > DEADZONE ? 1 : value < -DEADZONE ? -1 : 0;
+                let prevDir = previousAxisState[i][axisIndex] || 0;
+
+                if (dir !== 0 && dir !== prevDir) {
+                  storage.updateGamepadBind(
+                    data.currentData.id,
+                    gamepadBinding.action,
+                    { axes: [{ index: axisIndex, direction: dir }] },
+                  );
+                  mapped = true;
+                }
+                previousAxisState[i][axisIndex] = dir;
+              });
+            }
+
+            if (mapped) gamepadBinding = {};
+            continue;
+          }
 
           if (gp.buttons) {
             gp.buttons.forEach((button, btnIndex) => {
@@ -323,7 +408,6 @@
       requestAnimationFrame(poll);
     }
 
-    // Only start polling if this specific game has gamepad controls configured
     if (
       data.currentData.gamepadControls &&
       data.currentData.gamepadControls.length > 0
@@ -374,7 +458,6 @@
         preferCurrentTab: true,
       });
 
-      //Fix safari
       hiddenVideoElement = document.createElement("video");
       hiddenVideoElement.style.position = "fixed";
       hiddenVideoElement.style.top = "0";
@@ -427,7 +510,6 @@
       };
 
       recorder.start();
-
       mediaRecorder = recorder;
       videoBlob = null;
     } catch (err) {
@@ -437,19 +519,15 @@
 
   async function downloadVideo() {
     if (!videoBlob) return;
-
     const filename = `${generateFilename()}.${fileExtension}`;
-
     const fallbackDownload = () => {
       const url = URL.createObjectURL(videoBlob);
       const a = document.createElement("a");
       a.style.display = "none";
       a.href = url;
       a.download = filename;
-
       document.body.appendChild(a);
       a.click();
-
       setTimeout(() => {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
@@ -459,15 +537,10 @@
     if ("showSaveFilePicker" in window) {
       try {
         const mimeKey = fileExtension === "mp4" ? "video/mp4" : "video/webm";
-
         const fileHandle = await window.showSaveFilePicker({
           startIn: "downloads",
           suggestedName: filename,
-          types: [
-            {
-              accept: { [mimeKey]: [`.${fileExtension}`] },
-            },
-          ],
+          types: [{ accept: { [mimeKey]: [`.${fileExtension}`] } }],
         });
 
         const writableStream = await fileHandle.createWritable();
@@ -492,33 +565,28 @@
       EJS_emulator.storage.states
         .get(EJS_emulator.getBaseFileName() + ".state")
         .then((t) => {
-          (EJS_emulator.gameManager.loadState(t),
-            EJS_emulator.displayMessage(
-              EJS_emulator.localization("Save loaded"),
-            ));
+          EJS_emulator.gameManager.loadState(t);
+          EJS_emulator.displayMessage(EJS_emulator.localization("Save loaded"));
         });
     }
   }
 
   function emulationSave() {
     const EJS_emulator = frame.contentWindow?.EJS_emulator;
-
     if (EJS_emulator) {
-      (EJS_emulator.storage.states.put(
+      EJS_emulator.storage.states.put(
         EJS_emulator.getBaseFileName() + ".state",
         EJS_emulator.gameManager.getState(),
-      ),
-        EJS_emulator.displayMessage(EJS_emulator.localization("Saved")));
+      );
+      EJS_emulator.displayMessage(EJS_emulator.localization("Saved"));
     }
   }
 
   function emulationShader(newShader = "disabled") {
     const EJS_emulator = frame.contentWindow?.EJS_emulator;
-
     if (EJS_emulator) {
       EJS_emulator.changeSettingOption("shader", newShader);
     }
-
     shader = newShader;
   }
 </script>
@@ -641,7 +709,7 @@
         </details>
       </div>
     {/if}
-    {#if data.currentData.controls || data.currentData.gamepadControls}
+    {#if data.currentData.controls || (data.currentData.gamepadControls && isGamepadConnected)}
       <button
         popovertarget="controls"
         class="[anchor-name:--controls-button] px-4 py-2 cursor-pointer text-sm bg-surface border border-border rounded-xl flex gap-2 outline-none"
@@ -653,35 +721,88 @@
         onbeforetoggle={(e) => {
           if (e.newState === "closed") {
             binding = {};
+            gamepadBinding = {};
           }
         }}
         popover="auto"
         id="controls"
         bind:this={controlsMenu}
         class={"[&:popover-open]:flex flex-col bg-secondary rounded-xl text-text [position-anchor:--controls-button] top-[calc(anchor(bottom)+0.5rem)] left-[calc(anchor(left))] z-20 p-4 border border-surface min-w-[299.117px]" +
-          (binding.key ? " min-h-26" : "")}
+          (binding.key || gamepadBinding.action ? " min-h-32" : "")}
       >
-        {#if binding.key}
+        {#if binding.key || gamepadBinding.action}
           <div
-            class="bg-secondary h-full w-full absolute top-0 bottom-0 right-0 left-0 flex flex-col justify-center items-center gap-2"
+            class="bg-secondary h-full w-full absolute top-0 bottom-0 right-0 left-0 flex flex-col justify-center items-center gap-2 rounded-xl z-10"
           >
-            <div class="flex gap-2 items-center">
-              <button
-                class="px-4 py-2 cursor-pointer text-sm bg-surface border border-border rounded-xl"
-              >
-                <KenneyKeyboardIcon key={binding.key} />
-              </button>
-              <ChevronRight size="20" />
-              <button
-                aria-label="New keybind"
-                class="px-4 py-2 cursor-pointer text-sm bg-surface border border-border rounded-xl"
-              >
-                <div class="opacity-0 select-none">
+            {#if binding.key}
+              <p class="text-text-placeholder">Waiting for input...</p>
+
+              <div class="flex gap-2 items-center">
+                <button
+                  class="px-4 py-2 cursor-pointer text-sm bg-surface border border-border rounded-xl"
+                >
                   <KenneyKeyboardIcon key={binding.key} />
-                </div>
-              </button>
-            </div>
-            <p class="text-sm text-text-placeholder">Press Esc to reset</p>
+                </button>
+                <ChevronRight size="20" />
+                <button
+                  aria-label="New keybind"
+                  class="px-4 py-2 cursor-pointer text-sm bg-surface border border-border rounded-xl"
+                >
+                  <div class="opacity-0 select-none">
+                    <KenneyKeyboardIcon key={binding.key} />
+                  </div>
+                </button>
+              </div>
+            {:else}
+              {@const activeBind =
+                gamepadBinds[gamepadBinding.action] ||
+                (data.currentData.gamepadControls || []).find(
+                  (c) => c.action === gamepadBinding.action,
+                ) ||
+                {}}
+              <p class="text-text-placeholder">Waiting for input...</p>
+              <div class="flex gap-2 items-center">
+                <button
+                  class="px-4 py-2 cursor-pointer text-sm bg-surface border border-border rounded-xl flex gap-1"
+                >
+                  {#if activeBind.buttons}
+                    {#each activeBind.buttons as btn}
+                      <KenneyGamepadIcon
+                        button={btn}
+                        type={activeControllerType}
+                      />
+                    {/each}
+                  {/if}
+                  {#if activeBind.axes}
+                    {#each activeBind.axes as axis}
+                      <KenneyGamepadIcon {axis} type={activeControllerType} />
+                    {/each}
+                  {/if}
+                </button>
+                <ChevronRight size="20" />
+                <button
+                  aria-label="New gamepad bind"
+                  class="px-4 py-2 cursor-pointer text-sm bg-surface border border-border rounded-xl flex gap-1"
+                >
+                  <div class="opacity-0 select-none flex gap-1">
+                    {#if activeBind.buttons}
+                      {#each activeBind.buttons as btn}
+                        <KenneyGamepadIcon
+                          button={btn}
+                          type={activeControllerType}
+                        />
+                      {/each}
+                    {/if}
+                    {#if activeBind.axes}
+                      {#each activeBind.axes as axis}
+                        <KenneyGamepadIcon {axis} type={activeControllerType} />
+                      {/each}
+                    {/if}
+                  </div>
+                </button>
+              </div>
+            {/if}
+            <p class="text-sm text-text-placeholder">(Press Esc to reset)</p>
           </div>
         {:else}
           <div class="flex gap-4 relative mb-2">
@@ -695,7 +816,7 @@
                 <span>Keyboard</span>
               </button>
             {/if}
-            {#if data.currentData.gamepadControls}
+            {#if data.currentData.gamepadControls && isGamepadConnected}
               <button
                 onclick={() => (controlsTab = "controller")}
                 data-active={controlsTab === "controller"}
@@ -710,60 +831,107 @@
               </button>
             {/if}
           </div>
+
           {#if controlsTab === "keyboard"}
             {#each data.currentData.controls as control}
-              <div class="flex gap-2 items-center my-1">
+              <div class="flex gap-2 items-center my-1 justify-between">
                 <span>{control.action}:</span>
-                {#each control.keys as keys}
-                  {#if keybinds[keys.key]}
-                    <button
-                      onclick={() =>
-                        (binding = { key: keys.key, keyCode: keys.keyCode })}
-                      class="flex items-center justify-center rounded-md cursor-pointer outline-none bg-surface border border-border overflow-hidden hover:bg-surface-hover transition-colors"
-                    >
-                      <div class="p-0.5 border-r border-border">
-                        <KenneyKeyboardIcon key={keybinds[keys.key].key} />
-                      </div>
-                      <div class="p-0.5">
+                <div class="flex gap-2">
+                  {#each control.keys as keys}
+                    {#if keybinds[keys.key]}
+                      <button
+                        onclick={() =>
+                          (binding = { key: keys.key, keyCode: keys.keyCode })}
+                        class="flex items-center justify-center rounded-md cursor-pointer outline-none bg-surface border border-border overflow-hidden hover:bg-surface-hover transition-colors"
+                      >
+                        <div class="p-0.5 border-r border-border">
+                          <KenneyKeyboardIcon key={keybinds[keys.key].key} />
+                        </div>
+                        <div class="p-0.5 opacity-50">
+                          <KenneyKeyboardIcon key={keys.key} />
+                        </div>
+                      </button>
+                    {:else}
+                      <button
+                        onclick={() =>
+                          (binding = { key: keys.key, keyCode: keys.keyCode })}
+                        class="flex items-center justify-center p-0.5 rounded-md cursor-pointer outline-none bg-surface border border-border hover:bg-surface-hover transition-colors"
+                      >
                         <KenneyKeyboardIcon key={keys.key} />
-                      </div>
-                    </button>
-                  {:else}
-                    <button
-                      onclick={() =>
-                        (binding = { key: keys.key, keyCode: keys.keyCode })}
-                      class="flex items-center justify-center p-0.5 rounded-md cursor-pointer outline-none bg-surface border border-border hover:bg-surface-hover transition-colors"
-                    >
-                      <KenneyKeyboardIcon key={keys.key} />
-                    </button>
-                  {/if}
-                {/each}
+                      </button>
+                    {/if}
+                  {/each}
+                </div>
               </div>
             {/each}
-          {:else if controlsTab === "controller"}
+          {:else if controlsTab === "controller" && isGamepadConnected}
             {#each data.currentData.gamepadControls as control}
-              <div class="flex gap-2 items-center my-1">
+              {@const activeBind = gamepadBinds[control.action] || control}
+              <div class="flex gap-2 items-center my-1 justify-between">
                 <span>{control.action}:</span>
-                {#if control.buttons}
-                  {#each control.buttons as btn}
-                    <button
-                      class="flex items-center justify-center p-0.5 rounded-md cursor-pointer outline-none bg-surface border border-border hover:bg-surface-hover transition-colors"
-                    >
-                      <KenneyGamepadIcon
-                        button={btn}
-                        type={activeControllerType}
-                      />
-                    </button>
-                  {/each}
-                {/if}
-                {#if control.axes}
-                  {#each control.axes as axis}
-                    <button
-                      class="flex items-center justify-center p-0.5 rounded-md cursor-pointer outline-none bg-surface border border-border hover:bg-surface-hover transition-colors"
-                    >
-                      <KenneyGamepadIcon {axis} type={activeControllerType} />
-                    </button>
-                  {/each}
+                {#if gamepadBinds[control.action]}
+                  <button
+                    onclick={() =>
+                      (gamepadBinding = { action: control.action })}
+                    class="flex items-center justify-center rounded-md cursor-pointer outline-none bg-surface border border-border overflow-hidden hover:bg-surface-hover transition-colors"
+                  >
+                    <div class="p-0.5 border-r border-border flex gap-1">
+                      {#if activeBind.buttons}
+                        {#each activeBind.buttons as btn}
+                          <KenneyGamepadIcon
+                            button={btn}
+                            type={activeControllerType}
+                          />
+                        {/each}
+                      {/if}
+                      {#if activeBind.axes}
+                        {#each activeBind.axes as axis}
+                          <KenneyGamepadIcon
+                            {axis}
+                            type={activeControllerType}
+                          />
+                        {/each}
+                      {/if}
+                    </div>
+                    <div class="p-0.5 opacity-50 flex gap-1">
+                      {#if control.buttons}
+                        {#each control.buttons as btn}
+                          <KenneyGamepadIcon
+                            button={btn}
+                            type={activeControllerType}
+                          />
+                        {/each}
+                      {/if}
+                      {#if control.axes}
+                        {#each control.axes as axis}
+                          <KenneyGamepadIcon
+                            {axis}
+                            type={activeControllerType}
+                          />
+                        {/each}
+                      {/if}
+                    </div>
+                  </button>
+                {:else}
+                  <button
+                    onclick={() =>
+                      (gamepadBinding = { action: control.action })}
+                    class="flex items-center justify-center p-0.5 gap-1 rounded-md cursor-pointer outline-none bg-surface border border-border hover:bg-surface-hover transition-colors"
+                  >
+                    {#if control.buttons}
+                      {#each control.buttons as btn}
+                        <KenneyGamepadIcon
+                          button={btn}
+                          type={activeControllerType}
+                        />
+                      {/each}
+                    {/if}
+                    {#if control.axes}
+                      {#each control.axes as axis}
+                        <KenneyGamepadIcon {axis} type={activeControllerType} />
+                      {/each}
+                    {/if}
+                  </button>
                 {/if}
               </div>
             {/each}
@@ -790,7 +958,7 @@
       id="recording"
       bind:this={recordingMenu}
       class="[&:popover-open]:flex flex-col bg-secondary rounded-xl text-text [position-anchor:--recording-button]
-              top-[calc(anchor(bottom)+0.5rem)] left-[calc(anchor(left))] z-20 p-4 gap-4 border border-surface"
+            top-[calc(anchor(bottom)+0.5rem)] left-[calc(anchor(left))] z-20 p-4 gap-4 border border-surface"
     >
       {#if videoBlob}
         <button

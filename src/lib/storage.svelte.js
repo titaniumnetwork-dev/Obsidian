@@ -8,6 +8,7 @@ class StorageManager {
   catalog = $state([]);
   tags = $state([]);
   keybinds = $state({});
+  gamepadBinds = $state({});
   theme = $state("Dark");
   hiddenThemes = $state([]);
   settings = $state({
@@ -51,7 +52,18 @@ class StorageManager {
             );
             break;
           case "removeKeybind":
-            this.removeFavorite(e.data.ID, e.data.key, false);
+            this.removeKeybind(e.data.ID, e.data.key, false);
+            break;
+          case "updateGamepadBind":
+            this.updateGamepadBind(
+              e.data.ID,
+              e.data.action,
+              e.data.bindData,
+              false,
+            );
+            break;
+          case "removeGamepadBind":
+            this.removeGamepadBind(e.data.ID, e.data.action, false);
             break;
           case "updateTheme":
             this.updateTheme(e.data.theme, false);
@@ -91,7 +103,6 @@ class StorageManager {
   }
   loadStorage(catalogData) {
     this.catalog = catalogData;
-
     this.tags = catalogTagOrder;
 
     const storedInstalled = localStorage.getItem("installed");
@@ -99,6 +110,7 @@ class StorageManager {
     const storedFavorites = localStorage.getItem("favorites");
     const storedTheme = localStorage.getItem("theme");
     const storedKeybinds = localStorage.getItem("keybinds");
+    const storedGamepadBinds = localStorage.getItem("gamepadBinds");
     const storedHiddenThemes = localStorage.getItem("hiddenThemes");
     const storedPlayTime = localStorage.getItem("playTime");
 
@@ -112,6 +124,14 @@ class StorageManager {
         this.keybinds = JSON.parse(storedKeybinds);
       } catch (e) {
         console.error("Failed to parse keybinds", e);
+      }
+    }
+
+    if (storedGamepadBinds) {
+      try {
+        this.gamepadBinds = JSON.parse(storedGamepadBinds);
+      } catch (e) {
+        console.error("Failed to parse gamepad binds", e);
       }
     }
 
@@ -169,14 +189,12 @@ class StorageManager {
     this.settings = { ...this.settings, [settingKey]: value };
     localStorage.setItem("settings", JSON.stringify(this.settings));
 
-    if (share) {
-      if (this.storageChannel) {
-        this.storageChannel.postMessage({
-          type: "updateSetting",
-          settingKey,
-          value,
-        });
-      }
+    if (share && this.storageChannel) {
+      this.storageChannel.postMessage({
+        type: "updateSetting",
+        settingKey,
+        value,
+      });
     }
   }
   updateKeybind(ID, key, keyCode, replaceKey, share = true) {
@@ -189,16 +207,14 @@ class StorageManager {
     };
     localStorage.setItem("keybinds", JSON.stringify(this.keybinds));
 
-    if (share) {
-      if (this.storageChannel) {
-        this.storageChannel.postMessage({
-          type: "updateKeybind",
-          ID,
-          key,
-          keyCode,
-          replaceKey,
-        });
-      }
+    if (share && this.storageChannel) {
+      this.storageChannel.postMessage({
+        type: "updateKeybind",
+        ID,
+        key,
+        keyCode,
+        replaceKey,
+      });
     }
   }
   removeKeybind(ID, key, share = true) {
@@ -206,10 +222,38 @@ class StorageManager {
       delete this.keybinds[ID][key];
       localStorage.setItem("keybinds", JSON.stringify(this.keybinds));
 
-      if (share) {
-        if (this.storageChannel) {
-          this.storageChannel.postMessage({ type: "removeKeybind", ID, key });
-        }
+      if (share && this.storageChannel) {
+        this.storageChannel.postMessage({ type: "removeKeybind", ID, key });
+      }
+    }
+  }
+  updateGamepadBind(ID, action, bindData, share = true) {
+    if (!this.gamepadBinds[ID]) {
+      this.gamepadBinds[ID] = {};
+    }
+    this.gamepadBinds[ID][action] = bindData;
+    localStorage.setItem("gamepadBinds", JSON.stringify(this.gamepadBinds));
+
+    if (share && this.storageChannel) {
+      this.storageChannel.postMessage({
+        type: "updateGamepadBind",
+        ID,
+        action,
+        bindData,
+      });
+    }
+  }
+  removeGamepadBind(ID, action, share = true) {
+    if (this.gamepadBinds[ID]) {
+      delete this.gamepadBinds[ID][action];
+      localStorage.setItem("gamepadBinds", JSON.stringify(this.gamepadBinds));
+
+      if (share && this.storageChannel) {
+        this.storageChannel.postMessage({
+          type: "removeGamepadBind",
+          ID,
+          action,
+        });
       }
     }
   }
@@ -218,10 +262,8 @@ class StorageManager {
     document.documentElement.dataset.theme = theme;
     localStorage.setItem("theme", theme);
 
-    if (share) {
-      if (this.storageChannel) {
-        this.storageChannel.postMessage({ type: "updateTheme", theme });
-      }
+    if (share && this.storageChannel) {
+      this.storageChannel.postMessage({ type: "updateTheme", theme });
     }
   }
   updateTheme(theme, share = true) {
@@ -239,10 +281,8 @@ class StorageManager {
       this.favorites.push(ID);
       localStorage.setItem("favorites", JSON.stringify(this.favorites));
 
-      if (share) {
-        if (this.storageChannel) {
-          this.storageChannel.postMessage({ type: "addFavorite", ID });
-        }
+      if (share && this.storageChannel) {
+        this.storageChannel.postMessage({ type: "addFavorite", ID });
       }
     }
   }
@@ -250,10 +290,8 @@ class StorageManager {
     this.favorites = this.favorites.filter((item) => item !== ID);
     localStorage.setItem("favorites", JSON.stringify(this.favorites));
 
-    if (share) {
-      if (this.storageChannel) {
-        this.storageChannel.postMessage({ type: "removeFavorite", ID });
-      }
+    if (share && this.storageChannel) {
+      this.storageChannel.postMessage({ type: "removeFavorite", ID });
     }
   }
   install(ID, share = true) {
@@ -264,10 +302,8 @@ class StorageManager {
         this.installed.includes(item.id),
       );
 
-      if (share) {
-        if (this.storageChannel) {
-          this.storageChannel.postMessage({ type: "install", ID });
-        }
+      if (share && this.storageChannel) {
+        this.storageChannel.postMessage({ type: "install", ID });
       }
     }
   }
@@ -281,14 +317,16 @@ class StorageManager {
       delete this.keybinds[ID];
       localStorage.setItem("keybinds", JSON.stringify(this.keybinds));
     }
+    if (this.gamepadBinds[ID]) {
+      delete this.gamepadBinds[ID];
+      localStorage.setItem("gamepadBinds", JSON.stringify(this.gamepadBinds));
+    }
     if (this.favorites.includes(ID)) {
       this.removeFavorite(ID);
     }
 
-    if (share) {
-      if (this.storageChannel) {
-        this.storageChannel.postMessage({ type: "uninstall", ID });
-      }
+    if (share && this.storageChannel) {
+      this.storageChannel.postMessage({ type: "uninstall", ID });
     }
   }
   setActive(ID, share = false) {
@@ -321,34 +359,26 @@ class StorageManager {
       }
     }, 1000);
 
-    if (share) {
-      if (this.storageChannel) {
-        this.storageChannel.postMessage({
-          type: "setActive",
-          ID,
-        });
-      }
+    if (share && this.storageChannel) {
+      this.storageChannel.postMessage({
+        type: "setActive",
+        ID,
+      });
     }
   }
   resumeActive(ID, share = false) {
     const entry = this.active[ID];
 
     if (entry?.win) {
-      //Allows for two times focusing before you have to go back to the origional tab and focus it and then you can do back and focus 2 more times
-      //Disabled for now
       entry.win.focus();
     }
 
-    if (share) {
-      if (entry?.tabID) {
-        if (this.storageChannel) {
-          this.storageChannel.postMessage({
-            type: "resumeActiveRequest",
-            ID,
-            tabID: entry.tabID,
-          });
-        }
-      }
+    if (share && entry?.tabID && this.storageChannel) {
+      this.storageChannel.postMessage({
+        type: "resumeActiveRequest",
+        ID,
+        tabID: entry.tabID,
+      });
     }
   }
   quitActive(ID, share = false) {
@@ -364,26 +394,22 @@ class StorageManager {
 
     delete this.active[ID];
 
-    if (share) {
-      if (this.storageChannel) {
-        this.storageChannel.postMessage({
-          type: "deleteActive",
-          ID,
-        });
-      }
+    if (share && this.storageChannel) {
+      this.storageChannel.postMessage({
+        type: "deleteActive",
+        ID,
+      });
     }
   }
   addHiddenTheme(theme, share = true) {
     this.hiddenThemes.push(theme);
     localStorage.setItem("hiddenThemes", JSON.stringify(this.hiddenThemes));
 
-    if (share) {
-      if (this.storageChannel) {
-        this.storageChannel.postMessage({
-          type: "addHiddenTheme",
-          theme,
-        });
-      }
+    if (share && this.storageChannel) {
+      this.storageChannel.postMessage({
+        type: "addHiddenTheme",
+        theme,
+      });
     }
   }
   updatePlayTime(ID, start, end, share = true) {
@@ -394,15 +420,13 @@ class StorageManager {
     };
     localStorage.setItem("playTime", JSON.stringify(this.playTime));
 
-    if (share) {
-      if (this.storageChannel) {
-        this.storageChannel.postMessage({
-          type: "updatePlaytime",
-          ID,
-          start,
-          end,
-        });
-      }
+    if (share && this.storageChannel) {
+      this.storageChannel.postMessage({
+        type: "updatePlaytime",
+        ID,
+        start,
+        end,
+      });
     }
   }
 }
