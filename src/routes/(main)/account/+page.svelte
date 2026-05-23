@@ -162,6 +162,17 @@
         </div>
       </div>
     </div>
+    <div class="flex flex-col gap-2">
+      <div>
+        <p>Cloud Saves</p>
+        <p class="text-sm text-text-placeholder">25MB of 1GB Used</p>
+      </div>
+      <progress
+        class="h-6 w-sm [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-value]:rounded-full [&::-webkit-progress-bar]:bg-surface [&::-webkit-progress-value]:bg-primary [&::-webkit-progress-bar]:border [&::-webkit-progress-bar]:border-border"
+        max="100"
+        value="25"
+      ></progress>
+    </div>
     <div class="flex gap-4 justify-center">
       <a
         href="/settings/account"

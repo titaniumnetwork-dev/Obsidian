@@ -1,5 +1,5 @@
 import { fail } from "@sveltejs/kit";
-import { bcrypt, bcryptVerify } from "hash-wasm";
+import bcrypt from "bcryptjs";
 
 export const actions = {
   updateUsername: async ({ request, cookies, platform }) => {
@@ -104,10 +104,7 @@ export const actions = {
     }
 
     try {
-      const isCorrect = await bcryptVerify({
-        password: oldPassword,
-        hash: user.password_hash,
-      });
+      const isCorrect = await bcrypt.compare(oldPassword, user.password_hash);
 
       if (!isCorrect) {
         return fail(400, {
@@ -124,13 +121,8 @@ export const actions = {
     }
 
     try {
-      const salt = crypto.getRandomValues(new Uint8Array(16));
-      const hash = await bcrypt({
-        password: newPassword,
-        salt,
-        costFactor: 10,
-        outputType: "encoded",
-      });
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(newPassword, salt);
 
       await platform?.env.USERS.prepare(
         "UPDATE users SET password_hash = ? WHERE id = ?",

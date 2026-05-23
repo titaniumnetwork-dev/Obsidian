@@ -1,5 +1,5 @@
 import { fail, redirect } from "@sveltejs/kit";
-import { bcryptVerify } from "hash-wasm";
+import bcrypt from "bcryptjs";
 
 export const load = async ({ cookies }) => {
   const sessionId = cookies.get("session_id");
@@ -21,10 +21,7 @@ export const actions = {
 
     if (!user) return fail(400, { error: "User not found" });
 
-    const isValid = await bcryptVerify({
-      password: password,
-      hash: user.password_hash,
-    });
+    const isValid = await bcrypt.compare(password, user.password_hash);
 
     if (!isValid) return fail(400, { error: "Invalid password", email });
 

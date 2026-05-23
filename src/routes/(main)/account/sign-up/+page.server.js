@@ -1,6 +1,6 @@
 import { defaultStorage } from "$lib/defaultStorage";
 import { fail, redirect } from "@sveltejs/kit";
-import { bcrypt } from "hash-wasm";
+import bcrypt from "bcryptjs";
 
 function generateIdenticon(seedString) {
   let hash = 2166136261 >>> 0;
@@ -93,14 +93,8 @@ export const actions = {
       }
 
       const userId = crypto.randomUUID();
-      const salt = crypto.getRandomValues(new Uint8Array(16));
-
-      const hash = await bcrypt({
-        password: password,
-        salt,
-        costFactor: 10,
-        outputType: "encoded",
-      });
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(password, salt);
 
       const svgString = generateIdenticon(userId);
       const avatarFilename = `${userId}-default.svg`;

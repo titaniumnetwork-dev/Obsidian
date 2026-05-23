@@ -2,7 +2,6 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "games",
   "compatibility_date": "2026-05-20",
-  "compatibility_flags": ["nodejs-compat"],
   "pages_build_output_dir": ".svelte-kit/cloudflare",
   "r2_buckets": [
     {
