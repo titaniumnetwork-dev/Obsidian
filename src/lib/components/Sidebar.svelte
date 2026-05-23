@@ -54,7 +54,7 @@
   class="sidebar group bg-secondary h-[calc(100%-2rem)] data-[style=hidden]:hidden data-[style=compact]:w-22 data-[style=default]:w-64 transition-[width] flex flex-col overflow-y-scroll shrink-0 m-4 mr-0 rounded-2xl border border-surface"
 >
   {#if storage.settings.sidebarStyle === "default" && storage.settings.sidebarSearch}
-    <div class="bg-secondary sticky top-0 p-4">
+    <div class="sidebar-search bg-secondary sticky top-0 p-4">
       <div
         class="focus-within:bg-surface bg-secondary rounded-xl items-center shrink-0 flex border border-border"
       >

@@ -96,15 +96,21 @@
           </div>
         {/if}
         <div
-          class="absolute inset-0 bg-black/50 flex items-center justify-center transition-opacity text-white {isUploading
-            ? 'opacity-100'
-            : 'opacity-0 group-hover:opacity-100'}"
+          class="absolute inset-0 flex items-center justify-center transition-colors {isUploading
+            ? ' bg-(--color-overlay)'
+            : ' hover:bg-(--color-overlay)'}"
         >
-          {#if isUploading}
-            <Loader2 size="24" class="animate-spin" />
-          {:else}
-            <Upload size="24" />
-          {/if}
+          <div
+            class="transition-opacity {isUploading
+              ? 'opacity-100'
+              : 'opacity-0 group-hover:opacity-100'}"
+          >
+            {#if isUploading}
+              <Loader2 size="24" class="animate-spin" />
+            {:else}
+              <Upload size="24" />
+            {/if}
+          </div>
         </div>
         <input
           type="file"

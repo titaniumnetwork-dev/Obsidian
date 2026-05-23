@@ -52,10 +52,10 @@ export const themes = [
     primary: "#4caf50",
     hidden: true,
     css: {
-      ".sidebar": {
+      ".sidebar-search": {
         position: "relative",
       },
-      ".sidebar::before": {
+      ".sidebar-search::before": {
         content: "''",
         position: "absolute",
         inset: " -96px 0 auto 0",

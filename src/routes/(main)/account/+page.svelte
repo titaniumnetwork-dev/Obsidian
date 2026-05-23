@@ -7,6 +7,7 @@
     Loader2,
     LogOut,
     Settings,
+    Star,
     Trash2,
     Upload,
     User,
@@ -102,15 +103,21 @@
             </div>
           {/if}
           <div
-            class="absolute inset-0 bg-black/50 flex items-center justify-center transition-opacity text-white {isUploading
-              ? 'opacity-100'
-              : 'opacity-0 group-hover:opacity-100'}"
+            class="absolute inset-0 flex items-center justify-center transition-colors {isUploading
+              ? ' bg-(--color-overlay)'
+              : ' hover:bg-(--color-overlay)'}"
           >
-            {#if isUploading}
-              <Loader2 size="24" class="animate-spin" />
-            {:else}
-              <Upload size="24" />
-            {/if}
+            <div
+              class="transition-opacity {isUploading
+                ? 'opacity-100'
+                : 'opacity-0 group-hover:opacity-100'}"
+            >
+              {#if isUploading}
+                <Loader2 size="24" class="animate-spin" />
+              {:else}
+                <Upload size="24" />
+              {/if}
+            </div>
           </div>
           <input
             type="file"
@@ -135,35 +142,26 @@
     </div>
     <div class="flex flex-col gap-2">
       <p>Stats</p>
-      <div
-        class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap w-fit"
-      >
-        <LayoutGrid size="20" />
-        <span>{storage.installed.length + " Installed"}</span>
-      </div>
-    </div>
-    {#if favoritesData.length > 0}
-      <div class="flex flex-col gap-2">
-        <p>Favorites</p>
-        <div class="flex flex-wrap gap-4">
-          {#each favoritesData as item (item.id)}
-            <a
-              aria-label={item.title}
-              href={"/library/" + item.id}
-              class="cursor-pointer h-14 rounded-2xl text-sm flex items-center p-2 gap-2 bg-surface whitespace-nowrap border border-border"
-            >
-              <img
-                draggable="false"
-                src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
-                alt={item.title + " logo"}
-                class="h-10 w-10 rounded-xl"
-              />
-              <span>{item.title}</span>
-            </a>
-          {/each}
+      <div class="flex gap-4">
+        <div
+          class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap w-fit"
+        >
+          <LayoutGrid size="20" />
+          <span>{storage.installed.length + " Installed"}</span>
+        </div>
+        <div
+          class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap w-fit"
+        >
+          <Star size="20" />
+          <span
+            >{storage.favorites.length +
+              (storage.favorites.length === 1
+                ? " Favorite"
+                : " Favorites")}</span
+          >
         </div>
       </div>
-    {/if}
+    </div>
     <div class="flex gap-4 justify-center">
       <a
         href="/settings/account"
