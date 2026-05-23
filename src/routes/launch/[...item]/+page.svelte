@@ -434,6 +434,7 @@
             .join("");
           if (realStorageItem === e.key) {
             console.log("Cloud save: ", realStorageItem, data.currentData.id);
+            //e.newValue
           }
         }
       }

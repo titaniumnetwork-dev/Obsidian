@@ -75,6 +75,7 @@
         />
         {#if username.length > 0}
           <button
+            tabindex="-1"
             type="button"
             aria-label="Clear Username"
             class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
@@ -99,6 +100,7 @@
         />
         {#if email.length > 0}
           <button
+            tabindex="-1"
             type="button"
             aria-label="Clear Email"
             class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
@@ -123,6 +125,7 @@
         />
         {#if password.length > 0}
           <button
+            tabindex="-1"
             type="button"
             aria-label="Clear Password"
             class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
@@ -140,8 +143,12 @@
       />
 
       <p class="text-sm text-text-placeholder">
-        By signing up, you agree to our <a href="/privacy" class="hover:underline">Privacy Policy</a> and <a href="/terms" class="hover:underline">Terms of Service</a> and
-        that you are at least 13 years old.
+        By signing up, you agree to our <a
+          href="/privacy"
+          class="hover:underline">Privacy Policy</a
+        >
+        and <a href="/terms" class="hover:underline">Terms of Service</a> and that
+        you are at least 13 years old.
       </p>
       {#if form?.error}
         <p class="text-sm text-text-placeholder">{form.error}</p>

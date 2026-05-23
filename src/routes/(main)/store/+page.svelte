@@ -1,4 +1,5 @@
 <script>
+  import { goto } from "$app/navigation";
   import Cards from "$lib/components/Cards.svelte";
   import { carousel, featured } from "$lib/featured.js";
   import { storage } from "$lib/storage.svelte.js";

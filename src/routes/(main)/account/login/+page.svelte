@@ -56,6 +56,7 @@
         />
         {#if email.length > 0}
           <button
+            tabindex="-1"
             type="button"
             aria-label="Clear Email"
             class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
@@ -79,6 +80,7 @@
         />
         {#if password.length > 0}
           <button
+            tabindex="-1"
             type="button"
             aria-label="Clear Password"
             class="mr-3 cursor-pointer shrink-0 text-text-placeholder"

@@ -146,8 +146,9 @@
           />
           {#if editUsername.length > 0}
             <button
+              tabindex="-1"
               type="button"
-              class="mr-3 shrink-0 text-text-placeholder hover:text-foreground"
+              class="mr-3 shrink-0 text-text-placeholder cursor-pointer"
               onclick={() => (editUsername = "")}
             >
               <X size="16" />
@@ -199,8 +200,9 @@
           />
           {#if editEmail.length > 0}
             <button
+              tabindex="-1"
               type="button"
-              class="mr-3 shrink-0 text-text-placeholder hover:text-foreground"
+              class="mr-3 shrink-0 text-text-placeholder cursor-pointer"
               onclick={() => (editEmail = "")}
             >
               <X size="16" />
@@ -256,8 +258,9 @@
           />
           {#if oldPassword.length > 0}
             <button
+              tabindex="-1"
               type="button"
-              class="mr-3 shrink-0 text-text-placeholder hover:text-foreground"
+              class="mr-3 shrink-0 text-text-placeholder cursor-pointer"
               onclick={() => (oldPassword = "")}
             >
               <X size="16" />
@@ -283,8 +286,9 @@
           />
           {#if editPassword.length > 0}
             <button
+              tabindex="-1"
               type="button"
-              class="mr-3 shrink-0 text-text-placeholder hover:text-foreground"
+              class="mr-3 shrink-0 text-text-placeholder cursor-pointer"
               onclick={() => (editPassword = "")}
             >
               <X size="16" />
