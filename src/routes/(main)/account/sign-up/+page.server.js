@@ -3,37 +3,56 @@ import { fail, redirect } from "@sveltejs/kit";
 import { bcrypt } from "hash-wasm";
 
 function generateIdenticon(seedString) {
-  let hash = 0;
+  let hash = 2166136261 >>> 0;
   for (let i = 0; i < seedString.length; i++) {
-    hash = (hash << 5) - hash + seedString.charCodeAt(i);
-    hash |= 0;
+    hash ^= seedString.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
   }
+  hash >>>= 0;
 
-  const hue = Math.abs(hash) % 360;
-  const color = `hsl(${hue}, 70%, 50%)`;
+  let seed = hash;
+  const random = () => {
+    let t = (seed += 0x6d2b79f5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
 
-  const grid = [];
-  for (let i = 0; i < 15; i++) {
-    grid.push(Math.abs(hash >> i) % 2 === 0);
-  }
+  const palettes = [
+    ["#ff9a9e", "#fecfef"],
+    ["#a18cd1", "#fbc2eb"],
+    ["#84fab0", "#8fd3f4"],
+    ["#fa709a", "#fee140"],
+    ["#30cfd0", "#330867"],
+    ["#fccb90", "#d57eeb"],
+    ["#4facfe", "#00f2fe"],
+    ["#43e97b", "#38f9d7"],
+    ["#fa71cd", "#c471f5"],
+  ];
 
-  let rects = "";
-  const size = 16;
+  const paletteIndex = Math.floor(random() * palettes.length);
+  const [color1, color2] = palettes[paletteIndex];
 
-  for (let row = 0; row < 5; row++) {
-    for (let col = 0; col < 5; col++) {
-      const indexCol = col > 2 ? 4 - col : col;
-      const index = row * 3 + indexCol;
+  const gradientId = `bg-grad-${hash}`;
 
-      if (grid[index]) {
-        rects += `<rect x="${col * size}" y="${row * size}" width="${size}" height="${size}" fill="${color}" />`;
-      }
-    }
-  }
+  const gradAngle = random() * 360;
+  const gradX1 = Math.round(50 + 50 * Math.cos((gradAngle * Math.PI) / 180));
+  const gradY1 = Math.round(50 + 50 * Math.sin((gradAngle * Math.PI) / 180));
+  const gradX2 = Math.round(
+    50 + 50 * Math.cos(((gradAngle + 180) * Math.PI) / 180),
+  );
+  const gradY2 = Math.round(
+    50 + 50 * Math.sin(((gradAngle + 180) * Math.PI) / 180),
+  );
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
-    <rect width="80" height="80" fill="#f0f0f0"/>
-    <g>${rects}</g>
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="80" height="80">
+    <defs>
+      <linearGradient id="${gradientId}" x1="${gradX1}%" y1="${gradY1}%" x2="${gradX2}%" y2="${gradY2}%">
+        <stop offset="0%" stop-color="${color1}" />
+        <stop offset="100%" stop-color="${color2}" />
+      </linearGradient>
+    </defs>
+    <rect width="100" height="100" rx="12" fill="url(#${gradientId})" />
   </svg>`;
 }
 

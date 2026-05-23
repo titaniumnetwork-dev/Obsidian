@@ -5,7 +5,7 @@ async function authHandle({ event, resolve }) {
 
   if (sessionId && event.platform?.env?.USERS) {
     const user = await event.platform.env.USERS.prepare(
-      "SELECT id, email, name, avatar_url FROM users WHERE id = ?",
+      "SELECT id, email, name, avatar_url, storage FROM users WHERE id = ?",
     )
       .bind(sessionId)
       .first();

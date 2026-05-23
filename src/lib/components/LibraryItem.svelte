@@ -187,35 +187,6 @@
               <span>{data.currentData.version}</span>
             </div>
           {/if}
-          <!--
-          {#if data.currentData.controls || data.currentData.controllerSupport || data.currentData.gamepadControls}
-            <div
-              class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap"
-            >
-              <div class="flex gap-2">
-                {#if data.currentData.controls}
-                  <Keyboard size="20" />
-                {/if}
-                {#if data.currentData.controllerSupport || data.currentData.gamepadControls}
-                  <Gamepad2 size="20" />
-                {/if}
-              </div>
-              {#if data.currentData.controls}
-                <span>Keyboard</span>
-              {/if}
-              {#if data.currentData.controls && (data.currentData.controllerSupport || data.currentData.gamepadControls)}
-                <span>+</span>
-              {/if}
-              {#if data.currentData.controllerSupport || data.currentData.gamepadControls}
-                <span
-                  >Controller{data.currentData.controllerSupport
-                    ? " (Native)"
-                    : ""}</span
-                >
-              {/if}
-            </div>
-          {/if}
-           -->
           {#if data.currentData.cloudSave}
             <div
               class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap"

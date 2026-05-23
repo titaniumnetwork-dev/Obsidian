@@ -8,12 +8,12 @@
     {
       "binding": "GAMES",
       "bucket_name": "games",
-      "remote": false
+      "remote": true
     },
     {
       "binding": "AVATARS",
       "bucket_name": "avatars",
-      "remote": false
+      "remote": true
     }
   ],
   "d1_databases": [
@@ -21,7 +21,7 @@
       "binding": "USERS",
       "database_name": "users",
       "database_id": "f446421a-2ac5-4f32-a0b4-fb7a07005f46",
-      "remote": false 
+      "remote": true
     }
   ]
 }

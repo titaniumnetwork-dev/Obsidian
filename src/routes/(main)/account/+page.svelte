@@ -3,6 +3,7 @@
   import Head from "$lib/components/Head.svelte";
   import { storage } from "$lib/storage.svelte.js";
   import {
+    LayoutGrid,
     Loader2,
     LogOut,
     Settings,
@@ -42,6 +43,12 @@
       }, "image/webp");
     });
   }
+
+  let favoritesData = $derived(
+    storage.favorites
+      .map((id) => storage.library.find((item) => item.id === id))
+      .filter(Boolean),
+  );
 </script>
 
 <Head title={data.user.name + "'s Account"} />
@@ -126,6 +133,37 @@
         <p class="text-sm text-text-placeholder">{formError}</p>
       {/if}
     </div>
+    <div class="flex flex-col gap-2">
+      <p>Stats</p>
+      <div
+        class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap w-fit"
+      >
+        <LayoutGrid size="20" />
+        <span>{storage.installed.length + " Installed"}</span>
+      </div>
+    </div>
+    {#if favoritesData.length > 0}
+      <div class="flex flex-col gap-2">
+        <p>Favorites</p>
+        <div class="flex flex-wrap gap-4">
+          {#each favoritesData as item (item.id)}
+            <a
+              aria-label={item.title}
+              href={"/library/" + item.id}
+              class="cursor-pointer h-14 rounded-2xl text-sm flex items-center p-2 gap-2 bg-surface whitespace-nowrap border border-border"
+            >
+              <img
+                draggable="false"
+                src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
+                alt={item.title + " logo"}
+                class="h-10 w-10 rounded-xl"
+              />
+              <span>{item.title}</span>
+            </a>
+          {/each}
+        </div>
+      </div>
+    {/if}
     <div class="flex gap-4 justify-center">
       <a
         href="/settings/account"
