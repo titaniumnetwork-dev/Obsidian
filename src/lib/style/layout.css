@@ -301,10 +301,6 @@ html[data-theme="Snail"] {
   @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }
 
-@utility scrollbar {
-  @apply [&::-webkit-scrollbar]:w-4 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-4 [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:[background:var(--color-border)_content-box] [&::-webkit-scrollbar-corner]:bg-transparent;
-}
-
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 150ms;

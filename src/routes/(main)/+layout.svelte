@@ -80,8 +80,8 @@
 {#if storage.isLoaded}
   <MobileBlocker>
     <Sidebar />
-    <div class="w-full overflow-auto flex flex-col scrollbar">
-      <Navbar />
+    <div class="w-full overflow-auto flex flex-col">
+      <Navbar user={data.user} />
       {@render children()}
       <Footer />
     </div>

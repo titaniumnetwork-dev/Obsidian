@@ -120,7 +120,7 @@
         <ChevronDown size="20" class="shrink-0" />
       </summary>
       <div
-        class="absolute mt-2 min-w-full w-max bg-secondary rounded-xl max-h-60 overflow-y-auto border border-surface scrollbar z-10 flex flex-col"
+        class="absolute mt-2 min-w-full w-max bg-secondary rounded-xl max-h-60 overflow-y-auto border border-surface z-10 flex flex-col"
       >
         <button
           class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
@@ -177,7 +177,7 @@
         <ChevronDown size="20" class="shrink-0" />
       </summary>
       <div
-        class="absolute mt-2 min-w-full w-max bg-secondary rounded-xl max-h-60 overflow-y-auto border border-surface scrollbar z-10 flex flex-col"
+        class="absolute mt-2 min-w-full w-max bg-secondary rounded-xl max-h-60 overflow-y-auto border border-surface z-10 flex flex-col"
       >
         <button
           class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
@@ -236,7 +236,7 @@
         <ChevronDown size="20" />
       </summary>
       <div
-        class="absolute mt-2 min-w-full w-max bg-secondary rounded-xl max-h-60 overflow-y-auto border border-surface scrollbar z-10"
+        class="absolute mt-2 min-w-full w-max bg-secondary rounded-xl max-h-60 overflow-y-auto border border-surface z-10"
       >
         <label
           class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"

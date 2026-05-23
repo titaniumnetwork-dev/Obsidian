@@ -237,7 +237,6 @@
     isGenerating = false;
   }
 
-  // --- Keyboard Controls Logic ---
   let activeListeningIndex = $state({ actionIdx: null, keyIdx: null });
   let newActionName = $state("");
 
@@ -279,7 +278,6 @@
     window.removeEventListener("keydown", handleKeyDown);
   }
 
-  // --- Gamepad Controls Logic ---
   let activeGamepadListeningIndex = $state(null);
   let newGamepadActionName = $state("");
   let gamepadPollingFrame = null;
@@ -301,7 +299,6 @@
   function startGamepadListening(actionIdx) {
     activeGamepadListeningIndex = actionIdx;
 
-    // Prevent the button click from immediately registering as the mapped input
     setTimeout(() => {
       if (activeGamepadListeningIndex === actionIdx) {
         pollForGamepadInput();
@@ -324,7 +321,6 @@
     for (let gp of gamepads) {
       if (!gp) continue;
 
-      // Check buttons
       for (let i = 0; i < gp.buttons.length; i++) {
         if (gp.buttons[i].pressed) {
           const action = gamepadControls[activeGamepadListeningIndex];
@@ -334,7 +330,6 @@
         }
       }
 
-      // Check axes
       if (!mapped && gp.axes) {
         for (let i = 0; i < gp.axes.length; i++) {
           const val = gp.axes[i];
@@ -362,11 +357,9 @@
     }
   }
 
-  // --- Shared Event Listener ---
   function handleKeyDown(e) {
     e.preventDefault();
 
-    // Cancel Gamepad mapping with Escape
     if (activeGamepadListeningIndex !== null) {
       if (e.code === "Escape") {
         stopGamepadListening();
@@ -531,7 +524,7 @@
       <ChevronDown size="20" />
     </summary>
     <div
-      class="absolute mt-2 min-w-full w-max bg-secondary rounded-xl max-h-60 overflow-y-auto border border-surface scrollbar z-10"
+      class="absolute mt-2 min-w-full w-max bg-secondary rounded-xl max-h-60 overflow-y-auto border border-surface z-10"
     >
       <label
         class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
@@ -607,7 +600,7 @@
       <ChevronDown size="20" class="shrink-0" />
     </summary>
     <div
-      class="absolute mt-2 min-w-full w-max bg-secondary rounded-xl max-h-60 overflow-y-auto border border-surface scrollbar z-10 flex flex-col"
+      class="absolute mt-2 min-w-full w-max bg-secondary rounded-xl max-h-60 overflow-y-auto border border-surface z-10 flex flex-col"
     >
       <button
         class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
@@ -936,7 +929,7 @@
     <span>Reset All</span>
   </button>
 </div>
-<div class="w-full overflow-auto flex flex-col scrollbar">
+<div class="w-full overflow-auto flex flex-col">
   <Navbar />
   <div class="p-4 pt-0 flex flex-col gap-4 item">
     <div

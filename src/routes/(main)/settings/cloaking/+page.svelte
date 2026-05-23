@@ -52,7 +52,7 @@
 
 <svelte:window onkeydown={handleKeydown} />
 
-<p class="mt-4">Tab Mask</p>
+<p>Tab Mask</p>
 <p class="text-sm text-text-placeholder mb-4">Disguise your tab</p>
 <div class="flex gap-4">
   <button

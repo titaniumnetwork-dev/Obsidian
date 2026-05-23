@@ -2,4 +2,5 @@
 Your new favorite place on the internet!
 
 ## Todo
-- Export/import data
+- Cloudsaves for localhost and indexeddb
+- Limit amount of save data

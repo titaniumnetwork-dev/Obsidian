@@ -51,7 +51,7 @@
         {#each carouselData as item}
           <a
             href={"/store/" + item.id}
-            style={"--hero: url('/cdn/assets/" + item.id + "/hero.webp')"}
+            style={"--hero: url('/cdn/assets/assets/" + item.id + "/hero.webp')"}
             class="shrink-0 [background:linear-gradient(to_left,var(--color-overlay)0%,var(--theme-secondary)60%)padding-box,var(--hero)left/cover_padding-box,var(--color-surface)] w-full h-96 rounded-b-2xl flex flex-col items-start justify-between p-8 pb-4 gap-4 rounded-2xl border border-border"
           >
             <div class="flex flex-wrap gap-4 ml-auto">

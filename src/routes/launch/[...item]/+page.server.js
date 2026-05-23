@@ -1,7 +1,7 @@
 import { getCatalog } from "$lib/catalog.js";
 import { error } from "@sveltejs/kit";
 
-export async function load({ fetch, params }) {
+export async function load({ fetch, params, locals }) {
   const catalogData = await getCatalog(fetch);
 
   const currentData = catalogData.find((item) => item.id === params.item);
@@ -12,5 +12,9 @@ export async function load({ fetch, params }) {
     });
   }
 
-  return { currentData, path: params.path };
+  return {
+    currentData,
+    path: params.path,
+    user: locals.user || null,
+  };
 }

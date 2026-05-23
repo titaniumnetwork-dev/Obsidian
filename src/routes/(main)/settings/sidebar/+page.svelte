@@ -2,7 +2,7 @@
   import { storage } from "$lib/storage.svelte.js";
 </script>
 
-<p class="mt-4">Sidebar</p>
+<p>Sidebar</p>
 <p class="text-sm text-text-placeholder mb-4">
   Shrink the sidebar or remove it entirely
 </p>

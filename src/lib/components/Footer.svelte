@@ -16,50 +16,50 @@
 
   <div class="flex items-center gap-4">
     <a
-      class="transition-colors text-text-placeholder hover:text-text"
+      class="text-text-placeholder hover:underline"
       href="mailto:support@obsidian.com">Contact</a
     >
     <a
-      class="transition-colors text-text-placeholder hover:text-text"
+      class="text-text-placeholder hover:underline"
       href="/terms">Terms of Service</a
     >
     <a
-      class="transition-colors text-text-placeholder hover:text-text"
+      class="text-text-placeholder hover:underline"
       href="/privacy">Privacy Policy</a
     >
     <a
-      class="transition-colors text-text-placeholder hover:text-text"
+      class="text-text-placeholder hover:underline"
       href="/dmca">DMCA</a
     >
     <div class="flex items-center gap-6 mx-2">
       <!--
       <a
-        class="transition-colors text-text-placeholder hover:text-text"
+        class="text-text-placeholder hover:underline"
         href="https://github.com"
       >
         <SiGithub size="20" />
       </a>
       -->
       <a
-        class="transition-colors text-text-placeholder hover:text-text"
+        class="text-text-placeholder hover:underline"
         href="https://discord.com"
       >
         <SiDiscord size="20" />
       </a>
       <a
-        class="transition-colors text-text-placeholder hover:text-text"
+        class="text-text-placeholder hover:underline"
         href="https://youtube.com"
       >
         <SiYoutube size="20" />
       </a>
       <a
-        class="transition-colors text-text-placeholder hover:text-text"
+        class="text-text-placeholder hover:underline"
         href="https://tiktok.com"
       >
         <SiTiktok size="20" />
       </a>
       <a
-        class="transition-colors text-text-placeholder hover:text-text"
+        class="text-text-placeholder hover:underline"
         href="https://patreon.com"
       >
         <SiPatreon size="20" />

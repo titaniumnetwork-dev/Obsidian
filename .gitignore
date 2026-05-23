@@ -5,6 +5,7 @@ node_modules
 .vercel
 .netlify
 .wrangler
+wrangler.json
 /.svelte-kit
 /build
 /package

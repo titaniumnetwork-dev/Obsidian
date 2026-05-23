@@ -122,6 +122,16 @@ export async function GET({ setHeaders, platform }) {
       controllerSupport: false,
       version: "2.022",
       path: "/index.html",
+      cloudSave: {
+        localStorage: [
+          [
+            {
+              type: "text",
+              value: "CookieClickerGame",
+            },
+          ],
+        ],
+      },
     },
     {
       title: "Cut the Rope",
@@ -218,6 +228,33 @@ export async function GET({ setHeaders, platform }) {
       tags: ["Casual", "Simulation", "Singleplayer", "Cartoon", "Retro"],
       controllerSupport: false,
       internalVersion: "1",
+      cloudSave: {
+        localStorage: [
+          [
+            {
+              type: "hostname",
+            },
+            {
+              type: "text",
+              value: "/cdn/flash/",
+            },
+            {
+              type: "id",
+            },
+            {
+              type: "text",
+              value: "/1/",
+            },
+            {
+              type: "id",
+            },
+            {
+              type: "text",
+              value: ".swf/mydata",
+            },
+          ],
+        ],
+      },
     },
     {
       title: "Duck Life 2: World Champion",
@@ -595,6 +632,22 @@ export async function GET({ setHeaders, platform }) {
       controllerSupport: false,
       version: "1.1.1c",
       path: "/index.html",
+      cloudSave: {
+        localStorage: [
+          [
+            {
+              type: "text",
+              value: "mx3msf2",
+            },
+          ],
+          [
+            {
+              type: "text",
+              value: "mx3msf2h",
+            },
+          ],
+        ],
+      },
     },
     {
       title: "Run 3",
@@ -677,6 +730,36 @@ export async function GET({ setHeaders, platform }) {
       controllerSupport: false,
       version: "2.0.2",
       path: "/index.html",
+      cloudSave: {
+        localStorage: [
+          [
+            {
+              type: "text",
+              value: "/cdn/html/",
+            },
+            {
+              type: "id",
+            },
+            {
+              type: "text",
+              value: "/2.0.2/index.html:Run3",
+            },
+          ],
+          [
+            {
+              type: "text",
+              value: "/cdn/html/",
+            },
+            {
+              type: "id",
+            },
+            {
+              type: "text",
+              value: "/2.0.2/index.html:last",
+            },
+          ],
+        ],
+      },
     },
     {
       title: "Slope",
@@ -865,6 +948,33 @@ export async function GET({ setHeaders, platform }) {
       ],
       controllerSupport: false,
       version: "1.0",
+      cloudSave: {
+        localStorage: [
+          [
+            {
+              type: "hostname",
+            },
+            {
+              type: "text",
+              value: "/cdn/flash/",
+            },
+            {
+              type: "id",
+            },
+            {
+              type: "text",
+              value: "/1.0/",
+            },
+            {
+              type: "id",
+            },
+            {
+              type: "text",
+              value: ".swf/finalLevel",
+            },
+          ],
+        ],
+      },
     },
     {
       title: "The Legend of Zelda: The Minish Cap",
@@ -1022,6 +1132,32 @@ export async function GET({ setHeaders, platform }) {
       controllerSupport: false,
       internalVersion: "1",
       rom: "/18f75fb2-6614-4ee9-88b5-a32c8f36b9ee.gba",
+      cloudSave: {
+        indexedDB: {
+          "EmulatorJS-states": [
+            [
+              {
+                type: "text",
+                value: "cdnemulation",
+              },
+              {
+                type: "id",
+              },
+              {
+                type: "text",
+                value: "1",
+              },
+              {
+                type: "id",
+              },
+              {
+                type: "text",
+                value: ".state",
+              },
+            ],
+          ],
+        },
+      },
     },
     {
       title: "Vex 3",
@@ -1117,6 +1253,22 @@ export async function GET({ setHeaders, platform }) {
       controllerSupport: false,
       version: "16",
       path: "/index.html",
+      cloudSave: {
+        localStorage: [
+          [
+            {
+              type: "text",
+              value: "v3:h",
+            },
+          ],
+          [
+            {
+              type: "text",
+              value: "v3:sg",
+            },
+          ],
+        ],
+      },
     },
   ]);
 }

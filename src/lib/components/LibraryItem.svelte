@@ -5,9 +5,11 @@
   import {
     ChartPie,
     Clock,
+    Cloud,
     Download,
     Ellipsis,
     Gamepad2,
+    Keyboard,
     Pause,
     Play,
     Share,
@@ -27,7 +29,7 @@
 
 <div class="p-4 pt-0 flex flex-col gap-4 item">
   <div
-    style={"--hero: url('/cdn/assets/" + data.currentData.id + "/hero.webp')"}
+    style={"--hero: url('/cdn/assets/assets/" + data.currentData.id + "/hero.webp')"}
     class="relative [background:linear-gradient(to_bottom,var(--color-overlay)_0%,var(--theme-background)_100%)_padding-box,var(--hero)center/cover_padding-box,var(--color-surface)] w-full h-112 flex flex-col items-start justify-between p-8 pb-4 gap-4 rounded-t-2xl border-x border-t border-transparent"
   >
     <div
@@ -50,7 +52,7 @@
     </div>
     <div class="w-full">
       <h1 class="text-6xl font-bold mb-4 sm:w-2/3">{data.currentData.title}</h1>
-      <div class="flex gap-2 flex-col min-[1192px]:flex-row">
+      <div class="flex gap-4">
         <div class="flex gap-2">
           {#if storage.installed.includes(data.currentData.id)}
             {#if storage.active[data.currentData.id]}
@@ -146,11 +148,9 @@
             </button>
           {/if}
         </div>
-        <div
-          class="flex flex-wrap gap-4 min-[1192px]:ml-auto mt-2 min-[1192px]:mt-0"
-        >
+        <div class="flex gap-4 ml-auto overflow-scroll">
           <div
-            class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border"
+            class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap"
           >
             <Clock size="20" />
             <span
@@ -162,7 +162,7 @@
             >
           </div>
           <div
-            class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border"
+            class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap"
           >
             <ChartPie size="20" />
             <span
@@ -174,29 +174,54 @@
             >
           </div>
           <div
-            class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border"
+            class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap"
           >
             <User size="20" />
             <span>{data.currentData.developer}</span>
           </div>
           {#if data.currentData.version}
             <div
-              class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border"
+              class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap"
             >
               <Tag size="20" />
               <span>{data.currentData.version}</span>
             </div>
           {/if}
-          {#if data.currentData.controllerSupport || data.currentData.gamepadControls}
+          <!--
+          {#if data.currentData.controls || data.currentData.controllerSupport || data.currentData.gamepadControls}
             <div
-              class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border"
+              class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap"
             >
-              <Gamepad2 size="20" />
-              <span
-                >Controller{data.currentData.controllerSupport
-                  ? " (Native)"
-                  : ""}</span
-              >
+              <div class="flex gap-2">
+                {#if data.currentData.controls}
+                  <Keyboard size="20" />
+                {/if}
+                {#if data.currentData.controllerSupport || data.currentData.gamepadControls}
+                  <Gamepad2 size="20" />
+                {/if}
+              </div>
+              {#if data.currentData.controls}
+                <span>Keyboard</span>
+              {/if}
+              {#if data.currentData.controls && (data.currentData.controllerSupport || data.currentData.gamepadControls)}
+                <span>+</span>
+              {/if}
+              {#if data.currentData.controllerSupport || data.currentData.gamepadControls}
+                <span
+                  >Controller{data.currentData.controllerSupport
+                    ? " (Native)"
+                    : ""}</span
+                >
+              {/if}
+            </div>
+          {/if}
+           -->
+          {#if data.currentData.cloudSave}
+            <div
+              class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap"
+            >
+              <Cloud size="20" />
+              <span>Cloud Save</span>
             </div>
           {/if}
         </div>
@@ -205,31 +230,5 @@
   </div>
   <div class="sm:w-2/3 ml-8">
     <p>{data.currentData.description}</p>
-    <!--
-    {#if data.currentData.controls.length > 0}
-      <h2 class="mt-4 mb-2 text-xl">Controls</h2>
-      {#each data.currentData.controls as control}
-        <div class="flex gap-2">
-          {control.action}: {#each control.keys as keys}
-            {#if keybinds[keys.key]}
-              <button
-                class="flex items-center justify-center my-0.5 text-xs rounded-md bg-surface overflow-hidden border border-border"
-              >
-                <div class="px-1.5 py-0.5 bg-primary text-text-inverse">
-                  {keyIcon(keybinds[keys.key].key)}
-                </div>
-                <div class="px-1.5 py-0.5">{keyIcon(keys.key)}</div>
-              </button>
-            {:else}
-              <button
-                class="flex items-center justify-center px-1.5 py-0.5 my-0.5 text-xs rounded-md bg-surface border border-border"
-                >{keyIcon(keys.key)}</button
-              >
-            {/if}
-          {/each}
-        </div>
-      {/each}
-    {/if}
-    -->
   </div>
 </div>

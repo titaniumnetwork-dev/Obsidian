@@ -6,9 +6,12 @@
     Palette,
     PanelLeft,
     SlidersHorizontal,
+    User,
   } from "@lucide/svelte";
+
   const tabs = [
-    { name: "General", href: "/settings", icon: SlidersHorizontal },
+    { name: "Account", href: "/settings/account", icon: User },
+    { name: "General", href: "/settings/general", icon: SlidersHorizontal },
     { name: "Appearance", href: "/settings/appearance", icon: Palette },
     { name: "Sidebar", href: "/settings/sidebar", icon: PanelLeft },
     { name: "Cloaking", href: "/settings/cloaking", icon: HatGlasses },
@@ -19,19 +22,21 @@
 
 <Head title="Settings" />
 
-<div class="settings p-4 pt-0">
-  <div class="flex gap-4 relative z-10">
+<div class="flex gap-4 p-4 pt-0 mx-auto w-full">
+  <nav class="flex flex-col gap-4 w-56 shrink-0">
     {#each tabs as tab}
       {@const isActive = $page.url.pathname === tab.href}
       <a
         href={tab.href}
         data-active={isActive}
-        class="px-4 py-2 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border transition-colors data-[active=true]:bg-surface flex gap-2 items-center"
+        class="px-4 py-2 transition-colors bg-transparent data-[active=true]:bg-surface rounded-xl flex gap-2 items-center border border-border"
       >
         <tab.icon size="20" />
         <span>{tab.name}</span>
       </a>
     {/each}
-  </div>
-  {@render children()}
+  </nav>
+  <main class="flex-1 min-w-0">
+    {@render children()}
+  </main>
 </div>

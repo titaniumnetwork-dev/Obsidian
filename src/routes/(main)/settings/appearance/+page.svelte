@@ -100,7 +100,7 @@
   const customSyntaxTheme = syntaxHighlighting(highlighting);
 </script>
 
-<p class="mt-4">Theme</p>
+<p>Theme</p>
 <p class="text-sm text-text-placeholder mb-4">Change the look of Obsidian</p>
 <div class="flex flex-wrap gap-4">
   {#each themes as theme}

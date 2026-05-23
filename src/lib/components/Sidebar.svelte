@@ -87,7 +87,7 @@
         {#each favoritesLibrary as item (item.id)}
           <a
             href={"/library/" + item.id}
-            style={"--icon: url('/cdn/assets/" + item.id + "/icon.webp')"}
+            style={"--icon: url('/cdn/assets/assets/" + item.id + "/icon.webp')"}
             data-current={$page.url.pathname === "/library/" + item.id}
             data-active={storage.active[item.id] !== undefined}
             class="group border border-border cursor-pointer w-full h-14 rounded-2xl flex items-center justify-center data-[current=false]:hover:bg-surface data-[current=true]:bg-surface transition-colors"
@@ -115,7 +115,7 @@
             loading="lazy"
             alt={item.title + " logo"}
             class="h-10 w-10 rounded-xl"
-            src={"/cdn/assets/" + item.id + "/icon.webp"}
+            src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
           />
           <span
             class="group-data-[style=hidden]:opacity-0 group-data-[style=compact]:opacity-0 transition-opacity overflow-hidden text-ellipsis"

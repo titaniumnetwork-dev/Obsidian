@@ -11,7 +11,7 @@
 <Head title={$page.status === 404 ? "Page Not Found" : "An Error Occurred"} />
 
 <Sidebar />
-<div class="w-full overflow-auto flex flex-col scrollbar">
+<div class="w-full overflow-auto flex flex-col">
   <Navbar />
   <div class="flex flex-col gap-4 items-center my-8">
     <ErrorGame />

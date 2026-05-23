@@ -1,7 +1,10 @@
 <script>
   import { page } from "$app/stores";
+  import { User } from "@lucide/svelte";
   import { cubicInOut } from "svelte/easing";
   import { crossfade } from "svelte/transition";
+
+  let user = $derived($page.data.user);
 
   const [send, receive] = crossfade({
     duration: 300,
@@ -12,7 +15,7 @@
     { name: "Home", href: "/" },
     { name: "Library", href: "/library" },
     { name: "Store", href: "/store" },
-    { name: "Settings", href: "/settings" },
+    { name: "Settings", href: "/settings/account" },
   ];
 </script>
 
@@ -44,14 +47,23 @@
       </a>
     {/each}
   </div>
-  <!--
   <a
-    data-active-settings={$page.url.pathname === "/account"}
+    data-active-settings={$page.url.pathname.startsWith("/account")}
     href="/account"
     aria-label="Account"
-    class="h-14 w-14 data-[active-settings=false]:bg-secondary data-[active-settings=true]:bg-surface rounded-full cursor-pointer z-10 flex items-center justify-center border border-border"
+    class={"h-14 data-[active-settings=false]:bg-secondary data-[active-settings=true]:bg-surface cursor-pointer z-10 flex items-center justify-center border border-border" +
+      (user ? " rounded-full px-4 gap-2" : " w-14 rounded-full")}
   >
-    <User />
+    {#if user}
+      <img
+        class="rounded-full w-8 h-8 border border-border"
+        src={"/cdn/avatars/" + user.avatar_url}
+        alt="Profile"
+        draggable="false"
+      />
+      <p>@{user.name}</p>
+    {:else}
+      <User />
+    {/if}
   </a>
--->
 </div>

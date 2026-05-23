@@ -1,13 +1,27 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "games",
-  "compatibility_date": "2026-04-14",
+  "compatibility_date": "2026-05-20",
+  "compatibility_flags": ["nodejs-compat"],
   "pages_build_output_dir": ".svelte-kit/cloudflare",
   "r2_buckets": [
     {
       "binding": "GAMES",
       "bucket_name": "games",
-      "remote": true
+      "remote": false
+    },
+    {
+      "binding": "AVATARS",
+      "bucket_name": "avatars",
+      "remote": false
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "USERS",
+      "database_name": "users",
+      "database_id": "f446421a-2ac5-4f32-a0b4-fb7a07005f46",
+      "remote": false 
     }
   ]
 }
