@@ -14,6 +14,7 @@
   let { data } = $props();
   let isUploading = $state(false);
   let formError = $state("");
+  let confirmDelete = $state(false);
 
   async function formatImage(file, sizeWidth, sizeHeight) {
     if (!file) return null;
@@ -133,6 +134,21 @@
         <Settings size="20" />
         <p>Settings</p>
       </a>
+      <form method="POST" action="?/delete" use:enhance>
+        <button
+          type="submit"
+          onclick={(e) => {
+            if (!confirmDelete) {
+              e.preventDefault();
+              confirmDelete = true;
+            }
+          }}
+          class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer transition-colors"
+        >
+          <Trash2 size="20" />
+          <span>{confirmDelete ? "Are you sure?" : "Delete Account"}</span>
+        </button>
+      </form>
       <form
         use:enhance={async () => {
           await storage.flushSync();
@@ -154,16 +170,6 @@
         >
           <LogOut size="20" />
           <span>Log Out</span>
-        </button>
-      </form>
-
-      <form method="POST" action="?/delete" use:enhance>
-        <button
-          type="submit"
-          class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer"
-        >
-          <Trash2 size="20" />
-          <span>Delete Account</span>
         </button>
       </form>
     </div>
