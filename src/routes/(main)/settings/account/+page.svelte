@@ -2,6 +2,8 @@
   import { enhance } from "$app/forms";
   import {
     AtSign,
+    Eye,
+    EyeClosed,
     KeyRound,
     Loader2,
     Trash2,
@@ -18,6 +20,8 @@
   let editPassword = $state("");
   let isUploading = $state(false);
   let formError = $state("");
+  let showOldPassword = $state(false);
+  let showEditPassword = $state(false);
 
   $effect(() => {
     if (data?.user) {
@@ -267,12 +271,25 @@
           <input
             placeholder="Current Password"
             name="oldPassword"
-            type="password"
+            type={showOldPassword ? "text" : "password"}
             bind:value={oldPassword}
             required
             class="w-full h-full pl-3 pr-4 bg-transparent outline-none placeholder:text-text-placeholder text-sm"
           />
           {#if oldPassword.length > 0}
+            <button
+              tabindex="-1"
+              type="button"
+              aria-label="Toggle Visibility"
+              class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+              onclick={() => (showOldPassword = !showOldPassword)}
+            >
+              {#if showOldPassword}
+                <Eye size="20" />
+              {:else}
+                <EyeClosed size="20" />
+              {/if}
+            </button>
             <button
               tabindex="-1"
               type="button"
@@ -295,12 +312,25 @@
           <input
             placeholder="New Password"
             name="newPassword"
-            type="password"
+            type={showEditPassword ? "text" : "password"}
             bind:value={editPassword}
             required
             class="w-full h-full pl-3 pr-4 bg-transparent outline-none placeholder:text-text-placeholder text-sm"
           />
           {#if editPassword.length > 0}
+            <button
+              tabindex="-1"
+              type="button"
+              aria-label="Toggle Visibility"
+              class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+              onclick={() => (showEditPassword = !showEditPassword)}
+            >
+              {#if showEditPassword}
+                <Eye size="20" />
+              {:else}
+                <EyeClosed size="20" />
+              {/if}
+            </button>
             <button
               tabindex="-1"
               type="button"

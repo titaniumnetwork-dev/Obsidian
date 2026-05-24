@@ -67,6 +67,7 @@ export const actions = {
     const data = await request.formData();
     const email = data.get("email");
     const password = data.get("password");
+    const confirmPassword = data.get("confirmPassword");
     const name = data.get("username");
     const clientStorage = data.get("local_storage");
     const clientData = JSON.parse(clientStorage);
@@ -75,9 +76,12 @@ export const actions = {
       storageToSave = JSON.stringify({ ...defaultStorage, ...clientData });
     }
 
-    if (!email || !password || !name || !clientStorage)
+    if (!email || !password || !confirmPassword || !name || !clientStorage)
       return fail(400, { error: "Missing fields" });
 
+    if (password !== confirmPassword) {
+      return fail(400, { error: "Passwords do not match" });
+    }
     try {
       const existing = await platform?.env.USERS.prepare(
         "SELECT email, name FROM users WHERE email = ? OR name = ?",

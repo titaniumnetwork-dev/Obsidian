@@ -2,13 +2,16 @@
   import { enhance } from "$app/forms";
   import Head from "$lib/components/Head.svelte";
   import { storage } from "$lib/storage.svelte.js";
-  import { AtSign, KeyRound, User, X } from "@lucide/svelte";
+  import { AtSign, Eye, EyeClosed, KeyRound, User, X } from "@lucide/svelte";
 
   let { form } = $props();
 
   let username = $state("");
   let email = $state("");
   let password = $state("");
+  let confirmPassword = $state("");
+  let showPassword = $state(false);
+  let showConfirmPassword = $state(false);
 
   $effect(() => {
     if (form?.username) {
@@ -85,7 +88,6 @@
           </button>
         {/if}
       </div>
-
       <div
         class="focus-within:bg-surface bg-secondary transition-colors border border-border rounded-xl items-center flex w-full h-10"
       >
@@ -110,20 +112,32 @@
           </button>
         {/if}
       </div>
-
       <div
         class="focus-within:bg-surface bg-secondary transition-colors border border-border rounded-xl items-center flex w-full h-10"
       >
         <KeyRound size="20" class="ml-3 text-text-placeholder shrink-0" />
         <input
           name="password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           placeholder="Password"
           bind:value={password}
           required
           class="w-full h-full pl-2 pr-4 bg-transparent outline-none placeholder:text-text-placeholder"
         />
         {#if password.length > 0}
+          <button
+            tabindex="-1"
+            type="button"
+            aria-label="Toggle Visibility"
+            class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+            onclick={() => (showPassword = !showPassword)}
+          >
+            {#if showPassword}
+              <Eye size="20" />
+            {:else}
+              <EyeClosed size="20" />
+            {/if}
+          </button>
           <button
             tabindex="-1"
             type="button"
@@ -135,13 +149,48 @@
           </button>
         {/if}
       </div>
-
+      <div
+        class="focus-within:bg-surface bg-secondary transition-colors border border-border rounded-xl items-center flex w-full h-10"
+      >
+        <KeyRound size="20" class="ml-3 text-text-placeholder shrink-0" />
+        <input
+          name="confirmPassword"
+          type={showConfirmPassword ? "text" : "password"}
+          placeholder="Confirm Password"
+          bind:value={confirmPassword}
+          required
+          class="w-full h-full pl-2 pr-4 bg-transparent outline-none placeholder:text-text-placeholder"
+        />
+        {#if confirmPassword.length > 0}
+          <button
+            tabindex="-1"
+            type="button"
+            aria-label="Toggle Visibility"
+            class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+            onclick={() => (showConfirmPassword = !showConfirmPassword)}
+          >
+            {#if showConfirmPassword}
+              <Eye size="20" />
+            {:else}
+              <EyeClosed size="20" />
+            {/if}
+          </button>
+          <button
+            tabindex="-1"
+            type="button"
+            aria-label="Clear Password"
+            class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+            onclick={() => (confirmPassword = "")}
+          >
+            <X size="20" />
+          </button>
+        {/if}
+      </div>
       <input
         type="hidden"
         name="local_storage"
         value={JSON.stringify(storage.exportData())}
       />
-
       <p class="text-sm text-text-placeholder">
         By signing up, you agree to our <a
           href="/privacy"

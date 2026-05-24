@@ -2,12 +2,13 @@
   import { enhance } from "$app/forms";
   import Head from "$lib/components/Head.svelte";
   import { storage } from "$lib/storage.svelte.js";
-  import { AtSign, KeyRound, X } from "@lucide/svelte";
+  import { AtSign, Eye, EyeClosed, KeyRound, X } from "@lucide/svelte";
 
   let { form } = $props();
 
   let email = $state("");
   let password = $state("");
+  let showPassword = $state(false);
 
   $effect(() => {
     if (form?.email) {
@@ -72,13 +73,26 @@
         <KeyRound size="20" class="ml-3 text-text-placeholder shrink-0" />
         <input
           name="password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           placeholder="Password"
           bind:value={password}
           required
           class="w-full h-full pl-2 pr-4 bg-transparent outline-none placeholder:text-text-placeholder"
         />
         {#if password.length > 0}
+          <button
+            tabindex="-1"
+            type="button"
+            aria-label="Toggle Visibility"
+            class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+            onclick={() => (showPassword = !showPassword)}
+          >
+            {#if showPassword}
+              <Eye size="20" />
+            {:else}
+              <EyeClosed size="20" />
+            {/if}
+          </button>
           <button
             tabindex="-1"
             type="button"
