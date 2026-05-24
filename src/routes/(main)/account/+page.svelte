@@ -144,7 +144,11 @@
       <div>
         <p>Stats</p>
         <p class="text-sm text-text-placeholder">
-          Information about your activity
+          Joined on {new Intl.DateTimeFormat("en-US", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          }).format(new Date(data.user.join_date))}
         </p>
       </div>
       <div class="flex gap-4">

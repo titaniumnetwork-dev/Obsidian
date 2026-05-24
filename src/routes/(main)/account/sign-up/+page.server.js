@@ -108,7 +108,7 @@ export const actions = {
           httpMetadata: { contentType: "image/svg+xml" },
         }),
         platform.env.USERS.prepare(
-          "INSERT INTO users (id, email, password_hash, name, storage, avatar_url) VALUES (?, ?, ?, ?, ?, ?)",
+          "INSERT INTO users (id, email, password_hash, name, storage, avatar_url, join_date) VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)",
         )
           .bind(userId, email, hash, name, storageToSave, avatarFilename)
           .run(),
