@@ -49,6 +49,16 @@
       ]
     },
     {
+      "name": "Emulation",
+      "url": "/emulation",
+      "icons": [
+        {
+          "src": "/assets/emulation-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
       "name": "Settings",
       "url": "/settings",
       "icons": [

@@ -24,11 +24,11 @@ export function formatPlaytime(time) {
   const seconds = totalSec % 60;
 
   if (hours > 0) {
-    return `${hours} hour${hours === 1 ? "" : "s"}`;
+    return `${hours} Hour${hours === 1 ? "" : "s"}`;
   }
   if (minutes > 0) {
-    return `${minutes} minute${minutes === 1 ? "" : "s"}`;
+    return `${minutes} Minute${minutes === 1 ? "" : "s"}`;
   }
 
-  return `${seconds} second${seconds === 1 ? "" : "s"}`;
+  return `${seconds} Second${seconds === 1 ? "" : "s"}`;
 }

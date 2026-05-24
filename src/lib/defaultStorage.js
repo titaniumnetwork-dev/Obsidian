@@ -21,5 +21,6 @@ export const defaultStorage = {
     closePrevention: false,
     customCSS: "",
     cards: "default",
+    overlay: "default"
   },
 };

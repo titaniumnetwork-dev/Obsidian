@@ -170,7 +170,7 @@
                 ? formatPlaytime(
                     storage.playTime[data.currentData.id]?.playTime,
                   )
-                : "No Play Time"}</span
+                : "No Playtime"}</span
             >
           </div>
           <div

@@ -1,4 +1,4 @@
-import { fail } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 import bcrypt from "bcryptjs";
 
 export const actions = {
@@ -171,5 +171,15 @@ export const actions = {
     )
       .bind(filename, locals.user.id)
       .run();
+  },
+  delete: async ({ cookies, platform }) => {
+    const sessionId = cookies.get("session_id");
+
+    await platform?.env.USERS.prepare("DELETE FROM users WHERE id = ?")
+      .bind(sessionId)
+      .run();
+
+    cookies.delete("session_id", { path: "/" });
+    throw redirect(303, "/");
   },
 };

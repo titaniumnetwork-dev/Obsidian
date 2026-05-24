@@ -15,7 +15,8 @@
     { name: "Home", href: "/" },
     { name: "Library", href: "/library" },
     { name: "Store", href: "/store" },
-    { name: "Settings", href: "/settings/account" },
+    { name: "Emulation", href: "/emulation" },
+    { name: "Settings", href: "/settings" },
   ];
 </script>
 

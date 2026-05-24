@@ -11,16 +11,6 @@ export const load = async ({ locals }) => {
 };
 
 export const actions = {
-  delete: async ({ cookies, platform }) => {
-    const sessionId = cookies.get("session_id");
-
-    await platform?.env.USERS.prepare("DELETE FROM users WHERE id = ?")
-      .bind(sessionId)
-      .run();
-
-    cookies.delete("session_id", { path: "/" });
-    throw redirect(303, "/");
-  },
   uploadAvatar: async ({ request, platform, locals }) => {
     const formData = await request.formData();
     const file = formData.get("avatar");

@@ -7,7 +7,6 @@
 <a
   aria-label={data.title}
   href={link + data.id}
-  style={"--cover: url('/cdn/assets/assets/" + data.id + "/cover.webp')"}
   data-cards-style={storage.settings.cards}
   class="outline-none group cursor-pointer w-full data-[cards-style=default]:aspect-2/3 data-[cards-style=square]:aspect-square bg-cover bg-center flex flex-col gap-4"
 >

@@ -1,14 +1,15 @@
 <script>
   import { enhance } from "$app/forms";
   import Head from "$lib/components/Head.svelte";
+  import { formatPlaytime } from "$lib/formatUtils.js";
   import { storage } from "$lib/storage.svelte.js";
   import {
     LayoutGrid,
     Loader2,
     LogOut,
+    PieChart,
+    Play,
     Settings,
-    Star,
-    Trash2,
     Upload,
     User,
   } from "@lucide/svelte";
@@ -16,7 +17,6 @@
   let { data } = $props();
   let isUploading = $state(false);
   let formError = $state("");
-  let confirmDelete = $state(false);
 
   async function formatImage(file, sizeWidth, sizeHeight) {
     if (!file) return null;
@@ -56,7 +56,7 @@
 
 <div class="flex flex-col items-center justify-center px-4 my-16">
   <div
-    class="w-full max-w-xl p-8 bg-secondary border border-surface rounded-2xl flex flex-col gap-8"
+    class="w-full max-w-lg p-8 bg-secondary border border-surface rounded-2xl flex flex-col gap-8"
   >
     <div class="flex flex-col items-center gap-4 text-center">
       <form
@@ -141,23 +141,37 @@
       {/if}
     </div>
     <div class="flex flex-col gap-2">
-      <p>Stats</p>
+      <div>
+        <p>Stats</p>
+        <p class="text-sm text-text-placeholder">
+          Information about your activity
+        </p>
+      </div>
       <div class="flex gap-4">
         <div
-          class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap w-fit"
+          class="flex justify-center items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap w-full"
         >
           <LayoutGrid size="20" />
           <span>{storage.installed.length + " Installed"}</span>
         </div>
         <div
-          class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap w-fit"
+          class="flex justify-center items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap w-full"
         >
-          <Star size="20" />
+          <Play size="20" />
+          <span>{Object.keys(storage.playTime).length + " Played"}</span>
+        </div>
+        <div
+          class="flex justify-center items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap w-full"
+        >
+          <PieChart size="20" />
           <span
-            >{storage.favorites.length +
-              (storage.favorites.length === 1
-                ? " Favorite"
-                : " Favorites")}</span
+            >{Object.keys(storage.playTime).length
+              ? formatPlaytime(
+                  Object.entries(storage.playTime)
+                    .map((item) => item[1].playTime)
+                    .reduce((acc, curr) => acc + curr, 0),
+                )
+              : "No Playtime"}</span
           >
         </div>
       </div>
@@ -165,10 +179,10 @@
     <div class="flex flex-col gap-2">
       <div>
         <p>Cloud Saves</p>
-        <p class="text-sm text-text-placeholder">25MB of 1GB Used</p>
+        <p class="text-sm text-text-placeholder">25 MB / 3180 MB Used</p>
       </div>
       <progress
-        class="h-6 w-sm [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-value]:rounded-full [&::-webkit-progress-bar]:bg-surface [&::-webkit-progress-value]:bg-primary [&::-webkit-progress-bar]:border [&::-webkit-progress-bar]:border-border"
+        class="h-4 w-full [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-value]:rounded-full [&::-webkit-progress-bar]:bg-surface [&::-webkit-progress-value]:bg-primary [&::-webkit-progress-bar]:border [&::-webkit-progress-bar]:border-border"
         max="100"
         value="25"
       ></progress>
@@ -181,21 +195,6 @@
         <Settings size="20" />
         <p>Settings</p>
       </a>
-      <form method="POST" action="?/delete" use:enhance>
-        <button
-          type="submit"
-          onclick={(e) => {
-            if (!confirmDelete) {
-              e.preventDefault();
-              confirmDelete = true;
-            }
-          }}
-          class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer transition-colors"
-        >
-          <Trash2 size="20" />
-          <span>{confirmDelete ? "Are you sure?" : "Delete Account"}</span>
-        </button>
-      </form>
       <form
         use:enhance={async () => {
           await storage.flushSync();

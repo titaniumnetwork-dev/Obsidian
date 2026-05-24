@@ -280,6 +280,26 @@ html[data-theme="Snail"] {
   );
 }
 
+html[data-theme="Lime"] {
+  --theme-background: var(--color-neutral-900);
+  --theme-secondary: var(--color-neutral-800);
+  --theme-surface: color-mix(
+    in oklab,
+    var(--color-white) 5%,
+    var(--color-secondary)
+  );
+  --theme-primary: var(--color-lime-200);
+  --theme-text: var(--color-white);
+  --theme-text-placeholder: var(--color-neutral-400);
+  --theme-text-inverse: var(--color-black);
+  --theme-border: color-mix(in oklab, var(--color-lime-100) 10%, transparent);
+  --theme-border-primary: color-mix(
+    in oklab,
+    var(--color-lime-100) 15%,
+    transparent
+  );
+}
+
 @theme inline {
   --color-background: var(--theme-background);
   --color-secondary: var(--theme-secondary);

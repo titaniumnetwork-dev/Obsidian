@@ -82,4 +82,9 @@ export const themes = [
     primary: "#ff637f",
     hidden: true,
   },
+  {
+    name: "Lime",
+    primary: "#d8fa99",
+    hidden: true,
+  }
 ];

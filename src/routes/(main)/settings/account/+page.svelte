@@ -1,6 +1,14 @@
 <script>
   import { enhance } from "$app/forms";
-  import { AtSign, KeyRound, Loader2, Upload, User, X } from "@lucide/svelte";
+  import {
+    AtSign,
+    KeyRound,
+    Loader2,
+    Trash2,
+    Upload,
+    User,
+    X,
+  } from "@lucide/svelte";
 
   let { data, form } = $props();
 
@@ -44,6 +52,8 @@
       }, "image/webp");
     });
   }
+
+  let confirmDelete = $state(false);
 </script>
 
 {#if data.user}
@@ -320,6 +330,33 @@
       {/if}
     </form>
   </div>
+  <form
+    class="flex flex-col gap-2 mt-4"
+    method="POST"
+    action="?/delete"
+    use:enhance
+  >
+    <div>
+      <p>Delete Account</p>
+      <p class="text-sm text-text-placeholder mb-2">
+        Permanently delete your account
+      </p>
+    </div>
+
+    <button
+      type="submit"
+      onclick={(e) => {
+        if (!confirmDelete) {
+          e.preventDefault();
+          confirmDelete = true;
+        }
+      }}
+      class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer transition-colors text-sm w-fit"
+    >
+      <Trash2 size="16" />
+      <span>{confirmDelete ? "Are you sure?" : "Delete Account"}</span>
+    </button>
+  </form>
 {:else}
   <p>Obsidian Account</p>
   <p class="text-sm text-text-placeholder mb-4">

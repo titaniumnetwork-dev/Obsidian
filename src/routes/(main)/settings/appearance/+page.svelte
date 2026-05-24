@@ -122,7 +122,7 @@
 <p class="mt-4">Custom CSS</p>
 <p class="text-sm text-text-placeholder mb-4">Ultimate customizability</p>
 <div
-  class="editor-container w-150 rounded-2xl overflow-hidden border border-border bg-secondary"
+  class="editor-container max-w-xl rounded-2xl overflow-hidden border border-border bg-secondary"
 >
   <CodeMirror
     theme={[customTheme, customSyntaxTheme]}

@@ -49,7 +49,7 @@
         );
       case "Emulation":
         return (
-          "/emulation/cdn/assets/emulation/" +
+          "/emu/cdn/assets/emulation/" +
           data.currentData.id +
           "/" +
           (data.currentData.version || data.currentData.internalVersion) +

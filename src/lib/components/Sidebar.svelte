@@ -107,7 +107,7 @@
       <a
         href={"/library/" + item.id}
         data-current={$page.url.pathname === "/library/" + item.id}
-        class="cursor-pointer h-14 w-full rounded-2xl text-sm flex items-center justify-between p-2 gap-2 data-[current=false]:hover:bg-surface transition-colors data-[current=true]:bg-surface whitespace-nowrap border border-transparent data-[active=true]:border data-[active=true]:border-border"
+        class="cursor-pointer h-14 w-full rounded-2xl text-sm flex items-center justify-between p-2 gap-2 data-[current=false]:hover:bg-surface transition-colors data-[current=true]:bg-surface whitespace-nowrap border border-transparent data-[current=true]:border data-[current=true]:border-border"
       >
         <div class="flex gap-2 items-center overflow-hidden">
           <img
