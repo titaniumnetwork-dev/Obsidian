@@ -54,7 +54,7 @@
     class="w-full max-w-md p-8 bg-secondary border border-surface rounded-2xl flex flex-col gap-8"
   >
     <div class="flex flex-col gap-2 text-center">
-      <h1 class="text-3xl font-bold tracking-tight">Create Account</h1>
+      <h1 class="text-3xl font-bold">Create Account</h1>
       <p class="text-text-placeholder text-sm">
         Sign up with Obsidian to sync settings and game data
       </p>

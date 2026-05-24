@@ -133,7 +133,7 @@
         </label>
       </form>
       <div class="flex flex-col">
-        <h1 class="text-2xl font-bold tracking-tight">@{data.user.name}</h1>
+        <h1 class="text-2xl font-bold">@{data.user.name}</h1>
         <p class="text-text-placeholder">{data.user.email}</p>
       </div>
       {#if formError}

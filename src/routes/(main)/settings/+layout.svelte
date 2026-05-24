@@ -29,7 +29,7 @@
       <a
         href={tab.href}
         data-active={isActive}
-        class="px-4 py-2 transition-colors bg-transparent data-[active=true]:bg-surface rounded-xl flex gap-2 items-center border border-border"
+        class="px-4 py-2 transition-colors bg-transparent data-[active=true]:bg-surface rounded-xl flex gap-2 items-center border border-border text-sm"
       >
         <tab.icon size="20" />
         <span>{tab.name}</span>

@@ -23,7 +23,7 @@
     class="w-full max-w-md p-8 bg-secondary border border-surface rounded-2xl flex flex-col gap-8"
   >
     <div class="flex flex-col gap-2 text-center">
-      <h1 class="text-3xl font-bold tracking-tight">Welcome Back</h1>
+      <h1 class="text-3xl font-bold">Welcome Back</h1>
       <p class="text-text-placeholder text-sm">
         Log in to sync settings and game data
       </p>
