@@ -1,5 +1,6 @@
 <script>
   import { goto } from "$app/navigation";
+  import { collections } from "$lib/collections";
   import { formatLastPlayed, formatPlaytime } from "$lib/formatUtils";
   import { storage } from "$lib/storage.svelte.js";
   import {
@@ -8,8 +9,6 @@
     Cloud,
     Download,
     Ellipsis,
-    Gamepad2,
-    Keyboard,
     Pause,
     Play,
     Share,
@@ -25,11 +24,20 @@
   let optionsMenu = $state();
 
   const keybinds = $derived(storage.keybinds[data.currentData.id] || {});
+
+  const collectionData = $derived(
+    data.currentData.collection &&
+      storage.catalog.filter((i) =>
+        collections[data.currentData.collection].items.includes(i.id),
+      ),
+  );
 </script>
 
 <div class="p-4 pt-0 flex flex-col gap-4 item">
   <div
-    style={"--hero: url('/cdn/assets/assets/" + data.currentData.id + "/hero.webp')"}
+    style={"--hero: url('/cdn/assets/assets/" +
+      data.currentData.id +
+      "/hero.webp')"}
     class="relative [background:linear-gradient(to_bottom,var(--color-overlay)_0%,var(--theme-background)_100%)_padding-box,var(--hero)center/cover_padding-box,var(--color-surface)] w-full h-112 flex flex-col items-start justify-between p-8 pb-4 gap-4 rounded-t-2xl border-x border-t border-transparent"
   >
     <div
@@ -201,5 +209,29 @@
   </div>
   <div class="sm:w-2/3 ml-8">
     <p>{data.currentData.description}</p>
+    {#if data.currentData.collection}
+      <h2 class="my-4 text-xl">
+        {collections[data.currentData.collection].title} Collection
+      </h2>
+      <div class="flex gap-4">
+        {#each collectionData as item (item.id)}
+          {@const itemInstalled = storage.installed.includes(item.id)}
+          <a
+            href={itemInstalled ? "/library/" + item.id : "/store/" + item.id}
+            class={"cursor-pointer h-14 rounded-2xl text-sm flex items-center justify-between p-2 gap-2 whitespace-nowrap border border-border" + (itemInstalled ? " bg-surface" : "")}
+          >
+            <div class="flex gap-2 items-center overflow-hidden">
+              <img
+                draggable="false"
+                alt={item.title + " logo"}
+                class="h-10 w-10 rounded-xl"
+                src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
+              />
+              <span>{item.title}</span>
+            </div>
+          </a>
+        {/each}
+      </div>
+    {/if}
   </div>
 </div>
