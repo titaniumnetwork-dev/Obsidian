@@ -3,6 +3,9 @@ import { tags as catalogTagOrder } from "$lib/tags";
 
 class StorageManager {
   #syncTimer = null;
+  #cloudSyncTimers = new Map();
+  cloudUsedBytes = $state(0);
+  cloudLimitBytes = $state(5 * 1024 * 1024);
   tabID = crypto.randomUUID();
   active = $state({});
   installed = $state([]);
@@ -191,6 +194,27 @@ class StorageManager {
       }
     } catch (e) {
       console.error("Failed to fetch server storage", e);
+    }
+
+    try {
+      const saveRes = await fetch("/api/cloud-saves");
+      if (saveRes.ok) {
+        const saveData = await saveRes.json();
+
+        this.cloudUsedBytes = saveData.used || 0;
+        this.cloudLimitBytes = saveData.limit;
+        if (saveData.saves) {
+          for (const saveMeta of saveData.saves) {
+            const fileRes = await fetch(`/api/cloud-save/${saveMeta.save_key}`);
+            if (fileRes.ok) {
+              const fileString = await fileRes.text();
+              localStorage.setItem(saveMeta.save_key, fileString);
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.error("Failed to fetch cloud saves", e);
     }
 
     const storedTheme = localStorage.getItem("theme");
@@ -530,6 +554,35 @@ class StorageManager {
         });
       }
     }
+  }
+
+  updateCloudSave(key, value) {
+    if (this.#cloudSyncTimers.has(key)) {
+      clearTimeout(this.#cloudSyncTimers.get(key));
+    }
+
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch("/api/cloud-saves", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ key, value }),
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          this.cloudUsedBytes = data.newTotalSize;
+        } else if (res.status === 413) {
+          console.warn(`Storage quota exceeded for save: ${key}`);
+        }
+      } catch (e) {
+        console.error("Failed to sync game save to cloud", e);
+      }
+
+      this.#cloudSyncTimers.delete(key);
+    }, 2000);
+
+    this.#cloudSyncTimers.set(key, timer);
   }
 }
 

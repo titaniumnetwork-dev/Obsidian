@@ -21,7 +21,7 @@
 </script>
 
 <div
-  class="nav flex items-center p-4 justify-between sticky top-0 z-10 bg-background"
+  class="nav flex items-center p-4 justify-between sticky top-0 z-10 bg-background gap-4"
 >
   <div
     class="slider-nav relative flex p-2 gap-2 bg-secondary rounded-full z-10 border border-surface"

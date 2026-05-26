@@ -1,5 +1,6 @@
 export const carousel = [
   "52670c5c-f85c-44b2-8306-8d6381466199",
+  "440c5a5c-4e43-4404-90dd-67d0c877fcf3",
   "4466a2be-dd7f-4170-82ed-548d9f31fc4f",
   "db2fd199-a687-4055-818b-6aac58f4f070",
 ];

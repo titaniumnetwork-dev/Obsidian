@@ -45,10 +45,19 @@
     });
   }
 
-  let favoritesData = $derived(
-    storage.favorites
-      .map((id) => storage.library.find((item) => item.id === id))
-      .filter(Boolean),
+  function formatStorage(bytes) {
+    if (bytes === 0) return "0";
+    if (bytes < 1048576) {
+      return `${(bytes / 1024).toFixed(2)} KB`;
+    }
+    return `${(bytes / 1048576).toFixed(2)} MB`;
+  }
+  let displayUsed = $derived(formatStorage(storage.cloudUsedBytes));
+  let displayLimit = $derived(
+    `${(storage.cloudLimitBytes / 1048576).toFixed(2)} MB`,
+  );
+  let storagePercentage = $derived(
+    (storage.cloudUsedBytes / storage.cloudLimitBytes) * 100,
   );
 </script>
 
@@ -183,13 +192,24 @@
     <div class="flex flex-col gap-2">
       <div>
         <p>Cloud Saves</p>
-        <p class="text-sm text-text-placeholder">25 MB / 3180 MB Used</p>
+        <p class="text-sm text-text-placeholder">
+          {#if storage.cloudUsedBytes === 0}
+            Empty
+          {:else}
+            {displayUsed} / {displayLimit}
+          {/if}
+        </p>
       </div>
       <progress
-        class="h-4 w-full [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-value]:rounded-full [&::-webkit-progress-bar]:bg-surface [&::-webkit-progress-value]:bg-primary [&::-webkit-progress-bar]:border [&::-webkit-progress-bar]:border-border"
-        max="100"
-        value="25"
+        class="appearance-none [&::-webkit-progress-bar]:overflow-hidden h-4 w-full [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-value]:rounded-full [&::-webkit-progress-bar]:bg-surface [&::-webkit-progress-value]:bg-primary [&::-webkit-progress-bar]:border [&::-webkit-progress-bar]:border-border [&::-webkit-progress-value]:transition-[width]"
+        max={storage.cloudLimitBytes}
+        value={storage.cloudUsedBytes}
       ></progress>
+      {#if storagePercentage > 90}
+        <p class="text-xs text-text-placeholder">
+          You are running out of cloud space!
+        </p>
+      {/if}
     </div>
     <div class="flex gap-4 justify-center">
       <a

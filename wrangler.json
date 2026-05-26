@@ -13,6 +13,11 @@
       "binding": "AVATARS",
       "bucket_name": "avatars",
       "remote": true
+    },
+    {
+      "binding": "LOCALSTORAGE",
+      "bucket_name": "localstorage",
+      "remote": true
     }
   ],
   "d1_databases": [
@@ -20,6 +25,12 @@
       "binding": "USERS",
       "database_name": "users",
       "database_id": "f446421a-2ac5-4f32-a0b4-fb7a07005f46",
+      "remote": true
+    },
+    {
+      "binding": "USER_SAVES",
+      "database_name": "user_saves",
+      "database_id": "715e3129-d6b9-43e1-9d4b-d717f06b0f6f",
       "remote": true
     }
   ]

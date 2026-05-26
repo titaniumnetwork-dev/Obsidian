@@ -1,7 +1,8 @@
 <script>
   import { page } from "$app/stores";
+  import Logo from "$lib/assets/logo.svelte";
   import { storage } from "$lib/storage.svelte.js";
-  import { Activity, Search, X } from "@lucide/svelte";
+  import { Activity, Search, Sidebar, X } from "@lucide/svelte";
 
   let { data } = $props();
   let searchQuery = $state("");
@@ -47,14 +48,36 @@
       searchQuery = "";
     }
   });
+
+  function toggleSidebar() {
+    if (storage.settings.sidebarStyle === "default") {
+      storage.settings.sidebarStyle = "compact";
+    } else {
+      storage.settings.sidebarStyle = "default";
+    }
+  }
 </script>
 
 <div
   data-style={storage.settings.sidebarStyle}
   class="sidebar group bg-secondary h-[calc(100%-2rem)] data-[style=hidden]:hidden data-[style=compact]:w-22 data-[style=default]:w-64 transition-[width] flex flex-col overflow-y-scroll shrink-0 m-4 mr-0 rounded-2xl border border-surface"
 >
+  <div
+    class="bg-secondary sticky top-0 p-4 group-data-[style=default]:pl-6 flex justify-center"
+  >
+    <div
+      class="w-full flex gap-2 items-center transition-all overflow-hidden whitespace-nowrap group-data-[style=compact]:opacity-0 group-data-[style=compact]:max-w-0 group-data-[style=compact]:pointer-events-none"
+    >
+      <Logo class="h-6 w-6 shrink-0" />
+      <p>Obsidian</p>
+    </div>
+    <div class="transition-all w-full group-data-[style=compact]:w-0"></div>
+    <button onclick={toggleSidebar} class="cursor-pointer shrink-0">
+      <Sidebar size="20" />
+    </button>
+  </div>
   {#if storage.settings.sidebarStyle === "default" && storage.settings.sidebarSearch}
-    <div class="sidebar-search bg-secondary sticky top-0 p-4">
+    <div class="sidebar-search bg-secondary sticky top-14 p-4 pt-0">
       <div
         class="focus-within:bg-surface bg-secondary rounded-xl items-center shrink-0 flex border border-border"
       >
@@ -75,19 +98,15 @@
       </div>
     </div>
   {/if}
-  <div
-    class={"m-4 flex flex-col gap-2" +
-      (storage.settings.sidebarStyle === "default" &&
-      storage.settings.sidebarSearch
-        ? " mt-0"
-        : "")}
-  >
+  <div class="m-4 mt-0 flex flex-col gap-2">
     {#if storage.favorites.length > 0}
       <div class="grid grid-cols-[repeat(auto-fit,minmax(3.5rem,1fr))] gap-2">
         {#each favoritesLibrary as item (item.id)}
           <a
             href={"/library/" + item.id}
-            style={"--icon: url('/cdn/assets/assets/" + item.id + "/icon.webp')"}
+            style={"--icon: url('/cdn/assets/assets/" +
+              item.id +
+              "/icon.webp')"}
             data-current={$page.url.pathname === "/library/" + item.id}
             data-active={storage.active[item.id] !== undefined}
             class="group border border-border cursor-pointer w-full h-14 rounded-2xl flex items-center justify-center data-[current=false]:hover:bg-surface data-[current=true]:bg-surface transition-colors"

@@ -433,8 +433,7 @@
             })
             .join("");
           if (realStorageItem === e.key) {
-            console.log("Cloud save: ", realStorageItem, data.currentData.id);
-            //e.newValue
+            storage.updateCloudSave(realStorageItem, e.newValue);
           }
         }
       }
@@ -1066,7 +1065,7 @@
     class={"bg-background select-none max-h-full max-w-full " + aspectRatio}
     src={framePath}
     allow="display-capture; autoplay; gamepad"
-    sandbox="allow-forms allow-scripts allow-same-origin allow-modals"
+    sandbox="allow-forms allow-scripts allow-same-origin allow-modals allow-pointer-lock allow-downloads"
     style="isolation: isolate; transform-style: flat;"
   ></iframe>
 </div>
