@@ -63,21 +63,29 @@
   class="sidebar group bg-secondary h-[calc(100%-2rem)] data-[style=hidden]:hidden data-[style=compact]:w-22 data-[style=default]:w-64 transition-[width] flex flex-col overflow-y-scroll shrink-0 m-4 mr-0 rounded-2xl border border-surface"
 >
   <div
-    class="bg-secondary sticky top-0 p-4 group-data-[style=default]:pl-6 flex justify-center"
+    class="bg-secondary sticky top-0 p-4 group-data-[style=default]:pl-6 flex items-center transition-[padding] ease-in"
   >
     <div
-      class="w-full flex gap-2 items-center transition-all overflow-hidden whitespace-nowrap group-data-[style=compact]:opacity-0 group-data-[style=compact]:max-w-0 group-data-[style=compact]:pointer-events-none"
+      class="flex gap-2 items-center transition-all overflow-hidden whitespace-nowrap group-data-[style=compact]:opacity-0 group-data-[style=compact]:max-w-0 group-data-[style=compact]:pointer-events-none"
     >
-      <Logo class="h-6 w-6 shrink-0" />
+      <a
+        aria-label="Home Logo"
+        href={storage.settings.libraryMode ? "/library" : "/"}
+      >
+        <Logo class="h-6 w-6 shrink-0" />
+      </a>
       <p>Obsidian</p>
     </div>
-    <div class="transition-all w-full group-data-[style=compact]:w-0"></div>
-    <button onclick={toggleSidebar} class="cursor-pointer shrink-0">
-      <Sidebar size="20" />
+
+    <button
+      onclick={toggleSidebar}
+      class="absolute right-4 translate-x-0 transition-all group-data-[style=compact]:right-1/2 group-data-[style=compact]:translate-x-1/2 cursor-pointer"
+    >
+      <Sidebar class="text-text-placeholder" size="20" />
     </button>
   </div>
   {#if storage.settings.sidebarStyle === "default" && storage.settings.sidebarSearch}
-    <div class="sidebar-search bg-secondary sticky top-14 p-4 pt-0">
+    <div class="bg-secondary sticky top-14 p-4 pt-0">
       <div
         class="focus-within:bg-surface bg-secondary rounded-xl items-center shrink-0 flex border border-border"
       >
@@ -150,7 +158,7 @@
       </a>
     {/each}
 
-    {#if storage.library.length > 0 && filteredLibrary.length === 0}
+    {#if storage.library.length > 0 && filteredLibrary.concat(favoritesLibrary).length === 0}
       <div class="text-text-placeholder text-center text-sm p-4">
         No items found.
       </div>

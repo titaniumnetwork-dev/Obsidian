@@ -52,18 +52,8 @@ export const themes = [
     primary: "#4caf50",
     hidden: true,
     css: {
-      ".sidebar-search": {
+      ".sidebar": {
         position: "relative",
-      },
-      ".sidebar-search::before": {
-        content: "''",
-        position: "absolute",
-        inset: " -96px 0 auto 0",
-        height: "100px",
-        "background-color": "var(--color-primary)",
-        filter: "blur(80px)",
-        opacity: "0.6",
-        "pointer-events": "none",
       },
     },
   },

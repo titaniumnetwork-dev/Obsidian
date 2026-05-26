@@ -24,7 +24,7 @@
   {#each flashEmulators as item (item.id)}
     <a
       class="cursor-pointer h-14 rounded-2xl text-sm flex items-center justify-between p-2 gap-2 bg-surface whitespace-nowrap border border-border"
-      href={"/emulation/" + item.id}
+      href="/emulation/ruffle/"
     >
       <div class="flex gap-2 items-center">
         <item.icon class="w-8 h-8 text-text" />

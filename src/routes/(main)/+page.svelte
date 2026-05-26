@@ -11,6 +11,12 @@
 
   let { data } = $props();
 
+  if (storage.settings.libraryMode) {
+    goto("/library", {
+      replaceState: true,
+    });
+  }
+
   let featuredData = featured
     .map((id) => storage.catalog.find((item) => item.id === id))
     .filter(Boolean);

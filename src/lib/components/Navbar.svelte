@@ -1,5 +1,6 @@
 <script>
   import { page } from "$app/stores";
+  import { storage } from "$lib/storage.svelte";
   import { User } from "@lucide/svelte";
   import { cubicInOut } from "svelte/easing";
   import { crossfade } from "svelte/transition";
@@ -32,20 +33,22 @@
         ($page.url.pathname.startsWith(tab.href + "/") &&
           $page.url.pathname !== tab.href + "/")}
 
-      <a
-        href={tab.href}
-        data-active={isActive}
-        class="relative rounded-full px-6 py-2 cursor-pointer transition-colors z-10 data-[active=true]:text-text"
-      >
-        {tab.name}
-        {#if isActive}
-          <div
-            in:receive={{ key: "slider" }}
-            out:send={{ key: "slider" }}
-            class="absolute inset-0 bg-surface border border-border rounded-full -z-10"
-          ></div>
-        {/if}
-      </a>
+      {#if (tab.href === "/" ? !storage.settings.libraryMode : true)}
+        <a
+          href={tab.href}
+          data-active={isActive}
+          class="relative rounded-full px-6 py-2 cursor-pointer transition-colors z-10 data-[active=true]:text-text"
+        >
+          {tab.name}
+          {#if isActive}
+            <div
+              in:receive={{ key: "slider" }}
+              out:send={{ key: "slider" }}
+              class="absolute inset-0 bg-surface border border-border rounded-full -z-10"
+            ></div>
+          {/if}
+        </a>
+      {/if}
     {/each}
   </div>
   <a

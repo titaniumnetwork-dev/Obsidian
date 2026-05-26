@@ -5,6 +5,7 @@
   import Head from "$lib/components/Head.svelte";
   import Navbar from "$lib/components/Navbar.svelte";
   import Sidebar from "$lib/components/Sidebar.svelte";
+    import { storage } from "$lib/storage.svelte";
   import { ArrowLeft, Home } from "@lucide/svelte";
 </script>
 
@@ -29,7 +30,7 @@
       </button>
       <a
         class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer"
-        href="/"
+        href={storage.settings.libraryMode ? "/library" : "/"}
       >
         <Home size="20" />
         <span>Home</span>

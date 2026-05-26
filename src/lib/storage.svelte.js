@@ -32,6 +32,7 @@ class StorageManager {
     customCSS: "",
     cards: "default",
     overlay: "default",
+    libraryMode: false,
   });
   favorites = $state([]);
   isLoaded = $state(false);

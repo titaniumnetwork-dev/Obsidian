@@ -1,4 +1,5 @@
 <script>
+  import { goto } from "$app/navigation";
   import { storage } from "$lib/storage.svelte";
   import { AppWindow, Snail, Sparkles } from "@lucide/svelte";
   import { toast } from "svelte-sonner";
