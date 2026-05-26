@@ -5,7 +5,7 @@
 
 <p>Library Mode</p>
 <p class="text-sm text-text-placeholder mb-4">
-  Remove the homepage and the library page becomes the homepage
+  Make the library page the home page
 </p>
 <input
   aria-label="Library Mode"

@@ -2,6 +2,7 @@
   "name": "obsidian",
   "description": "Your new favorite place on the internet!",
   "version": "1.0.0",
+  "author": "Nebelung",
   "type": "module",
   "scripts": {
     "dev": "vite dev",
