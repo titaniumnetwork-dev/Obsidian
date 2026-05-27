@@ -6,3 +6,4 @@ Your new favorite place on the internet!
 - Host Eaglercraft server
 - Setup Cloudflare WAF
 - License and update accessibility and legals
+- Add more emulators

@@ -390,7 +390,7 @@
 {:else}
   <p>Obsidian Account</p>
   <p class="text-sm text-text-placeholder mb-4">
-    Sign in to manage your account and sync your data.
+    Sign in to manage your account and sync your data
   </p>
   <div class="flex gap-4">
     <a

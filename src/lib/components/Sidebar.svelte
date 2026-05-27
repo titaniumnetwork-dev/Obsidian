@@ -51,38 +51,35 @@
 
   function toggleSidebar() {
     if (storage.settings.sidebarStyle === "default") {
-      storage.settings.sidebarStyle = "compact";
+      storage.updateSetting("sidebarStyle", "compact");
     } else {
-      storage.settings.sidebarStyle = "default";
+      storage.updateSetting("sidebarStyle", "default");
     }
   }
 </script>
 
 <div
   data-style={storage.settings.sidebarStyle}
-  class="sidebar group bg-secondary h-[calc(100%-2rem)] data-[style=hidden]:hidden data-[style=compact]:w-22 data-[style=default]:w-64 transition-[width] flex flex-col overflow-y-scroll shrink-0 m-4 mr-0 rounded-2xl border border-surface"
+  class="sidebar group bg-secondary h-[calc(100%-2rem)] data-[style=hidden]:hidden data-[style=compact]:w-23 data-[style=default]:w-64 transition-[width] flex flex-col overflow-y-scroll shrink-0 m-4 mr-0 rounded-2xl border border-surface"
 >
-  <div
-    class="bg-secondary sticky top-0 p-4 group-data-[style=default]:pl-6 flex items-center transition-[padding] ease-in"
-  >
+  <div class="bg-secondary sticky top-0 py-4">
     <div
-      class="flex gap-2 items-center transition-all overflow-hidden whitespace-nowrap group-data-[style=compact]:opacity-0 group-data-[style=compact]:max-w-0 group-data-[style=compact]:pointer-events-none"
+      class="group/logo h-6 group-data-[style=compact]:w-6 gap-4 flex items-center justify-between relative"
     >
       <a
+        class="w-6 h-6 absolute group-data-[style=default]:translate-x-6 group-data-[style=compact]:translate-x-8 transition-[transform,opacity] group-data-[style=compact]:group-hover/logo:opacity-0"
         aria-label="Home Logo"
         href={storage.settings.libraryMode ? "/library" : "/"}
       >
         <Logo class="h-6 w-6 shrink-0" />
       </a>
-      <p>Obsidian</p>
+      <button
+        onclick={toggleSidebar}
+        class="peer w-6 h-6 ml-auto mr-4 cursor-pointer absolute group-data-[style=default]:translate-x-54 group-data-[style=compact]:translate-x-8 group-data-[style=compact]:opacity-0 group-data-[style=compact]:group-hover/logo:opacity-100 transition-[translate,opacity]"
+      >
+        <Sidebar class="text-text-placeholder" size="20" />
+      </button>
     </div>
-
-    <button
-      onclick={toggleSidebar}
-      class="absolute right-4 translate-x-0 transition-all group-data-[style=compact]:right-1/2 group-data-[style=compact]:translate-x-1/2 cursor-pointer"
-    >
-      <Sidebar class="text-text-placeholder" size="20" />
-    </button>
   </div>
   {#if storage.settings.sidebarStyle === "default" && storage.settings.sidebarSearch}
     <div class="bg-secondary sticky top-14 p-4 pt-0">
