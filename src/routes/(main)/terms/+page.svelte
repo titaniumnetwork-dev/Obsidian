@@ -1,7 +1,7 @@
 <script>
   import Head from "$lib/components/Head.svelte";
 
-  let updated = new Date(1779298873266);
+  let updated = new Date(1779901012831);
 </script>
 
 <Head title="Terms of Service" />
@@ -18,58 +18,66 @@
     </p>
   </div>
   <p>
-    Welcome to our site. By accessing or using our website to play games, you
-    agree to be bound by these Terms of Service. If you do not agree with any
-    part of these terms, please do not use our site.
+    Welcome to Obsidian. By accessing or using our website, creating an account,
+    or playing games, you agree to be bound by these Terms of Service. If you do
+    not agree with any part of these terms, please do not use our site.
   </p>
-  <p class="text-xl">1. Use of the Site</p>
+  <p class="text-xl">1. Account Registration</p>
   <p>
-    Our website provides access to a collection of web games and emulators for
-    personal, non-commercial entertainment. You agree to use the site only for
-    lawful purposes and in a way that does not infringe on the rights of,
-    restrict, or inhibit anyone else's use and enjoyment of the site.
-  </p>
-  <p class="text-xl">2. Intellectual Property and Third-Party Content</p>
-  <p>
-    The games hosted on this site, including but not limited to web games and
-    emulated titles, are the property of their respective creators and copyright
-    holders. We do not claim ownership over any third-party games, characters,
-    or assets embedded or hosted on this platform.
-  </p>
-  <p class="text-xl">3. Disclaimer of Warranties</p>
-  <p>
-    The website and all games on it are provided on an "as is" and "as
-    available" basis. We make no warranties, expressed or implied, regarding the
-    operation of the site or the reliability of the embedded content.
+    To access certain features of the site, you may be required to register for
+    an account.
   </p>
   <ul class="list-disc pl-6 flex flex-col gap-2">
     <li>
-      Game Saves: As noted in our Privacy Policy, game progress is often stored
-      locally in your browser. We are not responsible for lost save data, high
-      scores, or progress due to cleared caches, browser updates, or site
-      errors.
+      <p>Eligibility:</p> You must provide accurate and complete
+      information during registration.
     </li>
     <li>
-      Availability: We do not guarantee that the site will be available at all
-      times or that it will be completely free from errors, downtime, or
-      interruptions.
+      <p>Security:</p> You are responsible for maintaining the
+      confidentiality of your account credentials and for all activities that
+      occur under your account.
+    </li>
+    <li>
+      <p>Prohibited Actions:</p> You may not use a username that is
+      offensive, vulgar, or infringes on the rights of others.
     </li>
   </ul>
-  <p class="text-xl">4. Limitation of Liability</p>
+  <p class="text-xl">2. Use of the Site and Conduct</p>
   <p>
-    In no event shall we be liable for any direct, indirect, incidental,
-    consequential, or punitive damages arising out of your access to, or use of,
-    the site and its games. This includes any loss of data or disruptions to
-    your device resulting from playing embedded games.
+    You agree to use the site only for lawful purposes. Prohibited behavior
+    includes, but is not limited to:
   </p>
-  <p class="text-xl">5. Modifications to the Terms</p>
+  <ul class="list-disc pl-6 flex flex-col gap-2">
+    <li>Attempting to bypass site security or access unauthorized areas.</li>
+    <li>Using automated systems (bots, scrapers) to access the site.</li>
+    <li>Harassing or interfering with other users' enjoyment of the site.</li>
+    <li>Exploiting bugs or vulnerabilities to gain an unfair advantage in games.</li>
+  </ul>
+  <p class="text-xl">3. Intellectual Property</p>
   <p>
-    We reserve the right to modify these Terms of Service at any time. Any
-    changes will be posted on this page with an updated modification date at the
-    top. Your continued use of the site after any changes indicates your
-    acceptance of the new terms.
+    The games, software, and assets on this site are the property of their
+    respective owners. Obsidian does not claim ownership over third-party games
+    or characters. Your use of the site does not grant you any ownership rights.
   </p>
-  <p class="text-xl">6. Contact Us</p>
+  <p class="text-xl">4. Termination</p>
+  <p>
+    We reserve the right to suspend or terminate your account or access to the
+    site at our sole discretion, without notice, for any reason, including
+    breach of these Terms of Service.
+  </p>
+  <p class="text-xl">5. Disclaimer of Warranties</p>
+  <p>
+    Obsidian is provided "as is". We make no warranties regarding the
+    availability of the site, the accuracy of game data, or the safety of
+    synced storage. We are not responsible for any loss of data, including game
+    saves or progress.
+  </p>
+  <p class="text-xl">6. Limitation of Liability</p>
+  <p>
+    In no event shall Obsidian or its operators be liable for any damages
+    arising out of your use or inability to use the site.
+  </p>
+  <p class="text-xl">7. Contact Us</p>
   <p>
     If you have any questions, concerns, or requests regarding these Terms of
     Service, please contact us at <a href="mailto:support@obsidian.com"

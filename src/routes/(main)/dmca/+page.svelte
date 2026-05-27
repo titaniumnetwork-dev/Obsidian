@@ -1,7 +1,7 @@
 <script>
   import Head from "$lib/components/Head.svelte";
 
-  let updated = new Date(1779298873266);
+  let updated = new Date(1779901012831);
 </script>
 
 <Head title="DMCA Takedown" />
@@ -18,8 +18,8 @@
     </p>
   </div>
   <p>
-    We respect the intellectual property rights of others and expect our users
-    to do the same. In accordance with the Digital Millennium Copyright Act
+    Obsidian respects the intellectual property rights of others and expects our
+    users to do the same. In accordance with the Digital Millennium Copyright Act
     (DMCA), we will respond promptly to notices of alleged infringement that are
     reported to our designated copyright agent.
   </p>
@@ -84,8 +84,8 @@
   <p>
     In accordance with the DMCA and other applicable law, we have adopted a
     policy of terminating, in appropriate circumstances and at our sole
-    discretion, users or content providers who are deemed to be repeat
-    infringers.
+    discretion, accounts of users or content providers who are deemed to be
+    repeat infringers.
   </p>
   <p class="text-xl">4. Contact Our Designated Agent</p>
   <p>

@@ -1,7 +1,7 @@
 <script>
   import Head from "$lib/components/Head.svelte";
 
-  let updated = new Date(1779298873266);
+  let updated = new Date(1779901012831);
 </script>
 
 <Head title="Privacy Policy" />
@@ -18,68 +18,80 @@
     </p>
   </div>
   <p>
-    Welcome to our site. We respect your privacy and are committed to protecting
+    Welcome to Obsidian. We respect your privacy and are committed to protecting
     it. This Privacy Policy explains how we handle information when you visit
-    and play games on our website.
+    our website and use our services, including creating an account and playing
+    games.
   </p>
   <p class="text-xl">1. Information We Collect</p>
   <p>
-    We collect minimal information to ensure the site runs smoothly. The types
-    of data we may encounter include:
+    We collect information to provide a better experience and to allow you to
+    save your progress across devices.
   </p>
   <ul class="list-disc pl-6 flex flex-col gap-2">
     <li>
-      Log Data: Like most websites, our servers automatically record basic
-      information that your browser sends. This may include your IP address,
+      <p>Account Information:</p> When you register for an account, we collect
+      your email address, a username of your choice, and a password (which is securely
+      hashed). This information is used to manage your account and identify you on
+      the platform.
+    </li>
+    <li>
+      <p>Synced Storage and Game Data:</p> If you are logged in, we store
+      your game saves, high scores, and site settings (such as themes and preferences)
+      on our servers so you can access them from any device. If you are not logged
+      in, this data is stored locally in your browser.
+    </li>
+    <li>
+      <p>Log Data:</p> Like most websites, our servers automatically record
+      basic information that your browser sends. This may include your IP address,
       browser type, device type, and the pages you visit.
     </li>
     <li>
-      Game Save Data: Many of the games hosted on our site (such as Slope, Duck
-      Life, or emulated games) require a way to save your progress, unlocked
-      levels, or high scores. This is done using your browser's Local Storage or
-      session storage. This data is stored locally on your device, not on our
-      servers.
+      <p>Avatars:</p> We generate a default avatar for your account upon
+      registration. You may also have the option to update or change this later.
     </li>
   </ul>
-  <p class="text-xl">2. Cookies and Third-Party Services</p>
-  <p>
-    Our website hosts and embeds various third-party web games and emulators.
-    Please be aware of the following:
-  </p>
+  <p class="text-xl">2. Cookies and Session Management</p>
+  <p>We use cookies to keep you logged in and to remember your preferences.</p>
   <ul class="list-disc pl-6 flex flex-col gap-2">
     <li>
-      Embedded Games: Because some games are embedded from other sources, the
-      creators of those games may include their own tracking scripts, analytics,
-      or cookies. We do not control these third-party trackers.
+      <p>Session Cookies:</p> We use a session ID cookie to identify your
+      logged-in session. This is essential for the functionality of your account.
     </li>
     <li>
-      Analytics and Advertising: We may use third-party analytics tools to
-      understand site traffic or advertising networks to display ads. These
-      services may use cookies to collect non-personal data about your
-      interactions with our site.
+      <p>Third-Party Content:</p> Our website hosts various third-party
+      games and emulators. These third parties may use their own cookies or tracking
+      scripts. We do not control these third-party trackers.
     </li>
   </ul>
   <p class="text-xl">3. Children's Privacy</p>
   <p>
-    Our website provides access to web games and is designed to be accessible to
-    users of all ages. However, we do not knowingly collect, request, or store
-    personally identifiable information (such as names, emails, or phone
-    numbers) from anyone, including children under the age of 13. If you believe
-    we have inadvertently collected personal information from a child, please
-    contact us so we can delete it immediately.
+    Obsidian is designed to be accessible to users of all ages. We do not
+    knowingly collect personal information from children under the age of 13
+    without parental consent. If you believe a child under 13 has provided us
+    with personal information, please contact us immediately so we can take
+    appropriate action.
   </p>
   <p class="text-xl">4. How to Manage Your Data</p>
-  <p>
-    If you wish to clear your game saves, high scores, or any cookies set by our
-    site or third-party games, you can do so by clearing your web browser's
-    cache and site data. Please note that doing this will permanently delete
-    your game progress for games that rely on local storage.
-  </p>
+  <p>You have control over your information:</p>
+  <ul class="list-disc pl-6 flex flex-col gap-2">
+    <li>
+      <p>Account Settings:</p> You can update your username and avatar through
+      your account settings page.
+    </li>
+    <li>
+      <p>Clearing Local Data:</p> If you are not using an account, you can
+      clear your game progress by clearing your browser's cache and site data.
+    </li>
+    <li>
+      <p>Account Deletion:</p> If you wish to delete your account and all
+      associated data, please contact us at the email address below.
+    </li>
+  </ul>
   <p class="text-xl">5. Changes to This Policy</p>
   <p>
-    We may update this Privacy Policy from time to time as we add new games or
-    features. Any changes will be reflected on this page with an updated date at
-    the top. We encourage you to review this policy periodically.
+    We may update this Privacy Policy from time to time. Any changes will be
+    reflected on this page with an updated date at the top.
   </p>
 
   <p class="text-xl">6. Contact Us</p>
