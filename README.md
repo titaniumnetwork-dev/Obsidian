@@ -5,5 +5,8 @@ Your new favorite place on the internet!
 - Cloud saves for indexeddb
 - Host Eaglercraft server
 - Setup Cloudflare WAF
-- License and update accessibility and legals
+- Update accessibility... again
 - Add more emulators
+
+# License
+Obsidian uses the Apache 2.0 with Commons Clause v1.0. Commercial use is strictly prohibited.

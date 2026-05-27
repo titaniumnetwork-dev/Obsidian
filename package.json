@@ -3,6 +3,7 @@
   "description": "Your new favorite place on the internet!",
   "version": "1.0.0",
   "author": "Nebelung",
+  "license": "SEE LICENSE IN LICENSE",
   "type": "module",
   "scripts": {
     "dev": "vite dev",
