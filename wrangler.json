@@ -15,8 +15,8 @@
       "remote": true
     },
     {
-      "binding": "LOCALSTORAGE",
-      "bucket_name": "localstorage",
+      "binding": "SAVES",
+      "bucket_name": "saves",
       "remote": true
     }
   ],

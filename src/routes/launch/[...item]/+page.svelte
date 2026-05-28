@@ -176,6 +176,117 @@
     }
   }
 
+  function updateCloudSaveIndexedDB(dbName, storeName, key, value) {
+    let indexedDBItems = data.currentData.cloudSave?.indexedDB;
+    if (indexedDBItems) {
+      for (let DBItem of Object.entries(indexedDBItems)) {
+        if (DBItem[0] === dbName) {
+          for (let storeItem of Object.entries(DBItem[1])) {
+            if (storeItem[0] === storeName) {
+              for (let item of storeItem[1]) {
+                let realItem = item
+                  .map((item) => {
+                    if (item.type === "text") {
+                      return item.value;
+                    } else if (item.type === "id") {
+                      return data.currentData.id;
+                    } else if (item.type === "hostname") {
+                      return window.location.hostname;
+                    }
+                  })
+                  .join("");
+
+                if (realItem === key) {
+                  if (value === null) return;
+
+                  let payload = value;
+
+                  if (
+                    value &&
+                    value.buffer &&
+                    typeof value.byteLength === "number"
+                  ) {
+                    let binaryStr = "";
+                    const bytes = new Uint8Array(
+                      value.buffer,
+                      value.byteOffset,
+                      value.byteLength,
+                    );
+                    const len = bytes.byteLength;
+
+                    for (let i = 0; i < len; i++) {
+                      binaryStr += String.fromCharCode(bytes[i]);
+                    }
+
+                    payload = { _idbType: "Uint8Array", b64: btoa(binaryStr) };
+                  }
+
+                  const safeDbName = encodeURIComponent(dbName);
+                  const safeStoreName = encodeURIComponent(storeName);
+                  const safeKey = encodeURIComponent(key);
+                  const dbKey = `${safeDbName}|${safeStoreName}|${safeKey}`;
+
+                  storage.updateCloudSave(
+                    "indexeddb",
+                    dbKey,
+                    JSON.stringify(payload),
+                  );
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  function interceptIndexedDB() {
+    if (!frame.contentWindow || !frame.contentWindow.IDBObjectStore) return;
+
+    const originalPut = frame.contentWindow.IDBObjectStore.prototype.put;
+    const originalAdd = frame.contentWindow.IDBObjectStore.prototype.add;
+    const originalDelete = frame.contentWindow.IDBObjectStore.prototype.delete;
+
+    frame.contentWindow.IDBObjectStore.prototype.put = function (value, key) {
+      const dbName = this.transaction.db.name;
+      const storeName = this.name;
+
+      const request = originalPut.call(this, value, key);
+
+      request.addEventListener("success", () => {
+        updateCloudSaveIndexedDB(dbName, storeName, request.result, value);
+      });
+
+      return request;
+    };
+
+    frame.contentWindow.IDBObjectStore.prototype.add = function (value, key) {
+      const dbName = this.transaction.db.name;
+      const storeName = this.name;
+
+      const request = originalAdd.call(this, value, key);
+
+      request.addEventListener("success", () => {
+        updateCloudSaveIndexedDB(dbName, storeName, request.result, value);
+      });
+
+      return request;
+    };
+
+    frame.contentWindow.IDBObjectStore.prototype.delete = function (key) {
+      const dbName = this.transaction.db.name;
+      const storeName = this.name;
+
+      const request = originalDelete.call(this, key);
+
+      request.addEventListener("success", () => {
+        updateCloudSaveIndexedDB(dbName, storeName, key, null);
+      });
+
+      return request;
+    };
+  }
+
   function frameLoaded(e) {
     frame.contentWindow.addEventListener("click", (clickEvent) => {
       if (controlsMenu) {
@@ -433,11 +544,17 @@
             })
             .join("");
           if (realStorageItem === e.key) {
-            storage.updateCloudSave(realStorageItem, e.newValue);
+            storage.updateCloudSave(
+              "localstorage",
+              realStorageItem,
+              e.newValue,
+            );
           }
         }
       }
     });
+
+    interceptIndexedDB();
   }
 
   const aspectRatio = $derived(

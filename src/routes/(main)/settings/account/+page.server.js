@@ -43,7 +43,6 @@ export const actions = {
       });
     }
   },
-
   updateEmail: async ({ request, cookies, platform }) => {
     const sessionId = cookies.get("session_id");
     if (!sessionId)
@@ -79,7 +78,6 @@ export const actions = {
       return fail(500, { field: "email", error: "Failed to update email." });
     }
   },
-
   updatePassword: async ({ request, cookies, platform }) => {
     const sessionId = cookies.get("session_id");
     if (!sessionId)
@@ -172,10 +170,39 @@ export const actions = {
       .bind(filename, locals.user.id)
       .run();
   },
-  delete: async ({ cookies, platform }) => {
+  delete: async ({ cookies, locals, platform }) => {
     const sessionId = cookies.get("session_id");
 
-    await platform?.env.USERS.prepare("DELETE FROM users WHERE id = ?")
+    if (!sessionId) {
+      return fail(401, "Not logged in.");
+    }
+
+    const [lsFiles, idbFiles] = await Promise.all([
+      platform.env.SAVES.list({ prefix: `localstorage/${sessionId}/` }),
+      platform.env.SAVES.list({ prefix: `indexeddb/${sessionId}/` }),
+    ]);
+
+    const keysToDelete = [
+      ...lsFiles.objects.map((obj) => obj.key),
+      ...idbFiles.objects.map((obj) => obj.key),
+    ];
+
+    if (keysToDelete.length > 0) {
+      await platform.env.SAVES.delete(keysToDelete);
+    }
+
+    await platform.env.USER_SAVES.batch([
+      platform.env.USER_SAVES.prepare(
+        "DELETE FROM localstorage WHERE user_id = ?",
+      ).bind(sessionId),
+      platform.env.USER_SAVES.prepare(
+        "DELETE FROM indexeddb WHERE user_id = ?",
+      ).bind(sessionId),
+    ]);
+
+    await platform.env.AVATARS.delete(locals.user.avatar_url);
+
+    await platform.env.USERS.prepare("DELETE FROM users WHERE id = ?")
       .bind(sessionId)
       .run();
 

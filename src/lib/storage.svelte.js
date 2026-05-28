@@ -153,6 +153,65 @@ class StorageManager {
       this.flushSync();
     }, 3000);
   }
+  restoreIndexedDBSave(saveKey, fileString) {
+    const parts = saveKey.split("|");
+    if (parts.length < 3) return;
+
+    const dbName = decodeURIComponent(parts[0]);
+    const storeName = decodeURIComponent(parts[1]);
+    const key = decodeURIComponent(parts.slice(2).join("|"));
+
+    let value;
+    try {
+      const rawData = JSON.parse(fileString);
+
+      if (rawData && rawData._idbType === "Uint8Array") {
+        const binaryStr = atob(rawData.b64);
+        const len = binaryStr.length;
+        const bytes = new Uint8Array(len);
+
+        for (let i = 0; i < len; i++) {
+          bytes[i] = binaryStr.charCodeAt(i);
+        }
+        value = bytes;
+      } else {
+        value = rawData;
+      }
+    } catch (e) {
+      console.error(`Failed to parse cloud save for ${key}`, e);
+      return;
+    }
+
+    //Version locked at 1. Might be a problem later but we'll see
+    const req = indexedDB.open(dbName, 1);
+
+    req.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains(storeName)) {
+        db.createObjectStore(storeName);
+      }
+    };
+
+    req.onsuccess = (e) => {
+      const db = e.target.result;
+
+      if (!db.objectStoreNames.contains(storeName)) {
+        console.warn(`Cannot restore ${key}: Store ${storeName} missing.`);
+        db.close();
+        return;
+      }
+
+      const tx = db.transaction(storeName, "readwrite");
+      const store = tx.objectStore(storeName);
+      store.put(value, key);
+
+      tx.oncomplete = () => db.close();
+    };
+
+    req.onerror = (e) => {
+      console.error(`Failed to open IndexedDB for ${dbName}`, e);
+    };
+  }
   async loadStorage(catalogData) {
     this.catalog = catalogData;
     this.tags = catalogTagOrder;
@@ -206,10 +265,20 @@ class StorageManager {
         this.cloudLimitBytes = saveData.limit;
         if (saveData.saves) {
           for (const saveMeta of saveData.saves) {
-            const fileRes = await fetch(`/api/cloud-save/${saveMeta.save_key}`);
+            const encodedKey = encodeURIComponent(saveMeta.save_key);
+
+            const fileRes = await fetch(
+              `/api/cloud-save/${encodedKey}?type=${saveMeta.type}`,
+            );
+
             if (fileRes.ok) {
               const fileString = await fileRes.text();
-              localStorage.setItem(saveMeta.save_key, fileString);
+
+              if (saveMeta.type === "indexeddb") {
+                this.restoreIndexedDBSave(saveMeta.save_key, fileString);
+              } else {
+                localStorage.setItem(saveMeta.save_key, fileString);
+              }
             }
           }
         }
@@ -557,7 +626,7 @@ class StorageManager {
     }
   }
 
-  updateCloudSave(key, value) {
+  updateCloudSave(type, key, value) {
     if (this.#cloudSyncTimers.has(key)) {
       clearTimeout(this.#cloudSyncTimers.get(key));
     }
@@ -567,7 +636,7 @@ class StorageManager {
         const res = await fetch("/api/cloud-saves", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ key, value }),
+          body: JSON.stringify({ type, key, value }),
         });
 
         if (res.ok) {

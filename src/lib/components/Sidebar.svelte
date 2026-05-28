@@ -60,14 +60,14 @@
 
 <div
   data-style={storage.settings.sidebarStyle}
-  class="sidebar group bg-secondary h-[calc(100%-2rem)] data-[style=hidden]:hidden data-[style=compact]:w-23 data-[style=default]:w-64 transition-[width] flex flex-col overflow-y-scroll shrink-0 m-4 mr-0 rounded-2xl border border-surface"
+  class="sidebar group bg-secondary h-[calc(100%-2rem)] data-[style=hidden]:hidden data-[style=compact]:w-23 data-[style=default]:w-64 transition-[width] flex flex-col overflow-y-scroll shrink-0 m-4 mr-0 rounded-2xl border border-surface duration-300"
 >
-  <div class="bg-secondary sticky top-0 py-4">
+  <div class="bg-secondary sticky top-0 py-4 z-10">
     <div
       class="group/logo h-6 group-data-[style=compact]:w-6 gap-4 flex items-center justify-between relative"
     >
       <a
-        class="w-6 h-6 absolute group-data-[style=default]:translate-x-6 group-data-[style=compact]:translate-x-8 transition-[transform,opacity] group-data-[style=compact]:group-hover/logo:opacity-0"
+        class="w-6 h-6 absolute group-data-[style=default]:translate-x-6 group-data-[style=compact]:translate-x-8 transition-[translate,opacity] group-data-[style=compact]:group-hover/logo:opacity-0 duration-300"
         aria-label="Home Logo"
         href={storage.settings.libraryMode ? "/library" : "/"}
       >
@@ -75,16 +75,25 @@
       </a>
       <button
         onclick={toggleSidebar}
-        class="peer w-6 h-6 ml-auto mr-4 cursor-pointer absolute group-data-[style=default]:translate-x-54 group-data-[style=compact]:translate-x-8 group-data-[style=compact]:opacity-0 group-data-[style=compact]:group-hover/logo:opacity-100 transition-[translate,opacity]"
+        class="peer w-6 h-6 ml-auto mr-4 cursor-pointer absolute group-data-[style=default]:translate-x-54 group-data-[style=compact]:translate-x-8 transition-transform flex items-center justify-center duration-300"
       >
-        <Sidebar class="text-text-placeholder" size="20" />
+        <Sidebar
+          class="group-data-[style=compact]:opacity-0 group-data-[style=compact]:group-hover/logo:opacity-100 text-text-placeholder transition-opacity"
+          size="20"
+        />
       </button>
     </div>
   </div>
-  {#if storage.settings.sidebarStyle === "default" && storage.settings.sidebarSearch}
-    <div class="bg-secondary sticky top-14 p-4 pt-0">
+  {#if storage.settings.sidebarSearch}
+    <div
+      class={`bg-secondary sticky top-14 z-10 overflow-hidden transition-all duration-300 shrink-0 px-4 ${
+        storage.settings.sidebarStyle === "default"
+          ? "h-13.5 pb-4 opacity-100"
+          : "h-0 pb-0 opacity-0 border-none"
+      }`}
+    >
       <div
-        class="focus-within:bg-surface bg-secondary rounded-xl items-center shrink-0 flex border border-border"
+        class="focus-within:bg-surface bg-secondary rounded-xl items-center shrink-0 flex border border-border h-full"
       >
         <Search size="20" class="ml-3 text-text-placeholder shrink-0" />
         <input
@@ -131,7 +140,7 @@
       <a
         href={"/library/" + item.id}
         data-current={$page.url.pathname === "/library/" + item.id}
-        class="cursor-pointer h-14 w-full rounded-2xl text-sm flex items-center justify-between p-2 gap-2 data-[current=false]:hover:bg-surface transition-colors data-[current=true]:bg-surface whitespace-nowrap border border-transparent data-[current=true]:border data-[current=true]:border-border"
+        class="cursor-pointer h-14 w-full rounded-2xl text-sm flex items-center justify-between p-2 gap-2 data-[current=false]:hover:bg-surface transition-colors data-[current=true]:bg-surface whitespace-nowrap border border-transparent data-[current=true]:border data-[current=true]:border-border duration-300"
       >
         <div class="flex gap-2 items-center overflow-hidden">
           <img
@@ -142,14 +151,14 @@
             src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
           />
           <span
-            class="group-data-[style=hidden]:opacity-0 group-data-[style=compact]:opacity-0 transition-opacity overflow-hidden text-ellipsis"
+            class="group-data-[style=hidden]:opacity-0 group-data-[style=compact]:opacity-0 transition-opacity overflow-hidden text-ellipsis duration-300"
             >{item.title}</span
           >
         </div>
         {#if storage.active[item.id]}
           <Activity
             size="16"
-            class="mx-2 text-text-placeholder group-data-[style=hidden]:opacity-0 group-data-[style=compact]:opacity-0 transition-opacity shrink-0"
+            class="mx-2 text-text-placeholder group-data-[style=hidden]:opacity-0 group-data-[style=compact]:opacity-0 transition-opacity shrink-0 duration-300"
           />
         {/if}
       </a>
@@ -162,7 +171,7 @@
     {/if}
     {#if storage.library.length === 0}
       <div
-        class="text-text-placeholder text-center text-sm p-4 transition-opacity group-data-[style=hidden]:hidden group-data-[style=compact]:opacity-0 whitespace-nowrap"
+        class="text-text-placeholder text-center text-sm p-4 transition-opacity group-data-[style=hidden]:hidden group-data-[style=compact]:opacity-0 whitespace-nowrap duration-300"
       >
         Nothing in your library
       </div>
