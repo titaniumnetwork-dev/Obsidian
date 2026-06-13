@@ -1,52 +1,51 @@
 <script>
-  import { enhance } from "$app/forms";
+  import { goto } from "$app/navigation";
+  import { authClient } from "$lib/client";
   import Head from "$lib/components/Head.svelte";
   import { storage } from "$lib/storage.svelte.js";
   import { AtSign, Eye, EyeClosed, KeyRound, User, X } from "@lucide/svelte";
 
   let { form } = $props();
 
+  const session = authClient.useSession();
   let username = $state("");
   let email = $state("");
   let password = $state("");
   let confirmPassword = $state("");
   let showPassword = $state(false);
   let showConfirmPassword = $state(false);
+  let loading = $state(false);
+  let errorMessage = $state("");
 
-  $effect(() => {
-    if (form?.username) {
-      username = form.username;
+  async function handleSignup(e) {
+    e.preventDefault();
+
+    loading = true;
+    errorMessage = "";
+
+    if (password !== confirmPassword) {
+      errorMessage = "Passwords must match";
+      loading = false;
+      return;
     }
-    if (form?.email) {
-      email = form.email;
-    }
-  });
 
-  async function formatImage(file, sizeWidth, sizeHeight) {
-    if (!file) return null;
+    const avatarID = crypto.randomUUID();
 
-    const img = new Image();
-    img.src = URL.createObjectURL(file);
-    await new Promise((r) => (img.onload = r));
-
-    const canvas = document.createElement("canvas");
-    canvas.width = sizeWidth;
-    canvas.height = sizeHeight;
-
-    const scale = Math.max(sizeWidth / img.width, sizeHeight / img.height);
-    const scaledW = img.width * scale;
-    const scaledH = img.height * scale;
-    const x = (sizeWidth - scaledW) / 2;
-    const y = (sizeHeight - scaledH) / 2;
-
-    canvas.getContext("2d").drawImage(img, x, y, scaledW, scaledH);
-
-    return new Promise((resolve) => {
-      canvas.toBlob((blob) => {
-        URL.revokeObjectURL(img.src);
-        resolve(blob);
-      }, "image/webp");
+    const { data, error } = await authClient.signUp.email({
+      name: "",
+      email,
+      password,
+      username,
+      storage: JSON.stringify(storage.exportData()),
     });
+
+    if (error) {
+      errorMessage = error.message || "Sign up failed";
+      loading = false;
+      return;
+    }
+
+    await goto("/account", { invalidateAll: true });
   }
 </script>
 
@@ -63,7 +62,7 @@
       </p>
     </div>
 
-    <form class="flex flex-col gap-4" method="POST" use:enhance>
+    <form class="flex flex-col gap-4" onsubmit={handleSignup}>
       <div
         class="focus-within:bg-surface bg-secondary transition-colors border border-border rounded-xl items-center flex w-full h-10"
       >
@@ -186,11 +185,6 @@
           </button>
         {/if}
       </div>
-      <input
-        type="hidden"
-        name="local_storage"
-        value={JSON.stringify(storage.exportData())}
-      />
       <p class="text-sm text-text-placeholder">
         By signing up, you agree to our <a
           href="/privacy"
@@ -199,14 +193,21 @@
         and <a href="/terms" class="hover:underline">Terms of Service</a> and that
         you are at least 13 years old.
       </p>
-      {#if form?.error}
-        <p class="text-sm text-text-placeholder">{form.error}</p>
+      {#if errorMessage}
+        <p class="text-sm text-text-placeholder">{errorMessage}</p>
       {/if}
       <button
         type="submit"
-        class="px-4 py-2 bg-surface rounded-xl cursor-pointer border border-border w-fit"
+        disabled={loading}
+        class="px-4 py-2 bg-surface rounded-xl border border-border w-fit disabled:opacity-50 cursor-pointer disabled:cursor-default"
       >
-        <span>Sign Up</span>
+        <span>
+          {#if loading}
+            Signing Up...
+          {:else}
+            Sign Up
+          {/if}
+        </span>
       </button>
     </form>
     <p class="text-sm text-center text-text-placeholder">

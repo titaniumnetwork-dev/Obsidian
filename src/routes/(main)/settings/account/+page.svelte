@@ -1,5 +1,7 @@
 <script>
   import { enhance } from "$app/forms";
+  import { invalidateAll } from "$app/navigation";
+  import { authClient } from "$lib/client";
   import {
     AtSign,
     Eye,
@@ -14,18 +16,33 @@
 
   let { data, form } = $props();
 
+  const session = authClient.useSession();
+
   let editUsername = $state("");
   let editEmail = $state("");
   let oldPassword = $state("");
   let editPassword = $state("");
-  let isUploading = $state(false);
-  let formError = $state("");
+  let deletePassword = $state("");
+
   let showOldPassword = $state(false);
   let showEditPassword = $state(false);
+  let showDeletePassword = $state(false);
+
+  let isUploading = $state(false);
+  let usernameLoading = $state(false);
+  let emailLoading = $state(false);
+  let passwordLoading = $state(false);
+  let deleteLoading = $state(false);
+
+  let avatarMessage = $state("");
+  let usernameMessage = $state("");
+  let emailMessage = $state("");
+  let passwordMessage = $state("");
+  let deleteMessage = $state("");
 
   $effect(() => {
-    if (data?.user) {
-      editUsername = data.user.name;
+    if (data.user) {
+      editUsername = data.user.username;
       editEmail = data.user.email;
     }
   });
@@ -57,7 +74,77 @@
     });
   }
 
-  let confirmDelete = $state(false);
+  async function handleUpdateUsername(e) {
+    e.preventDefault();
+    usernameLoading = true;
+    usernameMessage = "";
+
+    const { error } = await authClient.updateUser({
+      username: editUsername,
+    });
+
+    if (error) {
+      usernameMessage = error.message || "Updating username failed";
+    } else {
+      await invalidateAll();
+    }
+    usernameLoading = false;
+  }
+
+  async function handleUpdateEmail(e) {
+    e.preventDefault();
+    emailLoading = true;
+    emailMessage = "";
+
+    const { error } = await authClient.changeEmail({
+      newEmail: editEmail,
+    });
+
+    if (error) {
+      emailMessage = error.message || "Updating email failed";
+    } else {
+      await invalidateAll();
+    }
+    emailLoading = false;
+  }
+
+  async function handleUpdatePassword(e) {
+    e.preventDefault();
+    passwordLoading = true;
+    passwordMessage = "";
+
+    const { error } = await authClient.changePassword({
+      newPassword: editPassword,
+      currentPassword: oldPassword,
+      revokeOtherSessions: true,
+    });
+
+    if (error) {
+      passwordMessage = error.message || "Updating password failed";
+    } else {
+      passwordMessage = "Password updated successfully";
+      oldPassword = "";
+      editPassword = "";
+    }
+    passwordLoading = false;
+  }
+
+  async function handleDeleteAccount(e) {
+    e.preventDefault();
+    deleteLoading = true;
+    deleteMessage = "";
+
+    const { error } = await authClient.deleteUser({
+      password: deletePassword,
+    });
+
+    if (error) {
+      deleteMessage = error.message || "Deleting account failed";
+      deleteLoading = false;
+    } else {
+      await invalidateAll();
+    }
+  }
 </script>
 
 {#if data.user}
@@ -68,22 +155,26 @@
       enctype="multipart/form-data"
       use:enhance={async ({ formData, cancel }) => {
         const file = formData.get("avatar");
+        avatarMessage = "";
 
         if (file && file.size > 0) {
           isUploading = true;
-          formError = "";
-
           try {
             const webpBlob = await formatImage(file, 80, 80);
             formData.set("avatar", webpBlob, "avatar.webp");
           } catch (e) {
-            formError = "Failed to process image.";
+            avatarMessage = "Failed to process image.";
+            isUploading = false;
             cancel();
           }
         }
 
-        return async ({ update }) => {
+        return async ({ update, result }) => {
           isUploading = false;
+          if (result.type === "failure") {
+            avatarMessage =
+              result.data?.error || result.data?.message || "Upload failed";
+          }
           await update();
         };
       }}
@@ -95,10 +186,10 @@
       <label
         class="relative group block w-20 h-20 rounded-2xl overflow-hidden cursor-pointer border border-border bg-surface"
       >
-        {#if data.user.avatar_url}
+        {#if data.user.image}
           <img
             class="w-full h-full object-cover"
-            src={"/cdn/avatars/" + data.user.avatar_url}
+            src={"/cdn/avatars/" + data.user.image}
             alt="Profile"
             draggable="false"
           />
@@ -138,13 +229,11 @@
           }}
         />
       </label>
+      {#if avatarMessage}
+        <p class="text-sm text-text-placeholder mt-2">{avatarMessage}</p>
+      {/if}
     </form>
-    <form
-      method="POST"
-      action="?/updateUsername"
-      use:enhance
-      class="flex flex-col gap-2"
-    >
+    <form onsubmit={handleUpdateUsername} class="flex flex-col gap-2">
       <div>
         <p>Username</p>
         <p class="text-sm text-text-placeholder mb-2">
@@ -177,28 +266,19 @@
         </div>
         <button
           type="submit"
-          disabled={editUsername === data.user.name ||
+          disabled={usernameLoading ||
+            editUsername === data.user.username ||
             editUsername.trim() === ""}
           class="px-4 py-2 bg-surface border border-border rounded-xl text-sm disabled:opacity-50 cursor-pointer disabled:cursor-default transition-opacity"
         >
-          Update
+          <span>{usernameLoading ? "Updating..." : "Update"}</span>
         </button>
       </div>
-      {#if form?.field === "username"}
-        {#if form?.error}<p class="text-sm text-text-placeholder">
-            {form.error}
-          </p>{/if}
-        {#if form?.success}<p class="text-sm text-text-placeholder">
-            Username updated.
-          </p>{/if}
+      {#if usernameMessage}
+        <p class="text-sm text-text-placeholder">{usernameMessage}</p>
       {/if}
     </form>
-    <form
-      method="POST"
-      action="?/updateEmail"
-      use:enhance
-      class="flex flex-col gap-2"
-    >
+    <form onsubmit={handleUpdateEmail} class="flex flex-col gap-2">
       <div>
         <p>Email</p>
         <p class="text-sm text-text-placeholder mb-2">
@@ -231,33 +311,19 @@
         </div>
         <button
           type="submit"
-          disabled={editEmail === data.user.email || editEmail.trim() === ""}
+          disabled={emailLoading ||
+            editEmail === data.user.email ||
+            editEmail.trim() === ""}
           class="px-4 py-2 bg-surface border border-border rounded-xl text-sm disabled:opacity-50 cursor-pointer disabled:cursor-default transition-opacity shrink-0"
         >
-          Update
+          <span>{emailLoading ? "Updating..." : "Update"}</span>
         </button>
       </div>
-      {#if form?.field === "email"}
-        {#if form?.error}<p class="text-sm text-text-placeholder">
-            {form.error}
-          </p>{/if}
-        {#if form?.success}<p class="text-sm text-text-placeholder">
-            Email updated.
-          </p>{/if}
+      {#if emailMessage}
+        <p class="text-sm text-text-placeholder">{emailMessage}</p>
       {/if}
     </form>
-    <form
-      method="POST"
-      action="?/updatePassword"
-      use:enhance={() => {
-        return async ({ update }) => {
-          oldPassword = "";
-          editPassword = "";
-          await update();
-        };
-      }}
-      class="flex flex-col gap-2"
-    >
+    <form onsubmit={handleUpdatePassword} class="flex flex-col gap-2">
       <div>
         <p>Password</p>
         <p class="text-sm text-text-placeholder mb-2">Set a new password</p>
@@ -343,50 +409,74 @@
         </div>
         <button
           type="submit"
-          disabled={!oldPassword || !editPassword}
+          disabled={passwordLoading || !oldPassword || !editPassword}
           class="px-4 py-2 bg-surface border border-border rounded-xl text-sm disabled:opacity-50 cursor-pointer disabled:cursor-default transition-opacity shrink-0"
         >
-          Update
+          <span>{passwordLoading ? "Updating..." : "Update"}</span>
         </button>
       </div>
-
-      {#if form?.field === "password"}
-        {#if form?.error}<p class="text-sm text-text-placeholder">
-            {form.error}
-          </p>{/if}
-        {#if form?.success}<p class="text-sm text-text-placeholder">
-            Password updated.
-          </p>{/if}
+      {#if passwordMessage}
+        <p class="text-sm text-text-placeholder">{passwordMessage}</p>
+      {/if}
+    </form>
+    <form onsubmit={handleDeleteAccount} class="flex flex-col gap-2 mt-4">
+      <div>
+        <p>Delete Account</p>
+        <p class="text-sm text-text-placeholder mb-2">
+          Permanently delete your account
+        </p>
+      </div>
+      <div class="flex gap-4">
+        <div
+          class="focus-within:bg-surface bg-secondary transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
+        >
+          <KeyRound size="20" class="ml-3 text-text-placeholder shrink-0" />
+          <input
+            placeholder="Password"
+            name="deletePassword"
+            type={showDeletePassword ? "text" : "password"}
+            bind:value={deletePassword}
+            required
+            class="w-full h-full pl-3 pr-4 bg-transparent outline-none placeholder:text-text-placeholder text-sm"
+          />
+          {#if deletePassword.length > 0}
+            <button
+              tabindex="-1"
+              type="button"
+              aria-label="Toggle Visibility"
+              class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+              onclick={() => (showDeletePassword = !showDeletePassword)}
+            >
+              {#if showDeletePassword}
+                <Eye size="20" />
+              {:else}
+                <EyeClosed size="20" />
+              {/if}
+            </button>
+            <button
+              tabindex="-1"
+              type="button"
+              class="mr-3 shrink-0 text-text-placeholder cursor-pointer"
+              onclick={() => (deletePassword = "")}
+            >
+              <X size="16" />
+            </button>
+          {/if}
+        </div>
+        <button
+          type="submit"
+          disabled={deleteLoading || !deletePassword}
+          class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer transition-colors text-sm w-fit disabled:opacity-50 disabled:cursor-default"
+        >
+          <Trash2 size="16" />
+          <span>{deleteLoading ? "Deleting..." : "Delete Account"}</span>
+        </button>
+      </div>
+      {#if deleteMessage}
+        <p class="text-sm text-text-placeholder">{deleteMessage}</p>
       {/if}
     </form>
   </div>
-  <form
-    class="flex flex-col gap-2 mt-4"
-    method="POST"
-    action="?/delete"
-    use:enhance
-  >
-    <div>
-      <p>Delete Account</p>
-      <p class="text-sm text-text-placeholder mb-2">
-        Permanently delete your account
-      </p>
-    </div>
-
-    <button
-      type="submit"
-      onclick={(e) => {
-        if (!confirmDelete) {
-          e.preventDefault();
-          confirmDelete = true;
-        }
-      }}
-      class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer transition-colors text-sm w-fit"
-    >
-      <Trash2 size="16" />
-      <span>{confirmDelete ? "Are you sure?" : "Delete Account"}</span>
-    </button>
-  </form>
 {:else}
   <p>Obsidian Account</p>
   <p class="text-sm text-text-placeholder mb-4">

@@ -6,8 +6,9 @@ Your new favorite place on the internet!
 - Setup Cloudflare WAF
 - Update accessibility... again
 - Add more emulators
-- Fix large load time with loading saves
-- Username and password requirements
+- Captcha on login and sign up
+- Not loading settings on first sign in without reload
+- Fix long loading times loading cloud storage
 
 # License
 Obsidian uses the Apache 2.0 with Commons Clause v1.0. Commercial use is strictly prohibited.

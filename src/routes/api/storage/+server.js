@@ -1,33 +1,33 @@
 import { json } from "@sveltejs/kit";
 
-export async function GET({ cookies, platform }) {
-  const sessionId = cookies.get("session_id");
+export async function GET({ locals, platform }) {
+  const userId = locals.user?.id;
 
-  if (!sessionId) return json({ data: null });
+  if (!userId) return json({ data: null });
 
-  const user = await platform?.env.USERS.prepare(
-    "SELECT storage FROM users WHERE id = ?",
+  const userData = await platform?.env.USERS.prepare(
+    "SELECT storage FROM user WHERE id = ?",
   )
-    .bind(sessionId)
+    .bind(userId)
     .first();
 
-  if (!user || !user.storage) {
+  if (!userData || !userData.storage) {
     return json({ data: null });
   }
 
-  return json({ data: JSON.parse(user.storage) });
+  return json({ data: JSON.parse(userData.storage) });
 }
 
-export async function POST({ request, cookies, platform }) {
-  const sessionId = cookies.get("session_id");
+export async function POST({ request, locals, platform }) {
+  const userId = locals.user?.id;
 
-  if (!sessionId) return json({ success: false, guest: true });
+  if (!userId) return json({ success: false, guest: true });
 
   const body = await request.json();
   const storageString = JSON.stringify(body);
 
-  await platform?.env.USERS.prepare("UPDATE users SET storage = ? WHERE id = ?")
-    .bind(storageString, sessionId)
+  await platform?.env.USERS.prepare("UPDATE user SET storage = ? WHERE id = ?")
+    .bind(storageString, userId)
     .run();
 
   return json({ success: true });

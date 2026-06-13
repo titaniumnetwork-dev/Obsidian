@@ -5,8 +5,6 @@
   import { cubicInOut } from "svelte/easing";
   import { crossfade } from "svelte/transition";
 
-  let user = $derived($page.data.user);
-
   const [send, receive] = crossfade({
     duration: 300,
     easing: cubicInOut,
@@ -33,7 +31,7 @@
         ($page.url.pathname.startsWith(tab.href + "/") &&
           $page.url.pathname !== tab.href + "/")}
 
-      {#if (tab.href === "/" ? !storage.settings.libraryMode : true)}
+      {#if tab.href === "/" ? !storage.settings.libraryMode : true}
         <a
           href={tab.href}
           data-active={isActive}
@@ -56,16 +54,16 @@
     href="/account"
     aria-label="Account"
     class={"h-14 data-[active-settings=false]:bg-secondary data-[active-settings=true]:bg-surface cursor-pointer z-10 flex items-center justify-center border border-border" +
-      (user ? " rounded-full px-4 gap-2" : " w-14 rounded-full")}
+      ($page.data.user ? " rounded-full px-4 gap-2" : " w-14 rounded-full")}
   >
-    {#if user}
+    {#if $page.data.user}
       <img
         class="rounded-full w-8 h-8 border border-border"
-        src={"/cdn/avatars/" + user.avatar_url}
+        src={"/cdn/avatars/" + $page.data.user.image}
         alt="Profile"
         draggable="false"
       />
-      <p>@{user.name}</p>
+      <p>@{$page.data.user.username}</p>
     {:else}
       <User />
     {/if}

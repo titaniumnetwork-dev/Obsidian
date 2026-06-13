@@ -213,7 +213,7 @@
       <h2 class="my-4 text-xl">
         {collections[data.currentData.collection].title} Collection
       </h2>
-      <div class="flex gap-4">
+      <div class="flex flex-wrap gap-4">
         {#each collectionData as item (item.id)}
           {@const itemInstalled = storage.installed.includes(item.id)}
           <a

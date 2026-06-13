@@ -9,6 +9,9 @@ const config = {
   },
   kit: {
     adapter: adapter({
+      platformProxy: {
+        configPath: "wrangler.json",
+      },
       routes: {
         include: ["/*"],
         //Make sure to update this

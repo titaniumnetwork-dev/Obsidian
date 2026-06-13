@@ -129,8 +129,9 @@ class StorageManager {
       playTime: this.playTime,
     };
   }
-  broadcastAuthChange() {
+  async broadcastAuthChange() {
     if (this.storageChannel) {
+      this.loadStorage(this.catalog);
       this.storageChannel.postMessage({ type: "authChange" });
     }
   }

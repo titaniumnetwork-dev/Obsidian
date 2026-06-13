@@ -1,212 +1,51 @@
-import { fail, redirect } from "@sveltejs/kit";
-import bcrypt from "bcryptjs";
+import { fail } from "@sveltejs/kit";
 
 export const actions = {
-  updateUsername: async ({ request, cookies, platform }) => {
-    const sessionId = cookies.get("session_id");
-    if (!sessionId)
-      return fail(401, { field: "username", error: "Not logged in." });
-
-    const formData = await request.formData();
-    const username = formData.get("username");
-
-    if (!username)
-      return fail(400, {
-        field: "username",
-        error: "Username cannot be empty.",
-      });
-
-    try {
-      const existing = await platform?.env.USERS.prepare(
-        "SELECT id FROM users WHERE name = ?",
-      )
-        .bind(username)
-        .first();
-
-      if (existing && existing.id !== sessionId) {
-        return fail(400, {
-          field: "username",
-          error: "Username is already taken.",
-        });
-      }
-
-      await platform?.env.USERS.prepare(
-        "UPDATE users SET name = ? WHERE id = ?",
-      )
-        .bind(username, sessionId)
-        .run();
-      return { field: "username", success: true };
-    } catch (e) {
-      return fail(500, {
-        field: "username",
-        error: "Failed to update username.",
-      });
-    }
-  },
-  updateEmail: async ({ request, cookies, platform }) => {
-    const sessionId = cookies.get("session_id");
-    if (!sessionId)
-      return fail(401, { field: "email", error: "Not logged in." });
-
-    const formData = await request.formData();
-    const email = formData.get("email");
-
-    if (!email)
-      return fail(400, { field: "email", error: "Email cannot be empty." });
-
-    try {
-      const existing = await platform?.env.USERS.prepare(
-        "SELECT id FROM users WHERE email = ?",
-      )
-        .bind(email)
-        .first();
-
-      if (existing && existing.id !== sessionId) {
-        return fail(400, {
-          field: "email",
-          error: "Email is already registered to another account.",
-        });
-      }
-
-      await platform?.env.USERS.prepare(
-        "UPDATE users SET email = ? WHERE id = ?",
-      )
-        .bind(email, sessionId)
-        .run();
-      return { field: "email", success: true };
-    } catch (e) {
-      return fail(500, { field: "email", error: "Failed to update email." });
-    }
-  },
-  updatePassword: async ({ request, cookies, platform }) => {
-    const sessionId = cookies.get("session_id");
-    if (!sessionId)
-      return fail(401, { field: "password", error: "Not logged in." });
-
-    const formData = await request.formData();
-    const oldPassword = formData.get("oldPassword");
-    const newPassword = formData.get("newPassword");
-
-    if (!oldPassword || !newPassword) {
-      return fail(400, { field: "password", error: "Missing fields" });
-    }
-
-    const user = await platform?.env.USERS.prepare(
-      "SELECT password_hash FROM users WHERE id = ?",
-    )
-      .bind(sessionId)
-      .first();
-
-    if (!user || !user.password_hash) {
-      return fail(400, { field: "password", error: "User not found." });
-    }
-
-    try {
-      const isCorrect = await bcrypt.compare(oldPassword, user.password_hash);
-
-      if (!isCorrect) {
-        return fail(400, {
-          field: "password",
-          error: "Incorrect current password.",
-        });
-      }
-    } catch (e) {
-      console.error("Verification error:", e);
-      return fail(500, {
-        field: "password",
-        error: "Error verifying password.",
-      });
-    }
-
-    try {
-      const salt = await bcrypt.genSalt(10);
-      const hash = await bcrypt.hash(newPassword, salt);
-
-      await platform?.env.USERS.prepare(
-        "UPDATE users SET password_hash = ? WHERE id = ?",
-      )
-        .bind(hash, sessionId)
-        .run();
-
-      return { field: "password", success: true };
-    } catch (e) {
-      console.error("Hashing error:", e);
-      return fail(500, {
-        field: "password",
-        error: "Failed to update password.",
-      });
-    }
-  },
   uploadAvatar: async ({ request, platform, locals }) => {
     const formData = await request.formData();
     const file = formData.get("avatar");
 
     if (!file || file.size === 0) {
-      return fail(400, { error: "No file provided" });
+      return fail(400, { field: "avatar", error: "No file provided" });
     }
 
     if (file.type !== "image/webp") {
-      return fail(400, { error: "Invalid format. Server only accepts WebP." });
+      return fail(400, {
+        field: "avatar",
+        error: "Invalid format. Server only accepts WebP.",
+      });
     }
 
     const MAX_SIZE = 50 * 1024;
     if (file.size > MAX_SIZE) {
-      return fail(400, { error: "File too large. Max size is 50KB." });
+      return fail(400, {
+        field: "avatar",
+        error: "File too large. Max size is 50KB.",
+      });
     }
 
-    const filename = `${locals.user.id}-${Date.now()}.webp`;
+    const avatarID = crypto.randomUUID();
 
-    if (locals.user.avatar_url) {
-      await platform.env.AVATARS.delete(locals.user.avatar_url);
+    try {
+      await platform.env.AVATARS.put(`${avatarID}.webp`, file, {
+        httpMetadata: { contentType: "image/webp" },
+      });
+
+      if (locals.user.image) {
+        await platform.env.AVATARS.delete(locals.user.image);
+      }
+
+      await locals.auth.api.updateUser({
+        body: {
+          image: `${avatarID}.webp`,
+        },
+        headers: request.headers,
+      });
+    } catch (error) {
+      return fail(400, {
+        field: "avatar",
+        message: error.message || "Updating profile picture failed",
+      });
     }
-
-    await platform.env.AVATARS.put(filename, file, {
-      httpMetadata: { contentType: "image/webp" },
-    });
-
-    await platform.env.USERS.prepare(
-      "UPDATE users SET avatar_url = ? WHERE id = ?",
-    )
-      .bind(filename, locals.user.id)
-      .run();
-  },
-  delete: async ({ cookies, locals, platform }) => {
-    const sessionId = cookies.get("session_id");
-
-    if (!sessionId) {
-      return fail(401, "Not logged in.");
-    }
-
-    const [lsFiles, idbFiles] = await Promise.all([
-      platform.env.SAVES.list({ prefix: `localstorage/${sessionId}/` }),
-      platform.env.SAVES.list({ prefix: `indexeddb/${sessionId}/` }),
-    ]);
-
-    const keysToDelete = [
-      ...lsFiles.objects.map((obj) => obj.key),
-      ...idbFiles.objects.map((obj) => obj.key),
-    ];
-
-    if (keysToDelete.length > 0) {
-      await platform.env.SAVES.delete(keysToDelete);
-    }
-
-    await platform.env.USER_SAVES.batch([
-      platform.env.USER_SAVES.prepare(
-        "DELETE FROM localstorage WHERE user_id = ?",
-      ).bind(sessionId),
-      platform.env.USER_SAVES.prepare(
-        "DELETE FROM indexeddb WHERE user_id = ?",
-      ).bind(sessionId),
-    ]);
-
-    await platform.env.AVATARS.delete(locals.user.avatar_url);
-
-    await platform.env.USERS.prepare("DELETE FROM users WHERE id = ?")
-      .bind(sessionId)
-      .run();
-
-    cookies.delete("session_id", { path: "/" });
-    throw redirect(303, "/");
   },
 };

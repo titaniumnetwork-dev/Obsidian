@@ -1,24 +1,29 @@
+import { building } from "$app/environment";
+import { createAuth } from "$lib/server/auth";
 import { sequence } from "@sveltejs/kit/hooks";
+import { svelteKitHandler } from "better-auth/svelte-kit";
 
-async function authHandle({ event, resolve }) {
-  const sessionId = event.cookies.get("session_id");
+const handleBetterAuth = async ({ event, resolve }) => {
+  if (!event.platform?.env?.USERS)
+    throw new Error('D1 binding "USERS" not found');
 
-  if (sessionId && event.platform?.env?.USERS) {
-    const user = await event.platform.env.USERS.prepare(
-      "SELECT id, email, name, avatar_url, join_date FROM users WHERE id = ?",
-    )
-      .bind(sessionId)
-      .first();
+  event.locals.auth = createAuth(
+    event.platform.env.USERS,
+    event.platform.env.AVATARS,
+    event.platform.env.SAVES,
+    event.platform.env.USER_SAVES,
+  );
 
-    if (user) {
-      event.locals.user = user;
-    } else {
-      event.cookies.delete("session_id", { path: "/" });
-    }
+  const { auth } = event.locals;
+  const session = await auth.api.getSession({ headers: event.request.headers });
+
+  if (session) {
+    event.locals.session = session.session;
+    event.locals.user = session.user;
   }
 
-  return await resolve(event);
-}
+  return svelteKitHandler({ event, resolve, auth, building });
+};
 
 async function securityHeaders({ event, resolve }) {
   const response = await resolve(event);
@@ -28,4 +33,10 @@ async function securityHeaders({ event, resolve }) {
   return response;
 }
 
-export const handle = sequence(authHandle, securityHeaders);
+export const handle = sequence(handleBetterAuth, securityHeaders);
+
+export const load = async ({ locals }) => {
+  return {
+    user: locals.user || null,
+  };
+};

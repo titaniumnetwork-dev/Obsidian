@@ -1,20 +1,37 @@
 <script>
-  import { enhance } from "$app/forms";
+  import { goto } from "$app/navigation";
+  import { authClient } from "$lib/client";
   import Head from "$lib/components/Head.svelte";
-  import { storage } from "$lib/storage.svelte.js";
   import { AtSign, Eye, EyeClosed, KeyRound, X } from "@lucide/svelte";
 
   let { form } = $props();
 
+  const session = authClient.useSession();
   let email = $state("");
   let password = $state("");
   let showPassword = $state(false);
+  let loading = $state(false);
+  let errorMessage = $state("");
 
-  $effect(() => {
-    if (form?.email) {
-      email = form.email;
+  async function handleLogin(e) {
+    e.preventDefault();
+
+    loading = true;
+    errorMessage = "";
+
+    const { data, error } = await authClient.signIn.email({
+      email,
+      password,
+    });
+
+    if (error) {
+      errorMessage = error.message || "Sign in failed";
+      loading = false;
+      return;
     }
-  });
+
+    await goto("/account", { invalidateAll: true });
+  }
 </script>
 
 <Head title="Login" />
@@ -29,20 +46,7 @@
         Log in to sync settings and game data
       </p>
     </div>
-    <form
-      class="flex flex-col gap-4"
-      method="POST"
-      use:enhance={() => {
-        return async ({ result, update }) => {
-          if (result.type === "redirect") {
-            storage.loadStorage(storage.catalog).then(() => {
-              storage.broadcastAuthChange();
-            });
-          }
-          update();
-        };
-      }}
-    >
+    <form class="flex flex-col gap-4" onsubmit={handleLogin}>
       <div
         class="focus-within:bg-surface bg-secondary transition-colors border border-border rounded-xl items-center flex w-full h-10"
       >
@@ -104,14 +108,21 @@
           </button>
         {/if}
       </div>
-      {#if form?.error}
-        <p class="text-sm text-text-placeholder">{form.error}</p>
+      {#if errorMessage}
+        <p class="text-sm text-text-placeholder">{errorMessage}</p>
       {/if}
       <button
         type="submit"
-        class="px-4 py-2 bg-surface rounded-xl cursor-pointer border border-border w-fit"
+        disabled={loading}
+        class="px-4 py-2 bg-surface rounded-xl border border-border w-fit disabled:opacity-50 cursor-pointer disabled:cursor-default"
       >
-        <span>Login</span>
+        <span>
+          {#if loading}
+            Logging In...
+          {:else}
+            Login
+          {/if}
+        </span>
       </button>
     </form>
     <p class="text-sm text-center text-text-placeholder">

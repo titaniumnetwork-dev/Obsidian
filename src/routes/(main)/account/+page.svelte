@@ -1,5 +1,7 @@
 <script>
   import { enhance } from "$app/forms";
+  import { goto } from "$app/navigation";
+  import { authClient } from "$lib/client";
   import Head from "$lib/components/Head.svelte";
   import { formatPlaytime } from "$lib/formatUtils.js";
   import { storage } from "$lib/storage.svelte.js";
@@ -14,9 +16,12 @@
     User,
   } from "@lucide/svelte";
 
-  let { data } = $props();
+  let { data, form } = $props();
+
+  const session = authClient.useSession();
   let isUploading = $state(false);
   let formError = $state("");
+  let loggingOut = $state(false);
 
   async function formatImage(file, sizeWidth, sizeHeight) {
     if (!file) return null;
@@ -61,7 +66,7 @@
   );
 </script>
 
-<Head title={data.user.name + "'s Account"} />
+<Head title={data.user.username + "'s Account"} />
 
 <div class="flex flex-col items-center justify-center px-4 my-16">
   <div
@@ -97,10 +102,10 @@
         <label
           class="relative group block w-20 h-20 rounded-2xl overflow-hidden cursor-pointer border border-border bg-surface"
         >
-          {#if data.user.avatar_url}
+          {#if data.user.image}
             <img
               class="w-full h-full object-cover"
-              src={"/cdn/avatars/" + data.user.avatar_url}
+              src={"/cdn/avatars/" + data.user.image}
               alt="Profile"
               draggable="false"
             />
@@ -140,9 +145,16 @@
             }}
           />
         </label>
+        {#if form?.field === "avatar"}
+          {#if form?.message}
+            <p class="text-sm text-text-placeholder">
+              {form.message}
+            </p>
+          {/if}
+        {/if}
       </form>
       <div class="flex flex-col">
-        <h1 class="text-2xl font-bold">@{data.user.name}</h1>
+        <h1 class="text-2xl font-bold">@{data.user.username}</h1>
         <p class="text-text-placeholder">{data.user.email}</p>
       </div>
       {#if formError}
@@ -157,7 +169,7 @@
             day: "numeric",
             month: "long",
             year: "numeric",
-          }).format(new Date(data.user.join_date))}
+          }).format(new Date(data.user.createdAt))}
         </p>
       </div>
       <div class="flex gap-4">
@@ -219,29 +231,33 @@
         <Settings size="20" />
         <p>Settings</p>
       </a>
-      <form
-        use:enhance={async () => {
+      <button
+        onclick={async () => {
+          loggingOut = true;
+
           await storage.flushSync();
 
-          return async ({ update }) => {
-            storage.loadStorage(storage.catalog).then(() => {
-              storage.broadcastAuthChange();
-            });
+          await authClient.signOut({
+            fetchOptions: {
+              onSuccess: async () => {
+                loggingOut = false;
 
-            await update();
-          };
+                await storage.broadcastAuthChange();
+                await goto("/account/login", { invalidateAll: true });
+              },
+            },
+          });
         }}
-        method="POST"
-        action="/account/logout"
+        disabled={loggingOut}
+        class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border disabled:opacity-50 cursor-pointer disabled:cursor-default"
       >
-        <button
-          type="submit"
-          class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer"
-        >
-          <LogOut size="20" />
+        <LogOut size="20" />
+        {#if loggingOut}
+          <span>Logging Out...</span>
+        {:else}
           <span>Log Out</span>
-        </button>
-      </form>
+        {/if}
+      </button>
     </div>
   </div>
 </div>
