@@ -2,8 +2,6 @@
 Your new favorite place on the internet!
 
 ## Todo
-- Setup Cloudflare WAF
-- Update accessibility... again
 - Add more emulators
 - Fix long loading times loading cloud storage
 - Option to disable accounts

@@ -74,6 +74,7 @@
         <Logo class="h-6 w-6 shrink-0" />
       </a>
       <button
+        aria-label="Toggle Sidebar"
         onclick={toggleSidebar}
         class="peer w-6 h-6 ml-auto mr-4 cursor-pointer absolute group-data-[style=default]:translate-x-54 group-data-[style=compact]:translate-x-8 transition-transform flex items-center justify-center duration-300"
       >
@@ -86,7 +87,7 @@
   </div>
   {#if storage.settings.sidebarSearch}
     <div
-      class={`bg-secondary sticky top-14 z-10 overflow-hidden transition-all duration-300 shrink-0 px-4 ${
+      class={`bg-secondary sticky top-14 z-10 overflow-hidden transition-[height,opacity,padding] duration-300 shrink-0 px-4 ${
         storage.settings.sidebarStyle === "default"
           ? "h-13.5 pb-4 opacity-100"
           : "h-0 pb-0 opacity-0 border-none"

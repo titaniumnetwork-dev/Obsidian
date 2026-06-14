@@ -419,7 +419,7 @@
         <p class="text-sm text-text-placeholder">{passwordMessage}</p>
       {/if}
     </form>
-    <form onsubmit={handleDeleteAccount} class="flex flex-col gap-2 mt-4">
+    <form onsubmit={handleDeleteAccount} class="flex flex-col gap-2">
       <div>
         <p>Delete Account</p>
         <p class="text-sm text-text-placeholder mb-2">
