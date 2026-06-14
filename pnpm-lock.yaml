@@ -50,6 +50,9 @@ importers:
       '@ruffle-rs/ruffle':
         specifier: 0.2.0-nightly.2026.5.13
         version: 0.2.0-nightly.2026.5.13
+      '@svelte-put/cloudflare-turnstile':
+        specifier: ^1.2.0
+        version: 1.2.0(svelte@5.55.4)
       '@uiw/codemirror-extensions-color':
         specifier: ^4.25.9
         version: 4.25.9(@codemirror/language@6.12.3)(@codemirror/state@6.6.0)(@codemirror/view@6.42.1)
@@ -1492,6 +1495,11 @@ packages:
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
+
+  '@svelte-put/cloudflare-turnstile@1.2.0':
+    resolution: {integrity: sha512-bm5zgKCBMbTrQCxX3u3rLiWaNFa6/B6juelE8Y8MriyaztxPg+ph5yS8WADMugEn3KmjN43QgcgsyHzPd2eCYg==}
+    peerDependencies:
+      svelte: ^5.1.0
 
   '@sveltejs/acorn-typescript@1.0.9':
     resolution: {integrity: sha512-lVJX6qEgs/4DOcRTpo56tmKzVPtoWAaVbL4hfO7t7NVwl9AAXzQR6cihesW1BmNMPl+bK6dreu2sOKBP2Q9CIA==}
@@ -4024,6 +4032,10 @@ snapshots:
   '@sqlite.org/sqlite-wasm@3.48.0-build4': {}
 
   '@standard-schema/spec@1.1.0': {}
+
+  '@svelte-put/cloudflare-turnstile@1.2.0(svelte@5.55.4)':
+    dependencies:
+      svelte: 5.55.4
 
   '@sveltejs/acorn-typescript@1.0.9(acorn@8.16.0)':
     dependencies:

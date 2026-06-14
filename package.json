@@ -42,6 +42,7 @@
     "@lezer/highlight": "^1.2.3",
     "@lucide/svelte": "^1.3.0",
     "@ruffle-rs/ruffle": "0.2.0-nightly.2026.5.13",
+    "@svelte-put/cloudflare-turnstile": "^1.2.0",
     "@uiw/codemirror-extensions-color": "^4.25.9",
     "bcryptjs": "^3.0.3",
     "better-auth": "^1.6.14",

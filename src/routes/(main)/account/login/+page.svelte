@@ -1,8 +1,11 @@
 <script>
   import { goto } from "$app/navigation";
+  import { PUBLIC_TURNSTILE_SITE_KEY } from "$env/static/public";
   import { authClient } from "$lib/client";
   import Head from "$lib/components/Head.svelte";
+  import { storage } from "$lib/storage.svelte.js";
   import { AtSign, Eye, EyeClosed, KeyRound, X } from "@lucide/svelte";
+  import { turnstile } from "@svelte-put/cloudflare-turnstile";
 
   let { form } = $props();
 
@@ -10,8 +13,17 @@
   let email = $state("");
   let password = $state("");
   let showPassword = $state(false);
+  let turnstileToken = $state("");
+  let turnstileWidgetId = $state("");
+  let turnstileInstance = $state(null);
   let loading = $state(false);
   let errorMessage = $state("");
+
+  const handleTurnstile = (e) => {
+    turnstileToken = e.detail.token;
+    turnstileWidgetId = e.detail.widgetId;
+    turnstileInstance = e.detail.turnstile;
+  };
 
   async function handleLogin(e) {
     e.preventDefault();
@@ -19,17 +31,34 @@
     loading = true;
     errorMessage = "";
 
+    if (!turnstileToken) {
+      errorMessage = "Please complete the Turnstile challenge";
+      loading = false;
+      return;
+    }
+
     const { data, error } = await authClient.signIn.email({
       email,
       password,
+      fetchOptions: {
+        headers: {
+          "x-captcha-response": turnstileToken,
+        },
+      },
     });
 
     if (error) {
+      if (turnstileInstance && turnstileWidgetId) {
+        turnstileInstance.reset(turnstileWidgetId);
+        turnstileToken = "";
+      }
+
       errorMessage = error.message || "Sign in failed";
       loading = false;
       return;
     }
 
+    await storage.broadcastAuthChange();
     await goto("/account", { invalidateAll: true });
   }
 </script>
@@ -108,6 +137,12 @@
           </button>
         {/if}
       </div>
+      <div
+        class="h-16.75"
+        use:turnstile
+        turnstile-sitekey={PUBLIC_TURNSTILE_SITE_KEY}
+        onturnstile={handleTurnstile}
+      ></div>
       {#if errorMessage}
         <p class="text-sm text-text-placeholder">{errorMessage}</p>
       {/if}

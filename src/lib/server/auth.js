@@ -7,7 +7,7 @@ import { Avatar, Style } from "@dicebear/core";
 import definition from "@dicebear/styles/initials.json" with { type: "json" };
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { betterAuth } from "better-auth/minimal";
-import { username } from "better-auth/plugins";
+import { captcha, username } from "better-auth/plugins";
 import { sveltekitCookies } from "better-auth/svelte-kit";
 
 const style = new Style(definition);
@@ -17,7 +17,14 @@ export const createAuth = (users, avatars, saves, userSaves) =>
     baseURL: env.ORIGIN,
     secret: env.BETTER_AUTH_SECRET,
     emailAndPassword: { enabled: true },
-    plugins: [username(), sveltekitCookies(getRequestEvent)],
+    plugins: [
+      username(),
+      captcha({
+        provider: "cloudflare-turnstile",
+        secretKey: env.TURNSTILE_SECRET_KEY,
+      }),
+      sveltekitCookies(getRequestEvent),
+    ],
     disabledPaths: ["/is-username-available"],
     database: drizzleAdapter(getDb(users), { provider: "sqlite", schema }),
     user: {
