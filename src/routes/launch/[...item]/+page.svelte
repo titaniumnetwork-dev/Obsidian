@@ -288,23 +288,14 @@
   }
 
   function frameLoaded(e) {
-    frame.contentWindow.addEventListener("click", (clickEvent) => {
+    frame.contentWindow.addEventListener("click", () => {
       if (controlsMenu) {
-        clickEvent.stopPropagation();
-        clickEvent.stopImmediatePropagation();
-        clickEvent.preventDefault();
         controlsMenu.hidePopover();
       }
       if (recordingMenu) {
-        clickEvent.stopPropagation();
-        clickEvent.stopImmediatePropagation();
-        clickEvent.preventDefault();
         recordingMenu.hidePopover();
       }
       if (emulationMenu) {
-        clickEvent.stopPropagation();
-        clickEvent.stopImmediatePropagation();
-        clickEvent.preventDefault();
         emulationMenu.hidePopover();
       }
     });

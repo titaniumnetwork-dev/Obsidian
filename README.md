@@ -2,7 +2,6 @@
 Your new favorite place on the internet!
 
 ## Todo
-- Add Eaglercraft servers
 - Setup Cloudflare WAF
 - Update accessibility... again
 - Add more emulators
