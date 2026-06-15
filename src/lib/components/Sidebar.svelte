@@ -1,11 +1,23 @@
 <script>
   import { page } from "$app/stores";
   import Logo from "$lib/assets/logo.svelte";
+  import ContextMenu from "$lib/components/ContextMenu.svelte";
   import { storage } from "$lib/storage.svelte.js";
-  import { Activity, Search, Sidebar, X } from "@lucide/svelte";
+  import {
+    Activity,
+    Pause,
+    Play,
+    Search,
+    Sidebar,
+    Star,
+    Trash,
+    X,
+  } from "@lucide/svelte";
 
   let { data } = $props();
   let searchQuery = $state("");
+  let contextMenu = $state();
+  let contextMenuItem = $state();
 
   let filteredLibrary = $derived.by(() => {
     //Reference active to ensure it's tracked as a dependency. Don't remove
@@ -58,6 +70,62 @@
   }
 </script>
 
+<ContextMenu bind:this={contextMenu}>
+  {#if contextMenuItem && storage.active[contextMenuItem.id]}
+    <button
+      onclick={() =>
+        storage.resumeActive(contextMenuItem.id) & contextMenu?.close()}
+      class="w-full rounded-lg bg-primary p-2 text-sm cursor-pointer flex items-center gap-2 text-text-inverse border border-border-primary"
+    >
+      <Pause size="20" />
+      <span>Resume</span>
+    </button>
+    <button
+      onclick={() =>
+        storage.quitActive(contextMenuItem.id) & contextMenu?.close()}
+      class="w-full rounded-lg bg-primary p-2 text-sm cursor-pointer flex items-center gap-2 text-text-inverse border border-border-primary"
+    >
+      <X size="20" />
+      <span>Quit</span>
+    </button>
+  {:else}
+    <button
+      onclick={() =>
+        storage.setActive(contextMenuItem.id) & contextMenu?.close()}
+      class="w-full rounded-lg bg-primary p-2 text-sm cursor-pointer flex items-center gap-2 text-text-inverse border border-border-primary"
+    >
+      <Play size="20" />
+      <span>Play</span>
+    </button>
+  {/if}
+  {#if contextMenuItem && storage.favorites.includes(contextMenuItem.id)}
+    <button
+      onclick={() =>
+        storage.removeFavorite(contextMenuItem.id) & contextMenu?.close()}
+      class="w-full rounded-lg transition-colors bg-surface hover:bg-border p-2 text-sm cursor-pointer flex items-center gap-2"
+    >
+      <Star size="20" class="fill-text" />
+      <span>Remove Favorite</span>
+    </button>
+  {:else}
+    <button
+      onclick={() =>
+        storage.addFavorite(contextMenuItem.id) & contextMenu?.close()}
+      class="w-full rounded-lg transition-colors bg-surface hover:bg-border p-2 text-sm cursor-pointer flex items-center gap-2"
+    >
+      <Star size="20" />
+      <span>Add Favorite</span>
+    </button>
+  {/if}
+  <button
+    onclick={() => storage.uninstall(contextMenuItem.id) & contextMenu?.close()}
+    class="w-full rounded-lg transition-colors bg-surface hover:bg-border p-2 text-sm cursor-pointer flex items-center gap-2"
+  >
+    <Trash size="20" />
+    <span>Uninstall</span>
+  </button>
+</ContextMenu>
+
 <div
   data-style={storage.settings.sidebarStyle}
   class="sidebar group bg-secondary h-[calc(100%-2rem)] data-[style=hidden]:hidden data-[style=compact]:w-23 data-[style=default]:w-64 transition-[width] flex flex-col overflow-y-scroll shrink-0 m-4 mr-0 rounded-2xl border border-surface duration-300"
@@ -89,7 +157,7 @@
     <div
       class={`bg-secondary sticky top-14 z-10 overflow-hidden transition-[height,opacity,padding] duration-300 shrink-0 px-4 ${
         storage.settings.sidebarStyle === "default"
-          ? "h-13.5 pb-4 opacity-100"
+          ? "h-11.5 pb-2 opacity-100"
           : "h-0 pb-0 opacity-0 border-none"
       }`}
     >
@@ -118,13 +186,15 @@
       <div class="grid grid-cols-[repeat(auto-fit,minmax(3.5rem,1fr))] gap-2">
         {#each favoritesLibrary as item (item.id)}
           <a
+            oncontextmenu={(e) =>
+              (contextMenuItem = { ...item }) & contextMenu?.open(e)}
             href={"/library/" + item.id}
             style={"--icon: url('/cdn/assets/assets/" +
               item.id +
               "/icon.webp')"}
             data-current={$page.url.pathname === "/library/" + item.id}
             data-active={storage.active[item.id] !== undefined}
-            class="group border border-border cursor-pointer w-full h-14 rounded-2xl flex items-center justify-center data-[current=false]:hover:bg-surface data-[current=true]:bg-surface transition-colors"
+            class="group border border-border cursor-pointer w-full h-14 rounded-2xl flex items-center justify-center data-[current=false]:hover:bg-surface data-[current=false]:data-[context-menu=true]:bg-surface data-[current=true]:bg-surface transition-colors"
           >
             <div
               class="group-data-[active=false]:[background:var(--icon)center/cover_padding-box] group-data-[active=true]:[background:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),var(--icon)center/cover_padding-box] h-8 w-8 rounded-lg flex items-center justify-center"
@@ -139,9 +209,11 @@
     {/if}
     {#each filteredLibrary as item (item.id)}
       <a
+        oncontextmenu={(e) =>
+          (contextMenuItem = { ...item }) & contextMenu?.open(e)}
         href={"/library/" + item.id}
         data-current={$page.url.pathname === "/library/" + item.id}
-        class="cursor-pointer h-14 w-full rounded-2xl text-sm flex items-center justify-between p-2 gap-2 data-[current=false]:hover:bg-surface transition-colors data-[current=true]:bg-surface whitespace-nowrap border border-transparent data-[current=true]:border data-[current=true]:border-border duration-300"
+        class="cursor-pointer h-14 w-full rounded-2xl text-sm flex items-center justify-between p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-surface data-[current=false]:hover:bg-surface transition-colors data-[current=true]:bg-surface whitespace-nowrap border border-transparent data-[current=true]:border data-[current=true]:border-border duration-300"
       >
         <div class="flex gap-2 items-center overflow-hidden">
           <img

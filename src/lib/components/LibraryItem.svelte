@@ -209,16 +209,19 @@
   </div>
   <div class="sm:w-2/3 ml-8">
     <p>{data.currentData.description}</p>
-    {#if data.currentData.collection}
-      <h2 class="my-4 text-xl">
+  </div>
+  {#if data.currentData.collection}
+    <div class="flex flex-col gap-2 ml-8">
+      <p class="text-xl">
         {collections[data.currentData.collection].title} Collection
-      </h2>
+      </p>
       <div class="flex flex-wrap gap-4">
         {#each collectionData as item (item.id)}
           {@const itemInstalled = storage.installed.includes(item.id)}
           <a
             href={itemInstalled ? "/library/" + item.id : "/store/" + item.id}
-            class={"cursor-pointer h-14 rounded-2xl text-sm flex items-center justify-between p-2 gap-2 whitespace-nowrap border border-border" + (itemInstalled ? " bg-surface" : "")}
+            class={"cursor-pointer h-14 rounded-2xl text-sm flex items-center justify-between p-2 gap-2 whitespace-nowrap border border-border" +
+              (itemInstalled ? " bg-surface" : "")}
           >
             <div class="flex gap-2 items-center overflow-hidden">
               <img
@@ -232,6 +235,6 @@
           </a>
         {/each}
       </div>
-    {/if}
-  </div>
+    </div>
+  {/if}
 </div>

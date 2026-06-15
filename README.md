@@ -5,6 +5,7 @@ Your new favorite place on the internet!
 - Add more emulators
 - Fix long loading times loading cloud storage
 - Option to disable accounts
+- Use actual schema for user settings storage
 
 # License
 Obsidian uses the Apache 2.0 with Commons Clause v1.0. Commercial use is strictly prohibited.

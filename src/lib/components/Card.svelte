@@ -1,7 +1,12 @@
 <script>
   import { storage } from "$lib/storage.svelte";
   import { Check, Download, Pause, Play, X } from "@lucide/svelte";
-  let { data, buttons = "default", link = "/library/" } = $props();
+  let {
+    data,
+    buttons,
+    link,
+    oncontextmenu,
+  } = $props();
 </script>
 
 <a
@@ -11,6 +16,7 @@
   class="outline-none group cursor-pointer w-full data-[cards-style=default]:aspect-2/3 data-[cards-style=square]:aspect-square bg-cover bg-center flex flex-col gap-4"
 >
   <img
+    {oncontextmenu}
     draggable="false"
     loading="lazy"
     alt={data.title + " cover"}
