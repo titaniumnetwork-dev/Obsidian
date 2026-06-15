@@ -1,10 +1,12 @@
 <script>
   import { goto } from "$app/navigation";
   import { collections } from "$lib/collections";
+  import ContextMenu from "$lib/components/ContextMenu.svelte";
   import { formatLastPlayed, formatPlaytime } from "$lib/formatUtils";
   import { storage } from "$lib/storage.svelte.js";
   import {
     ChartPie,
+    Check,
     Clock,
     Cloud,
     Download,
@@ -22,6 +24,8 @@
   let { data } = $props();
 
   let optionsMenu = $state();
+  let contextMenu = $state();
+  let contextMenuItem = $state();
 
   const keybinds = $derived(storage.keybinds[data.currentData.id] || {});
 
@@ -32,6 +36,35 @@
       ),
   );
 </script>
+
+<ContextMenu bind:this={contextMenu}>
+  {#if contextMenuItem && storage.installed.includes(contextMenuItem.id)}
+    <button
+      onclick={() =>
+        goto("/library/" + contextMenuItem.id) & contextMenu?.close()}
+      class="w-full rounded-lg bg-primary p-2 text-sm cursor-pointer flex items-center gap-2 text-text-inverse border border-border-primary"
+    >
+      <Check size="20" />
+      <span>View in Library</span>
+    </button>
+    <button
+      onclick={() =>
+        storage.uninstall(contextMenuItem.id) & contextMenu?.close()}
+      class="w-full rounded-lg transition-colors bg-surface hover:bg-border p-2 text-sm cursor-pointer flex items-center gap-2"
+    >
+      <Trash size="20" />
+      <span>Uninstall</span>
+    </button>
+  {:else}
+    <button
+      onclick={() => storage.install(contextMenuItem.id) & contextMenu?.close()}
+      class="w-full rounded-lg bg-primary p-2 text-sm cursor-pointer flex items-center gap-2 text-text-inverse border border-border-primary"
+    >
+      <Download size="20" />
+      <span>Install</span>
+    </button>
+  {/if}
+</ContextMenu>
 
 <div class="p-4 pt-0 flex flex-col gap-4 item">
   <div
@@ -218,21 +251,39 @@
       <div class="flex flex-wrap gap-4">
         {#each collectionData as item (item.id)}
           {@const itemInstalled = storage.installed.includes(item.id)}
-          <a
-            href={itemInstalled ? "/library/" + item.id : "/store/" + item.id}
-            class={"cursor-pointer h-14 rounded-2xl text-sm flex items-center justify-between p-2 gap-2 whitespace-nowrap border border-border" +
-              (itemInstalled ? " bg-surface" : "")}
-          >
-            <div class="flex gap-2 items-center overflow-hidden">
-              <img
-                draggable="false"
-                alt={item.title + " logo"}
-                class="h-10 w-10 rounded-xl"
-                src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
-              />
-              <span>{item.title}</span>
+          {#if item.id === data.currentData.id}
+            <div
+              class="h-14 rounded-2xl text-sm flex items-center justify-between p-2 gap-2 whitespace-nowrap border border-border opacity-50"
+            >
+              <div class="flex gap-2 items-center overflow-hidden">
+                <img
+                  draggable="false"
+                  alt={item.title + " logo"}
+                  class="h-10 w-10 rounded-xl"
+                  src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
+                />
+                <span>{item.title}</span>
+              </div>
             </div>
-          </a>
+          {:else}
+            <a
+              oncontextmenu={(e) =>
+                (contextMenuItem = { ...item }) & contextMenu?.open(e)}
+              href={itemInstalled ? "/library/" + item.id : "/store/" + item.id}
+              class={"cursor-pointer h-14 rounded-2xl text-sm flex items-center justify-between p-2 gap-2 whitespace-nowrap border border-border" +
+                (itemInstalled ? " bg-surface" : "")}
+            >
+              <div class="flex gap-2 items-center overflow-hidden">
+                <img
+                  draggable="false"
+                  alt={item.title + " logo"}
+                  class="h-10 w-10 rounded-xl"
+                  src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
+                />
+                <span>{item.title}</span>
+              </div>
+            </a>
+          {/if}
         {/each}
       </div>
     </div>
