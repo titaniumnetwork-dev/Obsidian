@@ -285,9 +285,7 @@
   function addGamepadAction() {
     if (!newGamepadActionName.trim()) return;
     gamepadControls.push({
-      action: newGamepadActionName.trim(),
-      buttons: [],
-      axes: [],
+      action: newGamepadActionName.trim()
     });
     newGamepadActionName = "";
   }
