@@ -724,7 +724,7 @@
 </script>
 
 <Head
-  title={data.currentData.title}
+  forceTitle={data.currentData.title}
   icon={"/cdn/assets/assets/" + data.currentData.id + "/icon.webp"}
 />
 

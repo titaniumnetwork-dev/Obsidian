@@ -50,6 +50,7 @@
     "drizzle-kit": "^0.31.10",
     "drizzle-orm": "^0.45.2",
     "jszip": "^3.10.1",
+    "profanease": "^2.0.3",
     "svelte-codemirror-editor": "^2.1.0",
     "svelte-sonner": "^1.1.1",
     "vite-plugin-mkcert": "^2.1.0"

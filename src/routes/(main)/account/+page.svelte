@@ -68,7 +68,7 @@
 
 <Head title={data.user.username + "'s Account"} />
 
-<div class="flex flex-col items-center justify-center px-4 my-16">
+<div class="flex flex-col items-center justify-center px-4 mt-auto">
   <div
     class="w-full max-w-lg p-8 bg-secondary border border-surface rounded-2xl flex flex-col gap-8"
   >
@@ -154,7 +154,12 @@
         {/if}
       </form>
       <div class="flex flex-col">
-        <h1 class="text-2xl font-bold">@{data.user.username}</h1>
+        <h1
+          data-admin={data.user.role === "admin"}
+          class="text-2xl font-bold relative data-[admin=true]:after:content-['Admin'] data-[admin=true]:after:absolute data-[admin=true]:after:ml-2 data-[admin=true]:after:top-1/2 data-[admin=true]:after:-translate-y-1/2 data-[admin=true]:after:px-2 data-[admin=true]:after:bg-primary data-[admin=true]:after:text-text-inverse data-[admin=true]:after:border data-[admin=true]:after:border-border-primary data-[admin=true]:after:text-xs data-[admin=true]:after:rounded-full data-[admin=true]:after:font-normal"
+        >
+          @{data.user.username}
+        </h1>
         <p class="text-text-placeholder">{data.user.email}</p>
       </div>
       {#if formError}
@@ -223,6 +228,22 @@
         </p>
       {/if}
     </div>
+    {#if data.user.role === "admin"}
+      <div class="flex flex-col gap-2">
+        <div>
+          <p>Admin Panel</p>
+          <p class="text-sm text-text-placeholder">Privileged access only</p>
+        </div>
+        <div class="flex gap-4">
+          <a
+            href="/admin/users"
+            class="px-4 py-2 bg-surface rounded-xl border border-border"
+          >
+            Users
+          </a>
+        </div>
+      </div>
+    {/if}
     <div class="flex gap-4 justify-center">
       <a
         href="/settings/account"

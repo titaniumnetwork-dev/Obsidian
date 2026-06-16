@@ -5,6 +5,8 @@
   import { cubicInOut } from "svelte/easing";
   import { crossfade } from "svelte/transition";
 
+  let { user, impersonating } = $props();
+
   const [send, receive] = crossfade({
     duration: 300,
     easing: cubicInOut,
@@ -20,7 +22,8 @@
 </script>
 
 <div
-  class="nav flex items-center p-4 justify-between sticky top-0 z-10 bg-background gap-4"
+  class={"nav flex items-center p-4 justify-between sticky z-10 bg-background gap-4" +
+    (impersonating ? " mt-4 top-4" : " top-0")}
 >
   <div
     class="slider-nav relative flex p-2 gap-2 bg-secondary rounded-full z-10 border border-surface"
@@ -54,16 +57,16 @@
     href="/account"
     aria-label="Account"
     class={"h-14 data-[active-settings=false]:bg-secondary data-[active-settings=true]:bg-surface cursor-pointer z-10 flex items-center justify-center border border-border" +
-      ($page.data.user ? " rounded-full px-4 gap-2" : " w-14 rounded-full")}
+      (user ? " rounded-full px-4 gap-2" : " w-14 rounded-full")}
   >
-    {#if $page.data.user}
+    {#if user}
       <img
         class="rounded-full w-8 h-8 border border-border"
-        src={"/cdn/avatars/" + $page.data.user.image}
+        src={"/cdn/avatars/" + user.image}
         alt="Profile"
         draggable="false"
       />
-      <p>@{$page.data.user.username}</p>
+      <p>@{user.username}</p>
     {:else}
       <User />
     {/if}

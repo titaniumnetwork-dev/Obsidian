@@ -35,8 +35,3 @@ async function securityHeaders({ event, resolve }) {
 
 export const handle = sequence(handleBetterAuth, securityHeaders);
 
-export const load = async ({ locals }) => {
-  return {
-    user: locals.user || null,
-  };
-};

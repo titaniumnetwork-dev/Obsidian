@@ -3,7 +3,7 @@
   import { storage } from "$lib/storage.svelte";
   import { themes } from "$lib/themes";
 
-  let { title, icon } = $props();
+  let { title, forceTitle, icon } = $props();
 
   let favicon = $state();
   let pageTitle = $state();
@@ -13,7 +13,11 @@
   );
 
   $effect(() => {
-    pageTitle = title ? `${title} | Obsidian` : "Obsidian";
+    pageTitle = forceTitle
+      ? forceTitle
+      : title
+        ? `${title} | Obsidian`
+        : "Obsidian";
 
     favicon = icon ? icon : logo;
   });

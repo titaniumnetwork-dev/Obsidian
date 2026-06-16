@@ -12,6 +12,14 @@ export async function load({ fetch, params, locals }) {
     });
   }
 
+  if (!locals.user || locals.user.banned) {
+    return {
+      catalogData,
+      path: params.path,
+      user: null,
+    };
+  }
+
   return {
     currentData,
     path: params.path,

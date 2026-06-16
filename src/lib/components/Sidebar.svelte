@@ -14,7 +14,7 @@
     X,
   } from "@lucide/svelte";
 
-  let { data } = $props();
+  let { impersonating } = $props();
   let searchQuery = $state("");
   let contextMenu = $state();
   let contextMenuItem = $state();
@@ -128,7 +128,8 @@
 
 <div
   data-style={storage.settings.sidebarStyle}
-  class="sidebar group bg-secondary h-[calc(100%-2rem)] data-[style=hidden]:hidden data-[style=compact]:w-23 data-[style=default]:w-64 transition-[width] flex flex-col overflow-y-scroll shrink-0 m-4 mr-0 rounded-2xl border border-surface duration-300"
+  class={"sidebar group bg-secondary data-[style=hidden]:hidden data-[style=compact]:w-23 data-[style=default]:w-64 transition-[width] flex flex-col overflow-y-scroll shrink-0 m-4 mr-0 rounded-2xl border border-surface duration-300" +
+    (impersonating ? " h-[calc(100%-4rem)] mt-8" : " h-[calc(100%-2rem)]")}
 >
   <div class="bg-secondary sticky top-0 py-4 z-10">
     <div

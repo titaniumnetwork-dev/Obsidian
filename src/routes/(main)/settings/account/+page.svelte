@@ -489,7 +489,7 @@
       >Login</a
     >
     <a
-      href="/account/sign-up"
+      href="/account/signup"
       class="px-4 py-2 text-sm bg-surface rounded-xl flex items-center gap-2 border border-border"
       >Sign Up</a
     >

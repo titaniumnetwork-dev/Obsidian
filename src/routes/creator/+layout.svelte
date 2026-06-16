@@ -1,4 +1,5 @@
 <script>
+  import { authClient } from "$lib/client.js";
   import MobileBlocker from "$lib/components/MobileBlocker.svelte";
   import "$lib/consoleMessage.js";
   import "$lib/konami.svelte.js";
@@ -8,6 +9,22 @@
   import { Toaster } from "svelte-sonner";
 
   let { children, data } = $props();
+
+  onMount(() => {
+    if (data.user) {
+      const intervalId = setInterval(async () => {
+        const { data, error } = await authClient.getSession();
+
+        if (!data) {
+          clearInterval(intervalId);
+          invalidateAll();
+          await storage.broadcastAuthChange();
+        }
+      }, 10000);
+
+      return () => clearInterval(intervalId);
+    }
+  });
 
   onMount(async () => {
     storage.loadStorage(data.catalogData);

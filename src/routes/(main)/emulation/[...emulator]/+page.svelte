@@ -35,7 +35,7 @@
 
 <Head title={emuData.title} />
 
-<div class="flex flex-col items-center justify-center px-4 my-16">
+<div class="flex flex-col items-center justify-center px-4 mt-auto">
   <div
     class="w-full max-w-xl p-8 bg-secondary border border-surface rounded-2xl flex flex-col gap-8"
   >
