@@ -26,7 +26,7 @@
   );
 </script>
 
-<Cards data={sortedLibrary} link="/store/" buttons="store" />
+<Cards title={data.category} data={sortedLibrary} link="/store/" buttons="store" />
 {#if !sortedLibrary.length}
-  <div class="text-text-placeholder text-center p-4">No results found.</div>
+  <div class="text-text-placeholder text-center p-4 text-sm">No results found.</div>
 {/if}

@@ -14,7 +14,7 @@ export async function load({ fetch, params, locals }) {
 
   if (!locals.user || locals.user.banned) {
     return {
-      catalogData,
+      currentData,
       path: params.path,
       user: null,
     };

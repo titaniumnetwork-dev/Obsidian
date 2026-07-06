@@ -28,7 +28,7 @@
   }
 </script>
 
-<footer class="footer mb-4 mx-4 mt-auto flex gap-4 justify-between pt-12">
+<footer class="footer mb-4 mx-4 mt-auto flex gap-4 justify-between pt-16 text-sm">
   <div class="flex items-center gap-2">
     <Logo onpointerdown={logoPressed} class="h-6 w-6" />
     <p>Obsidian {new Date().getFullYear()}</p>
@@ -52,32 +52,32 @@
         class="text-text-placeholder hover:underline"
         href="https://github.com"
       >
-        <SiGithub size="20" />
+        <SiGithub size="16" />
       </a>
       -->
       <a
         class="text-text-placeholder hover:underline"
         href="https://discord.com"
       >
-        <SiDiscord size="20" />
+        <SiDiscord size="16" />
       </a>
       <a
         class="text-text-placeholder hover:underline"
         href="https://youtube.com"
       >
-        <SiYoutube size="20" />
+        <SiYoutube size="16" />
       </a>
       <a
         class="text-text-placeholder hover:underline"
         href="https://tiktok.com"
       >
-        <SiTiktok size="20" />
+        <SiTiktok size="16" />
       </a>
       <a
         class="text-text-placeholder hover:underline"
         href="https://patreon.com"
       >
-        <SiPatreon size="20" />
+        <SiPatreon size="16" />
       </a>
     </div>
   </div>

@@ -2,7 +2,7 @@
   import { page } from "$app/stores";
   import ErrorGame from "$lib/components/ErrorGame.svelte";
   import Head from "$lib/components/Head.svelte";
-    import { storage } from "$lib/storage.svelte";
+  import { storage } from "$lib/storage.svelte";
   import { ArrowLeft, Home } from "@lucide/svelte";
 </script>
 
@@ -10,24 +10,30 @@
 
 <div class="flex flex-col gap-4 items-center my-8">
   <ErrorGame />
-  <h1 class="text-4xl font-bold">
-    {$page.status === 404 ? "Page Not Found" : "An Error Occurred"}
-  </h1>
-  <p>Message: {$page.error?.message}</p>
-  <div class="flex gap-4">
+  <div class="flex items-center flex-col gap-2">
+    <p>
+      {$page.status === 404 ? "Page Not Found" : "An Error Occurred"}
+    </p>
+    <p class="text-sm text-text-placeholder">
+      {$page.error?.message === "Not found"
+        ? "The page you're looking for doesn't exist. Return home or go back."
+        : $page.error?.message}
+    </p>
+  </div>
+  <div class="flex gap-2">
     <button
       onclick={() => window.history.back()}
-      class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer"
+      class="h-9 px-2.5 bg-neutral-900 rounded-lg flex gap-1.5 items-center cursor-pointer border border-input text-sm"
     >
-      <ArrowLeft size="20" />
+      <ArrowLeft size="16" />
       <span>Go Back</span>
     </button>
     <a
-      class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer"
+      class="h-9 px-2.5 bg-neutral-900 rounded-lg flex gap-1.5 items-center cursor-pointer border border-input text-sm"
       href={storage.settings.libraryMode ? "/library" : "/"}
     >
-      <Home size="20" />
-      <span>Home</span>
+      <Home size="16" />
+      <span>{storage.settings.libraryMode ? "Library" : "Home"}</span>
     </a>
   </div>
 </div>

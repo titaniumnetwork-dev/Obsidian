@@ -732,30 +732,24 @@
 
 <div
   data-overlay-style={storage.settings.overlay}
-  class="group bg-background fixed top-0 right-0 left-0 flex data-[overlay-style=default]:gap-4 data-[overlay-style=default]:p-4 data-[overlay-style=compact]:px-4 data-[overlay-style=compact]:py-2 data-[overlay-style=compact]:gap-2 z-10 justify-between items-center border-b border-surface data-[overlay-style=compact]:h-10"
+  class="group bg-background fixed top-0 right-0 left-0 flex justify-between items-center border-b border-border h-17 px-4"
 >
-  <div
-    class="flex items-center group-data-[overlay-style=default]:gap-4 group-data-[overlay-style=compact]:gap-2"
-  >
+  <div class="flex items-center gap-2 text-sm">
     <img
       draggable="false"
-      class="group-data-[overlay-style=default]:h-10 group-data-[overlay-style=default]:w-10 group-data-[overlay-style=compact]:h-5 group-data-[overlay-style=compact]:w-5 group-data-[overlay-style=default]:rounded-xl group-data-[overlay-style=compact]:rounded"
+      class="size-8 rounded-lg"
       src={"/cdn/assets/assets/" + data.currentData.id + "/icon.webp"}
       alt={data.currentData.title}
     />
-    <p class="group-data-[overlay-style=compact]:text-sm">
-      {data.currentData.title}
-    </p>
+    <p>{data.currentData.title}</p>
   </div>
-  <div class="flex items-center gap-4">
+  <div class="flex items-center gap-2">
     {#if data.currentData.type === "Emulation"}
       <button
         popovertarget="emulation"
-        class="[anchor-name:--emulation-button] group-data-[overlay-style=default]:px-4 group-data-[overlay-style=default]:py-2 group-data-[overlay-style=compact]:p-1 text-sm bg-surface border border-border group-data-[overlay-style=default]:rounded-xl group-data-[overlay-style=compact]:rounded-lg flex gap-2 cursor-pointer"
+        class="[anchor-name:--emulation-button] h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-neutral-900 rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
       >
-        <Gamepad
-          class="group-data-[overlay-style=default]:w-5 group-data-[overlay-style=default]:h-5 group-data-[overlay-style=compact]:w-4 group-data-[overlay-style=compact]:h-4"
-        />
+        <Gamepad size="16" />
         <span class="group-data-[overlay-style=compact]:hidden">Emulation</span>
       </button>
       <div
@@ -851,11 +845,9 @@
     {#if data.currentData.controls || (data.currentData.gamepadControls && isGamepadConnected)}
       <button
         popovertarget="controls"
-        class="[anchor-name:--controls-button] group-data-[overlay-style=default]:px-4 group-data-[overlay-style=default]:py-2 group-data-[overlay-style=compact]:p-1 cursor-pointer text-sm bg-surface border border-border group-data-[overlay-style=default]:rounded-xl group-data-[overlay-style=compact]:rounded-lg flex gap-2 outline-none"
+        class="[anchor-name:--controls-button] h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-neutral-900 rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm outline-none"
       >
-        <Keyboard
-          class="group-data-[overlay-style=default]:w-5 group-data-[overlay-style=default]:h-5 group-data-[overlay-style=compact]:w-4 group-data-[overlay-style=compact]:h-4"
-        />
+        <Keyboard size="16" />
         <span class="group-data-[overlay-style=compact]:hidden">Controls</span>
       </button>
       <div
@@ -1082,20 +1074,16 @@
     {/if}
     <button
       onclick={() => frame.requestFullscreen()}
-      class="group-data-[overlay-style=default]:px-4 group-data-[overlay-style=default]:py-2 group-data-[overlay-style=compact]:p-1 cursor-pointer text-sm bg-surface border border-border group-data-[overlay-style=default]:rounded-xl group-data-[overlay-style=compact]:rounded-lg flex gap-2"
+      class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-neutral-900 rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
     >
-      <Maximize
-        class="group-data-[overlay-style=default]:w-5 group-data-[overlay-style=default]:h-5 group-data-[overlay-style=compact]:w-4 group-data-[overlay-style=compact]:h-4"
-      />
+      <Maximize size="16" />
       <span class="group-data-[overlay-style=compact]:hidden">Fullscreen</span>
     </button>
     <button
       popovertarget="recording"
-      class="[anchor-name:--recording-button] group-data-[overlay-style=default]:px-4 group-data-[overlay-style=default]:py-2 group-data-[overlay-style=compact]:p-1 cursor-pointer text-sm bg-surface border border-border group-data-[overlay-style=default]:rounded-xl group-data-[overlay-style=compact]:rounded-lg flex gap-2"
+      class="[anchor-name:--recording-button] h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-neutral-900 rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
     >
-      <Video
-        class="group-data-[overlay-style=default]:w-5 group-data-[overlay-style=default]:h-5 group-data-[overlay-style=compact]:w-4 group-data-[overlay-style=compact]:h-4"
-      />
+      <Video size="16" />
       <span class="group-data-[overlay-style=compact]:hidden">Record</span>
     </button>
     <div
@@ -1142,21 +1130,17 @@
     </div>
     <button
       onclick={() => frame.contentWindow.location.reload()}
-      class="group-data-[overlay-style=default]:px-4 group-data-[overlay-style=default]:py-2 group-data-[overlay-style=compact]:p-1 cursor-pointer text-sm bg-surface border border-border group-data-[overlay-style=default]:rounded-xl group-data-[overlay-style=compact]:rounded-lg flex gap-2"
+      class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-neutral-900 rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
     >
-      <RotateCw
-        class="group-data-[overlay-style=default]:w-5 group-data-[overlay-style=default]:h-5 group-data-[overlay-style=compact]:w-4 group-data-[overlay-style=compact]:h-4"
-      />
+      <RotateCw size="16" />
       <span class="group-data-[overlay-style=compact]:hidden">Reload</span>
     </button>
     {#if window.opener}
       <button
         onclick={() => window.close()}
-        class="group-data-[overlay-style=default]:px-4 group-data-[overlay-style=default]:py-2 group-data-[overlay-style=compact]:p-1 cursor-pointer text-sm bg-surface border border-border group-data-[overlay-style=default]:rounded-xl group-data-[overlay-style=compact]:rounded-lg flex gap-2"
+        class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-neutral-900 rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
       >
-        <X
-          class="group-data-[overlay-style=default]:w-5 group-data-[overlay-style=default]:h-5 group-data-[overlay-style=compact]:w-4 group-data-[overlay-style=compact]:h-4"
-        />
+        <X size="16" />
         <span class="group-data-[overlay-style=compact]:hidden">Quit</span>
       </button>
     {/if}
@@ -1164,7 +1148,7 @@
 </div>
 <div
   data-overlay-style={storage.settings.overlay}
-  class="fixed data-[overlay-style=default]:top-17 data-[overlay-style=compact]:top-10 bottom-0 right-0 left-0 h-[calc(100vh-4.25rem)] w-full flex items-center justify-center"
+  class="fixed data-[overlay-style=default]:top-17 bottom-0 right-0 left-0 h-[calc(100vh-4.25rem)] w-full flex items-center justify-center"
 >
   <iframe
     bind:this={frame}

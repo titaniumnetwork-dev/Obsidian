@@ -79,10 +79,10 @@
 
 <div class="flex flex-col items-center justify-center px-8 mt-auto gap-4">
   <div
-    class="w-full max-w-sm p-8 bg-secondary border border-surface rounded-2xl flex flex-col gap-8"
+    class="w-full max-w-sm p-6 bg-secondary border border-border rounded-radius flex flex-col gap-6"
   >
     <div class="flex flex-col gap-2 text-center">
-      <h1 class="text-xl font-bold">Create an account</h1>
+      <h1 >Create an Account</h1>
       <p class="text-text-placeholder text-sm">
         Sign up to sync settings and game data
       </p>
@@ -91,22 +91,22 @@
       <div class="flex flex-col gap-2">
         <p class="text-sm">Username</p>
         <div
-          class="focus-within:bg-surface bg-secondary transition-colors border border-border rounded-xl items-center flex w-full h-10"
+          class="bg-input/30 transition-colors border border-input rounded-lg items-center flex w-full h-9 px-2.5 gap-1.5"
         >
-          <User size="16" class="ml-3 text-text-placeholder shrink-0" />
+          <User size="16" class="text-text-placeholder shrink-0" />
           <input
             name="username"
             type="text"
             bind:value={username}
             required
-            class="w-full h-full pl-2 pr-4 bg-transparent outline-none placeholder:text-text-placeholder"
+            class="w-full h-full bg-transparent outline-none placeholder:text-text-placeholder"
           />
           {#if username.length > 0}
             <button
               tabindex="-1"
               type="button"
               aria-label="Clear Username"
-              class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+              class="cursor-pointer shrink-0 text-text-placeholder"
               onclick={() => (username = "")}
             >
               <X size="16" />
@@ -117,22 +117,22 @@
       <div class="flex flex-col gap-2">
         <p class="text-sm">Email</p>
         <div
-          class="focus-within:bg-surface bg-secondary transition-colors border border-border rounded-xl items-center flex w-full h-10"
+          class="bg-input/30 transition-colors border border-input rounded-lg items-center flex w-full h-9 px-2.5 gap-1.5"
         >
-          <AtSign size="16" class="ml-3 text-text-placeholder shrink-0" />
+          <AtSign size="16" class="text-text-placeholder shrink-0" />
           <input
             name="email"
             type="email"
             bind:value={email}
             required
-            class="w-full h-full pl-2 pr-4 bg-transparent outline-none placeholder:text-text-placeholder"
+            class="w-full h-full bg-transparent outline-none placeholder:text-text-placeholder"
           />
           {#if email.length > 0}
             <button
               tabindex="-1"
               type="button"
               aria-label="Clear Email"
-              class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+              class="cursor-pointer shrink-0 text-text-placeholder"
               onclick={() => (email = "")}
             >
               <X size="16" />
@@ -144,22 +144,22 @@
         <div class="flex flex-col gap-2">
           <p class="text-sm">Password</p>
           <div
-            class="focus-within:bg-surface bg-secondary transition-colors border border-border rounded-xl items-center flex w-full h-10"
+            class="bg-input/30 transition-colors border border-input rounded-lg items-center flex w-full h-9 px-2.5 gap-1.5"
           >
-            <KeyRound size="16" class="ml-3 text-text-placeholder shrink-0" />
+            <KeyRound size="16" class="text-text-placeholder shrink-0" />
             <input
               name="password"
               type={showPassword ? "text" : "password"}
               bind:value={password}
               required
-              class="w-full h-full pl-2 pr-4 bg-transparent outline-none placeholder:text-text-placeholder"
+              class="w-full h-full bg-transparent outline-none placeholder:text-text-placeholder"
             />
             {#if password.length > 0}
               <button
                 tabindex="-1"
                 type="button"
                 aria-label="Toggle Visibility"
-                class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+                class="cursor-pointer shrink-0 text-text-placeholder"
                 onclick={() => (showPassword = !showPassword)}
               >
                 {#if showPassword}
@@ -172,7 +172,7 @@
                 tabindex="-1"
                 type="button"
                 aria-label="Clear Password"
-                class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+                class="cursor-pointer shrink-0 text-text-placeholder"
                 onclick={() => (password = "")}
               >
                 <X size="16" />
@@ -183,22 +183,22 @@
         <div class="flex flex-col gap-2">
           <p class="text-sm">Confirm Password</p>
           <div
-            class="focus-within:bg-surface bg-secondary transition-colors border border-border rounded-xl items-center flex w-full h-10"
+            class="bg-input/30 transition-colors border border-input rounded-lg items-center flex w-full h-9 px-2.5 gap-1.5"
           >
-            <KeyRound size="16" class="ml-3 text-text-placeholder shrink-0" />
+            <KeyRound size="16" class="text-text-placeholder shrink-0" />
             <input
               name="confirmPassword"
               type={showConfirmPassword ? "text" : "password"}
               bind:value={confirmPassword}
               required
-              class="w-full h-full pl-2 pr-4 bg-transparent outline-none placeholder:text-text-placeholder"
+              class="w-full h-full bg-transparent outline-none placeholder:text-text-placeholder"
             />
             {#if confirmPassword.length > 0}
               <button
                 tabindex="-1"
                 type="button"
                 aria-label="Toggle Visibility"
-                class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+                class="cursor-pointer shrink-0 text-text-placeholder"
                 onclick={() => (showConfirmPassword = !showConfirmPassword)}
               >
                 {#if showConfirmPassword}
@@ -211,7 +211,7 @@
                 tabindex="-1"
                 type="button"
                 aria-label="Clear Password"
-                class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+                class="cursor-pointer shrink-0 text-text-placeholder"
                 onclick={() => (confirmPassword = "")}
               >
                 <X size="16" />
@@ -234,7 +234,7 @@
         <button
           type="submit"
           disabled={loading}
-          class="px-4 py-2 bg-primary rounded-xl border border-border-primary w-full disabled:opacity-50 cursor-pointer disabled:cursor-default text-text-inverse text-sm"
+          class="h-9 px-2.5 bg-primary rounded-lg w-full disabled:opacity-50 cursor-pointer disabled:cursor-default text-text-inverse text-sm"
         >
           <span>
             {#if loading}

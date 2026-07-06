@@ -1,0 +1,5 @@
+<script>
+  let { class: className = "", children, ...rest } = $props();
+</script>
+
+<svg class={className} {...rest} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96"><path fill="currentColor" d="M27 74v12h-6a1 1 0 1 1-2 0h-6V74zM48 18c11.046 0 20 8.954 20 20v48h-4V54a2 2 0 0 0-2-2H34l-.204.01A2 2 0 0 0 32 54v32h-4V38c0-11.046 8.954-20 20-20"></path><path fill="currentColor" d="M62 53a1 1 0 0 1 1 1v32h-7V76a8 8 0 1 0-16 0v10h-7V54a1 1 0 0 1 1-1z"></path><path fill="currentColor" d="M48 69a7 7 0 0 1 7 7v10H41V76a7 7 0 0 1 7-7M83 74v12H69V74z"></path><path fill="currentColor" d="M82 10a6 6 0 0 1 6 6v70h-4V16a2 2 0 0 0-1.796-1.99L82 14H14a2 2 0 0 0-2 2v70H8V16a6 6 0 0 1 6-6z"></path><path fill="currentColor" d="M27 72v1H13v-1zM83 72v1H69v-1zM27 70v1H13v-1zM83 70v1H69v-1zM27 68v1H13v-1zM83 68v1H69v-1zM27 66v1H13v-1zM83 66v1H69v-1zM82 15a1 1 0 0 1 1 1v49H69V38c0-11.598-9.402-21-21-21s-21 9.402-21 21v27H13V16a1 1 0 0 1 1-1z"></path></svg>

@@ -22,16 +22,16 @@
 
 <Head title="Settings" />
 
-<div class="flex gap-4 p-4 pt-0 mx-auto w-full">
-  <nav class="flex flex-col gap-4 w-56 shrink-0">
+<div class="flex flex-col gap-4 p-4 mx-auto w-full">
+  <nav class="flex gap-2 w-56 shrink-0">
     {#each tabs as tab}
       {@const isActive = $page.url.pathname === tab.href}
       <a
         href={tab.href}
         data-active={isActive}
-        class="px-4 py-2 transition-colors bg-transparent data-[active=true]:bg-surface rounded-xl flex gap-2 items-center border border-border text-sm"
+        class="flex items-center cursor-pointer text-sm rounded-xl h-8 px-2.5 gap-2 transition-colors hover:bg-neutral-800 data-[active=true]:bg-neutral-800"
       >
-        <tab.icon size="20" />
+        <tab.icon size="16" />
         <span>{tab.name}</span>
       </a>
     {/each}

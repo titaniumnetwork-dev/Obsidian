@@ -148,8 +148,9 @@
 </script>
 
 {#if data.user}
-  <div class="flex flex-col gap-4 max-w-xl">
+  <div class="grid grid-cols-2 gap-4">
     <form
+      class="flex flex-col gap-4 bg-neutral-900 rounded-radius p-4 text-sm border border-border"
       method="POST"
       action="?/uploadAvatar"
       enctype="multipart/form-data"
@@ -233,7 +234,10 @@
         <p class="text-sm text-text-placeholder mt-2">{avatarMessage}</p>
       {/if}
     </form>
-    <form onsubmit={handleUpdateUsername} class="flex flex-col gap-2">
+    <form
+      onsubmit={handleUpdateUsername}
+      class="flex flex-col gap-4 bg-neutral-900 rounded-radius p-4 text-sm border border-border"
+    >
       <div>
         <p>Username</p>
         <p class="text-sm text-text-placeholder mb-2">
@@ -278,7 +282,10 @@
         <p class="text-sm text-text-placeholder">{usernameMessage}</p>
       {/if}
     </form>
-    <form onsubmit={handleUpdateEmail} class="flex flex-col gap-2">
+    <form
+      onsubmit={handleUpdateEmail}
+      class="flex flex-col gap-4 bg-neutral-900 rounded-radius p-4 text-sm border border-border"
+    >
       <div>
         <p>Email</p>
         <p class="text-sm text-text-placeholder mb-2">
@@ -323,7 +330,10 @@
         <p class="text-sm text-text-placeholder">{emailMessage}</p>
       {/if}
     </form>
-    <form onsubmit={handleUpdatePassword} class="flex flex-col gap-2">
+    <form
+      onsubmit={handleUpdatePassword}
+      class="flex flex-col gap-4 bg-neutral-900 rounded-radius p-4 text-sm border border-border"
+    >
       <div>
         <p>Password</p>
         <p class="text-sm text-text-placeholder mb-2">Set a new password</p>
@@ -419,7 +429,10 @@
         <p class="text-sm text-text-placeholder">{passwordMessage}</p>
       {/if}
     </form>
-    <form onsubmit={handleDeleteAccount} class="flex flex-col gap-2">
+    <form
+      onsubmit={handleDeleteAccount}
+      class="flex flex-col gap-4 bg-neutral-900 rounded-radius p-4 text-sm border border-border"
+    >
       <div>
         <p>Delete Account</p>
         <p class="text-sm text-text-placeholder mb-2">
@@ -478,20 +491,26 @@
     </form>
   </div>
 {:else}
-  <p>Obsidian Account</p>
-  <p class="text-sm text-text-placeholder mb-4">
-    Sign in to manage your account and sync your data
-  </p>
-  <div class="flex gap-4">
-    <a
-      href="/account/login"
-      class="px-4 py-2 text-sm bg-surface rounded-xl flex items-center gap-2 border border-border"
-      >Login</a
-    >
-    <a
-      href="/account/signup"
-      class="px-4 py-2 text-sm bg-surface rounded-xl flex items-center gap-2 border border-border"
-      >Sign Up</a
-    >
+  <div
+    class="flex flex-col gap-4 bg-neutral-900 rounded-radius p-4 text-sm border border-border w-1/2"
+  >
+    <div>
+      <p>Obsidian Account</p>
+      <p class="text-sm text-text-placeholder">
+        Sign in to manage your account and sync your data
+      </p>
+    </div>
+    <div class="flex gap-2">
+      <a
+        href="/account/login"
+        class="h-9 px-2.5 text-sm bg-surface rounded-xl flex items-center gap-2 border border-border"
+        >Login</a
+      >
+      <a
+        href="/account/signup"
+        class="h-9 px-2.5 text-sm bg-surface rounded-xl flex items-center gap-2 border border-border"
+        >Sign Up</a
+      >
+    </div>
   </div>
 {/if}

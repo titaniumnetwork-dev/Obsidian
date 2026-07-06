@@ -4,18 +4,22 @@
   import ContextMenu from "$lib/components/ContextMenu.svelte";
   import { storage } from "$lib/storage.svelte.js";
   import {
-    Activity,
+    Gamepad2,
+    Home,
+    LayoutGrid,
     Pause,
     Play,
     Search,
+    Settings,
     Sidebar,
     Star,
+    Store,
     Trash,
+    User,
     X,
   } from "@lucide/svelte";
 
-  let { impersonating } = $props();
-  let searchQuery = $state("");
+  let { user, impersonating } = $props();
   let contextMenu = $state();
   let contextMenuItem = $state();
 
@@ -27,39 +31,24 @@
       .filter((item) => {
         return !storage.favorites.includes(item.id);
       })
-      .filter((item) =>
-        item.title.toLowerCase().includes(searchQuery.toLowerCase()),
-      )
+      .filter((item) => !storage.active[item.id])
       .sort((a, b) => {
-        //Alphabetical maybe allow changing later
+        //Todo sort option
         return (a.title || "").localeCompare(b.title || "");
-      })
-      .sort((a, b) => {
-        if (storage.settings.playingFirst) {
-          return (
-            Object.hasOwn(storage.active, b.id) -
-            Object.hasOwn(storage.active, a.id)
-          );
-        } else {
-          return 1;
-        }
       });
   });
 
-  let favoritesLibrary = $derived(
+  let currentlyPlayingData = $derived(
+    Object.keys(storage.active)
+      .map((id) => storage.library.find((item) => item.id === id))
+      .reverse(),
+  );
+
+  let favoritesData = $derived(
     storage.favorites
       .map((id) => storage.library.find((item) => item.id === id))
       .filter(Boolean),
   );
-
-  $effect(() => {
-    if (
-      storage.settings.sidebarSearch === false ||
-      storage.settings.sidebarStyle !== "default"
-    ) {
-      searchQuery = "";
-    }
-  });
 
   function toggleSidebar() {
     if (storage.settings.sidebarStyle === "default") {
@@ -68,6 +57,13 @@
       storage.updateSetting("sidebarStyle", "default");
     }
   }
+
+  const tabs = [
+    { name: "Home", href: "/", icon: Home },
+    { name: "Library", href: "/library", icon: LayoutGrid },
+    { name: "Store", href: "/store", icon: Store },
+    { name: "Emulation", href: "/emulation", icon: Gamepad2 },
+  ];
 </script>
 
 <ContextMenu bind:this={contextMenu}>
@@ -128,126 +124,225 @@
 
 <div
   data-style={storage.settings.sidebarStyle}
-  class={"sidebar group bg-secondary data-[style=hidden]:hidden data-[style=compact]:w-23 data-[style=default]:w-64 transition-[width] flex flex-col overflow-y-scroll shrink-0 m-4 mr-0 rounded-2xl border border-surface duration-300" +
-    (impersonating ? " h-[calc(100%-4rem)] mt-8" : " h-[calc(100%-2rem)]")}
+  class={"sidebar group bg-secondary data-[style=compact]:w-12 data-[style=default]:w-64 transition-[width] flex flex-col gap-2 overflow-y-scroll shrink-0 m-2 mr-0 rounded-radius border border-border box-content" +
+    (impersonating ? " h-[calc(100%-4rem)] mt-8" : " h-[calc(100%-18px)]")}
 >
-  <div class="bg-secondary sticky top-0 py-4 z-10">
+  <div class="bg-secondary sticky top-0 py-2 z-10">
     <div
-      class="group/logo h-6 group-data-[style=compact]:w-6 gap-4 flex items-center justify-between relative"
+      class="flex group-data-[style=default]:items-center mx-2 gap-1 justify-between group-data-[style=compact]:flex-col overflow-hidden"
     >
-      <a
-        class="w-6 h-6 absolute group-data-[style=default]:translate-x-6 group-data-[style=compact]:translate-x-8 transition-[translate,opacity] group-data-[style=compact]:group-hover/logo:opacity-0 duration-300"
-        aria-label="Home Logo"
-        href={storage.settings.libraryMode ? "/library" : "/"}
+      <div class="flex gap-2 items-center">
+        <a
+          class="size-8 cursor-pointer flex items-center justify-center rounded-lg transition-colors hover:bg-neutral-800"
+          aria-label="Home Logo"
+          href={storage.settings.libraryMode ? "/library" : "/"}
+        >
+          <Logo class="size-5" />
+        </a>
+        <p class="text-sm group-data-[style=compact]:hidden">Obsidian</p>
+      </div>
+      <div
+        class="flex gap-1 group-data-[style=default]:items-center group-data-[style=compact]:flex-col"
       >
-        <Logo class="h-6 w-6 shrink-0" />
-      </a>
-      <button
-        aria-label="Toggle Sidebar"
-        onclick={toggleSidebar}
-        class="peer w-6 h-6 ml-auto mr-4 cursor-pointer absolute group-data-[style=default]:translate-x-54 group-data-[style=compact]:translate-x-8 transition-transform flex items-center justify-center duration-300"
-      >
-        <Sidebar
-          class="group-data-[style=compact]:opacity-0 group-data-[style=compact]:group-hover/logo:opacity-100 text-text-placeholder transition-opacity"
-          size="20"
-        />
-      </button>
+        <button
+          aria-label="Search"
+          class="size-8 cursor-pointer flex items-center justify-center rounded-lg transition-colors hover:bg-neutral-800 text-text-placeholder"
+        >
+          <Search size="16" />
+        </button>
+        <button
+          aria-label="Toggle Sidebar"
+          onclick={toggleSidebar}
+          class="size-8 cursor-pointer flex items-center justify-center rounded-lg transition-colors hover:bg-neutral-800 text-text-placeholder"
+        >
+          <Sidebar size="16" />
+        </button>
+      </div>
     </div>
   </div>
-  {#if storage.settings.sidebarSearch}
-    <div
-      class={`bg-secondary sticky top-14 z-10 overflow-hidden transition-[height,opacity,padding] duration-300 shrink-0 px-4 ${
-        storage.settings.sidebarStyle === "default"
-          ? "h-11.5 pb-2 opacity-100"
-          : "h-0 pb-0 opacity-0 border-none"
-      }`}
-    >
-      <div
-        class="focus-within:bg-surface bg-secondary rounded-xl items-center shrink-0 flex border border-border h-full"
-      >
-        <Search size="20" class="ml-3 text-text-placeholder shrink-0" />
-        <input
-          bind:value={searchQuery}
-          placeholder="Search"
-          class="h-9 w-full pl-2 pr-4 bg-transparent outline-none placeholder:text-text-placeholder"
-        />
-        {#if searchQuery.length > 0}
-          <button
-            class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
-            onclick={() => (searchQuery = "")}
-          >
-            <X size="20" />
-          </button>
-        {/if}
-      </div>
-    </div>
-  {/if}
-  <div class="m-4 mt-0 flex flex-col gap-2">
-    {#if storage.favorites.length > 0}
-      <div class="grid grid-cols-[repeat(auto-fit,minmax(3.5rem,1fr))] gap-2">
-        {#each favoritesLibrary as item (item.id)}
-          <a
-            oncontextmenu={(e) =>
-              (contextMenuItem = { ...item }) & contextMenu?.open(e)}
-            href={"/library/" + item.id}
-            style={"--icon: url('/cdn/assets/assets/" +
-              item.id +
-              "/icon.webp')"}
-            data-current={$page.url.pathname === "/library/" + item.id}
-            data-active={storage.active[item.id] !== undefined}
-            class="group border border-border cursor-pointer w-full h-14 rounded-2xl flex items-center justify-center data-[current=false]:hover:bg-surface data-[current=false]:data-[context-menu=true]:bg-surface data-[current=true]:bg-surface transition-colors"
-          >
-            <div
-              class="group-data-[active=false]:[background:var(--icon)center/cover_padding-box] group-data-[active=true]:[background:linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),var(--icon)center/cover_padding-box] h-8 w-8 rounded-lg flex items-center justify-center"
+  <div
+    class="flex flex-col gap-2 overflow-auto flex-1 group-data-[style=compact]:no-scrollbar"
+  >
+    <div>
+      <hr class="mb-4 mx-2 text-border group-data-[style=default]:hidden" />
+      <div class="p-2 pt-0 flex flex-col gap-1">
+        {#each tabs as tab}
+          {@const isActive =
+            $page.url.pathname === tab.href ||
+            (tab.href !== "/library" &&
+              $page.url.pathname.startsWith(tab.href + "/") &&
+              $page.url.pathname !== tab.href + "/")}
+          {#if tab.href === "/" ? !storage.settings.libraryMode : true}
+            <a
+              data-active={isActive}
+              href={tab.href}
+              class="flex items-center cursor-pointer text-sm rounded-lg h-8 group-data-[style=default]:w-full group-data-[style=compact]:w-8 group-data-[style=default]:px-2 gap-2 transition-colors hover:bg-neutral-800 data-[active=true]:bg-neutral-800 group-data-[style=compact]:justify-center overflow-hidden"
             >
-              {#if storage.active[item.id]}
-                <Activity size="16" />
-              {/if}
-            </div>
-          </a>
+              <tab.icon class="shrink-0" size="16" />
+              <span class="group-data-[style=compact]:hidden">{tab.name}</span>
+            </a>
+          {/if}
         {/each}
       </div>
-    {/if}
-    {#each filteredLibrary as item (item.id)}
-      <a
-        oncontextmenu={(e) =>
-          (contextMenuItem = { ...item }) & contextMenu?.open(e)}
-        href={"/library/" + item.id}
-        data-current={$page.url.pathname === "/library/" + item.id}
-        class="cursor-pointer h-14 w-full rounded-2xl text-sm flex items-center justify-between p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-surface data-[current=false]:hover:bg-surface transition-colors data-[current=true]:bg-surface whitespace-nowrap border border-transparent data-[current=true]:border data-[current=true]:border-border duration-300"
-      >
-        <div class="flex gap-2 items-center overflow-hidden">
-          <img
-            draggable="false"
-            loading="lazy"
-            alt={item.title + " logo"}
-            class="h-10 w-10 rounded-xl"
-            src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
-          />
-          <span
-            class="group-data-[style=hidden]:opacity-0 group-data-[style=compact]:opacity-0 transition-opacity overflow-hidden text-ellipsis duration-300"
-            >{item.title}</span
-          >
+    </div>
+    {#if currentlyPlayingData.length > 0}
+      <div>
+        <p
+          class="h-8 px-4 text-xs text-text-placeholder flex items-center shrink-0 group-data-[style=compact]:hidden"
+        >
+          Currently Playing
+        </p>
+        <hr class="mb-4 mx-2 text-border group-data-[style=default]:hidden" />
+        <div class="p-2 pt-0 flex flex-col gap-1">
+          {#each currentlyPlayingData as item (item.id)}
+            <a
+              oncontextmenu={(e) =>
+                (contextMenuItem = { ...item }) & contextMenu?.open(e)}
+              href={"/library/" + item.id}
+              data-current={$page.url.pathname === "/library/" + item.id}
+              class="cursor-pointer group-data-[style=default]:h-12 group-data-[style=compact]:h-8 group-data-[style=default]:w-full group-data-[style=compact]:w-8 rounded-lg text-sm flex items-center justify-between group-data-[style=default]:p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-neutral-800 data-[current=false]:hover:bg-neutral-800 transition-colors data-[current=true]:bg-neutral-800 whitespace-nowrap group-data-[style=compact]:justify-center"
+            >
+              <div class="flex gap-2 items-center overflow-hidden">
+                <img
+                  draggable="false"
+                  loading="lazy"
+                  alt={item.title + " logo"}
+                  class="shrink-0 group-data-[style=default]:size-8 group-data-[style=compact]:size-4 group-data-[style=default]:rounded-lg group-data-[style=compact]:rounded-md"
+                  src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
+                />
+                <span
+                  class="group-data-[style=compact]:hidden overflow-hidden text-ellipsis"
+                  >{item.title}</span
+                >
+              </div>
+            </a>
+          {/each}
         </div>
-        {#if storage.active[item.id]}
-          <Activity
-            size="16"
-            class="mx-2 text-text-placeholder group-data-[style=hidden]:opacity-0 group-data-[style=compact]:opacity-0 transition-opacity shrink-0 duration-300"
-          />
-        {/if}
-      </a>
-    {/each}
-
-    {#if storage.library.length > 0 && filteredLibrary.concat(favoritesLibrary).length === 0}
-      <div class="text-text-placeholder text-center text-sm p-4">
-        No items found.
       </div>
     {/if}
-    {#if storage.library.length === 0}
+    {#if storage.favorites.length > 0}
+      <div>
+        <p
+          class="h-8 px-4 text-xs text-text-placeholder flex items-center shrink-0 group-data-[style=compact]:hidden"
+        >
+          Favorites
+        </p>
+        <hr class="mb-4 mx-2 text-border group-data-[style=default]:hidden" />
+        <div class="p-2 pt-0 flex flex-col gap-1">
+          {#each favoritesData as item (item.id)}
+            <a
+              oncontextmenu={(e) =>
+                (contextMenuItem = { ...item }) & contextMenu?.open(e)}
+              href={"/library/" + item.id}
+              data-current={$page.url.pathname === "/library/" + item.id}
+              class="cursor-pointer group-data-[style=default]:h-12 group-data-[style=compact]:h-8 group-data-[style=default]:w-full group-data-[style=compact]:w-8 rounded-lg text-sm flex items-center justify-between group-data-[style=default]:p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-neutral-800 data-[current=false]:hover:bg-neutral-800 transition-colors data-[current=true]:bg-neutral-800 whitespace-nowrap group-data-[style=compact]:justify-center"
+            >
+              <div class="flex gap-2 items-center overflow-hidden">
+                <img
+                  draggable="false"
+                  loading="lazy"
+                  alt={item.title + " logo"}
+                  class="shrink-0 group-data-[style=default]:size-8 group-data-[style=compact]:size-4 group-data-[style=default]:rounded-lg group-data-[style=compact]:rounded-md"
+                  src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
+                />
+                <span
+                  class="group-data-[style=compact]:hidden overflow-hidden text-ellipsis"
+                  >{item.title}</span
+                >
+              </div>
+            </a>
+          {/each}
+        </div>
+      </div>
+    {/if}
+    {#if filteredLibrary.length > 0}
+      <div>
+        <p
+          class="h-8 px-4 text-xs text-text-placeholder flex items-center shrink-0 group-data-[style=compact]:hidden overflow-hidden whitespace-nowrap"
+        >
+          Library
+        </p>
+        <hr class="mb-4 mx-2 text-border group-data-[style=default]:hidden" />
+        <div class="p-2 pt-0 flex flex-col gap-1">
+          {#each filteredLibrary as item (item.id)}
+            <a
+              oncontextmenu={(e) =>
+                (contextMenuItem = { ...item }) & contextMenu?.open(e)}
+              href={"/library/" + item.id}
+              data-current={$page.url.pathname === "/library/" + item.id}
+              class="cursor-pointer group-data-[style=default]:h-12 group-data-[style=compact]:h-8 group-data-[style=default]:w-full group-data-[style=compact]:w-8 rounded-lg text-sm flex items-center justify-between group-data-[style=default]:p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-neutral-800 data-[current=false]:hover:bg-neutral-800 transition-colors data-[current=true]:bg-neutral-800 whitespace-nowrap group-data-[style=compact]:justify-center"
+            >
+              <div class="flex gap-2 items-center overflow-hidden">
+                <img
+                  draggable="false"
+                  loading="lazy"
+                  alt={item.title + " logo"}
+                  class="group-data-[style=default]:size-8 group-data-[style=compact]:size-4 group-data-[style=default]:rounded-lg group-data-[style=compact]:rounded-md"
+                  src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
+                />
+                <span
+                  class="group-data-[style=compact]:hidden overflow-hidden text-ellipsis"
+                  >{item.title}</span
+                >
+              </div>
+            </a>
+          {/each}
+        </div>
+      </div>
+    {/if}
+    <hr class="mb-4 mx-2 text-border group-data-[style=default]:hidden" />
+  </div>
+  <div class="p-2 pt-0">
+    {#if user}
       <div
-        class="text-text-placeholder text-center text-sm p-4 transition-opacity group-data-[style=hidden]:hidden group-data-[style=compact]:opacity-0 whitespace-nowrap duration-300"
+        class="group-data-[style=default]:h-12 rounded-xl text-sm flex items-center gap-2 group-data-[style=default]:bg-neutral-800 group-data-[style=compact]:flex-col-reverse"
       >
-        Nothing in your library
+        <a
+          class="flex gap-2 items-center group-data-[style=default]:p-2 group-data-[style=default]:pr-0 min-w-0"
+          href="/account"
+        >
+          <img
+            class="size-8 rounded-full"
+            src="https://localhost:5173/cdn/assets/assets/db2fd199-a687-4055-818b-6aac58f4f070/icon.webp"
+            alt="Profile"
+            draggable="false"
+          />
+          <div
+            class="flex flex-col overflow-hidden group-data-[style=compact]:hidden"
+          >
+            <span class="overflow-hidden whitespace-nowrap text-ellipsis"
+              >{user.username}</span
+            >
+            <span
+              class="text-xs text-text-placeholder overflow-hidden whitespace-nowrap text-ellipsis"
+              >{user.email}</span
+            >
+          </div>
+        </a>
+        <a
+          aria-label="Settings"
+          href="/settings/account"
+          class="shrink-0 size-8 cursor-pointer flex items-center justify-center rounded-lg group-data-[style=default]:bg-input group-data-[style=compact]:bg-neutral-800 group-data-[style=default]:m-2 group-data-[style=default]:ml-auto"
+        >
+          <Settings size="16" />
+        </a>
+      </div>
+    {:else}
+      <div class="flex gap-2 group-data-[style=compact]:flex-col">
+        <a
+          href="/account/login"
+          class="flex items-center justify-safe cursor-pointer text-sm rounded-lg h-8 group-data-[style=default]:w-full group-data-[style=compact]:w-8 group-data-[style=default]:px-2.5 gap-2 bg-neutral-800 whitespace-nowrap overflow-hidden"
+        >
+          <User class="shrink-0" size="16" />
+          <span class="group-data-[style=compact]:hidden">Sign In</span>
+        </a>
+        <a
+          aria-label="Settings"
+          href="/settings/account"
+          class="size-8 cursor-pointer flex items-center justify-center rounded-lg bg-neutral-800 shrink-0"
+        >
+          <Settings size="16" />
+        </a>
       </div>
     {/if}
   </div>

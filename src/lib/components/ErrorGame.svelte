@@ -194,7 +194,7 @@
 
 <svelte:window onkeydown={handleKeydown} onkeyup={handleKeyup} />
 
-<div class="w-96 h-40 border-b-2 border-text relative overflow-hidden">
+<div class="w-96 h-40 border-b-2 border-input relative overflow-hidden">
   <div class="absolute z-20" style="left: 10px; bottom: {snailY}px;">
     <Snail size="36" />
   </div>

@@ -70,7 +70,7 @@
 
 <div class="flex flex-col items-center justify-center px-4 mt-auto">
   <div
-    class="w-full max-w-lg p-8 bg-secondary border border-surface rounded-2xl flex flex-col gap-8"
+    class="w-full max-w-lg p-6 bg-secondary border border-border rounded-radius flex flex-col gap-6"
   >
     <div class="flex flex-col items-center gap-4 text-center">
       <form
@@ -158,7 +158,7 @@
           data-admin={data.user.role === "admin"}
           class="text-2xl font-bold relative data-[admin=true]:after:content-['Admin'] data-[admin=true]:after:absolute data-[admin=true]:after:ml-2 data-[admin=true]:after:top-1/2 data-[admin=true]:after:-translate-y-1/2 data-[admin=true]:after:px-2 data-[admin=true]:after:bg-primary data-[admin=true]:after:text-text-inverse data-[admin=true]:after:border data-[admin=true]:after:border-border-primary data-[admin=true]:after:text-xs data-[admin=true]:after:rounded-full data-[admin=true]:after:font-normal"
         >
-          @{data.user.username}
+          {data.user.username}
         </h1>
         <p class="text-text-placeholder">{data.user.email}</p>
       </div>

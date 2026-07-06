@@ -3,7 +3,6 @@
   import Head from "$lib/components/Head.svelte";
   import KenneyGamepadIcon from "$lib/components/KenneyGamepadIcon.svelte";
   import KenneyKeyboardIcon from "$lib/components/KenneyKeyboardIcon.svelte";
-  import Navbar from "$lib/components/Navbar.svelte";
   import { storage } from "$lib/storage.svelte";
   import {
     ChartPie,
@@ -928,7 +927,6 @@
   </button>
 </div>
 <div class="w-full overflow-auto flex flex-col">
-  <Navbar />
   <div class="p-4 pt-0 flex flex-col gap-4 item">
     <div
       style={"--hero: url('" + hero + "')"}

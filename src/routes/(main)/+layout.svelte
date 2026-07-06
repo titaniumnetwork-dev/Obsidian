@@ -4,7 +4,6 @@
   import Footer from "$lib/components/Footer.svelte";
   import Impersonating from "$lib/components/Impersonating.svelte";
   import MobileBlocker from "$lib/components/MobileBlocker.svelte";
-  import Navbar from "$lib/components/Navbar.svelte";
   import Sidebar from "$lib/components/Sidebar.svelte";
   import "$lib/consoleMessage.js";
   import "$lib/konami.svelte.js";
@@ -110,9 +109,8 @@
 {#if storage.isLoaded}
   <MobileBlocker>
     <Impersonating {authClient} {impersonating} />
-    <Sidebar {impersonating} />
+    <Sidebar {impersonating} user={data.user} />
     <div class="w-full overflow-auto flex flex-col">
-      <Navbar {impersonating} user={data.user} />
       {@render children()}
       <Footer />
     </div>

@@ -2,7 +2,18 @@
   import Cards from "$lib/components/Cards.svelte";
   import Head from "$lib/components/Head.svelte";
   import { storage } from "$lib/storage.svelte.js";
-  import { Check, ChevronDown, Dice5, SearchIcon, X } from "@lucide/svelte";
+  import {
+    ArrowDownUp,
+    Check,
+    ChevronDown,
+    Dice5,
+    Ghost,
+    Search,
+    SearchX,
+    Store,
+    Tags,
+    X,
+  } from "@lucide/svelte";
 
   let { data } = $props();
 
@@ -67,11 +78,16 @@
       }),
   );
 
-  function pickRandom() {
+  function pickRandom(e) {
     if (sortedLibrary.length === 0) return;
-    window.location.href =
-      "/library/" +
-      sortedLibrary[Math.floor(Math.random() * sortedLibrary.length)].id;
+
+    e.target.children[0].classList.add("animate-shake");
+    setTimeout(() => {
+      e.target.children[0].classList.remove("animate-shake");
+      window.location.href =
+        "/library/" +
+        sortedLibrary[Math.floor(Math.random() * sortedLibrary.length)].id;
+    }, 300);
   }
 
   let sortNode;
@@ -95,151 +111,54 @@
 
 <svelte:window onclick={handleClickOutside} />
 
-<div
-  class="flex gap-4 p-4 pt-0 justify-between bg-background sticky top-22.5 sorting"
->
-  <div class="flex gap-4 shrink-0">
-    <details
-      class="relative bg-surface rounded-xl border border-border"
-      bind:this={sortNode}
+<div class="flex gap-2 p-4 justify-between bg-background sticky top-0 z-10">
+  <div class="flex gap-2">
+    <div
+      class="bg-neutral-900 rounded-lg items-center flex w-96 border border-input h-9 px-2.5 gap-1.5"
     >
-      <summary
-        class="rounded-xl flex px-4 py-2 cursor-pointer text-sm justify-between items-center h-full"
-      >
-        <span class="mr-2 select-none truncate">
-          {#if storage.settings.sortBy === "alphabetical"}
-            Name (A-Z)
-          {:else if storage.settings.sortBy === "alphabetical_reverse"}
-            Name (Z-A)
-          {:else if storage.settings.sortBy === "recent"}
-            Recent
-          {:else if storage.settings.sortBy === "most_played"}
-            Most Played
-          {/if}
-        </span>
-        <ChevronDown size="20" class="shrink-0" />
-      </summary>
-      <div
-        class="absolute mt-2 min-w-full w-max bg-secondary rounded-xl max-h-60 overflow-y-auto border border-surface z-10 flex flex-col"
-      >
+      <Search size="16" class="text-text-placeholder shrink-0" />
+      <input
+        bind:value={searchQuery}
+        placeholder="Search library"
+        class="w-full h-full bg-transparent outline-none placeholder:text-text-placeholder text-sm"
+      />
+      {#if searchQuery.length > 0}
         <button
-          class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
-          onclick={(e) => {
-            storage.updateSetting("sortBy", "alphabetical");
-            e.currentTarget.closest("details").removeAttribute("open");
-          }}
+          class="cursor-pointer shrink-0 text-text-placeholder"
+          onclick={() => (searchQuery = "")}
         >
-          Name (A-Z)
+          <X size="16" />
         </button>
-        <button
-          class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
-          onclick={(e) => {
-            storage.updateSetting("sortBy", "alphabetical_reverse");
-            e.currentTarget.closest("details").removeAttribute("open");
-          }}
-        >
-          Name (Z-A)
-        </button>
-        <button
-          class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
-          onclick={(e) => {
-            storage.updateSetting("sortBy", "recent");
-            e.currentTarget.closest("details").removeAttribute("open");
-          }}
-        >
-          Recent
-        </button>
-        <button
-          class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
-          onclick={(e) => {
-            storage.updateSetting("sortBy", "most_played");
-            e.currentTarget.closest("details").removeAttribute("open");
-          }}
-        >
-          Most Played
-        </button>
-      </div>
-    </details>
+      {/if}
+    </div>
     <details
-      class="relative bg-surface rounded-xl border border-border"
-      bind:this={categoryNode}
-    >
-      <summary
-        class="rounded-xl flex px-4 py-2 cursor-pointer text-sm justify-between items-center h-full"
-      >
-        <span class="mr-2 select-none truncate">
-          {#if storage.settings.category === "all"}
-            All Types
-          {:else}
-            {storage.settings.category}
-          {/if}
-        </span>
-        <ChevronDown size="20" class="shrink-0" />
-      </summary>
-      <div
-        class="absolute mt-2 min-w-full w-max bg-secondary rounded-xl max-h-60 overflow-y-auto border border-surface z-10 flex flex-col"
-      >
-        <button
-          class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
-          onclick={(e) => {
-            storage.updateSetting("category", "all");
-            e.currentTarget.closest("details").removeAttribute("open");
-          }}
-        >
-          All Types
-        </button>
-        <button
-          class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
-          onclick={(e) => {
-            storage.updateSetting("category", "HTML");
-            e.currentTarget.closest("details").removeAttribute("open");
-          }}
-        >
-          HTML
-        </button>
-        <button
-          class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
-          onclick={(e) => {
-            storage.updateSetting("category", "Flash");
-            e.currentTarget.closest("details").removeAttribute("open");
-          }}
-        >
-          Flash
-        </button>
-        <button
-          class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
-          onclick={(e) => {
-            storage.updateSetting("category", "Emulation");
-            e.currentTarget.closest("details").removeAttribute("open");
-          }}
-        >
-          Emulation
-        </button>
-      </div>
-    </details>
-    <details
-      class="relative bg-surface rounded-xl border border-border"
+      class="relative bg-neutral-900 rounded-lg border border-input h-9"
       bind:this={tagsNode}
     >
-      <summary class="rounded-xl flex px-4 py-2 cursor-pointer text-sm">
-        <span class="mr-2 select-none">
-          {#if storage.settings.tagFilter.length === 0}
-            Select Tags
-          {:else if allTagsSelected}
-            All Tags
-          {:else}
+      <summary
+        class="flex gap-1.5 cursor-pointer text-sm justify-between items-center h-full select-none px-2"
+      >
+        {#if storage.settings.tagFilter.length === 0}
+          <Tags size="16" />
+          <span>Select Tags</span>
+          <ChevronDown size="16" />
+        {:else if allTagsSelected}
+          <Tags size="16" />
+        {:else}
+          <Tags size="16" />
+          <span>
             {storage.settings.tagFilter.length > 1
               ? storage.settings.tagFilter.length + " Tags"
-              : storage.settings.tagFilter[0]}
-          {/if}
-        </span>
-        <ChevronDown size="20" />
+              : storage.settings.tagFilter[0]}</span
+          >
+          <ChevronDown size="16" />
+        {/if}
       </summary>
       <div
-        class="absolute mt-2 min-w-full w-max bg-secondary rounded-xl max-h-60 overflow-y-auto border border-surface z-10"
+        class="absolute -left-px -right-px min-w-[calc(100%+2px)] w-max mt-2.5 bg-neutral-900 rounded-lg max-h-60 overflow-y-auto border border-input z-10 flex flex-col p-1"
       >
         <label
-          class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
+          class="rounded-md flex items-center px-2 py-1.5 gap-1.5 cursor-pointer hover:bg-neutral-800 text-sm transition-colors"
         >
           <div class="relative flex items-center justify-center">
             <input
@@ -261,7 +180,7 @@
         </label>
         {#each storage.tags as tag}
           <label
-            class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
+            class="rounded-md flex items-center px-2 py-1.5 gap-1.5 cursor-pointer hover:bg-neutral-800 text-sm transition-colors"
           >
             <div class="relative flex items-center justify-center">
               <input
@@ -289,40 +208,157 @@
         {/each}
       </div>
     </details>
-    <button
-      onclick={pickRandom}
-      class="px-4 py-2 text-sm bg-surface rounded-xl flex items-center gap-2 cursor-pointer border border-border"
-    >
-      <Dice5 size="20" />
-      <span>Random</span>
-    </button>
-  </div>
-  <div
-    class="focus-within:bg-surface bg-secondary rounded-xl items-center flex w-80 shrink min-w-0 border border-border"
-  >
-    <SearchIcon size="20" class="ml-3 text-text-placeholder shrink-0" />
-    <input
-      bind:value={searchQuery}
-      placeholder="Search"
-      class="w-full h-full pl-2 pr-4 bg-transparent outline-none placeholder:text-text-placeholder"
-    />
-    {#if searchQuery.length > 0}
+    {#if sortedLibrary.length > 0}
       <button
-        class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
-        onclick={() => (searchQuery = "")}
+        onclick={(e) => pickRandom(e)}
+        class="size-9 rounded-lg bg-neutral-900 border border-input cursor-pointer flex items-center justify-center"
       >
-        <X size="20" />
+        <Dice5 class="pointer-events-none" size="16" />
       </button>
     {/if}
+  </div>
+  <div class="flex gap-2">
+    <div
+      class="bg-neutral-900 flex items-center p-1 h-9 rounded-lg text-sm border border-input gap-1"
+    >
+      <button
+        onclick={() => storage.updateSetting("category", "all")}
+        data-active={storage.settings.category === "all"}
+        class="h-full flex items-center data-[active=true]:bg-input transition-colors rounded-md px-2 cursor-pointer"
+        >All</button
+      >
+      <button
+        onclick={() => storage.updateSetting("category", "HTML")}
+        data-active={storage.settings.category === "HTML"}
+        class="h-full flex items-center data-[active=true]:bg-input transition-colors rounded-md px-2 cursor-pointer"
+        >HTML</button
+      >
+      <button
+        onclick={() => storage.updateSetting("category", "Flash")}
+        data-active={storage.settings.category === "Flash"}
+        class="h-full flex items-center data-[active=true]:bg-input transition-colors rounded-md px-2 cursor-pointer"
+        >Flash</button
+      >
+      <button
+        onclick={() => storage.updateSetting("category", "Emulation")}
+        data-active={storage.settings.category === "Emulation"}
+        class="h-full flex items-center data-[active=true]:bg-input transition-colors rounded-md px-2 cursor-pointer"
+        >Emulation</button
+      >
+    </div>
+    <details
+      class="relative bg-neutral-900 rounded-lg border border-input h-9"
+      bind:this={sortNode}
+    >
+      <summary
+        class="flex gap-1.5 cursor-pointer text-sm justify-between items-center h-full select-none px-2"
+      >
+        <ArrowDownUp size="16" />
+        <span>Sort: </span>
+        <span>
+          {#if storage.settings.sortBy === "alphabetical"}
+            Name
+          {:else if storage.settings.sortBy === "alphabetical_reverse"}
+            Name (Z-A)
+          {:else if storage.settings.sortBy === "recent"}
+            Recently Played
+          {:else if storage.settings.sortBy === "most_played"}
+            Most Played
+          {/if}
+        </span>
+        <ChevronDown size="16" class="shrink-0" />
+      </summary>
+      <div
+        class="absolute -left-px -right-px min-w-[calc(100%+2px)] w-max mt-2.5 bg-neutral-900 rounded-lg max-h-60 overflow-y-auto border border-input z-10 flex flex-col p-1"
+      >
+        <button
+          class="rounded-md flex items-center px-2 py-1.5 gap-1.5 cursor-pointer hover:bg-neutral-800 text-sm transition-colors justify-between"
+          onclick={(e) => {
+            storage.updateSetting("sortBy", "alphabetical");
+            e.currentTarget.closest("details").removeAttribute("open");
+          }}
+        >
+          <span>Name</span>
+          {#if storage.settings.sortBy === "alphabetical"}
+            <Check size="16" />
+          {/if}
+        </button>
+        <button
+          class="rounded-md flex items-center px-2 py-1.5 gap-1.5 cursor-pointer hover:bg-neutral-800 text-sm transition-colors justify-between"
+          onclick={(e) => {
+            storage.updateSetting("sortBy", "alphabetical_reverse");
+            e.currentTarget.closest("details").removeAttribute("open");
+          }}
+        >
+          Name (Z-A)
+          {#if storage.settings.sortBy === "alphabetical_reverse"}
+            <Check size="16" />
+          {/if}
+        </button>
+        <button
+          class="rounded-md flex items-center px-2 py-1.5 gap-1.5 cursor-pointer hover:bg-neutral-800 text-sm transition-colors justify-between"
+          onclick={(e) => {
+            storage.updateSetting("sortBy", "recent");
+            e.currentTarget.closest("details").removeAttribute("open");
+          }}
+        >
+          Recently Played
+          {#if storage.settings.sortBy === "recent"}
+            <Check size="16" />
+          {/if}
+        </button>
+        <button
+          class="rounded-md flex items-center px-2 py-1.5 gap-1.5 cursor-pointer hover:bg-neutral-800 text-sm transition-colors justify-between"
+          onclick={(e) => {
+            storage.updateSetting("sortBy", "most_played");
+            e.currentTarget.closest("details").removeAttribute("open");
+          }}
+        >
+          Most Played
+          {#if storage.settings.sortBy === "most_played"}
+            <Check size="16" />
+          {/if}
+        </button>
+      </div>
+    </details>
   </div>
 </div>
 <Cards data={sortedLibrary} />
 {#if storage.library.length > 0 && sortedLibrary.length === 0}
-  <div class="text-text-placeholder text-center p-4">No results found.</div>
+  <div class="flex flex-col gap-4 h-full w-full justify-center items-center">
+    <div class="flex flex-col gap-2 max-w-sm items-center">
+      <SearchX class="mb-2" size="32" />
+      <p class="text-sm text-center break-all max-h-96 overflow-hidden">No games found for "{searchQuery}"</p>
+      <p class="text-text-placeholder text-sm text-center text-balance">
+        Try checking for typos or adjusting your search terms. Can't find what
+        you're looking for?
+      </p>
+    </div>
+    <a
+      href="/store"
+      class="h-9 px-2.5 bg-primary text-text-inverse rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
+    >
+      <Store size="16" />
+      <span>Search the Store</span>
+    </a>
+  </div>
 {/if}
 {#if storage.library.length === 0}
-  <div class="text-text-placeholder text-center p-4">
-    Nothing in your library. Check out the
-    <a href="/store" class="text-primary hover:underline">store!</a>
+  <div class="flex flex-col gap-4 h-full w-full justify-center items-center">
+    <div class="flex flex-col gap-2 max-w-sm items-center">
+      <Ghost class="mb-2" size="32" />
+      <p class="text-sm">Nothing in your library</p>
+      <p class="text-text-placeholder text-sm text-center text-balance">
+        It looks a little quiet here. Browse the store to discover your next
+        favorite game and start building your collection.
+      </p>
+    </div>
+    <a
+      href="/store"
+      class="h-9 px-2.5 bg-primary text-text-inverse rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
+    >
+      <Store size="16" />
+      <span>Browse Store</span>
+    </a>
   </div>
 {/if}

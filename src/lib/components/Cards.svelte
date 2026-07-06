@@ -5,7 +5,13 @@
   import { Check, Download, Pause, Play, Star, Trash, X } from "@lucide/svelte";
   import Card from "./Card.svelte";
 
-  let { data, link = "/library/", buttons = "default", title } = $props();
+  let {
+    data,
+    link = "/library/",
+    buttons = "default",
+    title,
+    newBadge = false,
+  } = $props();
 
   let contextMenu = $state();
   let contextMenuItem = $state();
@@ -99,21 +105,22 @@
   {/if}
 </ContextMenu>
 
-{#if data.length > 0}
-  {#if title}
-    <p class="text-xl m-4">{title}</p>
+<div class="flex flex-col px-4 gap-4">
+  {#if data.length > 0}
+    {#if title}
+      <p class="flex items-center">{title}</p>
+    {/if}
+    <div class="grid grid-cols-[repeat(auto-fill,minmax(13rem,1fr))] gap-4">
+      {#each data as item (item.id)}
+        <Card
+          oncontextmenu={(e) =>
+            (contextMenuItem = { ...item }) & contextMenu?.open(e)}
+          data={item}
+          {link}
+          {buttons}
+          {newBadge}
+        />
+      {/each}
+    </div>
   {/if}
-  <div
-    class="p-4 pt-0 grid grid-cols-[repeat(auto-fill,minmax(13rem,1fr))] gap-4"
-  >
-    {#each data as item (item.id)}
-      <Card
-        oncontextmenu={(e) =>
-          (contextMenuItem = { ...item }) & contextMenu?.open(e)}
-        data={item}
-        {link}
-        {buttons}
-      />
-    {/each}
-  </div>
-{/if}
+</div>

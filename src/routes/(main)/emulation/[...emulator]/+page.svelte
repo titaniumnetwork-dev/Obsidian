@@ -1,18 +1,16 @@
 <script>
-  let { data } = $props();
-
   import Head from "$lib/components/Head.svelte";
-  import { emulators, flashEmulators } from "$lib/emulators";
+  import { emulators } from "$lib/emulators";
   import { storage } from "$lib/storage.svelte.js";
   import { Maximize, RotateCw, Upload, X } from "@lucide/svelte";
+
+  let { data } = $props();
 
   let frame = $state();
   let uploadButton = $state();
   let playerHidden = $state(true);
 
-  let emuData = emulators
-    .concat(flashEmulators)
-    .filter((emu) => emu.id === data.emulator)[0];
+  let emuData = emulators.filter((emu) => emu.id === data.emulator)[0];
 
   const aspectRatio = $derived(
     storage.settings.aspect ? storage.settings.aspect : "h-full w-full",
@@ -37,14 +35,14 @@
 
 <div class="flex flex-col items-center justify-center px-4 mt-auto">
   <div
-    class="w-full max-w-xl p-8 bg-secondary border border-surface rounded-2xl flex flex-col gap-8"
+    class="w-full max-w-xl p-6 bg-secondary border border-border rounded-radius flex flex-col gap-6"
   >
     <div class="flex flex-col gap-4">
       <div class="flex gap-4 items-center">
-        <emuData.icon class="w-10 h-10 text-text" />
+        <emuData.icon class="size-8" />
         <div>
-          <h2 class="text-2xl font-bold">{emuData.title}</h2>
-          <p class="text-text-placeholder">
+          <p>{emuData.title}</p>
+          <p class="text-sm text-text-placeholder">
             Emulation powered by <a
               class="hover:underline"
               href="https://emulatorjs.org/">EmulatorJS</a
@@ -53,19 +51,19 @@
         </div>
       </div>
       <label
-        class="w-full h-48 rounded-2xl bg-surface border border-border flex flex-col justify-center items-center cursor-pointer gap-4"
+        class="w-full p-12 rounded-[10px] bg-neutral-800 flex flex-col justify-center items-center cursor-pointer gap-4"
       >
         <div
-          class="w-14 h-14 bg-primary border border-border-primary rounded-full flex items-center justify-center"
+          class="w-10 h-10 bg-neutral-700 rounded-[10px] flex items-center justify-center"
         >
-          <Upload class="text-text-inverse" />
+          <Upload size="20" />
         </div>
         <div class="flex flex-col items-center gap-2">
-          <h2 class="text-xl">
-            Select {emuData.title} ROM
+          <h2>
+            Upload {emuData.title} ROM
           </h2>
           <p class="text-sm text-text-placeholder">
-            Click or drag and drop a file here
+            Click to upload or drag and drop a file here
           </p>
         </div>
         <input

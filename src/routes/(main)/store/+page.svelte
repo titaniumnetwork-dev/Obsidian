@@ -3,7 +3,18 @@
   import Cards from "$lib/components/Cards.svelte";
   import { carousel, featured } from "$lib/featured.js";
   import { storage } from "$lib/storage.svelte.js";
-  import { Check, ChevronLeft, ChevronRight, Download } from "@lucide/svelte";
+  import {
+    CarFront,
+    Check,
+    ChevronLeft,
+    ChevronRight,
+    Crosshair,
+    Download,
+    Ghost,
+    Puzzle,
+    Sword,
+    Zap,
+  } from "@lucide/svelte";
   import { getContext } from "svelte";
 
   let searchQuery = getContext("searchQuery");
@@ -41,89 +52,177 @@
   );
 </script>
 
-{#if !searchQuery()}
-  <div class="shrink-0 p-4 pb-0 pt-0 flex flex-col gap-4 relative">
-    <div class="group overflow-hidden relative">
-      <div
-        class="shrink-0 flex w-full transition-transform duration-500 ease-in-out gap-8"
-        style="transform: translateX(calc(-{carouselIndex *
-          100}% - {carouselIndex * 2}rem))"
-      >
-        {#each carouselData as item}
-          <a
-            href={"/store/" + item.id}
-            style={"--hero: url('/cdn/assets/assets/" + item.id + "/hero.webp')"}
-            class="shrink-0 [background:linear-gradient(to_left,var(--color-overlay)0%,var(--theme-secondary)60%)padding-box,var(--hero)left/cover_padding-box,var(--color-surface)] w-full h-96 rounded-b-2xl flex flex-col items-start justify-between p-8 pb-4 gap-4 rounded-2xl border border-border"
-          >
-            <div class="flex flex-wrap gap-4 ml-auto">
-              {#each item.tags as tag}
+<div class="flex flex-col gap-4">
+  {#if !searchQuery()}
+    <div class="shrink-0 p-4 pb-0 pt-0 flex flex-col gap-4 relative">
+      <div class="group overflow-hidden relative">
+        <div
+          class="shrink-0 flex w-full transition-transform duration-500 ease-in-out gap-8"
+          style="transform: translateX(calc(-{carouselIndex *
+            100}% - {carouselIndex * 2}rem))"
+        >
+          {#each carouselData as item}
+            <div
+              style={"--hero: url('/cdn/assets/assets/" +
+                item.id +
+                "/hero.webp')"}
+              class="shrink-0 [background:linear-gradient(to_left,var(--color-overlay)0%,var(--theme-secondary)60%)padding-box,var(--hero)left/cover_padding-box,var(--color-surface)] w-full h-96 flex flex-col items-start justify-between p-4 gap-4 rounded-radius border border-border relative"
+            >
+              <div class="absolute top-4 right-4 flex flex-wrap gap-2">
+                {#each item.tags as tag}
+                  <a
+                    href={"/store/tag/" + tag}
+                    class="h-6 px-2 py-0.5 text-xs rounded-full bg-neutral-800 flex items-center cursor-pointer"
+                  >
+                    {tag}
+                  </a>
+                {/each}
+              </div>
+              <div class="h-full flex gap-4 items-center">
                 <button
-                  onclick={(e) => {
-                    e.preventDefault();
-
-                    goto("/store/tag/" + tag);
-                  }}
-                  class=" px-4 py-1 text-sm rounded-full bg-surface border border-border flex items-center cursor-pointer"
+                  aria-label="Previous Slide"
+                  onclick={prev}
+                  class="bg-neutral-800 border border-input size-8 cursor-pointer rounded-full flex justify-center items-center shrink-0"
                 >
-                  {tag}
+                  <ChevronLeft size="16" />
                 </button>
-              {/each}
-            </div>
-            <div class="w-full">
-              <h1 class="text-6xl font-bold mb-4 sm:w-2/3">{item.title}</h1>
-              <p class="sm:w-1/2 mb-4">
-                {item.description}
-              </p>
-              <div class="flex gap-4 flex-row items-center justify-between">
-                <div class="flex gap-2">
-                  {#if storage.installed.includes(item.id)}
-                    <div
-                      class="bg-primary px-14 py-2 cursor-pointer rounded-full flex gap-2 items-center text-text-inverse border border-border-primary"
-                    >
-                      <Check size="20" />
-                      <span>Installed</span>
-                    </div>
-                  {:else}
-                    <button
-                      onclick={(e) => {
-                        e.preventDefault() & storage.install(item.id);
-                        goto("/library/" + item.id);
-                      }}
-                      class="bg-primary px-14 py-2 cursor-pointer rounded-full flex gap-2 items-center text-text-inverse border border-border-primary"
-                    >
-                      <Download size="20" />
-                      <span>Install</span>
-                    </button>
-                  {/if}
+                <div class="flex items-center">
+                  <div>
+                    <h1 class="text-6xl font-bold mb-4 w-2/3">{item.title}</h1>
+                    <p class="w-2/3 mb-4">
+                      {item.description}
+                    </p>
+                    {#if storage.installed.includes(item.id)}
+                      <a
+                        href={"/library/" + item.id}
+                        class="bg-primary h-9 px-14 py-2.5 cursor-pointer rounded-full flex gap-2 items-center text-text-inverse text-sm w-fit"
+                      >
+                        <Check size="20" />
+                        <span>View in Library</span>
+                      </a>
+                    {:else}
+                      <div class="flex gap-2">
+                        <button
+                          onclick={(e) => {
+                            e.preventDefault() & storage.install(item.id);
+                            goto("/library/" + item.id);
+                          }}
+                          class="bg-primary h-9 px-14 py-2.5 cursor-pointer rounded-full flex gap-2 items-center text-text-inverse text-sm"
+                        >
+                          <Download size="20" />
+                          <span>Install</span>
+                        </button>
+                        <a
+                          href={"/store/" + item.id}
+                          class="bg-neutral-800 border border-input h-9 px-14 py-2.5 cursor-pointer rounded-full flex gap-2 items-center text-sm"
+                        >
+                          <span>View</span>
+                        </a>
+                      </div>
+                    {/if}
+                  </div>
                 </div>
+                <button
+                  aria-label="Next Slide"
+                  onclick={next}
+                  class="bg-neutral-800 border border-input size-8 cursor-pointer rounded-full flex justify-center items-center shrink-0"
+                >
+                  <ChevronRight size="16" />
+                </button>
+              </div>
+              <div
+                class="absolute right-0 left-0 bottom-4 w-fit mx-auto flex gap-2"
+              >
+                {#each carouselData as carouselPage, index}
+                  {@const current = index === carouselIndex}
+                  <button
+                    aria-label={"Carousel Slide " + index}
+                    onclick={() => (carouselIndex = index)}
+                    class={"size-2 rounded-full cursor-pointer transition-[background,width]" +
+                      (current ? " bg-primary" : " bg-input")}
+                  ></button>
+                {/each}
               </div>
             </div>
-            <div class="ml-auto flex gap-4 items-center">
-              <button
-                aria-label="Previous Slide"
-                onclick={prev}
-                class="bg-surface border border-border w-10 h-10 cursor-pointer rounded-full flex justify-center items-center"
-              >
-                <ChevronLeft size="20" />
-              </button>
-              <p>{carouselIndex + 1} / {carouselData.length}</p>
-              <button
-                aria-label="Next Slide"
-                onclick={next}
-                class="bg-surface border border-border w-10 h-10 cursor-pointer rounded-full flex justify-center items-center"
-              >
-                <ChevronRight size="20" />
-              </button>
-            </div>
-          </a>
-        {/each}
+          {/each}
+        </div>
       </div>
     </div>
-  </div>
-  <Cards title="Featured" data={featuredData} link="/store/" buttons="store" />
-{:else}
-  <Cards data={sortedLibrary} link="/store/" buttons="store" />
-  {#if !sortedLibrary.length}
-    <div class="text-text-placeholder text-center p-4">No results found.</div>
+    <div class="flex flex-col px-4 gap-4">
+      <p class="flex items-center">Genres</p>
+      <div class="flex gap-4">
+        <a
+          href="/store/tag/Action"
+          class="flex flex-1 flex-col items-center justify-center bg-neutral-900 rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
+        >
+          <Sword />
+          <p>Action</p>
+        </a>
+        <a
+          href="/store/tag/Puzzle"
+          class="flex flex-1 flex-col items-center justify-center bg-neutral-900 rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
+        >
+          <Puzzle />
+          <p>Puzzle</p>
+        </a>
+        <a
+          href="/store/tag/Shooter"
+          class="flex flex-1 flex-col items-center justify-center bg-neutral-900 rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
+        >
+          <Crosshair />
+          <p>Shooter</p>
+        </a>
+        <a
+          href="/store/tag/Racing"
+          class="flex flex-1 flex-col items-center justify-center bg-neutral-900 rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
+        >
+          <CarFront />
+          <p>Racing</p>
+        </a>
+        <a
+          href="/store/tag/Horror"
+          class="flex flex-1 flex-col items-center justify-center bg-neutral-900 rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
+        >
+          <Ghost />
+          <p>Horror</p>
+        </a>
+        <a
+          href="/store/tag/Arcade"
+          class="flex flex-1 flex-col items-center justify-center bg-neutral-900 rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
+        >
+          <Zap />
+          <p>Arcade</p>
+        </a>
+      </div>
+    </div>
+    <Cards
+      title="Featured"
+      data={featuredData}
+      link="/store/"
+      buttons="store"
+    />
+    <Cards
+      title="Platformers"
+      data={storage.catalog.filter((item) =>
+        item.tags.some((itemTag) => itemTag === "Platformer"),
+      )}
+      link="/store/"
+      buttons="store"
+    />
+    <Cards
+      title="Puzzles"
+      data={storage.catalog.filter((item) =>
+        item.tags.some((itemTag) => itemTag === "Puzzle"),
+      )}
+      link="/store/"
+      buttons="store"
+    />
+  {:else}
+    <Cards data={sortedLibrary} link="/store/" buttons="store" />
+    {#if !sortedLibrary.length}
+      <div class="text-text-placeholder text-center p-4 text-sm">
+        No results found.
+      </div>
+    {/if}
   {/if}
-{/if}
+</div>

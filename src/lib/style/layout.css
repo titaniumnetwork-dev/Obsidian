@@ -13,13 +13,11 @@ html[data-theme="Dark"] {
   --theme-text-placeholder: var(--color-neutral-400);
   --theme-text-inverse: var(--color-black);
   --theme-border: color-mix(in oklab, var(--color-white) 10%, transparent);
-  --theme-border-primary: color-mix(
-    in oklab,
-    var(--color-white) 15%,
-    transparent
-  );
+  --theme-input: color-mix(in oklab, var(--color-white) 15%, transparent);
+  --theme-radius: 0.875rem;
 }
 
+/*
 html[data-theme="Light"] {
   --theme-background: var(--color-neutral-50);
   --theme-secondary: var(--color-white);
@@ -299,6 +297,7 @@ html[data-theme="Lime"] {
     transparent
   );
 }
+*/
 
 @theme inline {
   --color-background: var(--theme-background);
@@ -309,20 +308,45 @@ html[data-theme="Lime"] {
   --color-text-placeholder: var(--theme-text-placeholder);
   --color-text-inverse: var(--theme-text-inverse);
   --color-border: var(--theme-border);
-  --color-border-primary: var(--theme-border-primary);
+  --color-input: var(--theme-input);
   --color-overlay: color-mix(
     in oklab,
     var(--color-text-inverse) 40%,
     transparent
   );
+  --radius-radius: var(--theme-radius);
 }
 
 @utility no-scrollbar {
   @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }
 
+@utility justify-safe {
+  justify-content: safe center;
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 150ms;
   animation-timing-function: ease-in-out;
+}
+
+@theme {
+  --animate-shake: shake 300ms ease-in-out infinite;
+
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0) rotate(0deg);
+    }
+    25% {
+      transform: translateX(-2px) rotate(-10deg);
+    }
+    50% {
+      transform: translateX(2px) rotate(10deg);
+    }
+    75% {
+      transform: translateX(-2px) rotate(-10deg);
+    }
+  }
 }

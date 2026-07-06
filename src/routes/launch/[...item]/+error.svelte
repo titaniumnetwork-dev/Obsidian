@@ -3,9 +3,8 @@
   import ErrorGame from "$lib/components/ErrorGame.svelte";
   import Footer from "$lib/components/Footer.svelte";
   import Head from "$lib/components/Head.svelte";
-  import Navbar from "$lib/components/Navbar.svelte";
   import Sidebar from "$lib/components/Sidebar.svelte";
-    import { storage } from "$lib/storage.svelte";
+  import { storage } from "$lib/storage.svelte";
   import { ArrowLeft, Home } from "@lucide/svelte";
 </script>
 
@@ -13,7 +12,6 @@
 
 <Sidebar />
 <div class="w-full overflow-auto flex flex-col">
-  <Navbar />
   <div class="flex flex-col gap-4 items-center my-8">
     <ErrorGame />
     <h1 class="text-4xl font-bold">

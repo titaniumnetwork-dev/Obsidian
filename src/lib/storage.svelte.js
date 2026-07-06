@@ -18,11 +18,9 @@ class StorageManager {
   hiddenThemes = $state([]);
   settings = $state({
     sidebarStyle: "default",
-    sidebarSearch: false,
     category: "all",
     sortBy: "alphabetical",
     tagFilter: "all",
-    playingFirst: false,
     maskTitle: "",
     maskIcon: "",
     panicKey: "",
