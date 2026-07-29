@@ -1,6 +1,7 @@
 <script>
   import Cards from "$lib/components/Cards.svelte";
   import Head from "$lib/components/Head.svelte";
+  import Button from "$lib/components/ui/Button.svelte";
   import { storage } from "$lib/storage.svelte.js";
   import {
     ArrowDownUp,
@@ -209,12 +210,9 @@
       </div>
     </details>
     {#if sortedLibrary.length > 0}
-      <button
-        onclick={(e) => pickRandom(e)}
-        class="size-9 rounded-lg bg-neutral-900 border border-input cursor-pointer flex items-center justify-center"
-      >
+      <Button variant="outline" size="icon" onclick={(e) => pickRandom(e)}>
         <Dice5 class="pointer-events-none" size="16" />
-      </button>
+      </Button>
     {/if}
   </div>
   <div class="flex gap-2">
@@ -328,7 +326,7 @@
   <div class="flex flex-col gap-4 h-full w-full justify-center items-center">
     <div class="flex flex-col gap-2 max-w-sm items-center">
       <SearchX class="mb-2" size="32" />
-      <p class="text-sm text-center break-all max-h-96 overflow-hidden">No games found for "{searchQuery}"</p>
+      <p class="text-sm text-center">No results found</p>
       <p class="text-text-placeholder text-sm text-center text-balance">
         Try checking for typos or adjusting your search terms. Can't find what
         you're looking for?

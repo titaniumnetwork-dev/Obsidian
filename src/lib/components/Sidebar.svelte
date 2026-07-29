@@ -124,10 +124,10 @@
 
 <div
   data-style={storage.settings.sidebarStyle}
-  class={"sidebar group bg-secondary data-[style=compact]:w-12 data-[style=default]:w-64 transition-[width] flex flex-col gap-2 overflow-y-scroll shrink-0 m-2 mr-0 rounded-radius border border-border box-content" +
+  class={"sidebar group bg-neutral-900 data-[style=compact]:w-12 data-[style=default]:w-64 transition-[width] flex flex-col gap-2 overflow-y-scroll shrink-0 m-2 mr-0 rounded-radius border border-border box-content" +
     (impersonating ? " h-[calc(100%-4rem)] mt-8" : " h-[calc(100%-18px)]")}
 >
-  <div class="bg-secondary sticky top-0 py-2 z-10">
+  <div class="bg-neutral-900 sticky top-0 py-2 z-10">
     <div
       class="flex group-data-[style=default]:items-center mx-2 gap-1 justify-between group-data-[style=compact]:flex-col overflow-hidden"
     >

@@ -246,7 +246,7 @@
       </div>
       <div class="flex gap-4">
         <div
-          class="focus-within:bg-surface bg-secondary transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
+          class="focus-within:bg-surface bg-neutral-900 transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
         >
           <User size="20" class="ml-3 text-text-placeholder" />
           <input
@@ -294,7 +294,7 @@
       </div>
       <div class="flex gap-4">
         <div
-          class="focus-within:bg-surface bg-secondary transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
+          class="focus-within:bg-surface bg-neutral-900 transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
         >
           <AtSign size="20" class="ml-3 text-text-placeholder shrink-0" />
           <input
@@ -341,7 +341,7 @@
 
       <div class="flex gap-4">
         <div
-          class="focus-within:bg-surface bg-secondary transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
+          class="focus-within:bg-surface bg-neutral-900 transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
         >
           <KeyRound size="20" class="ml-3 text-text-placeholder shrink-0" />
           <input
@@ -382,7 +382,7 @@
       </div>
       <div class="flex gap-4 mt-2">
         <div
-          class="focus-within:bg-surface bg-secondary transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
+          class="focus-within:bg-surface bg-neutral-900 transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
         >
           <KeyRound size="20" class="ml-3 text-text-placeholder shrink-0" />
           <input
@@ -441,7 +441,7 @@
       </div>
       <div class="flex gap-4">
         <div
-          class="focus-within:bg-surface bg-secondary transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
+          class="focus-within:bg-surface bg-neutral-900 transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
         >
           <KeyRound size="20" class="ml-3 text-text-placeholder shrink-0" />
           <input

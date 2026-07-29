@@ -1,5 +1,6 @@
 <script>
   import Head from "$lib/components/Head.svelte";
+  import Button from "$lib/components/ui/Button.svelte";
   import { ChevronDown, Folder, Home, Search, Tag, X } from "@lucide/svelte";
   import { setContext } from "svelte";
 
@@ -31,13 +32,10 @@
       </button>
     {/if}
   </div>
-  <a
-    class="h-9 px-2.5 bg-neutral-900 rounded-lg flex gap-1.5 items-center cursor-pointer border border-input text-sm"
-    href="/store"
-  >
+  <Button variant="outline" href="/store">
     <Home size="16" />
     <span>Home</span>
-  </a>
+  </Button>
   <a
     class="h-9 px-2.5 bg-neutral-900 rounded-lg flex gap-1.5 items-center cursor-pointer border border-input text-sm"
     href="/store"

@@ -84,7 +84,7 @@
     </div>
     <div class="flex flex-col gap-2">
       <div
-        class="w-80 focus-within:bg-surface bg-secondary border border-border rounded-xl items-center h-9 px-2.5"
+        class="w-80 focus-within:bg-surface bg-neutral-900 border border-border rounded-xl items-center h-9 px-2.5"
       >
         <input
           value={storage.settings.maskTitle}
@@ -94,7 +94,7 @@
         />
       </div>
       <div
-        class="w-80 focus-within:bg-surface bg-secondary border border-border rounded-xl items-center h-9 px-2.5"
+        class="w-80 focus-within:bg-surface bg-neutral-900 border border-border rounded-xl items-center h-9 px-2.5"
       >
         <input
           value={storage.settings.maskIcon}
@@ -132,7 +132,7 @@
         {/if}
       </button>
       <div
-        class="w-80 focus-within:bg-surface bg-secondary border border-border rounded-xl items-center h-9 px-2.5"
+        class="w-80 focus-within:bg-surface bg-neutral-900 border border-border rounded-xl items-center h-9 px-2.5"
       >
         <input
           value={storage.settings.panicURL}
@@ -157,7 +157,7 @@
       checked={storage.settings.closePrevention}
       onchange={(e) =>
         storage.updateSetting("closePrevention", e.target.checked)}
-      class="appearance-none cursor-pointer transition-colors bg-secondary checked:bg-surface border border-border w-11 h-6 rounded-full flex items-center px-0.5 before:content-[''] before:h-4 before:w-4 before:rounded-full before:border before:border-border checked:before:border-border-primary before:bg-surface checked:before:bg-primary before:block checked:before:translate-x-5.5 before:transition-[translate,background,border]"
+      class="appearance-none cursor-pointer transition-colors bg-neutral-900 checked:bg-surface border border-border w-11 h-6 rounded-full flex items-center px-0.5 before:content-[''] before:h-4 before:w-4 before:rounded-full before:border before:border-border checked:before:border-border-primary before:bg-surface checked:before:bg-primary before:block checked:before:translate-x-5.5 before:transition-[translate,background,border]"
       type="checkbox"
     />
   </div>

@@ -134,7 +134,7 @@
       <p class="text-sm text-text-placeholder">Ultimate customizability</p>
     </div>
     <div
-      class="editor-container max-w-xl rounded-2xl overflow-hidden border border-border bg-secondary"
+      class="editor-container max-w-xl rounded-2xl overflow-hidden border border-border bg-neutral-900"
     >
       <CodeMirror
         theme={[customTheme, customSyntaxTheme]}

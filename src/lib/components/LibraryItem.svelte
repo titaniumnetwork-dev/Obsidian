@@ -22,6 +22,7 @@
     User,
     X,
   } from "@lucide/svelte";
+  import Button from "./ui/Button.svelte";
 
   let { data } = $props();
 
@@ -115,32 +116,36 @@
                 <X size="16" />
               </button>
             {:else}
-              <button
+              <Button
                 onclick={() => storage.setActive(data.currentData.id)}
-                class="bg-primary h-9 px-14 py-2.5 cursor-pointer rounded-full flex gap-2 items-center text-text-inverse border border-border-primary text-sm"
+                class="px-14 rounded-full"
               >
                 <Play size="16" />
                 <span>Play</span>
-              </button>
+              </Button>
             {/if}
-            <button
+            <Button
+              variant="outline"
+              size="icon"
               aria-label="Share"
               onclick={async () =>
                 await navigator.share({
                   title: data.currentData.title,
                   url: "/store/" + data.currentData.id,
                 })}
-              class="bg-surface size-9 cursor-pointer rounded-full flex items-center justify-center border border-border"
+              class="rounded-full"
             >
               <Share size="16" />
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
               popovertarget="options"
               aria-label="Options"
-              class="[anchor-name:--options-button] bg-surface size-9 cursor-pointer rounded-full flex items-center justify-center border border-border"
+              class="[anchor-name:--options-button] rounded-full"
             >
               <Ellipsis size="16" />
-            </button>
+            </Button>
             <div
               popover="auto"
               id="options"
@@ -193,9 +198,7 @@
           {/if}
         </div>
         <div class="flex gap-2 ml-auto overflow-scroll">
-          <div
-            class="flex items-center bg-surface rounded-xl h-9 px-2.5 gap-1.5 text-sm border border-border whitespace-nowrap"
-          >
+          <Button variant="outline" class="whitespace-nowrap cursor-default">
             <Clock size="16" />
             <span
               >{storage.playTime[data.currentData.id]?.lastPlayed
@@ -204,10 +207,8 @@
                   )
                 : "Never Played"}</span
             >
-          </div>
-          <div
-            class="flex items-center bg-surface rounded-xl h-9 px-2.5 gap-1.5 text-sm border border-border whitespace-nowrap"
-          >
+          </Button>
+          <Button variant="outline" class="whitespace-nowrap cursor-default">
             <ChartPie size="16" />
             <span
               >{storage.playTime[data.currentData.id]?.playTime
@@ -216,25 +217,19 @@
                   )
                 : "No Playtime"}</span
             >
-          </div>
-          <div
-            class="flex items-center bg-surface rounded-xl h-9 px-2.5 gap-1.5 text-sm border border-border whitespace-nowrap"
-          >
+          </Button>
+          <Button variant="outline" class="whitespace-nowrap cursor-default">
             <User size="16" />
             <span>{data.currentData.developer}</span>
-          </div>
+          </Button>
           {#if data.currentData.version}
-            <div
-              class="flex items-center bg-surface rounded-xl h-9 px-2.5 gap-1.5 text-sm border border-border whitespace-nowrap"
-            >
+            <Button variant="outline" class="whitespace-nowrap cursor-default">
               <Tag size="16" />
               <span>{data.currentData.version}</span>
-            </div>
+            </Button>
           {/if}
           {#if data.currentData.controls || data.currentData.gamepadControls}
-            <div
-              class="flex items-center bg-surface rounded-xl h-9 px-2.5 gap-1.5 text-sm border border-border whitespace-nowrap"
-            >
+            <Button variant="outline" class="whitespace-nowrap cursor-default">
               {#if data.currentData.controls}
                 <Keyboard size="16" />
               {/if}
@@ -250,15 +245,13 @@
               {#if data.currentData.gamepadControls}
                 <span>Controller</span>
               {/if}
-            </div>
+            </Button>
           {/if}
           {#if data.currentData.cloudSave}
-            <div
-              class="flex items-center bg-surface rounded-xl h-9 px-2.5 gap-1.5 text-sm border border-border whitespace-nowrap"
-            >
+            <Button variant="outline" class="whitespace-nowrap cursor-default">
               <Cloud size="16" />
               <span>Cloud Save</span>
-            </div>
+            </Button>
           {/if}
         </div>
       </div>

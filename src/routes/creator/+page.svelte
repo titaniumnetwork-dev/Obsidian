@@ -284,7 +284,7 @@
   function addGamepadAction() {
     if (!newGamepadActionName.trim()) return;
     gamepadControls.push({
-      action: newGamepadActionName.trim()
+      action: newGamepadActionName.trim(),
     });
     newGamepadActionName = "";
   }
@@ -398,25 +398,25 @@
 <Head title="Creator" />
 
 <div
-  class="group bg-secondary h-[calc(100%-2rem)] w-64 flex flex-col gap-4 p-4 overflow-y-scroll m-4 mr-0 rounded-2xl border border-surface shrink-0"
+  class="group bg-neutral-900 w-64 flex flex-col gap-2 overflow-y-scroll shrink-0 m-2 mr-0 rounded-radius border border-border box-content h-[calc(100%-18px)] p-2"
 >
   <div>
     <p>Creator</p>
-    <p class="text-sm text-text-placeholder">Automate the creation process</p>
+    <p class="text-sm text-text-placeholder">Automate the game creation process</p>
   </div>
   <div
-    class="h-14 w-full rounded-2xl text-sm flex items-center justify-between p-2 gap-2 bg-surface whitespace-nowrap border border-border"
+    class="w-full flex items-center justify-between p-2 gap-2 bg-neutral-800 whitespace-nowrap h-12 rounded-lg text-sm"
   >
     <div class="flex gap-2 items-center overflow-hidden">
       {#if icon}
         <img
           draggable="false"
           alt={title || "Title"}
-          class="h-10 w-10 rounded-xl"
+          class="size-8 rounded-lg"
           src={icon}
         />
       {:else}
-        <div class="h-10 w-10 rounded-xl border border-border"></div>
+        <div class="size-8 rounded-lg bg-neutral-700"></div>
       {/if}
       <span
         class="group-data-[style=hidden]:opacity-0 group-data-[style=compact]:opacity-0 transition-opacity overflow-hidden text-ellipsis"
@@ -425,7 +425,7 @@
     </div>
   </div>
   <div
-    class="focus-within:bg-surface bg-secondary rounded-xl items-center flex border border-border"
+    class="focus-within:bg-surface bg-neutral-900 rounded-xl items-center flex border border-border"
   >
     <input
       bind:value={title}
@@ -442,7 +442,7 @@
     {/if}
   </div>
   <div
-    class="focus-within:bg-surface bg-secondary rounded-xl items-center flex border border-border"
+    class="focus-within:bg-surface bg-neutral-900 rounded-xl items-center flex border border-border"
   >
     <input
       bind:value={developer}
@@ -461,11 +461,11 @@
   <textarea
     bind:value={description}
     placeholder="Description"
-    class="focus-within:bg-surface bg-secondary rounded-xl items-center flex border border-border h-48 w-full px-4 outline-none placeholder:text-text-placeholder py-2 resize-none shrink-0"
+    class="focus-within:bg-surface bg-neutral-900 rounded-xl items-center flex border border-border h-48 w-full px-4 outline-none placeholder:text-text-placeholder py-2 resize-none shrink-0"
   ></textarea>
   <div class="flex gap-2">
     <div
-      class="focus-within:bg-surface bg-secondary rounded-xl items-center flex border border-border"
+      class="focus-within:bg-surface bg-neutral-900 rounded-xl items-center flex border border-border"
     >
       <input
         bind:value={id}
@@ -488,7 +488,7 @@
     >
   </div>
   <div
-    class="focus-within:bg-surface bg-secondary rounded-xl items-center flex border border-border"
+    class="focus-within:bg-surface bg-neutral-900 rounded-xl items-center flex border border-border"
   >
     <input
       bind:value={version}
@@ -521,7 +521,7 @@
       <ChevronDown size="20" />
     </summary>
     <div
-      class="absolute mt-2 min-w-full w-max bg-secondary rounded-xl max-h-60 overflow-y-auto border border-surface z-10"
+      class="absolute mt-2 min-w-full w-max bg-neutral-900 rounded-xl max-h-60 overflow-y-auto border border-surface z-10"
     >
       <label
         class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
@@ -597,7 +597,7 @@
       <ChevronDown size="20" class="shrink-0" />
     </summary>
     <div
-      class="absolute mt-2 min-w-full w-max bg-secondary rounded-xl max-h-60 overflow-y-auto border border-surface z-10 flex flex-col"
+      class="absolute mt-2 min-w-full w-max bg-neutral-900 rounded-xl max-h-60 overflow-y-auto border border-surface z-10 flex flex-col"
     >
       <button
         class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
@@ -630,7 +630,7 @@
   </details>
   {#if type === "HTML"}
     <div
-      class="focus-within:bg-surface bg-secondary rounded-xl items-center flex border border-border"
+      class="focus-within:bg-surface bg-neutral-900 rounded-xl items-center flex border border-border"
     >
       <input
         bind:value={path}
@@ -648,7 +648,7 @@
     </div>
   {:else if type === "Emulation"}
     <div
-      class="focus-within:bg-surface bg-secondary rounded-xl items-center flex border border-border"
+      class="focus-within:bg-surface bg-neutral-900 rounded-xl items-center flex border border-border"
     >
       <input
         bind:value={rom}
@@ -729,7 +729,7 @@
   <p>Keyboard Controls</p>
   <div class="flex gap-2">
     <input
-      class="h-9 w-full px-4 focus-within:bg-surface bg-secondary rounded-xl placeholder:text-text-placeholder border border-border outline-none"
+      class="h-9 w-full px-4 focus-within:bg-surface bg-neutral-900 rounded-xl placeholder:text-text-placeholder border border-border outline-none"
       placeholder="Action"
       bind:value={newActionName}
       onkeydown={(e) => e.key === "Enter" && addAction()}
@@ -748,7 +748,7 @@
             <input
               type="text"
               bind:value={actionItem.action}
-              class="h-9 w-full px-4 focus-within:bg-surface bg-secondary rounded-xl placeholder:text-text-placeholder border border-border outline-none"
+              class="h-9 w-full px-4 focus-within:bg-surface bg-neutral-900 rounded-xl placeholder:text-text-placeholder border border-border outline-none"
             />
             <button
               class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
@@ -803,7 +803,7 @@
   <p>Gamepad Controls</p>
   <div class="flex gap-2">
     <input
-      class="h-9 w-full px-4 focus-within:bg-surface bg-secondary rounded-xl placeholder:text-text-placeholder border border-border outline-none"
+      class="h-9 w-full px-4 focus-within:bg-surface bg-neutral-900 rounded-xl placeholder:text-text-placeholder border border-border outline-none"
       placeholder="Action"
       bind:value={newGamepadActionName}
       onkeydown={(e) => e.key === "Enter" && addGamepadAction()}
@@ -822,7 +822,7 @@
             <input
               type="text"
               bind:value={actionItem.action}
-              class="h-9 w-full px-4 focus-within:bg-surface bg-secondary rounded-xl placeholder:text-text-placeholder border border-border outline-none"
+              class="h-9 w-full px-4 focus-within:bg-surface bg-neutral-900 rounded-xl placeholder:text-text-placeholder border border-border outline-none"
             />
             <button
               class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
@@ -900,7 +900,7 @@
     aria-label="Controller Support"
     checked={controllerSupport}
     onchange={(e) => (controllerSupport = e.target.checked)}
-    class="shrink-0 appearance-none cursor-pointer transition-colors bg-secondary checked:bg-surface border border-border w-11 h-6 rounded-full flex items-center px-0.5 before:content-[''] before:h-4 before:w-4 before:rounded-full before:border before:border-border checked:before:border-border-primary before:bg-surface checked:before:bg-primary before:block checked:before:translate-x-5.5 before:transition-[translate,background,border]"
+    class="shrink-0 appearance-none cursor-pointer transition-colors bg-neutral-900 checked:bg-surface border border-border w-11 h-6 rounded-full flex items-center px-0.5 before:content-[''] before:h-4 before:w-4 before:rounded-full before:border before:border-border checked:before:border-border-primary before:bg-surface checked:before:bg-primary before:block checked:before:translate-x-5.5 before:transition-[translate,background,border]"
     type="checkbox"
   />
 
@@ -908,8 +908,7 @@
     <textarea
       class="bg-surface rounded-xl items-center flex border border-border h-96 w-full px-4 outline-none placeholder:text-text-placeholder py-2 resize-none shrink-0"
       readonly
-      value={JSON.stringify(generateData, null, 2)}
-    ></textarea>
+      value={JSON.stringify(generateData, null, 2)}></textarea>
     <button
       onclick={downloadAssets}
       class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"

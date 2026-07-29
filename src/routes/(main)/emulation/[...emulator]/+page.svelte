@@ -35,7 +35,7 @@
 
 <div class="flex flex-col items-center justify-center px-4 mt-auto">
   <div
-    class="w-full max-w-xl p-6 bg-secondary border border-border rounded-radius flex flex-col gap-6"
+    class="w-full max-w-xl p-6 bg-neutral-900 border border-border rounded-radius flex flex-col gap-6"
   >
     <div class="flex flex-col gap-4">
       <div class="flex gap-4 items-center">

@@ -756,7 +756,7 @@
         popover="auto"
         id="emulation"
         bind:this={emulationMenu}
-        class="[&:popover-open]:flex flex-col bg-secondary rounded-xl text-text [position-anchor:--emulation-button]
+        class="[&:popover-open]:flex flex-col bg-neutral-900 rounded-xl text-text [position-anchor:--emulation-button]
               group-data-[overlay-style=default]:[position-area:bottom_span-right] group-data-[overlay-style=compact]:[position-area:bottom_span-left] mt-2 z-20 p-4 gap-4 overflow-visible border border-surface"
       >
         <button
@@ -800,7 +800,7 @@
             <ChevronDown size="20" class="shrink-0" />
           </summary>
           <div
-            class="absolute mt-2 min-w-full w-max bg-secondary rounded-xl max-h-60 overflow-y-auto border border-surface z-10 flex flex-col"
+            class="absolute mt-2 min-w-full w-max bg-neutral-900 rounded-xl max-h-60 overflow-y-auto border border-surface z-10 flex flex-col"
           >
             <button
               class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
@@ -860,12 +860,12 @@
         popover="auto"
         id="controls"
         bind:this={controlsMenu}
-        class={"[&:popover-open]:flex flex-col bg-secondary rounded-xl text-text [position-anchor:--controls-button] group-data-[overlay-style=default]:[position-area:bottom_span-right] group-data-[overlay-style=compact]:[position-area:bottom_span-left] mt-2 z-20 p-4 border border-surface min-w-[299.117px]" +
+        class={"[&:popover-open]:flex flex-col bg-neutral-900 rounded-xl text-text [position-anchor:--controls-button] group-data-[overlay-style=default]:[position-area:bottom_span-right] group-data-[overlay-style=compact]:[position-area:bottom_span-left] mt-2 z-20 p-4 border border-surface min-w-[299.117px]" +
           (binding.key || gamepadBinding.action ? " min-h-32" : "")}
       >
         {#if binding.key || gamepadBinding.action}
           <div
-            class="bg-secondary h-full w-full absolute top-0 bottom-0 right-0 left-0 flex flex-col justify-center items-center gap-2 rounded-xl z-10"
+            class="bg-neutral-900 h-full w-full absolute top-0 bottom-0 right-0 left-0 flex flex-col justify-center items-center gap-2 rounded-xl z-10"
           >
             {#if binding.key}
               <p class="text-text-placeholder">Waiting for input...</p>
@@ -1090,7 +1090,7 @@
       popover="auto"
       id="recording"
       bind:this={recordingMenu}
-      class="[&:popover-open]:flex flex-col bg-secondary rounded-xl text-text [position-anchor:--recording-button]
+      class="[&:popover-open]:flex flex-col bg-neutral-900 rounded-xl text-text [position-anchor:--recording-button]
             top-[calc(anchor(bottom)+0.5rem)] left-[calc(anchor(left))] z-20 p-4 gap-4 border border-surface"
     >
       {#if videoBlob}

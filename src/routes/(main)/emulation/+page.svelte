@@ -1,5 +1,6 @@
 <script>
   import Head from "$lib/components/Head.svelte";
+  import Button from "$lib/components/ui/Button.svelte";
   import { companies, emulators } from "$lib/emulators";
   import { Search, X } from "@lucide/svelte";
 
@@ -40,18 +41,18 @@
     {/if}
   </div>
   <div class="flex gap-2 overflow-y-scroll no-scrollbar">
-    <button
+    <Button
+      variant="outline"
       onclick={() => (filterCompany = "")}
       data-active={filterCompany === ""}
-      class="h-9 px-2.5 rounded-lg flex gap-1.5 items-center cursor-pointer border border-input text-sm transition-colors bg-neutral-900 data-[active=true]:bg-neutral-800"
-      >All</button
+      class="data-[active=true]:bg-neutral-800">All</Button
     >
     {#each companies as company}
-      <button
+      <Button
+        variant="outline"
         onclick={() => (filterCompany = company)}
         data-active={filterCompany === company}
-        class="h-9 px-2.5 rounded-lg flex gap-1.5 items-center cursor-pointer border border-input text-sm transition-colors bg-neutral-900 data-[active=true]:bg-neutral-800"
-        >{company}</button
+        class="data-[active=true]:bg-neutral-800">{company}</Button
       >
     {/each}
   </div>

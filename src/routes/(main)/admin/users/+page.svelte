@@ -151,7 +151,7 @@
           </tr>
         {:else}
           {#each usersList as user}
-            <tr class="hover:bg-secondary">
+            <tr class="hover:bg-neutral-900">
               <td class="p-4">
                 <img
                   class="w-8 h-8 object-cover rounded-lg"

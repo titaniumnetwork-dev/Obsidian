@@ -1,5 +1,7 @@
 <script>
-  import { authClient } from "$lib/client.js";
+  import { invalidateAll } from "$app/navigation";
+  import { authClient } from "$lib/client";
+  import Impersonating from "$lib/components/Impersonating.svelte";
   import MobileBlocker from "$lib/components/MobileBlocker.svelte";
   import "$lib/consoleMessage.js";
   import "$lib/konami.svelte.js";
@@ -10,12 +12,23 @@
 
   let { children, data } = $props();
 
+  const session = authClient.useSession();
+  let impersonating = $state(false);
+
+  $effect(() => {
+    impersonating =
+      !$session.isPending && !!$session.data?.session?.impersonatedBy;
+  });
+
   onMount(() => {
     if (data.user) {
       const intervalId = setInterval(async () => {
         const { data, error } = await authClient.getSession();
 
-        if (!data) {
+        const sessionIsDead = !data;
+        const userIsBanned = data?.user?.banned;
+
+        if (sessionIsDead || userIsBanned) {
           clearInterval(intervalId);
           invalidateAll();
           await storage.broadcastAuthChange();
@@ -93,6 +106,7 @@
 
 {#if storage.isLoaded}
   <MobileBlocker>
+    <Impersonating {authClient} {impersonating} />
     {@render children()}
   </MobileBlocker>
 {/if}

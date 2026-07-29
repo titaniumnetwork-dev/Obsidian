@@ -1,6 +1,6 @@
 {
   "name": "obsidian",
-  "description": "Your new favorite place on the internet!",
+  "description": "Play instantly. No downloads.",
   "version": "1.0.0",
   "author": "Nebelung",
   "license": "SEE LICENSE IN LICENSE",
@@ -53,6 +53,8 @@
     "profanease": "^2.0.3",
     "svelte-codemirror-editor": "^2.1.0",
     "svelte-sonner": "^1.1.1",
+    "tailwind-merge": "^3.6.0",
+    "tailwind-variants": "^3.3.0",
     "vite-plugin-mkcert": "^2.1.0"
   }
 }

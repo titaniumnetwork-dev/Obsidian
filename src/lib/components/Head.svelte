@@ -56,7 +56,7 @@
     rel="icon"
     href={storage.settings.maskIcon ? storage.settings.maskIcon : favicon}
   />
-  <meta name="description" content="Your new favorite place on the internet!" />
+  <meta name="description" content="Play instantly. No downloads." />
   {@html `<style>${themeCustomCSS}</style>`}
   {@html `<style>${storage.settings.customCSS}</style>`}
 </svelte:head>

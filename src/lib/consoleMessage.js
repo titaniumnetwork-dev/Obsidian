@@ -13,6 +13,6 @@ console.log(
   `font-size: 36px; font-weight: 700; font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";`,
 );
 console.log(
-  "%cYour new favorite place on the internet!",
+  "%cPlay instantly. No downloads.",
   `font-size:16px; font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";`,
 );

@@ -2,6 +2,7 @@
   import { page } from "$app/stores";
   import ErrorGame from "$lib/components/ErrorGame.svelte";
   import Head from "$lib/components/Head.svelte";
+  import Button from "$lib/components/ui/Button.svelte";
   import { storage } from "$lib/storage.svelte";
   import { ArrowLeft, Home } from "@lucide/svelte";
 </script>
@@ -16,24 +17,21 @@
     </p>
     <p class="text-sm text-text-placeholder">
       {$page.error?.message === "Not found"
-        ? "The page you're looking for doesn't exist. Return home or go back."
+        ? "The page you're looking for doesn't exist"
         : $page.error?.message}
     </p>
   </div>
   <div class="flex gap-2">
-    <button
-      onclick={() => window.history.back()}
-      class="h-9 px-2.5 bg-neutral-900 rounded-lg flex gap-1.5 items-center cursor-pointer border border-input text-sm"
-    >
+    <Button variant="outline" onclick={() => window.history.back()}>
       <ArrowLeft size="16" />
       <span>Go Back</span>
-    </button>
-    <a
-      class="h-9 px-2.5 bg-neutral-900 rounded-lg flex gap-1.5 items-center cursor-pointer border border-input text-sm"
+    </Button>
+    <Button
+      variant="outline"
       href={storage.settings.libraryMode ? "/library" : "/"}
     >
       <Home size="16" />
       <span>{storage.settings.libraryMode ? "Library" : "Home"}</span>
-    </a>
+    </Button>
   </div>
 </div>

@@ -17,7 +17,7 @@
       aria-label="Library Mode"
       checked={storage.settings.libraryMode}
       onchange={(e) => storage.updateSetting("libraryMode", e.target.checked)}
-      class="appearance-none cursor-pointer transition-colors bg-secondary checked:bg-surface border border-border w-11 h-6 rounded-full flex items-center px-0.5 before:content-[''] before:h-4 before:w-4 before:rounded-full before:border before:border-border checked:before:border-border-primary before:bg-surface checked:before:bg-primary before:block checked:before:translate-x-5.5 before:transition-[translate,background,border]"
+      class="appearance-none cursor-pointer transition-colors bg-neutral-900 checked:bg-surface border border-border w-11 h-6 rounded-full flex items-center px-0.5 before:content-[''] before:h-4 before:w-4 before:rounded-full before:border before:border-border checked:before:border-border-primary before:bg-surface checked:before:bg-primary before:block checked:before:translate-x-5.5 before:transition-[translate,background,border]"
       type="checkbox"
     />
   </div>

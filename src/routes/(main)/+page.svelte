@@ -3,6 +3,7 @@
   import Logo from "$lib/assets/logo.svelte";
   import Cards from "$lib/components/Cards.svelte";
   import Head from "$lib/components/Head.svelte";
+  import Button from "$lib/components/ui/Button.svelte";
   import { featured } from "$lib/featured.js";
   import { getMessage } from "$lib/messages";
   import { storage } from "$lib/storage.svelte.js";
@@ -66,7 +67,7 @@
 <div class="flex flex-col mt-28 gap-16">
   <div class="flex flex-col gap-8 items-center mb-16">
     <Logo onclick={handleRapidClick} class="logo w-20 h-20" />
-    <h1 class="text-6xl font-bold">
+    <h1 class="text-6xl font-bold text-center">
       Play instantly. <span class="text-text-placeholder">No downloads.</span>
     </h1>
     <p
@@ -78,20 +79,14 @@
       masterpieces, and emulated retro classics directly in your browser.
     </p>
     <div class="flex gap-2">
-      <a
-        class="h-9 px-2.5 bg-primary text-text-inverse rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
-        href="/library"
-      >
+      <Button href="/library">
         <Library size="16" />
         <span>Your library</span>
-      </a>
-      <a
-        class="h-9 px-2.5 bg-neutral-900 rounded-lg flex gap-1.5 items-center cursor-pointer border border-input text-sm"
-        href="/store"
-      >
+      </Button>
+      <Button variant="outline" href="/store">
         <Store size="16" />
         <span>Browse Store</span>
-      </a>
+      </Button>
     </div>
   </div>
   <div class="grid grid-cols-4 gap-4 mx-4">
@@ -159,13 +154,10 @@
         other players in our official Discord server.
       </p>
     </div>
-    <a
-      class="ml-auto h-8 px-2.5 bg-primary text-text-inverse rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
-      href="https://discord.com"
-    >
+    <Button href="https://discord.com" class="ml-auto">
       <SiDiscord size="16" />
       <span>Join Discord Server</span>
-    </a>
+    </Button>
   </div>
   <div>
     <Cards
@@ -194,20 +186,14 @@
       </p>
     </div>
     <div class="flex gap-2 ml-auto">
-      <a
-        class="h-8 px-2.5 bg-primary text-text-inverse rounded-lg flex gap-1.5 items-center cursor-pointer"
-        href="/library"
-      >
+      <Button href="/library">
         <Library size="16" />
         <span>Your library</span>
-      </a>
-      <a
-        class="h-8 px-2.5 bg-neutral-800 rounded-lg flex gap-1.5 items-center cursor-pointer border border-input"
-        href="/store"
-      >
+      </Button>
+      <Button variant="outline" href="/store" class="bg-neutral-800">
         <Store size="16" />
         <span>Browse Store</span>
-      </a>
+      </Button>
     </div>
   </div>
 </div>
