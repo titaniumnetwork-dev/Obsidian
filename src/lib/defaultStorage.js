@@ -8,9 +8,7 @@ export const defaultStorage = {
   playTime: {},
   settings: {
     sidebarStyle: "default",
-    category: "all",
     sortBy: "alphabetical",
-    tagFilter: "all",
     maskTitle: "",
     maskIcon: "",
     panicKey: "",

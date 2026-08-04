@@ -4,7 +4,9 @@
   import Cards from "$lib/components/Cards.svelte";
   import Head from "$lib/components/Head.svelte";
   import Button from "$lib/components/ui/Button.svelte";
+  import Card from "$lib/components/ui/Card.svelte";
   import { featured } from "$lib/featured.js";
+    import { links } from "$lib/links.js";
   import { getMessage } from "$lib/messages";
   import { storage } from "$lib/storage.svelte.js";
   import { SiDiscord } from "@icons-pack/svelte-simple-icons";
@@ -90,9 +92,7 @@
     </div>
   </div>
   <div class="grid grid-cols-4 gap-4 mx-4">
-    <div
-      class="flex flex-col gap-1 bg-neutral-900 rounded-radius p-6 text-sm border border-border"
-    >
+    <Card size="sm">
       <div class="flex gap-1.5 items-center">
         <LockOpen size="16" />
         <p>100% Free Forever</p>
@@ -102,10 +102,8 @@
         full, unrestricted access to our entire gaming library completely free
         of charge.
       </p>
-    </div>
-    <div
-      class="flex flex-col gap-1 bg-neutral-900 rounded-radius p-6 text-sm border border-border"
-    >
+    </Card>
+    <Card size="sm">
       <div class="flex gap-1.5 items-center">
         <Library size="16" />
         <p>Massive Library</p>
@@ -115,10 +113,8 @@
         downloads. Powered by Ruffle for classic Flash hits and EmulatorJS for
         retro consoles.
       </p>
-    </div>
-    <div
-      class="flex flex-col gap-1 bg-neutral-900 rounded-radius p-6 text-sm border border-border"
-    >
+    </Card>
+    <Card size="sm">
       <div class="flex gap-1.5 items-center">
         <Heart size="16" />
         <p>Built for Gamers</p>
@@ -128,10 +124,8 @@
         entirely on delivering a gaming experience with the quality-of-life
         features you actually want.
       </p>
-    </div>
-    <div
-      class="flex flex-col gap-1 bg-neutral-900 rounded-radius p-6 text-sm border border-border"
-    >
+    </Card>
+    <Card size="sm">
       <div class="flex gap-1.5 items-center">
         <SlidersHorizontal size="16" />
         <p>Advanced Features</p>
@@ -141,11 +135,9 @@
         settings. Create a free Obsidian account to securely sync your settings
         and saves across devices.
       </p>
-    </div>
+    </Card>
   </div>
-  <div
-    class="flex items-center justify-between gap-3.5 bg-neutral-900 rounded-[10px] py-3.5 px-4 text-sm border border-border mx-4"
-  >
+  <Card class="flex-row items-center mx-4" size="sm">
     <MessageSquare />
     <div class="flex-col gap-1">
       <p>Join the Obsidian Community</p>
@@ -154,11 +146,11 @@
         other players in our official Discord server.
       </p>
     </div>
-    <Button href="https://discord.com" class="ml-auto">
+    <Button href={links.discord} class="ml-auto">
       <SiDiscord size="16" />
       <span>Join Discord Server</span>
     </Button>
-  </div>
+  </Card>
   <div>
     <Cards
       title="Featured"
@@ -176,9 +168,7 @@
       newBadge={true}
     />
   </div>
-  <div
-    class="flex items-center justify-between gap-3.5 bg-neutral-900 rounded-[10px] py-3.5 px-4 text-sm border border-border mx-4"
-  >
+  <Card class="flex-row items-center mx-4" size="sm">
     <div class="flex-col gap-1">
       <p>Ready to start playing?</p>
       <p class="text-sm text-text-placeholder">
@@ -195,5 +185,5 @@
         <span>Browse Store</span>
       </Button>
     </div>
-  </div>
+  </Card>
 </div>

@@ -1,14 +1,15 @@
 <script>
   import Head from "$lib/components/Head.svelte";
+  import { links } from "$lib/links";
 
   let updated = new Date(1779901012831);
 </script>
 
 <Head title="DMCA Takedown" />
 
-<div class="p-4 pt-0 flex flex-col gap-4">
+<div class="p-4 flex flex-col gap-4 text-sm">
   <div class="flex flex-col">
-    <p class="text-xl">DMCA Takedown</p>
+    <p class="text-base">DMCA Takedown</p>
     <p class="text-text-placeholder">
       Last updated on {updated.toLocaleDateString("en-US", {
         month: "long",
@@ -19,11 +20,11 @@
   </div>
   <p>
     Obsidian respects the intellectual property rights of others and expects our
-    users to do the same. In accordance with the Digital Millennium Copyright Act
-    (DMCA), we will respond promptly to notices of alleged infringement that are
-    reported to our designated copyright agent.
+    users to do the same. In accordance with the Digital Millennium Copyright
+    Act (DMCA), we will respond promptly to notices of alleged infringement that
+    are reported to our designated copyright agent.
   </p>
-  <p class="text-xl">1. Filing a DMCA Notice of Infringement</p>
+  <p class="text-base">1. Filing a DMCA Notice of Infringement</p>
   <p>
     If you are a copyright owner or an agent thereof, and you believe that any
     content hosted on our site (such as web games or emulated files) infringes
@@ -61,7 +62,7 @@
       owner of an exclusive right that is allegedly infringed.
     </li>
   </ul>
-  <p class="text-xl">2. Submitting a Counter-Notice</p>
+  <p class="text-base">2. Submitting a Counter-Notice</p>
   <p>
     If you believe that your content was removed (or to which access was
     disabled) by mistake or misidentification, you may send a counter-notice
@@ -80,18 +81,19 @@
     </li>
     <li>Your name, address, telephone number, and email address.</li>
   </ul>
-  <p class="text-xl">3. Repeat Infringer Policy</p>
+  <p class="text-base">3. Repeat Infringer Policy</p>
   <p>
     In accordance with the DMCA and other applicable law, we have adopted a
     policy of terminating, in appropriate circumstances and at our sole
     discretion, accounts of users or content providers who are deemed to be
     repeat infringers.
   </p>
-  <p class="text-xl">4. Contact Our Designated Agent</p>
+  <p class="text-base">4. Contact Our Designated Agent</p>
   <p>
     To submit a DMCA notice or counter-notice, please send the required
     information to our designated copyright agent at <a
-      href="mailto:support@obsidian.com">support@obsidian.com</a
+      class="hover:underline"
+      href={links.email}>support@obsidian.com</a
     >.
   </p>
 </div>

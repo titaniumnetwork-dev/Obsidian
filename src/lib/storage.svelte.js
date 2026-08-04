@@ -18,9 +18,7 @@ class StorageManager {
   hiddenThemes = $state([]);
   settings = $state({
     sidebarStyle: "default",
-    category: "all",
     sortBy: "alphabetical",
-    tagFilter: "all",
     maskTitle: "",
     maskIcon: "",
     panicKey: "",
@@ -338,10 +336,6 @@ class StorageManager {
       try {
         this.settings = JSON.parse(storedSettings);
       } catch (e) {}
-    }
-
-    if (this.settings.tagFilter === "all") {
-      this.settings.tagFilter = catalogTagOrder;
     }
 
     if (storedFavorites) {

@@ -2,7 +2,9 @@
   import { goto } from "$app/navigation";
   import Cards from "$lib/components/Cards.svelte";
   import { carousel, featured } from "$lib/featured.js";
+  import { links } from "$lib/links";
   import { storage } from "$lib/storage.svelte.js";
+  import { SiDiscord } from "@icons-pack/svelte-simple-icons";
   import {
     CarFront,
     Check,
@@ -12,6 +14,7 @@
     Download,
     Ghost,
     Puzzle,
+    SearchX,
     Sword,
     Zap,
   } from "@lucide/svelte";
@@ -219,10 +222,24 @@
     />
   {:else}
     <Cards data={sortedLibrary} link="/store/" buttons="store" />
-    {#if !sortedLibrary.length}
-      <div class="text-text-placeholder text-center p-4 text-sm">
-        No results found.
-      </div>
-    {/if}
   {/if}
 </div>
+{#if sortedLibrary.length === 0}
+  <div class="flex flex-col gap-4 h-full w-full justify-center items-center">
+    <div class="flex flex-col gap-2 max-w-sm items-center">
+      <SearchX class="mb-2" size="32" />
+      <p class="text-sm text-center">No results found</p>
+      <p class="text-text-placeholder text-sm text-center text-balance">
+        Try checking for typos or adjusting your search terms. Join our Discord
+        server to request a game.
+      </p>
+    </div>
+    <a
+      href={links.discord}
+      class="h-9 px-2.5 bg-primary text-text-inverse rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
+    >
+      <SiDiscord size="16" />
+      <span>Join Discord Server</span>
+    </a>
+  </div>
+{/if}

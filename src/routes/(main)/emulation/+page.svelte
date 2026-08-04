@@ -1,11 +1,19 @@
 <script>
+  import { page } from "$app/stores";
   import Head from "$lib/components/Head.svelte";
   import Button from "$lib/components/ui/Button.svelte";
   import { companies, emulators } from "$lib/emulators";
+  import { removeURLParam, setURLParam } from "$lib/utils";
   import { Search, X } from "@lucide/svelte";
 
-  let searchQuery = $state("");
+  let searchQuery = $state($page.data.search || "");
   let filterCompany = $state("");
+
+  if ($page.data.company) {
+    if (companies.includes($page.data.company)) {
+      filterCompany = $page.data.company;
+    }
+  }
 
   let filteredEmulators = $derived.by(() => {
     return emulators
@@ -27,6 +35,10 @@
   >
     <Search size="16" class="text-text-placeholder shrink-0" />
     <input
+      oninput={(e) =>
+        e.target.value
+          ? setURLParam("search", e.target.value)
+          : removeURLParam("search")}
       bind:value={searchQuery}
       placeholder="Search emulators"
       class="w-full h-full bg-transparent outline-none placeholder:text-text-placeholder text-sm"
@@ -34,7 +46,7 @@
     {#if searchQuery.length > 0}
       <button
         class="cursor-pointer shrink-0 text-text-placeholder"
-        onclick={() => (searchQuery = "")}
+        onclick={() => ((searchQuery = ""), removeURLParam("search"))}
       >
         <X size="16" />
       </button>
@@ -43,14 +55,17 @@
   <div class="flex gap-2 overflow-y-scroll no-scrollbar">
     <Button
       variant="outline"
-      onclick={() => (filterCompany = "")}
+      onclick={() => ((filterCompany = ""), removeURLParam("company"))}
       data-active={filterCompany === ""}
       class="data-[active=true]:bg-neutral-800">All</Button
     >
     {#each companies as company}
       <Button
         variant="outline"
-        onclick={() => (filterCompany = company)}
+        onclick={() => (
+          (filterCompany = company),
+          setURLParam("company", company)
+        )}
         data-active={filterCompany === company}
         class="data-[active=true]:bg-neutral-800">{company}</Button
       >

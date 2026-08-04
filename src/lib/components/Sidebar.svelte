@@ -18,6 +18,7 @@
     User,
     X,
   } from "@lucide/svelte";
+  import Button from "./ui/Button.svelte";
 
   let { user, impersonating } = $props();
   let contextMenu = $state();
@@ -132,31 +133,36 @@
       class="flex group-data-[style=default]:items-center mx-2 gap-1 justify-between group-data-[style=compact]:flex-col overflow-hidden"
     >
       <div class="flex gap-2 items-center">
-        <a
-          class="size-8 cursor-pointer flex items-center justify-center rounded-lg transition-colors hover:bg-neutral-800"
+        <Button
+          variant="ghost"
+          size="icon-sm"
           aria-label="Home Logo"
           href={storage.settings.libraryMode ? "/library" : "/"}
         >
           <Logo class="size-5" />
-        </a>
+        </Button>
         <p class="text-sm group-data-[style=compact]:hidden">Obsidian</p>
       </div>
       <div
         class="flex gap-1 group-data-[style=default]:items-center group-data-[style=compact]:flex-col"
       >
-        <button
+        <Button
+          variant="ghost"
+          size="icon-sm"
           aria-label="Search"
-          class="size-8 cursor-pointer flex items-center justify-center rounded-lg transition-colors hover:bg-neutral-800 text-text-placeholder"
+          class="text-text-placeholder"
         >
           <Search size="16" />
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon-sm"
           aria-label="Toggle Sidebar"
           onclick={toggleSidebar}
           class="size-8 cursor-pointer flex items-center justify-center rounded-lg transition-colors hover:bg-neutral-800 text-text-placeholder"
         >
           <Sidebar size="16" />
-        </button>
+        </Button>
       </div>
     </div>
   </div>
@@ -329,20 +335,24 @@
       </div>
     {:else}
       <div class="flex gap-2 group-data-[style=compact]:flex-col">
-        <a
+        <Button
           href="/account/login"
-          class="flex items-center justify-safe cursor-pointer text-sm rounded-lg h-8 group-data-[style=default]:w-full group-data-[style=compact]:w-8 group-data-[style=default]:px-2.5 gap-2 bg-neutral-800 whitespace-nowrap overflow-hidden"
+          variant="secondary"
+          size="sm"
+          class="group-data-[style=default]:w-full group-data-[style=compact]:w-8 justify-center"
         >
           <User class="shrink-0" size="16" />
           <span class="group-data-[style=compact]:hidden">Sign In</span>
-        </a>
-        <a
+        </Button>
+        <Button
           aria-label="Settings"
           href="/settings/account"
-          class="size-8 cursor-pointer flex items-center justify-center rounded-lg bg-neutral-800 shrink-0"
+          variant="secondary"
+          size="icon-sm"
+          class="shrink-0"
         >
           <Settings size="16" />
-        </a>
+        </Button>
       </div>
     {/if}
   </div>

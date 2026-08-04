@@ -86,8 +86,11 @@
       {#each data.currentData.tags as tag}
         <button
           onclick={() => {
-            storage.updateSetting("tagFilter", [tag]);
-            goto("/library");
+            if (storage.installed.includes(data.currentData.id)) {
+              goto("/library?tags=" + JSON.stringify([tag]));
+            } else {
+              goto("/store/tag/" + tag);
+            }
           }}
           class="h-6 px-2 py-0.5 text-xs rounded-full bg-neutral-800 flex items-center cursor-pointer"
         >
@@ -101,24 +104,26 @@
         <div class="flex gap-2">
           {#if storage.installed.includes(data.currentData.id)}
             {#if storage.active[data.currentData.id]}
-              <button
+              <Button
                 onclick={() => storage.resumeActive(data.currentData.id)}
-                class="bg-primary h-9 px-14 py-2.5 cursor-pointer rounded-full flex gap-2 items-center text-text-inverse border border-border-primary text-sm"
+                class="w-42 justify-center rounded-full"
               >
                 <Pause size="16" />
                 <span>Resume</span>
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
                 aria-label="Quit"
                 onclick={() => storage.quitActive(data.currentData.id)}
-                class="bg-surface size-9 cursor-pointer rounded-full flex items-center justify-center border border-border"
+                class="rounded-full"
               >
                 <X size="16" />
-              </button>
+              </Button>
             {:else}
               <Button
                 onclick={() => storage.setActive(data.currentData.id)}
-                class="px-14 rounded-full"
+                class="w-42 justify-center rounded-full"
               >
                 <Play size="16" />
                 <span>Play</span>
@@ -186,15 +191,15 @@
               </button>
             </div>
           {:else}
-            <button
+            <Button
               onclick={() =>
                 storage.install(data.currentData.id) &
                 goto("/library/" + data.currentData.id, { replaceState: true })}
-              class="bg-primary h-9 px-14 py-2.5 cursor-pointer rounded-full flex gap-2 items-center text-text-inverse border border-border-primary text-sm"
+              class="w-42 justify-center rounded-full"
             >
               <Download size="16" />
               <span>Install</span>
-            </button>
+            </Button>
           {/if}
         </div>
         <div class="flex gap-2 ml-auto overflow-scroll">
@@ -262,7 +267,7 @@
   </div>
   {#if data.currentData.collection}
     <div class="flex flex-col gap-2 ml-4">
-      <p class="text-xl">
+      <p>
         {collections[data.currentData.collection].title} Collection
       </p>
       <div class="flex flex-wrap gap-4">
@@ -270,7 +275,7 @@
           {@const itemInstalled = storage.installed.includes(item.id)}
           {#if item.id === data.currentData.id}
             <div
-              class="h-14 rounded-2xl text-sm flex items-center justify-between p-2 gap-2 whitespace-nowrap border border-border opacity-50"
+              class="h-14 rounded-2xl text-sm flex items-center justify-between p-2 gap-2 whitespace-nowrap bg-surface opacity-80"
             >
               <div class="flex gap-2 items-center overflow-hidden">
                 <img
@@ -287,8 +292,7 @@
               oncontextmenu={(e) =>
                 (contextMenuItem = { ...item }) & contextMenu?.open(e)}
               href={itemInstalled ? "/library/" + item.id : "/store/" + item.id}
-              class={"cursor-pointer h-14 rounded-2xl text-sm flex items-center justify-between p-2 gap-2 whitespace-nowrap border border-border" +
-                (itemInstalled ? " bg-surface" : "")}
+              class="cursor-pointer h-14 rounded-2xl text-sm flex items-center justify-between p-2 gap-2 whitespace-nowrap bg-surface"
             >
               <div class="flex gap-2 items-center overflow-hidden">
                 <img

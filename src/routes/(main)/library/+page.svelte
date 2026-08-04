@@ -1,8 +1,10 @@
 <script>
+  import { page } from "$app/stores";
   import Cards from "$lib/components/Cards.svelte";
   import Head from "$lib/components/Head.svelte";
   import Button from "$lib/components/ui/Button.svelte";
   import { storage } from "$lib/storage.svelte.js";
+  import { removeURLParam, setURLParam } from "$lib/utils.js";
   import {
     ArrowDownUp,
     Check,
@@ -18,11 +20,29 @@
 
   let { data } = $props();
 
-  let searchQuery = $state("");
+  let searchQuery = $state($page.data.search || "");
+  let sortCategory = $state("all");
+  let tagFilter = $state(storage.tags);
 
-  let allTagsSelected = $derived(
-    storage.settings.tagFilter.length === storage.tags.length,
-  );
+  if ($page.data.category) {
+    if (["all", "Flash", "HTML", "Emulation"].includes($page.data.category)) {
+      sortCategory = $page.data.category;
+    }
+  }
+
+  if ($page.data.tags) {
+    try {
+      let tagData = JSON.parse($page.data.tags);
+      if (Array.isArray(tagData)) {
+        tagData = tagData.filter((tag) => storage.tags.includes(tag));
+        if (tagData.length) {
+          tagFilter = tagData;
+        }
+      }
+    } catch {}
+  }
+
+  let allTagsSelected = $derived(tagFilter.length === storage.tags.length);
 
   let sortedLibrary = $derived(
     storage.library
@@ -34,15 +54,13 @@
           return true;
         }
 
-        return item.tags.some((tag) =>
-          storage.settings.tagFilter.includes(tag),
-        );
+        return item.tags.some((tag) => tagFilter.includes(tag));
       })
       .filter((item) => {
-        if (storage.settings.category === "all") {
+        if (sortCategory === "all") {
           return true;
         } else {
-          return item.type === storage.settings.category;
+          return item.type === sortCategory;
         }
       })
       .sort((a, b) => {
@@ -119,6 +137,10 @@
     >
       <Search size="16" class="text-text-placeholder shrink-0" />
       <input
+        oninput={(e) =>
+          e.target.value
+            ? setURLParam("search", e.target.value)
+            : removeURLParam("search")}
         bind:value={searchQuery}
         placeholder="Search library"
         class="w-full h-full bg-transparent outline-none placeholder:text-text-placeholder text-sm"
@@ -126,7 +148,7 @@
       {#if searchQuery.length > 0}
         <button
           class="cursor-pointer shrink-0 text-text-placeholder"
-          onclick={() => (searchQuery = "")}
+          onclick={() => ((searchQuery = ""), removeURLParam("search"))}
         >
           <X size="16" />
         </button>
@@ -139,7 +161,7 @@
       <summary
         class="flex gap-1.5 cursor-pointer text-sm justify-between items-center h-full select-none px-2"
       >
-        {#if storage.settings.tagFilter.length === 0}
+        {#if tagFilter.length === 0}
           <Tags size="16" />
           <span>Select Tags</span>
           <ChevronDown size="16" />
@@ -148,9 +170,9 @@
         {:else}
           <Tags size="16" />
           <span>
-            {storage.settings.tagFilter.length > 1
-              ? storage.settings.tagFilter.length + " Tags"
-              : storage.settings.tagFilter[0]}</span
+            {tagFilter.length > 1
+              ? tagFilter.length + " Tags"
+              : tagFilter[0]}</span
           >
           <ChevronDown size="16" />
         {/if}
@@ -166,11 +188,10 @@
               type="checkbox"
               class="peer w-4 h-4 cursor-pointer appearance-none border border-border checked:bg-primary rounded"
               checked={allTagsSelected}
-              onchange={(e) =>
-                storage.updateSetting(
-                  "tagFilter",
-                  e.target.checked ? [...storage.tags] : [],
-                )}
+              onchange={(e) => (
+                (tagFilter = e.target.checked ? [...storage.tags] : []),
+                removeURLParam("tags")
+              )}
             />
             <Check
               class="absolute hidden peer-checked:block text-text-inverse"
@@ -188,15 +209,16 @@
                 type="checkbox"
                 class="peer w-4 h-4 cursor-pointer appearance-none border border-border checked:bg-primary rounded"
                 value={tag}
-                checked={storage.settings.tagFilter.includes(tag)}
+                checked={tagFilter.includes(tag)}
                 onchange={(e) => {
                   const isChecked = e.target.checked;
 
                   const newTags = isChecked
-                    ? [...storage.settings.tagFilter, tag]
-                    : storage.settings.tagFilter.filter((t) => t !== tag);
+                    ? [...tagFilter, tag]
+                    : tagFilter.filter((t) => t !== tag);
 
-                  storage.updateSetting("tagFilter", newTags);
+                  tagFilter = newTags;
+                  setURLParam("tags", JSON.stringify(newTags));
                 }}
               />
               <Check
@@ -220,26 +242,35 @@
       class="bg-neutral-900 flex items-center p-1 h-9 rounded-lg text-sm border border-input gap-1"
     >
       <button
-        onclick={() => storage.updateSetting("category", "all")}
-        data-active={storage.settings.category === "all"}
+        onclick={() => ((sortCategory = "all"), removeURLParam("category"))}
+        data-active={sortCategory === "all"}
         class="h-full flex items-center data-[active=true]:bg-input transition-colors rounded-md px-2 cursor-pointer"
         >All</button
       >
       <button
-        onclick={() => storage.updateSetting("category", "HTML")}
-        data-active={storage.settings.category === "HTML"}
+        onclick={() => (
+          (sortCategory = "HTML"),
+          setURLParam("category", "HTML")
+        )}
+        data-active={sortCategory === "HTML"}
         class="h-full flex items-center data-[active=true]:bg-input transition-colors rounded-md px-2 cursor-pointer"
         >HTML</button
       >
       <button
-        onclick={() => storage.updateSetting("category", "Flash")}
-        data-active={storage.settings.category === "Flash"}
+        onclick={() => (
+          (sortCategory = "Flash"),
+          setURLParam("category", "Flash")
+        )}
+        data-active={sortCategory === "Flash"}
         class="h-full flex items-center data-[active=true]:bg-input transition-colors rounded-md px-2 cursor-pointer"
         >Flash</button
       >
       <button
-        onclick={() => storage.updateSetting("category", "Emulation")}
-        data-active={storage.settings.category === "Emulation"}
+        onclick={() => (
+          (sortCategory = "Emulation"),
+          setURLParam("category", "Emulation")
+        )}
+        data-active={sortCategory === "Emulation"}
         class="h-full flex items-center data-[active=true]:bg-input transition-colors rounded-md px-2 cursor-pointer"
         >Emulation</button
       >
@@ -333,7 +364,7 @@
       </p>
     </div>
     <a
-      href="/store"
+      href={"/store?search=" + searchQuery}
       class="h-9 px-2.5 bg-primary text-text-inverse rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
     >
       <Store size="16" />

@@ -18,10 +18,14 @@
       variant: {
         default: "bg-primary text-text-inverse",
         outline: "bg-neutral-900 border border-input",
+        secondary: "bg-neutral-800",
+        ghost: "hover:bg-neutral-800",
       },
       size: {
         default: "h-9 px-2.5",
+        sm: "h-8 px-2.5",
         icon: "size-9 justify-center",
+        "icon-sm": "size-8 justify-center",
       },
     },
     defaultVariants: {

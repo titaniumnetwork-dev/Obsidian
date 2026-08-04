@@ -1,12 +1,14 @@
 <script>
+  import { page } from "$app/stores";
   import Head from "$lib/components/Head.svelte";
   import Button from "$lib/components/ui/Button.svelte";
+  import { removeURLParam, setURLParam } from "$lib/utils.js";
   import { ChevronDown, Folder, Home, Search, Tag, X } from "@lucide/svelte";
   import { setContext } from "svelte";
 
   let { data, children } = $props();
 
-  let searchQuery = $state("");
+  let searchQuery = $state($page.data.search || "");
 
   setContext("searchQuery", () => searchQuery);
 </script>
@@ -19,6 +21,10 @@
   >
     <Search size="16" class="text-text-placeholder shrink-0" />
     <input
+      oninput={(e) =>
+        e.target.value
+          ? setURLParam("search", e.target.value)
+          : removeURLParam("search")}
       bind:value={searchQuery}
       placeholder="Search store"
       class="w-full h-full bg-transparent outline-none placeholder:text-text-placeholder text-sm"
@@ -26,7 +32,7 @@
     {#if searchQuery.length > 0}
       <button
         class="cursor-pointer shrink-0 text-text-placeholder"
-        onclick={() => (searchQuery = "")}
+        onclick={() => ((searchQuery = ""), removeURLParam("search"))}
       >
         <X size="16" />
       </button>

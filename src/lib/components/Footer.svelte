@@ -1,6 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
   import Logo from "$lib/assets/logo.svelte";
+  import { links } from "$lib/links";
   import { storage } from "$lib/storage.svelte";
   import {
     SiDiscord,
@@ -28,16 +29,17 @@
   }
 </script>
 
-<footer class="footer mb-4 mx-4 mt-auto flex gap-4 justify-between pt-16 text-sm">
+<footer
+  class="footer mb-4 mx-4 mt-auto flex gap-4 justify-between pt-16 text-sm"
+>
   <div class="flex items-center gap-2">
     <Logo onpointerdown={logoPressed} class="h-6 w-6" />
     <p>Obsidian {new Date().getFullYear()}</p>
   </div>
 
   <div class="flex items-center gap-4">
-    <a
-      class="text-text-placeholder hover:underline"
-      href="mailto:support@obsidian.com">Contact</a
+    <a class="text-text-placeholder hover:underline" href={links.email}
+      >Contact</a
     >
     <a class="text-text-placeholder hover:underline" href="/terms"
       >Terms of Service</a
@@ -55,28 +57,16 @@
         <SiGithub size="16" />
       </a>
       -->
-      <a
-        class="text-text-placeholder hover:underline"
-        href="https://discord.com"
-      >
+      <a class="text-text-placeholder hover:underline" href={links.discord}>
         <SiDiscord size="16" />
       </a>
-      <a
-        class="text-text-placeholder hover:underline"
-        href="https://youtube.com"
-      >
+      <a class="text-text-placeholder hover:underline" href={links.youtube}>
         <SiYoutube size="16" />
       </a>
-      <a
-        class="text-text-placeholder hover:underline"
-        href="https://tiktok.com"
-      >
+      <a class="text-text-placeholder hover:underline" href={links.tiktok}>
         <SiTiktok size="16" />
       </a>
-      <a
-        class="text-text-placeholder hover:underline"
-        href="https://patreon.com"
-      >
+      <a class="text-text-placeholder hover:underline" href={links.patreon}>
         <SiPatreon size="16" />
       </a>
     </div>
