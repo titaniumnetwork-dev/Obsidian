@@ -22,6 +22,10 @@
     User,
     X,
   } from "@lucide/svelte";
+  import AlertDialog from "./ui/AlertDialog.svelte";
+  import AlertDialogClose from "./ui/AlertDialogClose.svelte";
+  import AlertDialogContent from "./ui/AlertDialogContent.svelte";
+  import AlertDialogTrigger from "./ui/AlertDialogTrigger.svelte";
   import Button from "./ui/Button.svelte";
 
   let { data } = $props();
@@ -179,16 +183,43 @@
                   <span>Add Favorite</span>
                 </button>
               {/if}
-              <button
-                onclick={() =>
-                  storage.uninstall(data.currentData.id) &
-                  optionsMenu.hidePopover() &
-                  goto("/library", { replaceState: true })}
-                class="px-2 py-1.5 gap-1.5 rounded-md cursor-pointer transition-colors bg-neutral-900 hover:bg-neutral-800 flex items-center text-sm"
-              >
-                <Trash size="16" />
-                <span>Uninstall</span>
-              </button>
+              <AlertDialog>
+                <AlertDialogTrigger>
+                  <button
+                    class="px-2 py-1.5 gap-1.5 rounded-md cursor-pointer transition-colors bg-neutral-900 hover:bg-neutral-800 flex items-center text-sm outline-none"
+                  >
+                    <Trash size="16" />
+                    <span>Uninstall</span>
+                  </button>
+                </AlertDialogTrigger>
+                <AlertDialogContent class="items-center text-center">
+                  <div class="flex flex-col items-center gap-1.5">
+                    <p>Uninstall Game?</p>
+                    <p class="text-sm text-text-placeholder">
+                      This will permanently uninstall this game. All data and
+                      stats will be deleted.
+                    </p>
+                  </div>
+                  <div class="w-full flex gap-2">
+                    <AlertDialogClose>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        class="outline-none flex-1 justify-center bg-neutral-800">Cancel</Button
+                      >
+                    </AlertDialogClose>
+                    <Button
+                      size="sm"
+                      class="flex-1 justify-center"
+                      onclick={() =>
+                        storage.uninstall(data.currentData.id) &
+                        optionsMenu.hidePopover() &
+                        goto("/library", { replaceState: true })}
+                      >Uninstall</Button
+                    >
+                  </div>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           {:else}
             <Button

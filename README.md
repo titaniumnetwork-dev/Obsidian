@@ -10,8 +10,6 @@ Play instantly. No downloads.
   - Better nav and make nav work
 - Emulation
   - Make drag and drop work
-- Game
-  - Confirm uninstall button
 - Settings
   - Nav style
   - Make compact nav toggle
@@ -31,6 +29,7 @@ Play instantly. No downloads.
   - Fix long loading times loading cloud storage
   - Option to disable accounts
   - Use actual schema for user settings storage
+  - Obfuscate keywords
 
 # License
 Obsidian uses the Apache 2.0 with Commons Clause v1.0. Commercial use is strictly prohibited.
