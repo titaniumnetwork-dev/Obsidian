@@ -2,14 +2,10 @@
 Play instantly. No downloads.
 
 ## Todo
-- Home
-  - Add real recently added and featured
-- Library
-  - Better tag sorting
+- Sidebar
+  - Search
 - Store
   - Better nav and make nav work
-- Emulation
-  - Make drag and drop work
 - Settings
   - Nav style
   - Make compact nav toggle
@@ -30,6 +26,11 @@ Play instantly. No downloads.
   - Option to disable accounts
   - Use actual schema for user settings storage
   - Obfuscate keywords
+
+## Before Release
+- Add real recently added and featured
+- Make socials
+- Accessibility
 
 # License
 Obsidian uses the Apache 2.0 with Commons Clause v1.0. Commercial use is strictly prohibited.

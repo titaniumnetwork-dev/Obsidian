@@ -308,8 +308,8 @@
           href="/account"
         >
           <img
-            class="size-8 rounded-full"
-            src="https://localhost:5173/cdn/assets/assets/db2fd199-a687-4055-818b-6aac58f4f070/icon.webp"
+            class="size-8 rounded-lg"
+            src={"/cdn/avatars/" + user.image}
             alt="Profile"
             draggable="false"
           />

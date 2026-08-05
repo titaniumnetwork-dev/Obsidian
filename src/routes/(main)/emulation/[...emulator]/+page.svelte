@@ -9,6 +9,7 @@
   let frame = $state();
   let uploadButton = $state();
   let playerHidden = $state(true);
+  let isDragging = $state(false);
 
   let emuData = emulators.filter((emu) => emu.id === data.emulator)[0];
 
@@ -28,6 +29,31 @@
     frame.contentWindow.location.reload();
     uploadButton.value = "";
     playerHidden = true;
+  }
+
+  function handleDragOver(e) {
+    e.preventDefault();
+    isDragging = true;
+  }
+
+  function handleDragLeave(e) {
+    e.preventDefault();
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      isDragging = false;
+    }
+  }
+
+  function handleDrop(e) {
+    e.preventDefault();
+    isDragging = false;
+
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      playerHidden = false;
+      frame.contentWindow.postMessage({
+        type: "run",
+        file: e.dataTransfer.files[0],
+      });
+    }
   }
 </script>
 
@@ -51,7 +77,12 @@
         </div>
       </div>
       <label
-        class="w-full p-12 rounded-[10px] bg-neutral-800 flex flex-col justify-center items-center cursor-pointer gap-4"
+        data-dragging={isDragging}
+        ondragover={handleDragOver}
+        ondragleave={handleDragLeave}
+        ondrop={handleDrop}
+        class="w-full p-12 rounded-[10px] bg-neutral-800 flex flex-col justify-center items-center cursor-pointer gap-4 border border-dashed
+ border-transparent data-[dragging=true]:border-input"
       >
         <div
           class="w-10 h-10 bg-neutral-700 rounded-[10px] flex items-center justify-center"
@@ -63,7 +94,11 @@
             Upload {emuData.title} ROM
           </h2>
           <p class="text-sm text-text-placeholder">
-            Click to upload or drag and drop a file here
+            {#if isDragging}
+              Drop file here
+            {:else}
+              Click to upload or drag and drop a file here
+            {/if}
           </p>
         </div>
         <input
