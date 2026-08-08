@@ -7,9 +7,7 @@ Play instantly. No downloads.
 - Store
   - Better nav and make nav work
 - Settings
-  - Nav style
   - Make compact nav toggle
-  - Show examples for card size
   - Make sidebar sort setting
 - Account
   - Update account page styles
@@ -21,7 +19,6 @@ Play instantly. No downloads.
   - Make components
   - Fix themes
   - Fix impersonating user styles
-  - Update context menu styles in nav and for cards
   - Fix long loading times loading cloud storage
   - Option to disable accounts
   - Use actual schema for user settings storage

@@ -32,18 +32,20 @@
     </div>
     <div class="flex flex-wrap gap-2">
       <button
+        aria-label="Default Card Size"
         onclick={() => storage.updateSetting("cards", "default")}
         data-active={storage.settings.cards === "default"}
-        class="h-9 px-2.5 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border data-[active=true]:bg-surface"
+        class="p-2.5 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border data-[active=true]:bg-surface"
       >
-        <span>Default</span>
+        <div class="bg-neutral-700 aspect-2/3 w-8 rounded-lg"></div>
       </button>
       <button
+        aria-label="Square Card Size"
         onclick={() => storage.updateSetting("cards", "square")}
         data-active={storage.settings.cards === "square"}
-        class="h-9 px-2.5 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border transition-colors data-[active=true]:bg-surface"
+        class="p-2.5 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border transition-colors data-[active=true]:bg-surface flex items-start"
       >
-        <span>Square</span>
+        <div class="bg-neutral-700 aspect-square w-8 rounded-lg"></div>
       </button>
     </div>
   </div>

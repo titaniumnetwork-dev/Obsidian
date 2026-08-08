@@ -1,7 +1,18 @@
 <script>
+  import { goto } from "$app/navigation";
   import { storage } from "$lib/storage.svelte";
-  import { Download, Pause, Play, X } from "@lucide/svelte";
-  let { data, buttons, link, oncontextmenu, newBadge } = $props();
+  import { Check, Download, Pause, Play, Star, Trash, X } from "@lucide/svelte";
+  import AlertDialog from "./ui/AlertDialog.svelte";
+  import AlertDialogClose from "./ui/AlertDialogClose.svelte";
+  import AlertDialogContent from "./ui/AlertDialogContent.svelte";
+  import AlertDialogTrigger from "./ui/AlertDialogTrigger.svelte";
+  import Button from "./ui/Button.svelte";
+  import ContextMenu from "./ui/ContextMenu.svelte";
+  import ContextMenuContent from "./ui/ContextMenuContent.svelte";
+  import ContextMenuItem from "./ui/ContextMenuItem.svelte";
+  import ContextMenuTrigger from "./ui/ContextMenuTrigger.svelte";
+
+  let { data, buttons, link, newBadge } = $props();
 </script>
 
 <div
@@ -15,16 +26,140 @@
       New
     </div>
   {/if}
-  <a class="h-full w-full rounded-radius border border-border" href={link + data.id}>
-    <img
-      {oncontextmenu}
-      draggable="false"
-      loading="lazy"
-      alt={data.title + " cover"}
-      class="w-full h-full object-cover group-data-[cards-style=default]:object-center group-data-[cards-style=square]:object-top cursor-pointer rounded-radius"
-      src={"/cdn/assets/assets/" + data.id + "/cover.webp"}
-    />
-  </a>
+  <ContextMenu>
+    <ContextMenuTrigger>
+      <a
+        class="h-full w-full rounded-radius border border-border"
+        href={link + data.id}
+      >
+        <img
+          draggable="false"
+          loading="lazy"
+          alt={data.title + " cover"}
+          class="w-full h-full object-cover group-data-[cards-style=default]:object-center group-data-[cards-style=square]:object-top cursor-pointer rounded-radius"
+          src={"/cdn/assets/assets/" + data.id + "/cover.webp"}
+        />
+      </a>
+    </ContextMenuTrigger>
+    <ContextMenuContent>
+      {#if buttons === "store"}
+        {#if storage.installed.includes(data.id)}
+          <ContextMenuItem onclick={() => goto("/library/" + data.id)}>
+            <Check size="16" />
+            <span>View in Library</span>
+          </ContextMenuItem>
+          <AlertDialog>
+            <AlertDialogTrigger>
+              <ContextMenuItem>
+                <Trash size="16" />
+                <span>Uninstall</span>
+              </ContextMenuItem>
+            </AlertDialogTrigger>
+            <AlertDialogContent class="items-center text-center">
+              <div class="flex flex-col items-center gap-1.5">
+                <p>Uninstall Game?</p>
+                <p class="text-sm text-text-placeholder">
+                  This will permanently uninstall this game. All data and stats
+                  will be deleted.
+                </p>
+              </div>
+              <div class="w-full flex gap-2">
+                <AlertDialogClose>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    class="outline-none flex-1 justify-center bg-neutral-800"
+                    >Cancel</Button
+                  >
+                </AlertDialogClose>
+                <Button
+                  size="sm"
+                  class="flex-1 justify-center"
+                  onclick={() => {
+                    if (storage.active[data.id]) {
+                      storage.quitActive(data.id);
+                    }
+
+                    storage.uninstall(data.id);
+                  }}>Uninstall</Button
+                >
+              </div>
+            </AlertDialogContent>
+          </AlertDialog>
+        {:else}
+          <ContextMenuItem onclick={() => storage.install(data.id)}>
+            <Download size="16" />
+            <span>Install</span>
+          </ContextMenuItem>
+        {/if}
+      {:else}
+        {#if storage.active[data.id]}
+          <ContextMenuItem onclick={() => storage.resumeActive(data.id)}>
+            <Pause size="16" />
+            <span>Resume</span>
+          </ContextMenuItem>
+          <ContextMenuItem onclick={() => storage.quitActive(data.id)}>
+            <X size="16" />
+            <span>Quit</span>
+          </ContextMenuItem>
+        {:else}
+          <ContextMenuItem onclick={() => storage.setActive(data.id)}>
+            <Play size="16" />
+            <span>Play</span>
+          </ContextMenuItem>
+        {/if}
+        {#if storage.favorites.includes(data.id)}
+          <ContextMenuItem onclick={() => storage.removeFavorite(data.id)}>
+            <Star size="16" class="fill-text" />
+            <span>Remove Favorite</span>
+          </ContextMenuItem>
+        {:else}
+          <ContextMenuItem onclick={() => storage.addFavorite(data.id)}>
+            <Star size="16" />
+            <span>Add Favorite</span>
+          </ContextMenuItem>
+        {/if}
+        <AlertDialog>
+          <AlertDialogTrigger>
+            <ContextMenuItem>
+              <Trash size="16" />
+              <span>Uninstall</span>
+            </ContextMenuItem>
+          </AlertDialogTrigger>
+          <AlertDialogContent class="items-center text-center">
+            <div class="flex flex-col items-center gap-1.5">
+              <p>Uninstall Game?</p>
+              <p class="text-sm text-text-placeholder">
+                This will permanently uninstall this game. All data and stats
+                will be deleted.
+              </p>
+            </div>
+            <div class="w-full flex gap-2">
+              <AlertDialogClose>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  class="outline-none flex-1 justify-center bg-neutral-800"
+                  >Cancel</Button
+                >
+              </AlertDialogClose>
+              <Button
+                size="sm"
+                class="flex-1 justify-center"
+                onclick={() => {
+                  if (storage.active[data.id]) {
+                    storage.quitActive(data.id);
+                  }
+
+                  storage.uninstall(data.id);
+                }}>Uninstall</Button
+              >
+            </div>
+          </AlertDialogContent>
+        </AlertDialog>
+      {/if}
+    </ContextMenuContent>
+  </ContextMenu>
   <div class="flex">
     <a
       href={link + data.id}

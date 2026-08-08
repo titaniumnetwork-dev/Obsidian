@@ -6,6 +6,6 @@
   const ctx = getContext("AlertDialog");
 </script>
 
-<div style="display: contents" onclick={() => ctx.close()} {...restProps}>
+<div class="contents" onclick={() => ctx.close()} {...restProps}>
   {@render children?.()}
 </div>

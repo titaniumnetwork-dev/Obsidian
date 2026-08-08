@@ -301,7 +301,7 @@
         class="absolute -left-px -right-px min-w-[calc(100%+2px)] w-max mt-2.5 bg-neutral-900 rounded-lg max-h-60 overflow-y-auto border border-input z-10 flex flex-col p-1"
       >
         <button
-          class="rounded-md flex items-center px-2 py-1.5 gap-1.5 cursor-pointer hover:bg-neutral-800 text-sm transition-colors justify-between"
+          class="rounded-md flex items-center px-2 py-1.5 gap-2 cursor-pointer hover:bg-neutral-800 text-sm transition-colors justify-between"
           onclick={(e) => {
             storage.updateSetting("sortBy", "alphabetical");
             e.currentTarget.closest("details").removeAttribute("open");
@@ -313,7 +313,7 @@
           {/if}
         </button>
         <button
-          class="rounded-md flex items-center px-2 py-1.5 gap-1.5 cursor-pointer hover:bg-neutral-800 text-sm transition-colors justify-between"
+          class="rounded-md flex items-center px-2 py-1.5 gap-2 cursor-pointer hover:bg-neutral-800 text-sm transition-colors justify-between"
           onclick={(e) => {
             storage.updateSetting("sortBy", "alphabetical_reverse");
             e.currentTarget.closest("details").removeAttribute("open");
@@ -325,7 +325,7 @@
           {/if}
         </button>
         <button
-          class="rounded-md flex items-center px-2 py-1.5 gap-1.5 cursor-pointer hover:bg-neutral-800 text-sm transition-colors justify-between"
+          class="rounded-md flex items-center px-2 py-1.5 gap-2 cursor-pointer hover:bg-neutral-800 text-sm transition-colors justify-between"
           onclick={(e) => {
             storage.updateSetting("sortBy", "recent");
             e.currentTarget.closest("details").removeAttribute("open");
@@ -337,7 +337,7 @@
           {/if}
         </button>
         <button
-          class="rounded-md flex items-center px-2 py-1.5 gap-1.5 cursor-pointer hover:bg-neutral-800 text-sm transition-colors justify-between"
+          class="rounded-md flex items-center px-2 py-1.5 gap-2 cursor-pointer hover:bg-neutral-800 text-sm transition-colors justify-between"
           onclick={(e) => {
             storage.updateSetting("sortBy", "most_played");
             e.currentTarget.closest("details").removeAttribute("open");

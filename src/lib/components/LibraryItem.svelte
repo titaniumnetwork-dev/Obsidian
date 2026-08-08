@@ -1,7 +1,6 @@
 <script>
   import { goto } from "$app/navigation";
   import { collections } from "$lib/collections";
-  import ContextMenu from "$lib/components/ContextMenu.svelte";
   import { formatLastPlayed, formatPlaytime } from "$lib/formatUtils";
   import { storage } from "$lib/storage.svelte.js";
   import {
@@ -27,12 +26,14 @@
   import AlertDialogContent from "./ui/AlertDialogContent.svelte";
   import AlertDialogTrigger from "./ui/AlertDialogTrigger.svelte";
   import Button from "./ui/Button.svelte";
+  import ContextMenu from "./ui/ContextMenu.svelte";
+  import ContextMenuContent from "./ui/ContextMenuContent.svelte";
+  import ContextMenuItem from "./ui/ContextMenuItem.svelte";
+  import ContextMenuTrigger from "./ui/ContextMenuTrigger.svelte";
 
   let { data } = $props();
 
   let optionsMenu = $state();
-  let contextMenu = $state();
-  let contextMenuItem = $state();
 
   const keybinds = $derived(storage.keybinds[data.currentData.id] || {});
 
@@ -43,35 +44,6 @@
       ),
   );
 </script>
-
-<ContextMenu bind:this={contextMenu}>
-  {#if contextMenuItem && storage.installed.includes(contextMenuItem.id)}
-    <button
-      onclick={() =>
-        goto("/library/" + contextMenuItem.id) & contextMenu?.close()}
-      class="w-full rounded-lg bg-primary p-2 text-sm cursor-pointer flex items-center gap-2 text-text-inverse border border-border-primary"
-    >
-      <Check size="16" />
-      <span>View in Library</span>
-    </button>
-    <button
-      onclick={() =>
-        storage.uninstall(contextMenuItem.id) & contextMenu?.close()}
-      class="w-full rounded-lg transition-colors bg-surface hover:bg-border p-2 text-sm cursor-pointer flex items-center gap-2"
-    >
-      <Trash size="16" />
-      <span>Uninstall</span>
-    </button>
-  {:else}
-    <button
-      onclick={() => storage.install(contextMenuItem.id) & contextMenu?.close()}
-      class="w-full rounded-lg bg-primary p-2 text-sm cursor-pointer flex items-center gap-2 text-text-inverse border border-border-primary"
-    >
-      <Download size="16" />
-      <span>Install</span>
-    </button>
-  {/if}
-</ContextMenu>
 
 <div class="p-4 flex flex-col gap-4 item">
   <div
@@ -167,7 +139,7 @@
                   onclick={() =>
                     storage.removeFavorite(data.currentData.id) &
                     optionsMenu.hidePopover()}
-                  class="px-2 py-1.5 gap-1.5 rounded-md cursor-pointer transition-colors bg-neutral-900 hover:bg-neutral-800 flex items-center text-sm"
+                  class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-neutral-900 hover:bg-neutral-800 flex items-center text-sm"
                 >
                   <Star size="16" class="fill-text" />
                   <span>Remove Favorite</span>
@@ -177,7 +149,7 @@
                   onclick={() =>
                     storage.addFavorite(data.currentData.id) &
                     optionsMenu.hidePopover()}
-                  class="px-2 py-1.5 gap-1.5 rounded-md cursor-pointer transition-colors bg-neutral-900 hover:bg-neutral-800 flex items-center text-sm"
+                  class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-neutral-900 hover:bg-neutral-800 flex items-center text-sm"
                 >
                   <Star size="16" />
                   <span>Add Favorite</span>
@@ -186,7 +158,7 @@
               <AlertDialog>
                 <AlertDialogTrigger>
                   <button
-                    class="px-2 py-1.5 gap-1.5 rounded-md cursor-pointer transition-colors bg-neutral-900 hover:bg-neutral-800 flex items-center text-sm outline-none"
+                    class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-neutral-900 hover:bg-neutral-800 flex items-center text-sm outline-none"
                   >
                     <Trash size="16" />
                     <span>Uninstall</span>
@@ -205,7 +177,8 @@
                       <Button
                         variant="outline"
                         size="sm"
-                        class="outline-none flex-1 justify-center bg-neutral-800">Cancel</Button
+                        class="outline-none flex-1 justify-center bg-neutral-800"
+                        >Cancel</Button
                       >
                     </AlertDialogClose>
                     <Button
@@ -304,38 +277,77 @@
       <div class="flex flex-wrap gap-4">
         {#each collectionData as item (item.id)}
           {@const itemInstalled = storage.installed.includes(item.id)}
-          {#if item.id === data.currentData.id}
-            <div
-              class="h-14 rounded-2xl text-sm flex items-center justify-between p-2 gap-2 whitespace-nowrap bg-surface opacity-80"
-            >
-              <div class="flex gap-2 items-center overflow-hidden">
-                <img
-                  draggable="false"
-                  alt={item.title + " logo"}
-                  class="h-10 w-10 rounded-xl"
-                  src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
-                />
-                <span>{item.title}</span>
-              </div>
-            </div>
-          {:else}
-            <a
-              oncontextmenu={(e) =>
-                (contextMenuItem = { ...item }) & contextMenu?.open(e)}
-              href={itemInstalled ? "/library/" + item.id : "/store/" + item.id}
-              class="cursor-pointer h-14 rounded-2xl text-sm flex items-center justify-between p-2 gap-2 whitespace-nowrap bg-surface"
-            >
-              <div class="flex gap-2 items-center overflow-hidden">
-                <img
-                  draggable="false"
-                  alt={item.title + " logo"}
-                  class="h-10 w-10 rounded-xl"
-                  src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
-                />
-                <span>{item.title}</span>
-              </div>
-            </a>
-          {/if}
+          <ContextMenu>
+            <ContextMenuTrigger>
+              <a
+                href={itemInstalled
+                  ? "/library/" + item.id
+                  : "/store/" + item.id}
+                class="cursor-pointer h-14 rounded-2xl text-sm flex items-center justify-between p-2 gap-2 whitespace-nowrap bg-surface"
+              >
+                <div class="flex gap-2 items-center overflow-hidden">
+                  <img
+                    draggable="false"
+                    alt={item.title + " logo"}
+                    class="h-10 w-10 rounded-xl"
+                    src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
+                  />
+                  <span>{item.title}</span>
+                </div>
+              </a>
+            </ContextMenuTrigger>
+            <ContextMenuContent>
+              {#if storage.installed.includes(item.id)}
+                <ContextMenuItem onclick={() => goto("/library/" + item.id)}>
+                  <Check size="16" />
+                  <span>View in Library</span>
+                </ContextMenuItem>
+                <AlertDialog>
+                  <AlertDialogTrigger>
+                    <ContextMenuItem>
+                      <Trash size="16" />
+                      <span>Uninstall</span>
+                    </ContextMenuItem>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent class="items-center text-center">
+                    <div class="flex flex-col items-center gap-1.5">
+                      <p>Uninstall Game?</p>
+                      <p class="text-sm text-text-placeholder">
+                        This will permanently uninstall this game. All data and
+                        stats will be deleted.
+                      </p>
+                    </div>
+                    <div class="w-full flex gap-2">
+                      <AlertDialogClose>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          class="outline-none flex-1 justify-center bg-neutral-800"
+                          >Cancel</Button
+                        >
+                      </AlertDialogClose>
+                      <Button
+                        size="sm"
+                        class="flex-1 justify-center"
+                        onclick={() => {
+                          if (storage.active[item.id]) {
+                            storage.quitActive(item.id);
+                          }
+
+                          storage.uninstall(item.id);
+                        }}>Uninstall</Button
+                      >
+                    </div>
+                  </AlertDialogContent>
+                </AlertDialog>
+              {:else}
+                <ContextMenuItem onclick={() => storage.install(item.id)}>
+                  <Download size="16" />
+                  <span>Install</span>
+                </ContextMenuItem>
+              {/if}
+            </ContextMenuContent>
+          </ContextMenu>
         {/each}
       </div>
     </div>
