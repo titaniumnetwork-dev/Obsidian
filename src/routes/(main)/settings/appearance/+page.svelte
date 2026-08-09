@@ -1,4 +1,6 @@
 <script>
+    import Button from "$lib/components/ui/Button.svelte";
+  import Card from "$lib/components/ui/Card.svelte";
   import { storage } from "$lib/storage.svelte";
   import { themes } from "$lib/themes";
   import { css } from "@codemirror/lang-css";
@@ -101,9 +103,7 @@
 </script>
 
 <div class="grid grid-cols-2 gap-4">
-  <div
-    class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border"
-  >
+  <Card size="sm">
     <div>
       <p>Theme</p>
       <p class="text-sm text-muted">Change the look of Obsidian</p>
@@ -111,24 +111,23 @@
     <div class="flex flex-wrap gap-2">
       {#each themes as theme}
         {#if !theme.hidden || storage.hiddenThemes.includes(theme.name)}
-          <button
+          <Button
+          variant="outline"
             onclick={() => storage.updateTheme(theme.name)}
             data-active={storage.theme === theme.name}
-            class="h-9 px-2.5 text-sm cursor-pointer rounded-xl whitespace-nowrap transition-colors data-[active=true]:bg-secondary flex gap-1.5 items-center border border-border"
+            class="data-[active=true]:bg-secondary"
           >
             <div
               style={"background: " + theme.primary}
-              class="h-4 w-4 rounded-full border border-border"
+              class="h-4 w-4 rounded-full border border-input"
             ></div>
             <span>{theme.name}</span>
-          </button>
+          </Button>
         {/if}
       {/each}
     </div>
-  </div>
-  <div
-    class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border"
-  >
+  </Card>
+  <Card size="sm">
     <div>
       <p>Custom CSS</p>
       <p class="text-sm text-muted">Ultimate customizability</p>
@@ -145,5 +144,5 @@
         lang={css()}
       />
     </div>
-  </div>
+  </Card>
 </div>

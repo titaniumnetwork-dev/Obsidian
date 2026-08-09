@@ -1,5 +1,8 @@
 <script>
-  import { keyIcon } from "$lib/keyIcon";
+  import KenneyKeyboardIcon from "$lib/components/KenneyKeyboardIcon.svelte";
+  import Button from "$lib/components/ui/Button.svelte";
+  import Card from "$lib/components/ui/Card.svelte";
+  import Switch from "$lib/components/ui/Switch.svelte";
   import { storage } from "$lib/storage.svelte";
   import { X } from "@lucide/svelte";
 
@@ -53,33 +56,35 @@
 <svelte:window onkeydown={handleKeydown} />
 
 <div class="grid grid-cols-2 gap-4">
-  <div
-    class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border"
-  >
+  <Card size="sm">
     <div>
       <p>Tab Mask</p>
       <p class="text-sm text-muted">Disguise your tab</p>
     </div>
     <div class="flex flex-wrap gap-2">
-      <button
+      <Button
+        variant="outline"
+        size="icon"
         aria-label="No Mask"
         onclick={() => setMask("", "")}
         data-active={storage.settings.maskTitle === "" &&
           storage.settings.maskIcon === ""}
-        class="w-9 h-9 cursor-pointer rounded-full border border-border transition-colors data-[active=true]:bg-secondary flex justify-center items-center"
+        class="rounded-full data-[active=true]:bg-secondary"
       >
         <X size="16" />
-      </button>
+      </Button>
       {#each maskTemplates as mask}
-        <button
+        <Button
+          variant="outline"
+          size="icon"
           aria-label={mask.title}
           onclick={() => setMask(mask.title, mask.icon)}
           data-active={storage.settings.maskTitle === mask.title &&
             storage.settings.maskIcon === mask.icon}
-          class="w-9 h-9 cursor-pointer rounded-full border border-border transition-colors data-[active=true]:bg-secondary flex justify-center items-center p-2"
+          class="rounded-full p-2 data-[active=true]:bg-secondary"
         >
           <img draggable="false" alt={mask.title} src={mask.icon} size="16" />
-        </button>
+        </Button>
       {/each}
     </div>
     <div class="flex flex-col gap-2">
@@ -104,33 +109,26 @@
         />
       </div>
     </div>
-  </div>
-  <div
-    class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border"
-  >
+  </Card>
+  <Card size="sm">
     <div>
       <p>Panic Key</p>
-      <p class="text-sm text-muted">
-        Quickly redirect to another website
-      </p>
+      <p class="text-sm text-muted">Quickly redirect to another website</p>
     </div>
     <div class="flex gap-2">
-      <button
+      <Button
+        variant="outline"
         onclick={() => (binding = true)}
-        class="outline-none h-9 px-2.5 text-sm cursor-pointer rounded-xl whitespace-nowrap bg-secondary border border-border"
+        class="outline-none"
       >
         {#if binding}
           <span>Waiting for key...</span>
         {:else if storage.settings.panicKey.length > 0}
-          <div
-            class="flex items-center justify-center px-1.5 py-0.5 my-0.5 text-xs rounded-md bg-primary border border-border-primary text-card"
-          >
-            {keyIcon(storage.settings.panicKey)}
-          </div>
+          <KenneyKeyboardIcon key={storage.settings.panicKey} />
         {:else}
           Choose Key
         {/if}
-      </button>
+      </Button>
       <div
         class="w-80 focus-within:bg-secondary bg-card border border-border rounded-xl items-center h-9 px-2.5"
       >
@@ -142,23 +140,17 @@
         />
       </div>
     </div>
-  </div>
-  <div
-    class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border"
-  >
+  </Card>
+  <Card size="sm" class="flex-row justify-between">
     <div>
       <p>Close Prevention</p>
-      <p class="text-sm text-muted">
-        Prevent the tab from being closed
-      </p>
+      <p class="text-sm text-muted">Prevent the tab from being closed</p>
     </div>
-    <input
+    <Switch
       aria-label="Close Prevention"
       checked={storage.settings.closePrevention}
       onchange={(e) =>
         storage.updateSetting("closePrevention", e.target.checked)}
-      class="appearance-none cursor-pointer transition-colors bg-card checked:bg-secondary border border-border w-11 h-6 rounded-full flex items-center px-0.5 before:content-[''] before:h-4 before:w-4 before:rounded-full before:border before:border-border checked:before:border-border-primary before:bg-secondary checked:before:bg-primary before:block checked:before:translate-x-5.5 before:transition-[translate,background,border]"
-      type="checkbox"
     />
-  </div>
+  </Card>
 </div>

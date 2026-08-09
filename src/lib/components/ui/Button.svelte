@@ -13,7 +13,7 @@
   } = $props();
 
   const button = tv({
-    base: "rounded-lg flex gap-1.5 items-center cursor-pointer text-sm transition-colors",
+    base: "rounded-lg flex gap-1.5 items-center cursor-pointer text-sm transition-colors disabled:opacity-50 disabled:cursor-default",
     variants: {
       variant: {
         default: "bg-primary text-card",

@@ -18,7 +18,6 @@ Play instantly. No downloads.
   - Update all styles
   - Add added date
 - General
-  - Fix tab mask
   - Fix themes
   - Fix impersonating user styles
   - Fix long loading times loading cloud storage

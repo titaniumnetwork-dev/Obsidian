@@ -3,6 +3,8 @@
   import { goto } from "$app/navigation";
   import { authClient } from "$lib/client";
   import Head from "$lib/components/Head.svelte";
+  import Button from "$lib/components/ui/Button.svelte";
+  import Card from "$lib/components/ui/Card.svelte";
   import { formatPlaytime } from "$lib/formatUtils.js";
   import { storage } from "$lib/storage.svelte.js";
   import {
@@ -69,9 +71,7 @@
 <Head title={data.user.username + "'s Account"} />
 
 <div class="flex flex-col items-center justify-center px-4 mt-auto">
-  <div
-    class="w-full max-w-lg p-6 bg-card border border-border rounded-radius flex flex-col gap-6"
-  >
+  <Card>
     <div class="flex flex-col items-center gap-4 text-center">
       <form
         method="POST"
@@ -100,7 +100,7 @@
         }}
       >
         <label
-          class="relative group block w-20 h-20 rounded-2xl overflow-hidden cursor-pointer border border-border bg-secondary"
+          class="relative group block w-16 h-16 rounded-[10px] overflow-hidden cursor-pointer border border-border bg-secondary"
         >
           {#if data.user.image}
             <img
@@ -154,13 +154,8 @@
         {/if}
       </form>
       <div class="flex flex-col">
-        <h1
-          data-admin={data.user.role === "admin"}
-          class="text-2xl font-bold relative data-[admin=true]:after:content-['Admin'] data-[admin=true]:after:absolute data-[admin=true]:after:ml-2 data-[admin=true]:after:top-1/2 data-[admin=true]:after:-translate-y-1/2 data-[admin=true]:after:px-2 data-[admin=true]:after:bg-primary data-[admin=true]:after:text-card data-[admin=true]:after:border data-[admin=true]:after:border-border-primary data-[admin=true]:after:text-xs data-[admin=true]:after:rounded-full data-[admin=true]:after:font-normal"
-        >
-          {data.user.username}
-        </h1>
-        <p class="text-muted">{data.user.email}</p>
+        <p>{data.user.username}</p>
+        <p class="text-sm text-muted">{data.user.email}</p>
       </div>
       {#if formError}
         <p class="text-sm text-muted">{formError}</p>
@@ -178,22 +173,20 @@
         </p>
       </div>
       <div class="flex gap-4">
-        <div
-          class="flex justify-center items-center bg-secondary rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap w-full"
-        >
-          <LayoutGrid size="20" />
+        <Button variant="outline" class="whitespace-nowrap cursor-default">
+          <LayoutGrid size="16" />
           <span>{storage.installed.length + " Installed"}</span>
-        </div>
-        <div
-          class="flex justify-center items-center bg-secondary rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap w-full"
+        </Button>
+        <Button
+          variant="outline" class="whitespace-nowrap cursor-default"
         >
-          <Play size="20" />
+          <Play size="16" />
           <span>{Object.keys(storage.playTime).length + " Played"}</span>
-        </div>
-        <div
-          class="flex justify-center items-center bg-secondary rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap w-full"
+        </Button>
+        <Button
+          variant="outline" class="whitespace-nowrap cursor-default"
         >
-          <PieChart size="20" />
+          <PieChart size="16" />
           <span
             >{Object.keys(storage.playTime).length
               ? formatPlaytime(
@@ -203,7 +196,7 @@
                 )
               : "No Playtime"}</span
           >
-        </div>
+        </Button>
       </div>
     </div>
     <div class="flex flex-col gap-2">
@@ -223,9 +216,7 @@
         value={storage.cloudUsedBytes}
       ></progress>
       {#if storagePercentage > 90}
-        <p class="text-xs text-muted">
-          You are running out of cloud space!
-        </p>
+        <p class="text-xs text-muted">You are running out of cloud space!</p>
       {/if}
     </div>
     {#if data.user.role === "admin"}
@@ -235,24 +226,17 @@
           <p class="text-sm text-muted">Privileged access only</p>
         </div>
         <div class="flex gap-4">
-          <a
-            href="/admin/users"
-            class="px-4 py-2 bg-secondary rounded-xl border border-border"
-          >
-            Users
-          </a>
+          <Button variant="outline" href="/admin/users">Users</Button>
         </div>
       </div>
     {/if}
     <div class="flex gap-4 justify-center">
-      <a
-        href="/settings/account"
-        class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border"
-      >
-        <Settings size="20" />
+      <Button variant="outline" href="/settings/account">
+        <Settings size="16" />
         <p>Settings</p>
-      </a>
-      <button
+      </Button>
+      <Button
+        variant="outline"
         onclick={async () => {
           loggingOut = true;
 
@@ -270,15 +254,14 @@
           });
         }}
         disabled={loggingOut}
-        class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border disabled:opacity-50 cursor-pointer disabled:cursor-default"
       >
-        <LogOut size="20" />
+        <LogOut size="16" />
         {#if loggingOut}
           <span>Logging Out...</span>
         {:else}
           <span>Log Out</span>
         {/if}
-      </button>
+      </Button>
     </div>
-  </div>
+  </Card>
 </div>

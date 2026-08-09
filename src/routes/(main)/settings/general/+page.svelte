@@ -1,27 +1,24 @@
 <script>
   import { aspects } from "$lib/aspects";
+  import Button from "$lib/components/ui/Button.svelte";
+  import Card from "$lib/components/ui/Card.svelte";
+  import Switch from "$lib/components/ui/Switch.svelte";
   import { storage } from "$lib/storage.svelte.js";
 </script>
 
 <div class="grid grid-cols-2 gap-4">
-  <div
-    class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border"
-  >
+  <Card size="sm" class="flex-row justify-between">
     <div>
       <p>Library Mode</p>
       <p class="text-sm text-muted">Make the library page the home page</p>
     </div>
-    <input
+    <Switch
       aria-label="Library Mode"
       checked={storage.settings.libraryMode}
       onchange={(e) => storage.updateSetting("libraryMode", e.target.checked)}
-      class="appearance-none cursor-pointer transition-colors bg-card checked:bg-secondary border border-border w-11 h-6 rounded-full flex items-center px-0.5 before:content-[''] before:h-4 before:w-4 before:rounded-full before:border before:border-border checked:before:border-border-primary before:bg-secondary checked:before:bg-primary before:block checked:before:translate-x-5.5 before:transition-[translate,background,border]"
-      type="checkbox"
     />
-  </div>
-  <div
-    class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border"
-  >
+  </Card>
+  <Card size="sm">
     <div>
       <p>Cards</p>
       <p class="text-sm text-muted">Change the card style to your liking</p>
@@ -33,7 +30,7 @@
         data-active={storage.settings.cards === "default"}
         class="p-2.5 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border data-[active=true]:bg-secondary"
       >
-        <div class="border border-border aspect-2/3 w-8 rounded-lg"></div>
+        <div class="bg-input aspect-2/3 w-8 rounded-lg"></div>
       </button>
       <button
         aria-label="Square Card Size"
@@ -41,13 +38,11 @@
         data-active={storage.settings.cards === "square"}
         class="p-2.5 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border transition-colors data-[active=true]:bg-secondary flex items-start"
       >
-        <div class="border border-border aspect-square w-8 rounded-lg"></div>
+        <div class="bg-input aspect-square w-8 rounded-lg"></div>
       </button>
     </div>
-  </div>
-  <div
-    class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border"
-  >
+  </Card>
+  <Card size="sm">
     <div>
       <p>Aspect Ratio</p>
       <p class="text-sm text-muted">
@@ -55,46 +50,48 @@
       </p>
     </div>
     <div class="flex flex-wrap gap-2">
-      <button
+      <Button
+        variant="outline"
         onclick={() => storage.updateSetting("aspect", "")}
         data-active={storage.settings.aspect.length === 0}
-        class="h-9 px-2.5 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border data-[active=true]:bg-secondary"
+        class="data-[active=true]:bg-secondary"
       >
         <span>Default</span>
-      </button>
+      </Button>
       {#each aspects as aspect}
-        <button
+        <Button
+          variant="outline"
           onclick={() => storage.updateSetting("aspect", aspect.value)}
           data-active={storage.settings.aspect === aspect.value}
-          class="h-9 px-2.5 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border transition-colors data-[active=true]:bg-secondary"
+          class="data-[active=true]:bg-secondary"
         >
           <span>{aspect.name}</span>
-        </button>
+        </Button>
       {/each}
     </div>
-  </div>
-  <div
-    class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border"
-  >
+  </Card>
+  <Card size="sm">
     <div>
       <p>Overlay</p>
       <p class="text-sm text-muted">Change the Obsidian overlay style</p>
     </div>
     <div class="flex flex-wrap gap-2">
-      <button
+      <Button
+        variant="outline"
         onclick={() => storage.updateSetting("overlay", "default")}
         data-active={storage.settings.overlay === "default"}
-        class="h-9 px-2.5 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border data-[active=true]:bg-secondary"
+        class="data-[active=true]:bg-secondary"
       >
         <span>Default</span>
-      </button>
-      <button
+      </Button>
+      <Button
+        variant="outline"
         onclick={() => storage.updateSetting("overlay", "compact")}
         data-active={storage.settings.overlay === "compact"}
-        class="h-9 px-2.5 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border transition-colors data-[active=true]:bg-secondary"
+        class="data-[active=true]:bg-secondary"
       >
         <span>Compact</span>
-      </button>
+      </Button>
     </div>
-  </div>
+  </Card>
 </div>
