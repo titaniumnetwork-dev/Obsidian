@@ -120,7 +120,7 @@
 <div class="h-full w-full px-4 flex flex-col gap-4">
   <div class="flex flex-col">
     <h1 class="text-xl font-bold">Users</h1>
-    <p class="text-text-placeholder text-sm">
+    <p class="text-muted text-sm">
       Manage registered users. {#if totalUsers}{totalUsers} total users.{/if}
     </p>
   </div>
@@ -139,19 +139,19 @@
       <tbody class="divide-y divide-border">
         {#if isLoading}
           <tr>
-            <td colspan="6" class="p-4 text-text-placeholder text-center"
+            <td colspan="6" class="p-4 text-muted text-center"
               >Loading users...</td
             >
           </tr>
         {:else if errorMessage}
           <tr>
-            <td colspan="6" class="p-4 text-text-placeholder text-center"
+            <td colspan="6" class="p-4 text-muted text-center"
               >{errorMessage}</td
             >
           </tr>
         {:else}
           {#each usersList as user}
-            <tr class="hover:bg-neutral-900">
+            <tr class="hover:bg-card">
               <td class="p-4">
                 <img
                   class="w-8 h-8 object-cover rounded-lg"
@@ -177,7 +177,7 @@
                 <span
                   class="px-2 py-1 text-xs rounded-full border
                   {user.role === 'admin'
-                    ? ' bg-primary text-text-inverse border-border-primary'
+                    ? ' bg-primary text-card border-border-primary'
                     : ' border-border'}"
                 >
                   {user.role}
@@ -189,7 +189,7 @@
                     <button
                       title="Impersonate User"
                       onclick={() => impersonateUser(user)}
-                      class="p-1 cursor-pointer text-sm bg-surface border border-border rounded-lg flex gap-2"
+                      class="p-1 cursor-pointer text-sm bg-secondary border border-border rounded-lg flex gap-2"
                     >
                       <Eye class="w-4 h-4" />
                     </button>
@@ -198,7 +198,7 @@
                     <button
                       title="Unban User"
                       onclick={() => unbanUser(user)}
-                      class="p-1 cursor-pointer text-sm bg-surface border border-border rounded-lg flex gap-2"
+                      class="p-1 cursor-pointer text-sm bg-secondary border border-border rounded-lg flex gap-2"
                     >
                       <CircleOff class="w-4 h-4" />
                     </button>
@@ -206,7 +206,7 @@
                     <button
                       title="Ban User"
                       onclick={() => banUser(user)}
-                      class="p-1 cursor-pointer text-sm bg-surface border border-border rounded-lg flex gap-2"
+                      class="p-1 cursor-pointer text-sm bg-secondary border border-border rounded-lg flex gap-2"
                     >
                       <Gavel class="w-4 h-4" />
                     </button>
@@ -214,7 +214,7 @@
                   <button
                     title="Delete User"
                     onclick={() => deleteUser(user)}
-                    class="p-1 cursor-pointer text-sm bg-surface border border-border rounded-lg flex gap-2"
+                    class="p-1 cursor-pointer text-sm bg-secondary border border-border rounded-lg flex gap-2"
                   >
                     <Trash class="w-4 h-4" />
                   </button>
@@ -223,7 +223,7 @@
             </tr>
           {:else}
             <tr>
-              <td colspan="6" class="p-4 text-text-placeholder text-center"
+              <td colspan="6" class="p-4 text-muted text-center"
                 >No users found.</td
               >
             </tr>
@@ -237,7 +237,7 @@
       aria-label="Previous Page"
       disabled={currentPage === 1}
       onclick={goToPrevPage}
-      class="bg-surface border border-border w-10 h-10 rounded-full flex justify-center items-center disabled:opacity-50 cursor-pointer disabled:cursor-default"
+      class="bg-secondary border border-border w-10 h-10 rounded-full flex justify-center items-center disabled:opacity-50 cursor-pointer disabled:cursor-default"
     >
       <ChevronLeft size="20" />
     </button>
@@ -246,7 +246,7 @@
       aria-label="Next Page"
       disabled={currentPage >= totalPages}
       onclick={goToNextPage}
-      class="bg-surface border border-border w-10 h-10 rounded-full flex justify-center items-center disabled:opacity-50 cursor-pointer disabled:cursor-default"
+      class="bg-secondary border border-border w-10 h-10 rounded-full flex justify-center items-center disabled:opacity-50 cursor-pointer disabled:cursor-default"
     >
       <ChevronRight size="20" />
     </button>

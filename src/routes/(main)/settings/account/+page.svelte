@@ -150,7 +150,7 @@
 {#if data.user}
   <div class="grid grid-cols-2 gap-4">
     <form
-      class="flex flex-col gap-4 bg-neutral-900 rounded-radius p-4 text-sm border border-border"
+      class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border"
       method="POST"
       action="?/uploadAvatar"
       enctype="multipart/form-data"
@@ -182,10 +182,10 @@
     >
       <div>
         <p>Profile Picture</p>
-        <p class="text-sm text-text-placeholder mb-2">Upload a new pfp</p>
+        <p class="text-sm text-muted mb-2">Upload a new pfp</p>
       </div>
       <label
-        class="relative group block w-20 h-20 rounded-2xl overflow-hidden cursor-pointer border border-border bg-surface"
+        class="relative group block w-20 h-20 rounded-2xl overflow-hidden cursor-pointer border border-border bg-secondary"
       >
         {#if data.user.image}
           <img
@@ -196,7 +196,7 @@
           />
         {:else}
           <div
-            class="w-full h-full flex items-center justify-center text-text-placeholder"
+            class="w-full h-full flex items-center justify-center text-muted"
           >
             <User size="32" />
           </div>
@@ -231,37 +231,37 @@
         />
       </label>
       {#if avatarMessage}
-        <p class="text-sm text-text-placeholder mt-2">{avatarMessage}</p>
+        <p class="text-sm text-muted mt-2">{avatarMessage}</p>
       {/if}
     </form>
     <form
       onsubmit={handleUpdateUsername}
-      class="flex flex-col gap-4 bg-neutral-900 rounded-radius p-4 text-sm border border-border"
+      class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border"
     >
       <div>
         <p>Username</p>
-        <p class="text-sm text-text-placeholder mb-2">
+        <p class="text-sm text-muted mb-2">
           Change your display name
         </p>
       </div>
       <div class="flex gap-4">
         <div
-          class="focus-within:bg-surface bg-neutral-900 transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
+          class="focus-within:bg-secondary bg-card transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
         >
-          <User size="20" class="ml-3 text-text-placeholder" />
+          <User size="20" class="ml-3 text-muted" />
           <input
             placeholder="Username"
             name="username"
             type="text"
             bind:value={editUsername}
             required
-            class="w-full h-full pl-3 pr-4 bg-transparent outline-none placeholder:text-text-placeholder text-sm"
+            class="w-full h-full pl-3 pr-4 bg-transparent outline-none placeholder:text-muted text-sm"
           />
           {#if editUsername.length > 0}
             <button
               tabindex="-1"
               type="button"
-              class="mr-3 shrink-0 text-text-placeholder cursor-pointer"
+              class="mr-3 shrink-0 text-muted cursor-pointer"
               onclick={() => (editUsername = "")}
             >
               <X size="16" />
@@ -273,43 +273,43 @@
           disabled={usernameLoading ||
             editUsername === data.user.username ||
             editUsername.trim() === ""}
-          class="px-4 py-2 bg-surface border border-border rounded-xl text-sm disabled:opacity-50 cursor-pointer disabled:cursor-default transition-opacity"
+          class="px-4 py-2 bg-secondary border border-border rounded-xl text-sm disabled:opacity-50 cursor-pointer disabled:cursor-default transition-opacity"
         >
           <span>{usernameLoading ? "Updating..." : "Update"}</span>
         </button>
       </div>
       {#if usernameMessage}
-        <p class="text-sm text-text-placeholder">{usernameMessage}</p>
+        <p class="text-sm text-muted">{usernameMessage}</p>
       {/if}
     </form>
     <form
       onsubmit={handleUpdateEmail}
-      class="flex flex-col gap-4 bg-neutral-900 rounded-radius p-4 text-sm border border-border"
+      class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border"
     >
       <div>
         <p>Email</p>
-        <p class="text-sm text-text-placeholder mb-2">
+        <p class="text-sm text-muted mb-2">
           Change your login email
         </p>
       </div>
       <div class="flex gap-4">
         <div
-          class="focus-within:bg-surface bg-neutral-900 transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
+          class="focus-within:bg-secondary bg-card transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
         >
-          <AtSign size="20" class="ml-3 text-text-placeholder shrink-0" />
+          <AtSign size="20" class="ml-3 text-muted shrink-0" />
           <input
             placeholder="Email"
             name="email"
             type="email"
             bind:value={editEmail}
             required
-            class="w-full h-full pl-3 pr-4 bg-transparent outline-none placeholder:text-text-placeholder text-sm"
+            class="w-full h-full pl-3 pr-4 bg-transparent outline-none placeholder:text-muted text-sm"
           />
           {#if editEmail.length > 0}
             <button
               tabindex="-1"
               type="button"
-              class="mr-3 shrink-0 text-text-placeholder cursor-pointer"
+              class="mr-3 shrink-0 text-muted cursor-pointer"
               onclick={() => (editEmail = "")}
             >
               <X size="16" />
@@ -321,43 +321,43 @@
           disabled={emailLoading ||
             editEmail === data.user.email ||
             editEmail.trim() === ""}
-          class="px-4 py-2 bg-surface border border-border rounded-xl text-sm disabled:opacity-50 cursor-pointer disabled:cursor-default transition-opacity shrink-0"
+          class="px-4 py-2 bg-secondary border border-border rounded-xl text-sm disabled:opacity-50 cursor-pointer disabled:cursor-default transition-opacity shrink-0"
         >
           <span>{emailLoading ? "Updating..." : "Update"}</span>
         </button>
       </div>
       {#if emailMessage}
-        <p class="text-sm text-text-placeholder">{emailMessage}</p>
+        <p class="text-sm text-muted">{emailMessage}</p>
       {/if}
     </form>
     <form
       onsubmit={handleUpdatePassword}
-      class="flex flex-col gap-4 bg-neutral-900 rounded-radius p-4 text-sm border border-border"
+      class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border"
     >
       <div>
         <p>Password</p>
-        <p class="text-sm text-text-placeholder mb-2">Set a new password</p>
+        <p class="text-sm text-muted mb-2">Set a new password</p>
       </div>
 
       <div class="flex gap-4">
         <div
-          class="focus-within:bg-surface bg-neutral-900 transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
+          class="focus-within:bg-secondary bg-card transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
         >
-          <KeyRound size="20" class="ml-3 text-text-placeholder shrink-0" />
+          <KeyRound size="20" class="ml-3 text-muted shrink-0" />
           <input
             placeholder="Current Password"
             name="oldPassword"
             type={showOldPassword ? "text" : "password"}
             bind:value={oldPassword}
             required
-            class="w-full h-full pl-3 pr-4 bg-transparent outline-none placeholder:text-text-placeholder text-sm"
+            class="w-full h-full pl-3 pr-4 bg-transparent outline-none placeholder:text-muted text-sm"
           />
           {#if oldPassword.length > 0}
             <button
               tabindex="-1"
               type="button"
               aria-label="Toggle Visibility"
-              class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+              class="mr-3 cursor-pointer shrink-0 text-muted"
               onclick={() => (showOldPassword = !showOldPassword)}
             >
               {#if showOldPassword}
@@ -369,7 +369,7 @@
             <button
               tabindex="-1"
               type="button"
-              class="mr-3 shrink-0 text-text-placeholder cursor-pointer"
+              class="mr-3 shrink-0 text-muted cursor-pointer"
               onclick={() => (oldPassword = "")}
             >
               <X size="16" />
@@ -382,23 +382,23 @@
       </div>
       <div class="flex gap-4 mt-2">
         <div
-          class="focus-within:bg-surface bg-neutral-900 transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
+          class="focus-within:bg-secondary bg-card transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
         >
-          <KeyRound size="20" class="ml-3 text-text-placeholder shrink-0" />
+          <KeyRound size="20" class="ml-3 text-muted shrink-0" />
           <input
             placeholder="New Password"
             name="newPassword"
             type={showEditPassword ? "text" : "password"}
             bind:value={editPassword}
             required
-            class="w-full h-full pl-3 pr-4 bg-transparent outline-none placeholder:text-text-placeholder text-sm"
+            class="w-full h-full pl-3 pr-4 bg-transparent outline-none placeholder:text-muted text-sm"
           />
           {#if editPassword.length > 0}
             <button
               tabindex="-1"
               type="button"
               aria-label="Toggle Visibility"
-              class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+              class="mr-3 cursor-pointer shrink-0 text-muted"
               onclick={() => (showEditPassword = !showEditPassword)}
             >
               {#if showEditPassword}
@@ -410,7 +410,7 @@
             <button
               tabindex="-1"
               type="button"
-              class="mr-3 shrink-0 text-text-placeholder cursor-pointer"
+              class="mr-3 shrink-0 text-muted cursor-pointer"
               onclick={() => (editPassword = "")}
             >
               <X size="16" />
@@ -420,44 +420,44 @@
         <button
           type="submit"
           disabled={passwordLoading || !oldPassword || !editPassword}
-          class="px-4 py-2 bg-surface border border-border rounded-xl text-sm disabled:opacity-50 cursor-pointer disabled:cursor-default transition-opacity shrink-0"
+          class="px-4 py-2 bg-secondary border border-border rounded-xl text-sm disabled:opacity-50 cursor-pointer disabled:cursor-default transition-opacity shrink-0"
         >
           <span>{passwordLoading ? "Updating..." : "Update"}</span>
         </button>
       </div>
       {#if passwordMessage}
-        <p class="text-sm text-text-placeholder">{passwordMessage}</p>
+        <p class="text-sm text-muted">{passwordMessage}</p>
       {/if}
     </form>
     <form
       onsubmit={handleDeleteAccount}
-      class="flex flex-col gap-4 bg-neutral-900 rounded-radius p-4 text-sm border border-border"
+      class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border"
     >
       <div>
         <p>Delete Account</p>
-        <p class="text-sm text-text-placeholder mb-2">
+        <p class="text-sm text-muted mb-2">
           Permanently delete your account
         </p>
       </div>
       <div class="flex gap-4">
         <div
-          class="focus-within:bg-surface bg-neutral-900 transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
+          class="focus-within:bg-secondary bg-card transition-colors border border-border rounded-xl items-center flex flex-1 h-10"
         >
-          <KeyRound size="20" class="ml-3 text-text-placeholder shrink-0" />
+          <KeyRound size="20" class="ml-3 text-muted shrink-0" />
           <input
             placeholder="Password"
             name="deletePassword"
             type={showDeletePassword ? "text" : "password"}
             bind:value={deletePassword}
             required
-            class="w-full h-full pl-3 pr-4 bg-transparent outline-none placeholder:text-text-placeholder text-sm"
+            class="w-full h-full pl-3 pr-4 bg-transparent outline-none placeholder:text-muted text-sm"
           />
           {#if deletePassword.length > 0}
             <button
               tabindex="-1"
               type="button"
               aria-label="Toggle Visibility"
-              class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+              class="mr-3 cursor-pointer shrink-0 text-muted"
               onclick={() => (showDeletePassword = !showDeletePassword)}
             >
               {#if showDeletePassword}
@@ -469,7 +469,7 @@
             <button
               tabindex="-1"
               type="button"
-              class="mr-3 shrink-0 text-text-placeholder cursor-pointer"
+              class="mr-3 shrink-0 text-muted cursor-pointer"
               onclick={() => (deletePassword = "")}
             >
               <X size="16" />
@@ -479,36 +479,36 @@
         <button
           type="submit"
           disabled={deleteLoading || !deletePassword}
-          class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer transition-colors text-sm w-fit disabled:opacity-50 disabled:cursor-default"
+          class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer transition-colors text-sm w-fit disabled:opacity-50 disabled:cursor-default"
         >
           <Trash2 size="16" />
           <span>{deleteLoading ? "Deleting..." : "Delete Account"}</span>
         </button>
       </div>
       {#if deleteMessage}
-        <p class="text-sm text-text-placeholder">{deleteMessage}</p>
+        <p class="text-sm text-muted">{deleteMessage}</p>
       {/if}
     </form>
   </div>
 {:else}
   <div
-    class="flex flex-col gap-4 bg-neutral-900 rounded-radius p-4 text-sm border border-border w-1/2"
+    class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border w-1/2"
   >
     <div>
       <p>Obsidian Account</p>
-      <p class="text-sm text-text-placeholder">
+      <p class="text-sm text-muted">
         Sign in to manage your account and sync your data
       </p>
     </div>
     <div class="flex gap-2">
       <a
         href="/account/login"
-        class="h-9 px-2.5 text-sm bg-surface rounded-xl flex items-center gap-2 border border-border"
+        class="h-9 px-2.5 text-sm bg-secondary rounded-xl flex items-center gap-2 border border-border"
         >Login</a
       >
       <a
         href="/account/signup"
-        class="h-9 px-2.5 text-sm bg-surface rounded-xl flex items-center gap-2 border border-border"
+        class="h-9 px-2.5 text-sm bg-secondary rounded-xl flex items-center gap-2 border border-border"
         >Sign Up</a
       >
     </div>

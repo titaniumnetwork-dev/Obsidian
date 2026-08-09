@@ -4,35 +4,29 @@
 
 <div class="grid grid-cols-2 gap-4">
   <div
-    class="flex flex-col gap-4 bg-neutral-900 rounded-radius p-4 text-sm border border-border"
+    class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border"
   >
     <div>
-      <p>Sidebar</p>
-      <p class="text-sm text-text-placeholder">
+      <p>Collapsed</p>
+      <p class="text-sm text-muted">
         Choose between the full sidebar or a compact layout
       </p>
     </div>
-    <div class="flex flex-wrap gap-2">
-      <button
-        onclick={() => storage.updateSetting("sidebarStyle", "default")}
-        data-active={storage.settings.sidebarStyle === "default"}
-        class="h-9 px-2.5 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border transition-colors data-[active=true]:bg-surface"
-        >Default</button
-      >
-      <button
-        onclick={() => storage.updateSetting("sidebarStyle", "compact")}
-        data-active={storage.settings.sidebarStyle === "compact"}
-        class="h-9 px-2.5 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border transition-colors data-[active=true]:bg-surface"
-        >Compact</button
-      >
-    </div>
+    <input
+      aria-label="Collapsed Sidebar"
+      checked={storage.settings.sidebarCollapsed}
+      onchange={(e) =>
+        storage.updateSetting("sidebarCollapsed", e.target.checked)}
+      class="appearance-none cursor-pointer transition-colors bg-card checked:bg-secondary border border-border w-11 h-6 rounded-full flex items-center px-0.5 before:content-[''] before:h-4 before:w-4 before:rounded-full before:border before:border-border checked:before:border-border-primary before:bg-secondary checked:before:bg-primary before:block checked:before:translate-x-5.5 before:transition-[translate,background,border]"
+      type="checkbox"
+    />
   </div>
   <div
-    class="flex flex-col gap-4 bg-neutral-900 rounded-radius p-4 text-sm border border-border"
+    class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border"
   >
     <div>
       <p>Sort</p>
-      <p class="text-sm text-text-placeholder">
+      <p class="text-sm text-muted">
         Change the sort order of the library in the sidebar
       </p>
     </div>

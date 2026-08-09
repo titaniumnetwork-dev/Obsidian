@@ -72,7 +72,7 @@
 <div
   aria-hidden={!ctx.isOpen}
   bind:this={menuEl}
-  class="fixed z-50 min-w-36 overflow-y-auto bg-neutral-900 border border-input rounded-lg shadow-md p-1 flex flex-col
+  class="fixed z-50 min-w-36 overflow-y-auto bg-card border border-input rounded-lg shadow-md p-1 flex flex-col
          {ctx.isOpen
     ? 'opacity-100 pointer-events-auto'
     : 'opacity-0 pointer-events-none'}"

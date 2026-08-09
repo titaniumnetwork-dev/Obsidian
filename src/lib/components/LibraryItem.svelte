@@ -50,7 +50,7 @@
     style={"--hero: url('/cdn/assets/assets/" +
       data.currentData.id +
       "/hero.webp')"}
-    class="relative [background:linear-gradient(to_bottom,var(--color-overlay)_0%,var(--theme-background)_100%)_padding-box,var(--hero)center/cover_padding-box,var(--color-surface)] w-full h-112 flex flex-col items-start justify-between p-4 gap-4 rounded-t-radius border-x border-t border-transparent"
+    class="relative [background:linear-gradient(to_bottom,var(--color-overlay)_0%,var(--theme-background)_100%)_padding-box,var(--hero)center/cover_padding-box,var(--color-background)] w-full h-112 flex flex-col items-start justify-between p-4 gap-4 rounded-t-radius border-x border-t border-transparent"
   >
     <div
       class="pointer-events-none absolute -inset-x-px -top-px bottom-0 rounded-t-2xl border-x border-t border-background mask-[linear-gradient(to_bottom,transparent_50%,black_100%)]"
@@ -68,7 +68,7 @@
               goto("/store/tag/" + tag);
             }
           }}
-          class="h-6 px-2 py-0.5 text-xs rounded-full bg-neutral-800 flex items-center cursor-pointer"
+          class="h-6 px-2 py-0.5 text-xs rounded-full bg-secondary flex items-center cursor-pointer"
         >
           {tag}
         </button>
@@ -131,7 +131,7 @@
               popover="auto"
               id="options"
               bind:this={optionsMenu}
-              class="[&:popover-open]:flex flex-col bg-neutral-900 rounded-lg text-text [position-anchor:--options-button]
+              class="[&:popover-open]:flex flex-col bg-card rounded-lg text-foreground [position-anchor:--options-button]
               [position-area:top_span-right] border border-input p-1 mb-2.5 min-w-36"
             >
               {#if storage.favorites.includes(data.currentData.id)}
@@ -139,7 +139,7 @@
                   onclick={() =>
                     storage.removeFavorite(data.currentData.id) &
                     optionsMenu.hidePopover()}
-                  class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-neutral-900 hover:bg-neutral-800 flex items-center text-sm"
+                  class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-card hover:bg-secondary flex items-center text-sm"
                 >
                   <Star size="16" class="fill-text" />
                   <span>Remove Favorite</span>
@@ -149,7 +149,7 @@
                   onclick={() =>
                     storage.addFavorite(data.currentData.id) &
                     optionsMenu.hidePopover()}
-                  class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-neutral-900 hover:bg-neutral-800 flex items-center text-sm"
+                  class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-card hover:bg-secondary flex items-center text-sm"
                 >
                   <Star size="16" />
                   <span>Add Favorite</span>
@@ -158,7 +158,7 @@
               <AlertDialog>
                 <AlertDialogTrigger>
                   <button
-                    class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-neutral-900 hover:bg-neutral-800 flex items-center text-sm outline-none"
+                    class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-card hover:bg-secondary flex items-center text-sm outline-none"
                   >
                     <Trash size="16" />
                     <span>Uninstall</span>
@@ -167,7 +167,7 @@
                 <AlertDialogContent class="items-center text-center">
                   <div class="flex flex-col items-center gap-1.5">
                     <p>Uninstall Game?</p>
-                    <p class="text-sm text-text-placeholder">
+                    <p class="text-sm text-muted">
                       This will permanently uninstall this game. All data and
                       stats will be deleted.
                     </p>
@@ -177,7 +177,7 @@
                       <Button
                         variant="outline"
                         size="sm"
-                        class="outline-none flex-1 justify-center bg-neutral-800"
+                        class="outline-none flex-1 justify-center bg-secondary"
                         >Cancel</Button
                       >
                     </AlertDialogClose>
@@ -283,7 +283,7 @@
                 href={itemInstalled
                   ? "/library/" + item.id
                   : "/store/" + item.id}
-                class="cursor-pointer h-14 rounded-2xl text-sm flex items-center justify-between p-2 gap-2 whitespace-nowrap bg-surface"
+                class="cursor-pointer h-14 rounded-2xl text-sm flex items-center justify-between p-2 gap-2 whitespace-nowrap bg-secondary"
               >
                 <div class="flex gap-2 items-center overflow-hidden">
                   <img
@@ -312,7 +312,7 @@
                   <AlertDialogContent class="items-center text-center">
                     <div class="flex flex-col items-center gap-1.5">
                       <p>Uninstall Game?</p>
-                      <p class="text-sm text-text-placeholder">
+                      <p class="text-sm text-muted">
                         This will permanently uninstall this game. All data and
                         stats will be deleted.
                       </p>
@@ -322,7 +322,7 @@
                         <Button
                           variant="outline"
                           size="sm"
-                          class="outline-none flex-1 justify-center bg-neutral-800"
+                          class="outline-none flex-1 justify-center bg-secondary"
                           >Cancel</Button
                         >
                       </AlertDialogClose>

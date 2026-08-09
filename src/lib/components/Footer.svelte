@@ -38,35 +38,35 @@
   </div>
 
   <div class="flex items-center gap-4">
-    <a class="text-text-placeholder hover:underline" href={links.email}
+    <a class="text-muted hover:underline" href={links.email}
       >Contact</a
     >
-    <a class="text-text-placeholder hover:underline" href="/terms"
+    <a class="text-muted hover:underline" href="/terms"
       >Terms of Service</a
     >
-    <a class="text-text-placeholder hover:underline" href="/privacy"
+    <a class="text-muted hover:underline" href="/privacy"
       >Privacy Policy</a
     >
-    <a class="text-text-placeholder hover:underline" href="/dmca">DMCA</a>
+    <a class="text-muted hover:underline" href="/dmca">DMCA</a>
     <div class="flex items-center gap-6 mx-2">
       <!--
       <a
-        class="text-text-placeholder hover:underline"
+        class="text-muted hover:underline"
         href="https://github.com"
       >
         <SiGithub size="16" />
       </a>
       -->
-      <a class="text-text-placeholder hover:underline" href={links.discord}>
+      <a class="text-muted hover:underline" href={links.discord}>
         <SiDiscord size="16" />
       </a>
-      <a class="text-text-placeholder hover:underline" href={links.youtube}>
+      <a class="text-muted hover:underline" href={links.youtube}>
         <SiYoutube size="16" />
       </a>
-      <a class="text-text-placeholder hover:underline" href={links.tiktok}>
+      <a class="text-muted hover:underline" href={links.tiktok}>
         <SiTiktok size="16" />
       </a>
-      <a class="text-text-placeholder hover:underline" href={links.patreon}>
+      <a class="text-muted hover:underline" href={links.patreon}>
         <SiPatreon size="16" />
       </a>
     </div>

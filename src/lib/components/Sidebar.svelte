@@ -64,10 +64,10 @@
   );
 
   function toggleSidebar() {
-    if (storage.settings.sidebarStyle === "default") {
-      storage.updateSetting("sidebarStyle", "compact");
+    if (storage.settings.sidebarCollapsed === true) {
+      storage.updateSetting("sidebarCollapsed", false);
     } else {
-      storage.updateSetting("sidebarStyle", "default");
+      storage.updateSetting("sidebarCollapsed", true);
     }
   }
 
@@ -109,13 +109,13 @@
 </script>
 
 <div
-  data-style={storage.settings.sidebarStyle}
-  class={"sidebar group bg-neutral-900 data-[style=compact]:w-12 data-[style=default]:w-64 transition-[width] flex flex-col gap-2 overflow-y-scroll shrink-0 m-2 mr-0 rounded-radius border border-border box-content" +
+  data-collapsed={storage.settings.sidebarCollapsed}
+  class={"sidebar group bg-card data-[collapsed=true]:w-12 data-[collapsed=false]:w-64 transition-[width] flex flex-col gap-2 overflow-y-scroll shrink-0 m-2 mr-0 rounded-radius border border-border box-content" +
     (impersonating ? " h-[calc(100%-4rem)] mt-8" : " h-[calc(100%-18px)]")}
 >
-  <div class="bg-neutral-900 sticky top-0 py-2 z-10">
+  <div class="bg-card sticky top-0 py-2 z-10">
     <div
-      class="flex group-data-[style=default]:items-center mx-2 gap-1 justify-between group-data-[style=compact]:flex-col overflow-hidden"
+      class="flex group-data-[collapsed=false]:items-center mx-2 gap-1 justify-between group-data-[collapsed=true]:flex-col overflow-hidden"
     >
       <div class="flex gap-2 items-center">
         <Button
@@ -126,16 +126,16 @@
         >
           <Logo class="size-5" />
         </Button>
-        <p class="text-sm group-data-[style=compact]:hidden">Obsidian</p>
+        <p class="text-sm group-data-[collapsed=true]:hidden">Obsidian</p>
       </div>
       <div
-        class="flex gap-1 group-data-[style=default]:items-center group-data-[style=compact]:flex-col"
+        class="flex gap-1 group-data-[collapsed=false]:items-center group-data-[collapsed=true]:flex-col"
       >
         <Button
           variant="ghost"
           size="icon-sm"
           aria-label="Search"
-          class="text-text-placeholder"
+          class="text-muted"
         >
           <Search size="16" />
         </Button>
@@ -144,7 +144,7 @@
           size="icon-sm"
           aria-label="Toggle Sidebar"
           onclick={toggleSidebar}
-          class="size-8 cursor-pointer flex items-center justify-center rounded-lg transition-colors hover:bg-neutral-800 text-text-placeholder"
+          class="size-8 cursor-pointer flex items-center justify-center rounded-lg transition-colors hover:bg-secondary text-muted"
         >
           <Sidebar size="16" />
         </Button>
@@ -152,10 +152,10 @@
     </div>
   </div>
   <div
-    class="flex flex-col gap-2 overflow-auto flex-1 group-data-[style=compact]:no-scrollbar"
+    class="flex flex-col gap-2 overflow-auto flex-1 group-data-[collapsed=true]:no-scrollbar"
   >
     <div>
-      <hr class="mb-4 mx-2 text-border group-data-[style=default]:hidden" />
+      <hr class="mb-4 mx-2 text-border group-data-[collapsed=false]:hidden" />
       <div class="p-2 pt-0 flex flex-col gap-1">
         {#each tabs as tab}
           {@const isActive =
@@ -167,10 +167,10 @@
             <a
               data-active={isActive}
               href={tab.href}
-              class="flex items-center cursor-pointer text-sm rounded-lg h-8 group-data-[style=default]:w-full group-data-[style=compact]:w-8 group-data-[style=default]:px-2 gap-2 transition-colors hover:bg-neutral-800 data-[active=true]:bg-neutral-800 group-data-[style=compact]:justify-center overflow-hidden"
+              class="flex items-center cursor-pointer text-sm rounded-lg h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 group-data-[collapsed=false]:px-2 gap-2 transition-colors hover:bg-secondary data-[active=true]:bg-secondary group-data-[collapsed=true]:justify-center overflow-hidden"
             >
               <tab.icon class="shrink-0" size="16" />
-              <span class="group-data-[style=compact]:hidden">{tab.name}</span>
+              <span class="group-data-[collapsed=true]:hidden">{tab.name}</span>
             </a>
           {/if}
         {/each}
@@ -180,19 +180,19 @@
             onclick={() =>
               (this.parentElement.dataset.open =
                 this.parentElement.dataset.open === "true" ? "false" : "true")}
-            class="flex items-center justify-between cursor-pointer text-sm rounded-lg h-8 group-data-[style=default]:w-full group-data-[style=compact]:w-8 group-data-[style=default]:px-2 gap-2 transition-colors hover:bg-neutral-800 group-data-[open=false]/collapsible:data-[active=true]:bg-neutral-800 group-data-[style=compact]:justify-center overflow-hidden"
+            class="flex items-center justify-between cursor-pointer text-sm rounded-lg h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 group-data-[collapsed=false]:px-2 gap-2 transition-colors hover:bg-secondary group-data-[open=false]/collapsible:data-[active=true]:bg-secondary group-data-[collapsed=true]:justify-center overflow-hidden"
           >
             <div class="flex items-center gap-2">
               <Settings size="16" />
-              <span class="group-data-[style=compact]:hidden">Settings</span>
+              <span class="group-data-[collapsed=true]:hidden">Settings</span>
             </div>
             <ChevronRight
-              class="text-text-placeholder transition-transform group-data-[open=true]/collapsible:rotate-90 group-data-[style=compact]:hidden"
+              class="text-muted transition-transform group-data-[open=true]/collapsible:rotate-90 group-data-[collapsed=true]:hidden"
               size="16"
             />
           </button>
           <div
-            class="group-data-[style=default]:px-2.5 group-data-[style=default]:py-0.5 group-data-[style=default]:border-l group-data-[style=default]:border-border group-data-[style=default]:mx-3.5 flex flex-col gap-1 group-data-[open=false]/collapsible:hidden group-data-[style=compact]:mt-1"
+            class="group-data-[collapsed=false]:px-2.5 group-data-[collapsed=false]:py-0.5 group-data-[collapsed=false]:border-l group-data-[collapsed=false]:border-border group-data-[collapsed=false]:mx-3.5 flex flex-col gap-1 group-data-[open=false]/collapsible:hidden group-data-[collapsed=true]:mt-1"
           >
             {#each settingsTabs as settingsTab}
               {@const isActive = $page.url.pathname === settingsTab.href}
@@ -200,13 +200,13 @@
                 <a
                   data-active={isActive}
                   href={settingsTab.href}
-                  class="text-sm px-2 rounded-lg h-8 flex items-center transition-colors hover:bg-neutral-800 data-[active=true]:bg-neutral-800"
+                  class="text-sm px-2 rounded-lg h-8 flex items-center transition-colors hover:bg-secondary data-[active=true]:bg-secondary"
                 >
                   <settingsTab.icon
                     size="16"
-                    class="shrink-0 group-data-[style=default]:hidden"
+                    class="shrink-0 group-data-[collapsed=false]:hidden"
                   />
-                  <span class="group-data-[style=compact]:hidden"
+                  <span class="group-data-[collapsed=true]:hidden"
                     >{settingsTab.name}</span
                   >
                 </a>
@@ -219,11 +219,11 @@
     {#if currentlyPlayingData.length > 0}
       <div>
         <p
-          class="h-8 px-4 text-xs text-text-placeholder flex items-center shrink-0 group-data-[style=compact]:hidden"
+          class="h-8 px-4 text-xs text-muted flex items-center shrink-0 group-data-[collapsed=true]:hidden"
         >
           Currently Playing
         </p>
-        <hr class="mb-4 mx-2 text-border group-data-[style=default]:hidden" />
+        <hr class="mb-4 mx-2 text-border group-data-[collapsed=false]:hidden" />
         <div class="p-2 pt-0 flex flex-col gap-1">
           {#each currentlyPlayingData as item (item.id)}
             <ContextMenu>
@@ -231,18 +231,18 @@
                 <a
                   href={"/library/" + item.id}
                   data-current={$page.url.pathname === "/library/" + item.id}
-                  class="cursor-pointer group-data-[style=default]:h-12 group-data-[style=compact]:h-8 group-data-[style=default]:w-full group-data-[style=compact]:w-8 rounded-lg text-sm flex items-center justify-between group-data-[style=default]:p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-neutral-800 data-[current=false]:hover:bg-neutral-800 transition-colors data-[current=true]:bg-neutral-800 whitespace-nowrap group-data-[style=compact]:justify-center"
+                  class="cursor-pointer group-data-[collapsed=false]:h-12 group-data-[collapsed=true]:h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 rounded-lg text-sm flex items-center justify-between group-data-[collapsed=false]:p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-secondary data-[current=false]:hover:bg-secondary transition-colors data-[current=true]:bg-secondary whitespace-nowrap group-data-[collapsed=true]:justify-center"
                 >
                   <div class="flex gap-2 items-center overflow-hidden">
                     <img
                       draggable="false"
                       loading="lazy"
                       alt={item.title + " logo"}
-                      class="shrink-0 group-data-[style=default]:size-8 group-data-[style=compact]:size-4 group-data-[style=default]:rounded-lg group-data-[style=compact]:rounded-md"
+                      class="shrink-0 group-data-[collapsed=false]:size-8 group-data-[collapsed=true]:size-4 group-data-[collapsed=false]:rounded-lg group-data-[collapsed=true]:rounded-md"
                       src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
                     />
                     <span
-                      class="group-data-[style=compact]:hidden overflow-hidden text-ellipsis"
+                      class="group-data-[collapsed=true]:hidden overflow-hidden text-ellipsis"
                       >{item.title}</span
                     >
                   </div>
@@ -284,7 +284,7 @@
                   <AlertDialogContent class="items-center text-center">
                     <div class="flex flex-col items-center gap-1.5">
                       <p>Uninstall Game?</p>
-                      <p class="text-sm text-text-placeholder">
+                      <p class="text-sm text-muted">
                         This will permanently uninstall this game. All data and
                         stats will be deleted.
                       </p>
@@ -294,7 +294,7 @@
                         <Button
                           variant="outline"
                           size="sm"
-                          class="outline-none flex-1 justify-center bg-neutral-800"
+                          class="outline-none flex-1 justify-center bg-secondary"
                           >Cancel</Button
                         >
                       </AlertDialogClose>
@@ -322,11 +322,11 @@
     {#if favoritesData.length > 0}
       <div>
         <p
-          class="h-8 px-4 text-xs text-text-placeholder flex items-center shrink-0 group-data-[style=compact]:hidden"
+          class="h-8 px-4 text-xs text-muted flex items-center shrink-0 group-data-[collapsed=true]:hidden"
         >
           Favorites
         </p>
-        <hr class="mb-4 mx-2 text-border group-data-[style=default]:hidden" />
+        <hr class="mb-4 mx-2 text-border group-data-[collapsed=false]:hidden" />
         <div class="p-2 pt-0 flex flex-col gap-1">
           {#each favoritesData as item (item.id)}
             <ContextMenu>
@@ -334,18 +334,18 @@
                 <a
                   href={"/library/" + item.id}
                   data-current={$page.url.pathname === "/library/" + item.id}
-                  class="cursor-pointer group-data-[style=default]:h-12 group-data-[style=compact]:h-8 group-data-[style=default]:w-full group-data-[style=compact]:w-8 rounded-lg text-sm flex items-center justify-between group-data-[style=default]:p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-neutral-800 data-[current=false]:hover:bg-neutral-800 transition-colors data-[current=true]:bg-neutral-800 whitespace-nowrap group-data-[style=compact]:justify-center"
+                  class="cursor-pointer group-data-[collapsed=false]:h-12 group-data-[collapsed=true]:h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 rounded-lg text-sm flex items-center justify-between group-data-[collapsed=false]:p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-secondary data-[current=false]:hover:bg-secondary transition-colors data-[current=true]:bg-secondary whitespace-nowrap group-data-[collapsed=true]:justify-center"
                 >
                   <div class="flex gap-2 items-center overflow-hidden">
                     <img
                       draggable="false"
                       loading="lazy"
                       alt={item.title + " logo"}
-                      class="shrink-0 group-data-[style=default]:size-8 group-data-[style=compact]:size-4 group-data-[style=default]:rounded-lg group-data-[style=compact]:rounded-md"
+                      class="shrink-0 group-data-[collapsed=false]:size-8 group-data-[collapsed=true]:size-4 group-data-[collapsed=false]:rounded-lg group-data-[collapsed=true]:rounded-md"
                       src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
                     />
                     <span
-                      class="group-data-[style=compact]:hidden overflow-hidden text-ellipsis"
+                      class="group-data-[collapsed=true]:hidden overflow-hidden text-ellipsis"
                       >{item.title}</span
                     >
                   </div>
@@ -374,7 +374,7 @@
                   <AlertDialogContent class="items-center text-center">
                     <div class="flex flex-col items-center gap-1.5">
                       <p>Uninstall Game?</p>
-                      <p class="text-sm text-text-placeholder">
+                      <p class="text-sm text-muted">
                         This will permanently uninstall this game. All data and
                         stats will be deleted.
                       </p>
@@ -384,7 +384,7 @@
                         <Button
                           variant="outline"
                           size="sm"
-                          class="outline-none flex-1 justify-center bg-neutral-800"
+                          class="outline-none flex-1 justify-center bg-secondary"
                           >Cancel</Button
                         >
                       </AlertDialogClose>
@@ -411,11 +411,11 @@
     {#if filteredLibrary.length > 0}
       <div>
         <p
-          class="h-8 px-4 text-xs text-text-placeholder flex items-center shrink-0 group-data-[style=compact]:hidden overflow-hidden whitespace-nowrap"
+          class="h-8 px-4 text-xs text-muted flex items-center shrink-0 group-data-[collapsed=true]:hidden overflow-hidden whitespace-nowrap"
         >
           Library
         </p>
-        <hr class="mb-4 mx-2 text-border group-data-[style=default]:hidden" />
+        <hr class="mb-4 mx-2 text-border group-data-[collapsed=false]:hidden" />
         <div class="p-2 pt-0 flex flex-col gap-1">
           {#each filteredLibrary as item (item.id)}
             <ContextMenu>
@@ -423,18 +423,18 @@
                 <a
                   href={"/library/" + item.id}
                   data-current={$page.url.pathname === "/library/" + item.id}
-                  class="cursor-pointer group-data-[style=default]:h-12 group-data-[style=compact]:h-8 group-data-[style=default]:w-full group-data-[style=compact]:w-8 rounded-lg text-sm flex items-center justify-between group-data-[style=default]:p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-neutral-800 data-[current=false]:hover:bg-neutral-800 transition-colors data-[current=true]:bg-neutral-800 whitespace-nowrap group-data-[style=compact]:justify-center"
+                  class="cursor-pointer group-data-[collapsed=false]:h-12 group-data-[collapsed=true]:h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 rounded-lg text-sm flex items-center justify-between group-data-[collapsed=false]:p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-secondary data-[current=false]:hover:bg-secondary transition-colors data-[current=true]:bg-secondary whitespace-nowrap group-data-[collapsed=true]:justify-center"
                 >
                   <div class="flex gap-2 items-center overflow-hidden">
                     <img
                       draggable="false"
                       loading="lazy"
                       alt={item.title + " logo"}
-                      class="group-data-[style=default]:size-8 group-data-[style=compact]:size-4 group-data-[style=default]:rounded-lg group-data-[style=compact]:rounded-md"
+                      class="group-data-[collapsed=false]:size-8 group-data-[collapsed=true]:size-4 group-data-[collapsed=false]:rounded-lg group-data-[collapsed=true]:rounded-md"
                       src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
                     />
                     <span
-                      class="group-data-[style=compact]:hidden overflow-hidden text-ellipsis"
+                      class="group-data-[collapsed=true]:hidden overflow-hidden text-ellipsis"
                       >{item.title}</span
                     >
                   </div>
@@ -461,7 +461,7 @@
                   <AlertDialogContent class="items-center text-center">
                     <div class="flex flex-col items-center gap-1.5">
                       <p>Uninstall Game?</p>
-                      <p class="text-sm text-text-placeholder">
+                      <p class="text-sm text-muted">
                         This will permanently uninstall this game. All data and
                         stats will be deleted.
                       </p>
@@ -471,7 +471,7 @@
                         <Button
                           variant="outline"
                           size="sm"
-                          class="outline-none flex-1 justify-center bg-neutral-800"
+                          class="outline-none flex-1 justify-center bg-secondary"
                           >Cancel</Button
                         >
                       </AlertDialogClose>
@@ -495,15 +495,15 @@
         </div>
       </div>
     {/if}
-    <hr class="mb-4 mx-2 text-border group-data-[style=default]:hidden" />
+    <hr class="mb-4 mx-2 text-border group-data-[collapsed=false]:hidden" />
   </div>
   <div class="p-2 pt-0">
     {#if user}
       <div
-        class="group-data-[style=default]:h-12 rounded-xl text-sm flex items-center gap-2 group-data-[style=default]:bg-neutral-800"
+        class="group-data-[collapsed=false]:h-12 rounded-xl text-sm flex items-center gap-2 group-data-[collapsed=false]:bg-secondary"
       >
         <a
-          class="flex gap-2 items-center group-data-[style=default]:p-2 group-data-[style=default]:pr-0 min-w-0"
+          class="flex gap-2 items-center group-data-[collapsed=false]:p-2 group-data-[collapsed=false]:pr-0 min-w-0"
           href="/account"
         >
           <img
@@ -513,13 +513,13 @@
             draggable="false"
           />
           <div
-            class="flex flex-col overflow-hidden group-data-[style=compact]:hidden"
+            class="flex flex-col overflow-hidden group-data-[collapsed=true]:hidden"
           >
             <span class="overflow-hidden whitespace-nowrap text-ellipsis"
               >{user.username}</span
             >
             <span
-              class="text-xs text-text-placeholder overflow-hidden whitespace-nowrap text-ellipsis"
+              class="text-xs text-muted overflow-hidden whitespace-nowrap text-ellipsis"
               >{user.email}</span
             >
           </div>
@@ -530,10 +530,10 @@
         href="/account/login"
         variant="secondary"
         size="sm"
-        class="group-data-[style=default]:w-full group-data-[style=compact]:w-8 justify-center"
+        class="group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 justify-center"
       >
         <User class="shrink-0" size="16" />
-        <span class="group-data-[style=compact]:hidden">Sign In</span>
+        <span class="group-data-[collapsed=true]:hidden">Sign In</span>
       </Button>
     {/if}
   </div>

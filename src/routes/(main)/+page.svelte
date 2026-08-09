@@ -70,7 +70,7 @@
   <div class="flex flex-col gap-8 items-center mb-16">
     <Logo onclick={handleRapidClick} class="logo w-20 h-20" />
     <h1 class="text-6xl font-bold text-center">
-      Play instantly. <span class="text-text-placeholder">No downloads.</span>
+      Play instantly. <span class="text-muted">No downloads.</span>
     </h1>
     <p
       class="text-center max-w-2xl"
@@ -97,7 +97,7 @@
         <LockOpen size="16" />
         <p>100% Free Forever</p>
       </div>
-      <p class="text-sm text-text-placeholder">
+      <p class="text-sm text-muted">
         All games are completely free, no paywalls, and no subscriptions. Enjoy
         full, unrestricted access to our entire gaming library completely free
         of charge.
@@ -108,7 +108,7 @@
         <Library size="16" />
         <p>Massive Library</p>
       </div>
-      <p class="text-sm text-text-placeholder">
+      <p class="text-sm text-muted">
         Play thousands of curated games directly in your browser with zero
         downloads. Powered by Ruffle for classic Flash hits and EmulatorJS for
         retro consoles.
@@ -119,7 +119,7 @@
         <Heart size="16" />
         <p>Built for Gamers</p>
       </div>
-      <p class="text-sm text-text-placeholder">
+      <p class="text-sm text-muted">
         Created by gamers, for gamers. We've stripped away the bloat to focus
         entirely on delivering a gaming experience with the quality-of-life
         features you actually want.
@@ -130,7 +130,7 @@
         <SlidersHorizontal size="16" />
         <p>Advanced Features</p>
       </div>
-      <p class="text-sm text-text-placeholder">
+      <p class="text-sm text-muted">
         Track your playtime, save your favorites, and configure advanced
         settings. Create a free Obsidian account to securely sync your settings
         and saves across devices.
@@ -141,7 +141,7 @@
     <MessageSquare />
     <div class="flex-col gap-1">
       <p>Join the Obsidian Community</p>
-      <p class="text-text-placeholder">
+      <p class="text-muted">
         Request new games, report bugs, participate in events, and hang out with
         other players in our official Discord server.
       </p>
@@ -171,7 +171,7 @@
   <Card class="flex-row items-center mx-4" size="sm">
     <div class="flex-col gap-1">
       <p>Ready to start playing?</p>
-      <p class="text-sm text-text-placeholder">
+      <p class="text-sm text-muted">
         Join hundreds of players using Obsidian.
       </p>
     </div>
@@ -180,7 +180,7 @@
         <Library size="16" />
         <span>Your library</span>
       </Button>
-      <Button variant="outline" href="/store" class="bg-neutral-800">
+      <Button variant="outline" href="/store" class="bg-secondary">
         <Store size="16" />
         <span>Browse Store</span>
       </Button>

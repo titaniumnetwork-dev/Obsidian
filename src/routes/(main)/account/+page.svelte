@@ -70,7 +70,7 @@
 
 <div class="flex flex-col items-center justify-center px-4 mt-auto">
   <div
-    class="w-full max-w-lg p-6 bg-neutral-900 border border-border rounded-radius flex flex-col gap-6"
+    class="w-full max-w-lg p-6 bg-card border border-border rounded-radius flex flex-col gap-6"
   >
     <div class="flex flex-col items-center gap-4 text-center">
       <form
@@ -100,7 +100,7 @@
         }}
       >
         <label
-          class="relative group block w-20 h-20 rounded-2xl overflow-hidden cursor-pointer border border-border bg-surface"
+          class="relative group block w-20 h-20 rounded-2xl overflow-hidden cursor-pointer border border-border bg-secondary"
         >
           {#if data.user.image}
             <img
@@ -111,7 +111,7 @@
             />
           {:else}
             <div
-              class="w-full h-full flex items-center justify-center text-text-placeholder"
+              class="w-full h-full flex items-center justify-center text-muted"
             >
               <User size="32" />
             </div>
@@ -147,7 +147,7 @@
         </label>
         {#if form?.field === "avatar"}
           {#if form?.message}
-            <p class="text-sm text-text-placeholder">
+            <p class="text-sm text-muted">
               {form.message}
             </p>
           {/if}
@@ -156,20 +156,20 @@
       <div class="flex flex-col">
         <h1
           data-admin={data.user.role === "admin"}
-          class="text-2xl font-bold relative data-[admin=true]:after:content-['Admin'] data-[admin=true]:after:absolute data-[admin=true]:after:ml-2 data-[admin=true]:after:top-1/2 data-[admin=true]:after:-translate-y-1/2 data-[admin=true]:after:px-2 data-[admin=true]:after:bg-primary data-[admin=true]:after:text-text-inverse data-[admin=true]:after:border data-[admin=true]:after:border-border-primary data-[admin=true]:after:text-xs data-[admin=true]:after:rounded-full data-[admin=true]:after:font-normal"
+          class="text-2xl font-bold relative data-[admin=true]:after:content-['Admin'] data-[admin=true]:after:absolute data-[admin=true]:after:ml-2 data-[admin=true]:after:top-1/2 data-[admin=true]:after:-translate-y-1/2 data-[admin=true]:after:px-2 data-[admin=true]:after:bg-primary data-[admin=true]:after:text-card data-[admin=true]:after:border data-[admin=true]:after:border-border-primary data-[admin=true]:after:text-xs data-[admin=true]:after:rounded-full data-[admin=true]:after:font-normal"
         >
           {data.user.username}
         </h1>
-        <p class="text-text-placeholder">{data.user.email}</p>
+        <p class="text-muted">{data.user.email}</p>
       </div>
       {#if formError}
-        <p class="text-sm text-text-placeholder">{formError}</p>
+        <p class="text-sm text-muted">{formError}</p>
       {/if}
     </div>
     <div class="flex flex-col gap-2">
       <div>
         <p>Stats</p>
-        <p class="text-sm text-text-placeholder">
+        <p class="text-sm text-muted">
           Joined on {new Intl.DateTimeFormat("en-US", {
             day: "numeric",
             month: "long",
@@ -179,19 +179,19 @@
       </div>
       <div class="flex gap-4">
         <div
-          class="flex justify-center items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap w-full"
+          class="flex justify-center items-center bg-secondary rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap w-full"
         >
           <LayoutGrid size="20" />
           <span>{storage.installed.length + " Installed"}</span>
         </div>
         <div
-          class="flex justify-center items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap w-full"
+          class="flex justify-center items-center bg-secondary rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap w-full"
         >
           <Play size="20" />
           <span>{Object.keys(storage.playTime).length + " Played"}</span>
         </div>
         <div
-          class="flex justify-center items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap w-full"
+          class="flex justify-center items-center bg-secondary rounded-xl px-4 py-2 gap-2 text-sm border border-border whitespace-nowrap w-full"
         >
           <PieChart size="20" />
           <span
@@ -209,7 +209,7 @@
     <div class="flex flex-col gap-2">
       <div>
         <p>Cloud Saves</p>
-        <p class="text-sm text-text-placeholder">
+        <p class="text-sm text-muted">
           {#if storage.cloudUsedBytes === 0}
             Empty
           {:else}
@@ -218,12 +218,12 @@
         </p>
       </div>
       <progress
-        class="appearance-none [&::-webkit-progress-bar]:overflow-hidden h-4 w-full [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-value]:rounded-full [&::-webkit-progress-bar]:bg-surface [&::-webkit-progress-value]:bg-primary [&::-webkit-progress-bar]:border [&::-webkit-progress-bar]:border-border [&::-webkit-progress-value]:transition-[width]"
+        class="appearance-none [&::-webkit-progress-bar]:overflow-hidden h-4 w-full [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-value]:rounded-full [&::-webkit-progress-bar]:bg-secondary [&::-webkit-progress-value]:bg-primary [&::-webkit-progress-bar]:border [&::-webkit-progress-bar]:border-border [&::-webkit-progress-value]:transition-[width]"
         max={storage.cloudLimitBytes}
         value={storage.cloudUsedBytes}
       ></progress>
       {#if storagePercentage > 90}
-        <p class="text-xs text-text-placeholder">
+        <p class="text-xs text-muted">
           You are running out of cloud space!
         </p>
       {/if}
@@ -232,12 +232,12 @@
       <div class="flex flex-col gap-2">
         <div>
           <p>Admin Panel</p>
-          <p class="text-sm text-text-placeholder">Privileged access only</p>
+          <p class="text-sm text-muted">Privileged access only</p>
         </div>
         <div class="flex gap-4">
           <a
             href="/admin/users"
-            class="px-4 py-2 bg-surface rounded-xl border border-border"
+            class="px-4 py-2 bg-secondary rounded-xl border border-border"
           >
             Users
           </a>
@@ -247,7 +247,7 @@
     <div class="flex gap-4 justify-center">
       <a
         href="/settings/account"
-        class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border"
+        class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border"
       >
         <Settings size="20" />
         <p>Settings</p>
@@ -270,7 +270,7 @@
           });
         }}
         disabled={loggingOut}
-        class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border disabled:opacity-50 cursor-pointer disabled:cursor-default"
+        class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border disabled:opacity-50 cursor-pointer disabled:cursor-default"
       >
         <LogOut size="20" />
         {#if loggingOut}

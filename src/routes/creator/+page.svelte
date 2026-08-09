@@ -398,14 +398,14 @@
 <Head title="Creator" />
 
 <div
-  class="group bg-neutral-900 w-64 flex flex-col gap-2 overflow-y-scroll shrink-0 m-2 mr-0 rounded-radius border border-border box-content h-[calc(100%-18px)] p-2"
+  class="group bg-card w-64 flex flex-col gap-2 overflow-y-scroll shrink-0 m-2 mr-0 rounded-radius border border-border box-content h-[calc(100%-18px)] p-2"
 >
   <div>
     <p>Creator</p>
-    <p class="text-sm text-text-placeholder">Automate the game creation process</p>
+    <p class="text-sm text-muted">Automate the game creation process</p>
   </div>
   <div
-    class="w-full flex items-center justify-between p-2 gap-2 bg-neutral-800 whitespace-nowrap h-12 rounded-lg text-sm"
+    class="w-full flex items-center justify-between p-2 gap-2 bg-secondary whitespace-nowrap h-12 rounded-lg text-sm"
   >
     <div class="flex gap-2 items-center overflow-hidden">
       {#if icon}
@@ -416,7 +416,7 @@
           src={icon}
         />
       {:else}
-        <div class="size-8 rounded-lg bg-neutral-700"></div>
+        <div class="size-8 rounded-lg border border-border"></div>
       {/if}
       <span
         class="group-data-[style=hidden]:opacity-0 group-data-[style=compact]:opacity-0 transition-opacity overflow-hidden text-ellipsis"
@@ -425,16 +425,16 @@
     </div>
   </div>
   <div
-    class="focus-within:bg-surface bg-neutral-900 rounded-xl items-center flex border border-border"
+    class="focus-within:bg-secondary bg-card rounded-xl items-center flex border border-border"
   >
     <input
       bind:value={title}
       placeholder="Title"
-      class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-text-placeholder"
+      class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-muted"
     />
     {#if title.length > 0}
       <button
-        class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+        class="mr-3 cursor-pointer shrink-0 text-muted"
         onclick={() => (title = "")}
       >
         <X size="20" />
@@ -442,16 +442,16 @@
     {/if}
   </div>
   <div
-    class="focus-within:bg-surface bg-neutral-900 rounded-xl items-center flex border border-border"
+    class="focus-within:bg-secondary bg-card rounded-xl items-center flex border border-border"
   >
     <input
       bind:value={developer}
       placeholder="Developer"
-      class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-text-placeholder"
+      class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-muted"
     />
     {#if developer.length > 0}
       <button
-        class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+        class="mr-3 cursor-pointer shrink-0 text-muted"
         onclick={() => (developer = "")}
       >
         <X size="20" />
@@ -461,20 +461,20 @@
   <textarea
     bind:value={description}
     placeholder="Description"
-    class="focus-within:bg-surface bg-neutral-900 rounded-xl items-center flex border border-border h-48 w-full px-4 outline-none placeholder:text-text-placeholder py-2 resize-none shrink-0"
+    class="focus-within:bg-secondary bg-card rounded-xl items-center flex border border-border h-48 w-full px-4 outline-none placeholder:text-muted py-2 resize-none shrink-0"
   ></textarea>
   <div class="flex gap-2">
     <div
-      class="focus-within:bg-surface bg-neutral-900 rounded-xl items-center flex border border-border"
+      class="focus-within:bg-secondary bg-card rounded-xl items-center flex border border-border"
     >
       <input
         bind:value={id}
         placeholder="ID"
-        class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-text-placeholder"
+        class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-muted"
       />
       {#if id.length > 0}
         <button
-          class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+          class="mr-3 cursor-pointer shrink-0 text-muted"
           onclick={() => (id = "")}
         >
           <X size="20" />
@@ -483,21 +483,21 @@
     </div>
     <button
       onclick={generateID}
-      class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+      class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
       >Gen</button
     >
   </div>
   <div
-    class="focus-within:bg-surface bg-neutral-900 rounded-xl items-center flex border border-border"
+    class="focus-within:bg-secondary bg-card rounded-xl items-center flex border border-border"
   >
     <input
       bind:value={version}
       placeholder="Version (Optional)"
-      class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-text-placeholder"
+      class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-muted"
     />
     {#if version.length > 0}
       <button
-        class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+        class="mr-3 cursor-pointer shrink-0 text-muted"
         onclick={() => (version = "")}
       >
         <X size="20" />
@@ -505,7 +505,7 @@
     {/if}
   </div>
   <details
-    class="relative bg-surface rounded-xl border border-border"
+    class="relative bg-secondary rounded-xl border border-border"
     bind:this={tagsNode}
   >
     <summary
@@ -521,10 +521,10 @@
       <ChevronDown size="20" />
     </summary>
     <div
-      class="absolute mt-2 min-w-full w-max bg-neutral-900 rounded-xl max-h-60 overflow-y-auto border border-surface z-10"
+      class="absolute mt-2 min-w-full w-max bg-card rounded-xl max-h-60 overflow-y-auto border border-surface z-10"
     >
       <label
-        class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
+        class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors"
       >
         <button
           class="select-none"
@@ -537,7 +537,7 @@
       </label>
       {#each storage.tags as tag}
         <label
-          class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
+          class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors"
         >
           <div class="relative flex items-center justify-center">
             <input
@@ -556,7 +556,7 @@
               }}
             />
             <Check
-              class="absolute hidden peer-checked:block text-text-inverse"
+              class="absolute hidden peer-checked:block text-card"
               size="14"
             />
           </div>
@@ -571,8 +571,8 @@
         <button
           disabled={isGenerating}
           onclick={generateTags}
-          class={"px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border text-sm" +
-            (isGenerating ? " text-text-placeholder" : " cursor-pointer")}
+          class={"px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border text-sm" +
+            (isGenerating ? " text-muted" : " cursor-pointer")}
         >
           <Sparkles size="20" />
           {#if isGenerating}
@@ -585,7 +585,7 @@
     {/if}
   {/await}
   <details
-    class="relative bg-surface rounded-xl border border-border"
+    class="relative bg-secondary rounded-xl border border-border"
     bind:this={typeNode}
   >
     <summary
@@ -597,10 +597,10 @@
       <ChevronDown size="20" class="shrink-0" />
     </summary>
     <div
-      class="absolute mt-2 min-w-full w-max bg-neutral-900 rounded-xl max-h-60 overflow-y-auto border border-surface z-10 flex flex-col"
+      class="absolute mt-2 min-w-full w-max bg-card rounded-xl max-h-60 overflow-y-auto border border-surface z-10 flex flex-col"
     >
       <button
-        class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
+        class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors"
         onclick={(e) => {
           type = "HTML";
           e.currentTarget.closest("details").removeAttribute("open");
@@ -609,7 +609,7 @@
         HTML
       </button>
       <button
-        class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
+        class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors"
         onclick={(e) => {
           type = "Flash";
           e.currentTarget.closest("details").removeAttribute("open");
@@ -618,7 +618,7 @@
         Flash
       </button>
       <button
-        class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-surface text-sm transition-colors"
+        class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors"
         onclick={(e) => {
           type = "Emulation";
           e.currentTarget.closest("details").removeAttribute("open");
@@ -630,16 +630,16 @@
   </details>
   {#if type === "HTML"}
     <div
-      class="focus-within:bg-surface bg-neutral-900 rounded-xl items-center flex border border-border"
+      class="focus-within:bg-secondary bg-card rounded-xl items-center flex border border-border"
     >
       <input
         bind:value={path}
         placeholder="Path (/file.html)"
-        class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-text-placeholder"
+        class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-muted"
       />
       {#if path.length > 0}
         <button
-          class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+          class="mr-3 cursor-pointer shrink-0 text-muted"
           onclick={() => (path = "")}
         >
           <X size="20" />
@@ -648,16 +648,16 @@
     </div>
   {:else if type === "Emulation"}
     <div
-      class="focus-within:bg-surface bg-neutral-900 rounded-xl items-center flex border border-border"
+      class="focus-within:bg-secondary bg-card rounded-xl items-center flex border border-border"
     >
       <input
         bind:value={rom}
         placeholder="Rom (/file.rom)"
-        class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-text-placeholder"
+        class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-muted"
       />
       {#if rom.length > 0}
         <button
-          class="mr-3 cursor-pointer shrink-0 text-text-placeholder"
+          class="mr-3 cursor-pointer shrink-0 text-muted"
           onclick={() => (rom = "")}
         >
           <X size="20" />
@@ -666,7 +666,7 @@
     </div>
   {/if}
   <label
-    class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+    class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
   >
     <Upload size="20" />
     <span>Upload Hero Image</span>
@@ -686,7 +686,7 @@
     />
   </label>
   <label
-    class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+    class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
   >
     <Upload size="20" />
     <span>Upload Cover Image</span>
@@ -706,7 +706,7 @@
     />
   </label>
   <label
-    class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+    class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
   >
     <Upload size="20" />
     <span>Upload Icon Image</span>
@@ -729,13 +729,13 @@
   <p>Keyboard Controls</p>
   <div class="flex gap-2">
     <input
-      class="h-9 w-full px-4 focus-within:bg-surface bg-neutral-900 rounded-xl placeholder:text-text-placeholder border border-border outline-none"
+      class="h-9 w-full px-4 focus-within:bg-secondary bg-card rounded-xl placeholder:text-muted border border-border outline-none"
       placeholder="Action"
       bind:value={newActionName}
       onkeydown={(e) => e.key === "Enter" && addAction()}
     />
     <button
-      class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+      class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
       onclick={addAction}
       disabled={!newActionName.trim()}>Add</button
     >
@@ -748,10 +748,10 @@
             <input
               type="text"
               bind:value={actionItem.action}
-              class="h-9 w-full px-4 focus-within:bg-surface bg-neutral-900 rounded-xl placeholder:text-text-placeholder border border-border outline-none"
+              class="h-9 w-full px-4 focus-within:bg-secondary bg-card rounded-xl placeholder:text-muted border border-border outline-none"
             />
             <button
-              class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+              class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
               onclick={() => removeAction(actionIdx)}
             >
               <Trash size="20" />
@@ -772,14 +772,14 @@
                     <span>Waiting for key...</span>
                   {:else}
                     <div
-                      class="flex items-center justify-center p-0.5 rounded-md outline-none bg-surface border border-border"
+                      class="flex items-center justify-center p-0.5 rounded-md outline-none bg-secondary border border-border"
                     >
                       <KenneyKeyboardIcon key={keyItem.key} />
                     </div>
                   {/if}
                 </button>
                 <button
-                  class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+                  class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
                   onclick={() => removeKey(actionIdx, keyIdx)}
                 >
                   <X size="20" />
@@ -788,7 +788,7 @@
             {/each}
 
             <button
-              class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm outline-none justify-center"
+              class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm outline-none justify-center"
               onclick={() => addKeySlot(actionIdx)}
             >
               <Plus size="20" />
@@ -803,13 +803,13 @@
   <p>Gamepad Controls</p>
   <div class="flex gap-2">
     <input
-      class="h-9 w-full px-4 focus-within:bg-surface bg-neutral-900 rounded-xl placeholder:text-text-placeholder border border-border outline-none"
+      class="h-9 w-full px-4 focus-within:bg-secondary bg-card rounded-xl placeholder:text-muted border border-border outline-none"
       placeholder="Action"
       bind:value={newGamepadActionName}
       onkeydown={(e) => e.key === "Enter" && addGamepadAction()}
     />
     <button
-      class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+      class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
       onclick={addGamepadAction}
       disabled={!newGamepadActionName.trim()}>Add</button
     >
@@ -822,10 +822,10 @@
             <input
               type="text"
               bind:value={actionItem.action}
-              class="h-9 w-full px-4 focus-within:bg-surface bg-neutral-900 rounded-xl placeholder:text-text-placeholder border border-border outline-none"
+              class="h-9 w-full px-4 focus-within:bg-secondary bg-card rounded-xl placeholder:text-muted border border-border outline-none"
             />
             <button
-              class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+              class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
               onclick={() => removeGamepadAction(actionIdx)}
             >
               <Trash size="20" />
@@ -839,7 +839,7 @@
                     class="outline-none px-4 py-2 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border w-full flex justify-center"
                   >
                     <div
-                      class="flex items-center justify-center p-0.5 rounded-md outline-none bg-surface border border-border"
+                      class="flex items-center justify-center p-0.5 rounded-md outline-none bg-secondary border border-border"
                     >
                       <KenneyGamepadIcon
                         button={btn}
@@ -849,7 +849,7 @@
                     </div>
                   </button>
                   <button
-                    class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+                    class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
                     onclick={() => actionItem.buttons.splice(btnIdx, 1)}
                   >
                     <X size="20" />
@@ -864,13 +864,13 @@
                     class="outline-none px-4 py-2 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border w-full flex justify-center"
                   >
                     <div
-                      class="flex items-center justify-center p-0.5 rounded-md outline-none bg-surface border border-border"
+                      class="flex items-center justify-center p-0.5 rounded-md outline-none bg-secondary border border-border"
                     >
                       <KenneyGamepadIcon {axis} type="xbox" size="w-6 h-6" />
                     </div>
                   </button>
                   <button
-                    class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+                    class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
                     onclick={() => actionItem.axes.splice(axisIdx, 1)}
                   >
                     <X size="20" />
@@ -880,7 +880,7 @@
             {/if}
           </div>
           <button
-            class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm outline-none w-full justify-center transition-colors"
+            class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm outline-none w-full justify-center transition-colors"
             onclick={() => startGamepadListening(actionIdx)}
           >
             {#if activeGamepadListeningIndex === actionIdx}
@@ -900,18 +900,18 @@
     aria-label="Controller Support"
     checked={controllerSupport}
     onchange={(e) => (controllerSupport = e.target.checked)}
-    class="shrink-0 appearance-none cursor-pointer transition-colors bg-neutral-900 checked:bg-surface border border-border w-11 h-6 rounded-full flex items-center px-0.5 before:content-[''] before:h-4 before:w-4 before:rounded-full before:border before:border-border checked:before:border-border-primary before:bg-surface checked:before:bg-primary before:block checked:before:translate-x-5.5 before:transition-[translate,background,border]"
+    class="shrink-0 appearance-none cursor-pointer transition-colors bg-card checked:bg-secondary border border-border w-11 h-6 rounded-full flex items-center px-0.5 before:content-[''] before:h-4 before:w-4 before:rounded-full before:border before:border-border checked:before:border-border-primary before:bg-secondary checked:before:bg-primary before:block checked:before:translate-x-5.5 before:transition-[translate,background,border]"
     type="checkbox"
   />
 
   {#if isComplete}
     <textarea
-      class="bg-surface rounded-xl items-center flex border border-border h-96 w-full px-4 outline-none placeholder:text-text-placeholder py-2 resize-none shrink-0"
+      class="bg-secondary rounded-xl items-center flex border border-border h-96 w-full px-4 outline-none placeholder:text-muted py-2 resize-none shrink-0"
       readonly
       value={JSON.stringify(generateData, null, 2)}></textarea>
     <button
       onclick={downloadAssets}
-      class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+      class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
     >
       <Download size="20" />
       <span>Download Assets</span>
@@ -919,7 +919,7 @@
   {/if}
   <button
     onclick={reset}
-    class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+    class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
   >
     <RefreshCcw size="20" />
     <span>Reset All</span>
@@ -929,7 +929,7 @@
   <div class="p-4 pt-0 flex flex-col gap-4 item">
     <div
       style={"--hero: url('" + hero + "')"}
-      class="relative [background:linear-gradient(to_bottom,var(--color-overlay)_0%,var(--theme-background)_100%)_padding-box,var(--hero)center/cover_padding-box,var(--color-surface)] w-full h-112 flex flex-col items-start justify-between p-8 pb-4 gap-4 rounded-t-2xl border-x border-t border-transparent"
+      class="relative [background:linear-gradient(to_bottom,var(--color-overlay)_0%,var(--theme-background)_100%)_padding-box,var(--hero)center/cover_padding-box,var(--color-background)] w-full h-112 flex flex-col items-start justify-between p-8 pb-4 gap-4 rounded-t-2xl border-x border-t border-transparent"
     >
       <div
         class="pointer-events-none absolute -inset-x-px -top-px bottom-0 rounded-t-2xl border-x border-t border-background mask-[linear-gradient(to_bottom,transparent_50%,black_100%)]"
@@ -940,7 +940,7 @@
       <div class="flex flex-wrap gap-4 ml-auto">
         {#each tags as tag}
           <div
-            class="px-4 py-1 text-sm rounded-full bg-surface border border-border flex items-center"
+            class="px-4 py-1 text-sm rounded-full bg-secondary border border-border flex items-center"
           >
             {tag}
           </div>
@@ -953,18 +953,18 @@
         <div class="flex gap-2 flex-col min-[1192px]:flex-row">
           <div class="flex gap-2">
             <div
-              class="bg-primary px-14 py-2 rounded-full flex gap-2 items-center text-text-inverse border border-border-primary"
+              class="bg-primary px-14 py-2 rounded-full flex gap-2 items-center text-card border border-border-primary"
             >
               <Play size="20" />
               <span>Play</span>
             </div>
             <div
-              class="bg-surface h-10 w-10 rounded-full flex items-center justify-center border border-border"
+              class="bg-secondary h-10 w-10 rounded-full flex items-center justify-center border border-border"
             >
               <Share size="20" />
             </div>
             <div
-              class="bg-surface h-10 w-10 rounded-full flex items-center justify-center border border-border"
+              class="bg-secondary h-10 w-10 rounded-full flex items-center justify-center border border-border"
             >
               <Ellipsis size="20" />
             </div>
@@ -973,26 +973,26 @@
             class="flex flex-wrap gap-4 min-[1192px]:ml-auto mt-2 min-[1192px]:mt-0"
           >
             <div
-              class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border"
+              class="flex items-center bg-secondary rounded-xl px-4 py-2 gap-2 text-sm border border-border"
             >
               <Clock size="20" />
               <span>Last Played</span>
             </div>
             <div
-              class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border"
+              class="flex items-center bg-secondary rounded-xl px-4 py-2 gap-2 text-sm border border-border"
             >
               <ChartPie size="20" />
               <span>Play Time</span>
             </div>
             <div
-              class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border"
+              class="flex items-center bg-secondary rounded-xl px-4 py-2 gap-2 text-sm border border-border"
             >
               <User size="20" />
               <span>{developer || "Developer"}</span>
             </div>
             {#if version}
               <div
-                class="flex items-center bg-surface rounded-xl px-4 py-2 gap-2 text-sm border border-border"
+                class="flex items-center bg-secondary rounded-xl px-4 py-2 gap-2 text-sm border border-border"
               >
                 <Tag size="20" />
                 <span>{version}</span>
@@ -1015,7 +1015,7 @@
       class="ml-8 outline-none group w-full data-[cards-style=default]:aspect-2/3 data-[cards-style=square]:aspect-square bg-cover bg-center flex flex-col gap-4"
     >
       <div
-        class="group-data-[cards-style=default]:[background:var(--cover)center/cover_padding-box,var(--color-surface)] group-data-[cards-style=square]:[background:var(--cover)top/cover_padding-box,var(--color-surface)] w-full h-full rounded-2xl border border-border"
+        class="group-data-[cards-style=default]:[background:var(--cover)center/cover_padding-box,var(--color-secondary)] group-data-[cards-style=square]:[background:var(--cover)top/cover_padding-box,var(--color-secondary)] w-full h-full rounded-2xl border border-border"
       ></div>
     </div>
   </div>

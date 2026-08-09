@@ -21,7 +21,7 @@
 >
   {#if newBadge === true}
     <div
-      class="absolute top-4 right-4 h-5 px-2 py-0.5 text-xs rounded-full bg-neutral-800 flex items-center pointer-events-none"
+      class="absolute top-4 right-4 h-5 px-2 py-0.5 text-xs rounded-full bg-secondary flex items-center pointer-events-none"
     >
       New
     </div>
@@ -58,7 +58,7 @@
             <AlertDialogContent class="items-center text-center">
               <div class="flex flex-col items-center gap-1.5">
                 <p>Uninstall Game?</p>
-                <p class="text-sm text-text-placeholder">
+                <p class="text-sm text-muted">
                   This will permanently uninstall this game. All data and stats
                   will be deleted.
                 </p>
@@ -68,7 +68,7 @@
                   <Button
                     variant="outline"
                     size="sm"
-                    class="outline-none flex-1 justify-center bg-neutral-800"
+                    class="outline-none flex-1 justify-center bg-secondary"
                     >Cancel</Button
                   >
                 </AlertDialogClose>
@@ -129,7 +129,7 @@
           <AlertDialogContent class="items-center text-center">
             <div class="flex flex-col items-center gap-1.5">
               <p>Uninstall Game?</p>
-              <p class="text-sm text-text-placeholder">
+              <p class="text-sm text-muted">
                 This will permanently uninstall this game. All data and stats
                 will be deleted.
               </p>
@@ -139,7 +139,7 @@
                 <Button
                   variant="outline"
                   size="sm"
-                  class="outline-none flex-1 justify-center bg-neutral-800"
+                  class="outline-none flex-1 justify-center bg-secondary"
                   >Cancel</Button
                 >
               </AlertDialogClose>
@@ -168,7 +168,7 @@
       {data.title}
     </a>
     <div
-      class="opacity-0 group-hover:opacity-100 transition-opacity text-text-placeholder flex items-center pt-2"
+      class="opacity-0 group-hover:opacity-100 transition-opacity text-muted flex items-center pt-2"
     >
       {#if buttons === "default"}
         {#if storage.active[data.id]}

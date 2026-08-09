@@ -7,7 +7,7 @@ export const defaultStorage = {
   hiddenThemes: [],
   playTime: {},
   settings: {
-    sidebarStyle: "default",
+    sidebarCollapsed: false,
     sortBy: "alphabetical",
     maskTitle: "",
     maskIcon: "",

@@ -28,5 +28,5 @@
 
 <Cards title={data.tag} data={sortedLibrary} link="/store/" buttons="store" />
 {#if !sortedLibrary.length}
-  <div class="text-text-placeholder text-center p-4 text-sm">No results found.</div>
+  <div class="text-muted text-center p-4 text-sm">No results found.</div>
 {/if}

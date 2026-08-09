@@ -17,7 +17,7 @@ class StorageManager {
   theme = $state("Dark");
   hiddenThemes = $state([]);
   settings = $state({
-    sidebarStyle: "default",
+    sidebarCollapsed: false,
     sortBy: "alphabetical",
     maskTitle: "",
     maskIcon: "",

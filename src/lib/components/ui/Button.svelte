@@ -16,10 +16,10 @@
     base: "rounded-lg flex gap-1.5 items-center cursor-pointer text-sm transition-colors",
     variants: {
       variant: {
-        default: "bg-primary text-text-inverse",
-        outline: "bg-neutral-900 border border-input",
-        secondary: "bg-neutral-800",
-        ghost: "hover:bg-neutral-800",
+        default: "bg-primary text-card",
+        outline: "bg-card border border-input",
+        secondary: "bg-secondary",
+        ghost: "hover:bg-secondary",
       },
       size: {
         default: "h-9 px-2.5",

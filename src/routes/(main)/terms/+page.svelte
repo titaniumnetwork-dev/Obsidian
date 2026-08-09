@@ -10,7 +10,7 @@
 <div class="p-4 flex flex-col gap-4 text-sm">
   <div class="flex flex-col">
     <p class="text-base">Terms of Service</p>
-    <p class="text-text-placeholder">
+    <p class="text-muted">
       Last updated on {updated.toLocaleDateString("en-US", {
         month: "long",
         day: "numeric",

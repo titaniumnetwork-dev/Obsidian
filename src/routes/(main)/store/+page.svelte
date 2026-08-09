@@ -69,13 +69,13 @@
               style={"--hero: url('/cdn/assets/assets/" +
                 item.id +
                 "/hero.webp')"}
-              class="shrink-0 [background:linear-gradient(to_left,var(--color-overlay)0%,var(--theme-secondary)60%)padding-box,var(--hero)left/cover_padding-box,var(--color-surface)] w-full h-96 flex flex-col items-start justify-between p-4 gap-4 rounded-radius border border-border relative"
+              class="shrink-0 [background:linear-gradient(to_left,var(--color-overlay)0%,var(--theme-card)60%)padding-box,var(--hero)left/cover_padding-box,var(--color-card)] w-full h-96 flex flex-col items-start justify-between p-4 gap-4 rounded-radius border border-border relative"
             >
               <div class="absolute top-4 right-4 flex flex-wrap gap-2">
                 {#each item.tags as tag}
                   <a
                     href={"/store/tag/" + tag}
-                    class="h-6 px-2 py-0.5 text-xs rounded-full bg-neutral-800 flex items-center cursor-pointer"
+                    class="h-6 px-2 py-0.5 text-xs rounded-full bg-secondary flex items-center cursor-pointer"
                   >
                     {tag}
                   </a>
@@ -85,7 +85,7 @@
                 <button
                   aria-label="Previous Slide"
                   onclick={prev}
-                  class="bg-neutral-800 border border-input size-8 cursor-pointer rounded-full flex justify-center items-center shrink-0"
+                  class="bg-secondary border border-input size-8 cursor-pointer rounded-full flex justify-center items-center shrink-0"
                 >
                   <ChevronLeft size="16" />
                 </button>
@@ -98,7 +98,7 @@
                     {#if storage.installed.includes(item.id)}
                       <a
                         href={"/library/" + item.id}
-                        class="bg-primary h-9 px-14 py-2.5 cursor-pointer rounded-full flex gap-2 items-center text-text-inverse text-sm w-fit"
+                        class="bg-primary h-9 px-14 py-2.5 cursor-pointer rounded-full flex gap-2 items-center text-card text-sm w-fit"
                       >
                         <Check size="20" />
                         <span>View in Library</span>
@@ -110,14 +110,14 @@
                             e.preventDefault() & storage.install(item.id);
                             goto("/library/" + item.id);
                           }}
-                          class="bg-primary h-9 px-14 py-2.5 cursor-pointer rounded-full flex gap-2 items-center text-text-inverse text-sm"
+                          class="bg-primary h-9 px-14 py-2.5 cursor-pointer rounded-full flex gap-2 items-center text-card text-sm"
                         >
                           <Download size="20" />
                           <span>Install</span>
                         </button>
                         <a
                           href={"/store/" + item.id}
-                          class="bg-neutral-800 border border-input h-9 px-14 py-2.5 cursor-pointer rounded-full flex gap-2 items-center text-sm"
+                          class="bg-secondary border border-input h-9 px-14 py-2.5 cursor-pointer rounded-full flex gap-2 items-center text-sm"
                         >
                           <span>View</span>
                         </a>
@@ -128,7 +128,7 @@
                 <button
                   aria-label="Next Slide"
                   onclick={next}
-                  class="bg-neutral-800 border border-input size-8 cursor-pointer rounded-full flex justify-center items-center shrink-0"
+                  class="bg-secondary border border-input size-8 cursor-pointer rounded-full flex justify-center items-center shrink-0"
                 >
                   <ChevronRight size="16" />
                 </button>
@@ -156,42 +156,42 @@
       <div class="flex gap-4">
         <a
           href="/store/tag/Action"
-          class="flex flex-1 flex-col items-center justify-center bg-neutral-900 rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
+          class="flex flex-1 flex-col items-center justify-center bg-card rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
         >
           <Sword />
           <p>Action</p>
         </a>
         <a
           href="/store/tag/Puzzle"
-          class="flex flex-1 flex-col items-center justify-center bg-neutral-900 rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
+          class="flex flex-1 flex-col items-center justify-center bg-card rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
         >
           <Puzzle />
           <p>Puzzle</p>
         </a>
         <a
           href="/store/tag/Shooter"
-          class="flex flex-1 flex-col items-center justify-center bg-neutral-900 rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
+          class="flex flex-1 flex-col items-center justify-center bg-card rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
         >
           <Crosshair />
           <p>Shooter</p>
         </a>
         <a
           href="/store/tag/Racing"
-          class="flex flex-1 flex-col items-center justify-center bg-neutral-900 rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
+          class="flex flex-1 flex-col items-center justify-center bg-card rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
         >
           <CarFront />
           <p>Racing</p>
         </a>
         <a
           href="/store/tag/Horror"
-          class="flex flex-1 flex-col items-center justify-center bg-neutral-900 rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
+          class="flex flex-1 flex-col items-center justify-center bg-card rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
         >
           <Ghost />
           <p>Horror</p>
         </a>
         <a
           href="/store/tag/Arcade"
-          class="flex flex-1 flex-col items-center justify-center bg-neutral-900 rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
+          class="flex flex-1 flex-col items-center justify-center bg-card rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
         >
           <Zap />
           <p>Arcade</p>
@@ -229,14 +229,14 @@
     <div class="flex flex-col gap-2 max-w-sm items-center">
       <SearchX class="mb-2" size="32" />
       <p class="text-sm text-center">No results found</p>
-      <p class="text-text-placeholder text-sm text-center text-balance">
+      <p class="text-muted text-sm text-center text-balance">
         Try checking for typos or adjusting your search terms. Join our Discord
         server to request a game.
       </p>
     </div>
     <a
       href={links.discord}
-      class="h-9 px-2.5 bg-primary text-text-inverse rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
+      class="h-9 px-2.5 bg-primary text-card rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
     >
       <SiDiscord size="16" />
       <span>Join Discord Server</span>

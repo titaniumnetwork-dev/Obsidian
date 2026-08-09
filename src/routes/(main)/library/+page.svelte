@@ -133,9 +133,9 @@
 <div class="flex gap-2 p-4 justify-between bg-background sticky top-0 z-10">
   <div class="flex gap-2">
     <div
-      class="bg-neutral-900 rounded-lg items-center flex w-96 border border-input h-9 px-2.5 gap-1.5"
+      class="bg-card rounded-lg items-center flex w-96 border border-input h-9 px-2.5 gap-1.5"
     >
-      <Search size="16" class="text-text-placeholder shrink-0" />
+      <Search size="16" class="text-muted shrink-0" />
       <input
         oninput={(e) =>
           e.target.value
@@ -143,11 +143,11 @@
             : removeURLParam("search")}
         bind:value={searchQuery}
         placeholder="Search library"
-        class="w-full h-full bg-transparent outline-none placeholder:text-text-placeholder text-sm"
+        class="w-full h-full bg-transparent outline-none placeholder:text-muted text-sm"
       />
       {#if searchQuery.length > 0}
         <button
-          class="cursor-pointer shrink-0 text-text-placeholder"
+          class="cursor-pointer shrink-0 text-muted"
           onclick={() => ((searchQuery = ""), removeURLParam("search"))}
         >
           <X size="16" />
@@ -155,7 +155,7 @@
       {/if}
     </div>
     <details
-      class="relative bg-neutral-900 rounded-lg border border-input h-9"
+      class="relative bg-card rounded-lg border border-input h-9"
       bind:this={tagsNode}
     >
       <summary
@@ -178,10 +178,10 @@
         {/if}
       </summary>
       <div
-        class="absolute -left-px -right-px min-w-[calc(100%+2px)] w-max mt-2.5 bg-neutral-900 rounded-lg max-h-60 overflow-y-auto border border-input z-10 flex flex-col p-1"
+        class="absolute -left-px -right-px min-w-[calc(100%+2px)] w-max mt-2.5 bg-card rounded-lg max-h-60 overflow-y-auto border border-input z-10 flex flex-col p-1"
       >
         <label
-          class="rounded-md flex items-center px-2 py-1.5 gap-1.5 cursor-pointer hover:bg-neutral-800 text-sm transition-colors"
+          class="rounded-md flex items-center px-2 py-1.5 gap-1.5 cursor-pointer hover:bg-secondary text-sm transition-colors"
         >
           <div class="relative flex items-center justify-center">
             <input
@@ -194,7 +194,7 @@
               )}
             />
             <Check
-              class="absolute hidden peer-checked:block text-text-inverse"
+              class="absolute hidden peer-checked:block text-card"
               size="14"
             />
           </div>
@@ -202,7 +202,7 @@
         </label>
         {#each storage.tags as tag}
           <label
-            class="rounded-md flex items-center px-2 py-1.5 gap-1.5 cursor-pointer hover:bg-neutral-800 text-sm transition-colors"
+            class="rounded-md flex items-center px-2 py-1.5 gap-1.5 cursor-pointer hover:bg-secondary text-sm transition-colors"
           >
             <div class="relative flex items-center justify-center">
               <input
@@ -222,7 +222,7 @@
                 }}
               />
               <Check
-                class="absolute hidden peer-checked:block text-text-inverse"
+                class="absolute hidden peer-checked:block text-card"
                 size="14"
               />
             </div>
@@ -239,7 +239,7 @@
   </div>
   <div class="flex gap-2">
     <div
-      class="bg-neutral-900 flex items-center p-1 h-9 rounded-lg text-sm border border-input gap-1"
+      class="bg-card flex items-center p-1 h-9 rounded-lg text-sm border border-input gap-1"
     >
       <button
         onclick={() => ((sortCategory = "all"), removeURLParam("category"))}
@@ -276,7 +276,7 @@
       >
     </div>
     <details
-      class="relative bg-neutral-900 rounded-lg border border-input h-9"
+      class="relative bg-card rounded-lg border border-input h-9"
       bind:this={sortNode}
     >
       <summary
@@ -298,10 +298,10 @@
         <ChevronDown size="16" class="shrink-0" />
       </summary>
       <div
-        class="absolute -left-px -right-px min-w-[calc(100%+2px)] w-max mt-2.5 bg-neutral-900 rounded-lg max-h-60 overflow-y-auto border border-input z-10 flex flex-col p-1"
+        class="absolute -left-px -right-px min-w-[calc(100%+2px)] w-max mt-2.5 bg-card rounded-lg max-h-60 overflow-y-auto border border-input z-10 flex flex-col p-1"
       >
         <button
-          class="rounded-md flex items-center px-2 py-1.5 gap-2 cursor-pointer hover:bg-neutral-800 text-sm transition-colors justify-between"
+          class="rounded-md flex items-center px-2 py-1.5 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors justify-between"
           onclick={(e) => {
             storage.updateSetting("sortBy", "alphabetical");
             e.currentTarget.closest("details").removeAttribute("open");
@@ -313,7 +313,7 @@
           {/if}
         </button>
         <button
-          class="rounded-md flex items-center px-2 py-1.5 gap-2 cursor-pointer hover:bg-neutral-800 text-sm transition-colors justify-between"
+          class="rounded-md flex items-center px-2 py-1.5 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors justify-between"
           onclick={(e) => {
             storage.updateSetting("sortBy", "alphabetical_reverse");
             e.currentTarget.closest("details").removeAttribute("open");
@@ -325,7 +325,7 @@
           {/if}
         </button>
         <button
-          class="rounded-md flex items-center px-2 py-1.5 gap-2 cursor-pointer hover:bg-neutral-800 text-sm transition-colors justify-between"
+          class="rounded-md flex items-center px-2 py-1.5 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors justify-between"
           onclick={(e) => {
             storage.updateSetting("sortBy", "recent");
             e.currentTarget.closest("details").removeAttribute("open");
@@ -337,7 +337,7 @@
           {/if}
         </button>
         <button
-          class="rounded-md flex items-center px-2 py-1.5 gap-2 cursor-pointer hover:bg-neutral-800 text-sm transition-colors justify-between"
+          class="rounded-md flex items-center px-2 py-1.5 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors justify-between"
           onclick={(e) => {
             storage.updateSetting("sortBy", "most_played");
             e.currentTarget.closest("details").removeAttribute("open");
@@ -358,14 +358,14 @@
     <div class="flex flex-col gap-2 max-w-sm items-center">
       <SearchX class="mb-2" size="32" />
       <p class="text-sm text-center">No results found</p>
-      <p class="text-text-placeholder text-sm text-center text-balance">
+      <p class="text-muted text-sm text-center text-balance">
         Try checking for typos or adjusting your search terms. Can't find what
         you're looking for?
       </p>
     </div>
     <a
       href={"/store?search=" + searchQuery}
-      class="h-9 px-2.5 bg-primary text-text-inverse rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
+      class="h-9 px-2.5 bg-primary text-card rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
     >
       <Store size="16" />
       <span>Search the Store</span>
@@ -377,14 +377,14 @@
     <div class="flex flex-col gap-2 max-w-sm items-center">
       <Ghost class="mb-2" size="32" />
       <p class="text-sm">Nothing in your library</p>
-      <p class="text-text-placeholder text-sm text-center text-balance">
+      <p class="text-muted text-sm text-center text-balance">
         It looks a little quiet here. Browse the store to discover your next
         favorite game and start building your collection.
       </p>
     </div>
     <a
       href="/store"
-      class="h-9 px-2.5 bg-primary text-text-inverse rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
+      class="h-9 px-2.5 bg-primary text-card rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
     >
       <Store size="16" />
       <span>Browse Store</span>

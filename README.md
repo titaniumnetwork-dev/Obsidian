@@ -2,13 +2,15 @@
 Play instantly. No downloads.
 
 ## Todo
+- Game
+  - Dropdown menus
 - Sidebar
   - Search
 - Store
   - Better nav and make nav work
 - Settings
-  - Make compact nav toggle
   - Make sidebar sort setting
+  - Custom css styling
 - Account
   - Update account page styles
   - Users page styles
@@ -16,7 +18,7 @@ Play instantly. No downloads.
   - Update all styles
   - Add added date
 - General
-  - Make components
+  - Fix tab mask
   - Fix themes
   - Fix impersonating user styles
   - Fix long loading times loading cloud storage
@@ -25,6 +27,7 @@ Play instantly. No downloads.
   - Obfuscate keywords
 
 ## Before Release
+- Email verify system
 - Add real recently added and featured
 - Make socials
 - Accessibility

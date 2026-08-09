@@ -95,11 +95,11 @@
     unstyled: true,
     classes: {
       toast:
-        "w-max text-sm px-4 py-2 bg-surface flex gap-4 items-center border border-border rounded-2xl shadow-lg",
+        "w-max text-sm px-4 py-2 bg-secondary flex gap-4 items-center border border-border rounded-2xl shadow-lg",
       content: "flex-1 flex flex-col",
-      description: "whitespace-nowrap text-text-placeholder",
+      description: "whitespace-nowrap text-muted",
       actionButton:
-        "px-4 py-1 bg-primary text-text-inverse rounded-xl border border-border-primary cursor-pointer",
+        "px-4 py-1 bg-primary text-card rounded-xl border border-border-primary cursor-pointer",
     },
   }}
 />

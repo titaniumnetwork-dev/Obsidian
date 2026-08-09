@@ -59,14 +59,14 @@
 
 <div class="flex flex-col items-center justify-center px-4 mt-auto">
   <div
-    class="w-full max-w-xl p-6 bg-neutral-900 border border-border rounded-radius flex flex-col gap-6"
+    class="w-full max-w-xl p-6 bg-card border border-border rounded-radius flex flex-col gap-6"
   >
     <div class="flex flex-col gap-4">
       <div class="flex gap-4 items-center">
         <emuData.icon class="size-8" />
         <div>
           <p>{emuData.title}</p>
-          <p class="text-sm text-text-placeholder">
+          <p class="text-sm text-muted">
             Emulation powered by <a
               class="hover:underline"
               href="https://ruffle.rs/">Ruffle</a
@@ -79,17 +79,17 @@
         ondragover={handleDragOver}
         ondragleave={handleDragLeave}
         ondrop={handleDrop}
-        class="w-full p-12 rounded-[10px] bg-neutral-800 flex flex-col justify-center items-center cursor-pointer gap-4 border border-dashed
+        class="w-full p-12 rounded-[10px] bg-secondary flex flex-col justify-center items-center cursor-pointer gap-4 border border-dashed
  border-transparent data-[dragging=true]:border-input"
       >
         <div
-          class="w-10 h-10 bg-neutral-700 rounded-[10px] flex items-center justify-center"
+          class="w-10 h-10 rounded-[10px] flex items-center justify-center border border-border"
         >
           <Upload size="20" />
         </div>
         <div class="flex flex-col items-center gap-2">
           <h2>Upload SWF</h2>
-          <p class="text-sm text-text-placeholder">
+          <p class="text-sm text-muted">
             {#if isDragging}
               Drop file here
             {:else}
@@ -116,7 +116,7 @@
     <div class="flex items-center gap-4">
       <button
         onclick={() => frame.requestFullscreen()}
-        class="group-data-[overlay-style=default]:px-4 group-data-[overlay-style=default]:py-2 group-data-[overlay-style=compact]:p-1 cursor-pointer text-sm bg-surface border border-border group-data-[overlay-style=default]:rounded-xl group-data-[overlay-style=compact]:rounded-lg flex gap-2"
+        class="group-data-[overlay-style=default]:px-4 group-data-[overlay-style=default]:py-2 group-data-[overlay-style=compact]:p-1 cursor-pointer text-sm bg-secondary border border-border group-data-[overlay-style=default]:rounded-xl group-data-[overlay-style=compact]:rounded-lg flex gap-2"
       >
         <Maximize
           class="group-data-[overlay-style=default]:w-5 group-data-[overlay-style=default]:h-5 group-data-[overlay-style=compact]:w-4 group-data-[overlay-style=compact]:h-4"
@@ -126,7 +126,7 @@
       </button>
       <button
         onclick={() => frame.contentWindow.location.reload()}
-        class="group-data-[overlay-style=default]:px-4 group-data-[overlay-style=default]:py-2 group-data-[overlay-style=compact]:p-1 cursor-pointer text-sm bg-surface border border-border group-data-[overlay-style=default]:rounded-xl group-data-[overlay-style=compact]:rounded-lg flex gap-2"
+        class="group-data-[overlay-style=default]:px-4 group-data-[overlay-style=default]:py-2 group-data-[overlay-style=compact]:p-1 cursor-pointer text-sm bg-secondary border border-border group-data-[overlay-style=default]:rounded-xl group-data-[overlay-style=compact]:rounded-lg flex gap-2"
       >
         <RotateCw
           class="group-data-[overlay-style=default]:w-5 group-data-[overlay-style=default]:h-5 group-data-[overlay-style=compact]:w-4 group-data-[overlay-style=compact]:h-4"
@@ -135,7 +135,7 @@
       </button>
       <button
         onclick={() => exit()}
-        class="group-data-[overlay-style=default]:px-4 group-data-[overlay-style=default]:py-2 group-data-[overlay-style=compact]:p-1 cursor-pointer text-sm bg-surface border border-border group-data-[overlay-style=default]:rounded-xl group-data-[overlay-style=compact]:rounded-lg flex gap-2"
+        class="group-data-[overlay-style=default]:px-4 group-data-[overlay-style=default]:py-2 group-data-[overlay-style=compact]:p-1 cursor-pointer text-sm bg-secondary border border-border group-data-[overlay-style=default]:rounded-xl group-data-[overlay-style=compact]:rounded-lg flex gap-2"
       >
         <X
           class="group-data-[overlay-style=default]:w-5 group-data-[overlay-style=default]:h-5 group-data-[overlay-style=compact]:w-4 group-data-[overlay-style=compact]:h-4"

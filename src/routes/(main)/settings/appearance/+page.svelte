@@ -64,7 +64,7 @@
       padding: "6px 8px !important",
     },
     ".cm-tooltip-autocomplete > ul > li[aria-selected]": {
-      backgroundColor: "var(--color-surface)",
+      backgroundColor: "var(--color-secondary)",
     },
     ".cm-lineNumbers .cm-gutterElement": {
       minWidth: "24px",
@@ -102,11 +102,11 @@
 
 <div class="grid grid-cols-2 gap-4">
   <div
-    class="flex flex-col gap-4 bg-neutral-900 rounded-radius p-4 text-sm border border-border"
+    class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border"
   >
     <div>
       <p>Theme</p>
-      <p class="text-sm text-text-placeholder">Change the look of Obsidian</p>
+      <p class="text-sm text-muted">Change the look of Obsidian</p>
     </div>
     <div class="flex flex-wrap gap-2">
       {#each themes as theme}
@@ -114,7 +114,7 @@
           <button
             onclick={() => storage.updateTheme(theme.name)}
             data-active={storage.theme === theme.name}
-            class="h-9 px-2.5 text-sm cursor-pointer rounded-xl whitespace-nowrap transition-colors data-[active=true]:bg-surface flex gap-1.5 items-center border border-border"
+            class="h-9 px-2.5 text-sm cursor-pointer rounded-xl whitespace-nowrap transition-colors data-[active=true]:bg-secondary flex gap-1.5 items-center border border-border"
           >
             <div
               style={"background: " + theme.primary}
@@ -127,14 +127,14 @@
     </div>
   </div>
   <div
-    class="flex flex-col gap-4 bg-neutral-900 rounded-radius p-4 text-sm border border-border"
+    class="flex flex-col gap-4 bg-card rounded-radius p-4 text-sm border border-border"
   >
     <div>
       <p>Custom CSS</p>
-      <p class="text-sm text-text-placeholder">Ultimate customizability</p>
+      <p class="text-sm text-muted">Ultimate customizability</p>
     </div>
     <div
-      class="editor-container max-w-xl rounded-2xl overflow-hidden border border-border bg-neutral-900"
+      class="editor-container max-w-xl rounded-2xl overflow-hidden border border-border bg-card"
     >
       <CodeMirror
         theme={[customTheme, customSyntaxTheme]}

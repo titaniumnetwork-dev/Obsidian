@@ -21,13 +21,13 @@
     <div class="flex gap-4">
       <button
         onclick={() => window.history.back()}
-        class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer"
+        class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer"
       >
         <ArrowLeft size="20" />
         <span>Go Back</span>
       </button>
       <a
-        class="px-4 py-2 bg-surface rounded-xl flex gap-2 items-center border border-border cursor-pointer"
+        class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer"
         href={storage.settings.libraryMode ? "/library" : "/"}
       >
         <Home size="20" />

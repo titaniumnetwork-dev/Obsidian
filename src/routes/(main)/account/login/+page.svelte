@@ -67,11 +67,11 @@
 
 <div class="flex flex-col items-center justify-center px-8 mt-auto">
   <div
-    class="w-full max-w-sm p-6 bg-neutral-900 border border-border rounded-radius flex flex-col gap-6"
+    class="w-full max-w-sm p-6 bg-card border border-border rounded-radius flex flex-col gap-6"
   >
     <div class="flex flex-col gap-2 text-center">
       <p >Welcome Back</p>
-      <p class="text-text-placeholder text-sm">
+      <p class="text-muted text-sm">
         Log in to sync settings and game data
       </p>
     </div>
@@ -81,20 +81,20 @@
         <div
           class="bg-input/30 transition-colors border border-input rounded-lg items-center flex w-full h-9 px-2.5 gap-1.5"
         >
-          <AtSign size="16" class="text-text-placeholder shrink-0" />
+          <AtSign size="16" class="text-muted shrink-0" />
           <input
             name="email"
             type="email"
             bind:value={email}
             required
-            class="w-full h-full text-sm bg-transparent outline-none placeholder:text-text-placeholder"
+            class="w-full h-full text-sm bg-transparent outline-none placeholder:text-muted"
           />
           {#if email.length > 0}
             <button
               tabindex="-1"
               type="button"
               aria-label="Clear Email"
-              class="cursor-pointer shrink-0 text-text-placeholder"
+              class="cursor-pointer shrink-0 text-muted"
               onclick={() => (email = "")}
             >
               <X size="16" />
@@ -106,27 +106,27 @@
         <div class="flex justify-between gap-2 text-sm">
           <p>Password</p>
           <a
-            class="text-text-placeholder hover:underline"
+            class="text-muted hover:underline"
             href="/account/forgot-password">Forgot your password?</a
           >
         </div>
         <div
           class="bg-input/30 transition-colors border border-input rounded-lg items-center flex w-full h-9 px-2.5 gap-1.5"
         >
-          <KeyRound size="16" class="text-text-placeholder shrink-0" />
+          <KeyRound size="16" class="text-muted shrink-0" />
           <input
             name="password"
             type={showPassword ? "text" : "password"}
             bind:value={password}
             required
-            class="w-full h-full text-sm bg-transparent outline-none placeholder:text-text-placeholder"
+            class="w-full h-full text-sm bg-transparent outline-none placeholder:text-muted"
           />
           {#if password.length > 0}
             <button
               tabindex="-1"
               type="button"
               aria-label="Toggle Visibility"
-              class="cursor-pointer shrink-0 text-text-placeholder"
+              class="cursor-pointer shrink-0 text-muted"
               onclick={() => (showPassword = !showPassword)}
             >
               {#if showPassword}
@@ -139,7 +139,7 @@
               tabindex="-1"
               type="button"
               aria-label="Clear Password"
-              class="cursor-pointer shrink-0 text-text-placeholder"
+              class="cursor-pointer shrink-0 text-muted"
               onclick={() => (password = "")}
             >
               <X size="16" />
@@ -156,12 +156,12 @@
       ></div>
       <div class="flex flex-col gap-2">
         {#if errorMessage}
-          <p class="text-sm text-text-placeholder">{errorMessage}</p>
+          <p class="text-sm text-muted">{errorMessage}</p>
         {/if}
         <button
           type="submit"
           disabled={loading}
-          class="h-9 px-2.5 bg-primary rounded-lg w-full disabled:opacity-50 cursor-pointer disabled:cursor-default text-text-inverse text-sm"
+          class="h-9 px-2.5 bg-primary rounded-lg w-full disabled:opacity-50 cursor-pointer disabled:cursor-default text-card text-sm"
         >
           <span>
             {#if loading}
@@ -171,7 +171,7 @@
             {/if}
           </span>
         </button>
-        <p class="text-sm text-center text-text-placeholder">
+        <p class="text-sm text-center text-muted">
           Don't have an account? <a
             href="/account/signup"
             class="hover:underline">Sign Up</a

@@ -15,7 +15,7 @@
     <p>
       {$page.status === 404 ? "Page Not Found" : "An Error Occurred"}
     </p>
-    <p class="text-sm text-text-placeholder">
+    <p class="text-sm text-muted">
       {$page.error?.message === "Not found"
         ? "The page you're looking for doesn't exist"
         : $page.error?.message}

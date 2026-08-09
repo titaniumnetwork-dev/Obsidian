@@ -12,7 +12,7 @@
 
 <button
   onclick={handleClick}
-  class="select-none flex items-center gap-2 rounded-md text-sm px-2 py-1.5 cursor-pointer transition-colors hover:bg-neutral-800"
+  class="select-none flex items-center gap-2 rounded-md text-sm px-2 py-1.5 cursor-pointer transition-colors hover:bg-secondary"
   {...restProps}
 >
   {@render children?.()}
