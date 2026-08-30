@@ -1,8 +1,14 @@
 <script>
   import { Search } from "@lucide/svelte";
   import { getContext, tick } from "svelte";
+  import { twMerge } from "tailwind-merge";
 
-  let { value = $bindable(""), placeholder, ...restProps } = $props();
+  let {
+    className,
+    value = $bindable(""),
+    placeholder,
+    ...restProps
+  } = $props();
   const ctx = getContext("Command");
 
   function handleKeydown(e) {
@@ -25,7 +31,10 @@
 </script>
 
 <div
-  class="bg-input/30 rounded-lg items-center flex border border-input h-8 px-2.5 gap-1.5 shrink-0"
+  class={twMerge(
+    "bg-input/30 rounded-lg items-center flex border border-input h-8 px-2.5 gap-1.5 shrink-0",
+    className,
+  )}
 >
   <Search class="text-muted" size="16" />
   <input

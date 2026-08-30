@@ -2,7 +2,7 @@
   import { getContext, onMount } from "svelte";
   import { twMerge } from "tailwind-merge";
 
-  let { class: className, children, onselect, ...restProps } = $props();
+  let { className, children, onselect, ...restProps } = $props();
   const ctx = getContext("Command");
 
   let element = $state(null);
@@ -29,7 +29,6 @@
 <button
   bind:this={element}
   type="button"
-  data-command-item="true"
   onpointermove={handlePointerMove}
   class={twMerge(
     "w-full rounded-lg transition-colors data-[selected=true]:bg-secondary flex items-center gap-2 text-sm px-2 py-1.5 cursor-pointer truncate",
