@@ -2,6 +2,7 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import Logo from "$lib/assets/logo.svelte";
+  import { formatLastPlayed } from "$lib/formatUtils";
   import { storage } from "$lib/storage.svelte.js";
   import {
     Calculator,
@@ -43,9 +44,6 @@
   import ContextMenuContent from "./ui/ContextMenuContent.svelte";
   import ContextMenuItem from "./ui/ContextMenuItem.svelte";
   import ContextMenuTrigger from "./ui/ContextMenuTrigger.svelte";
-    import { formatLastPlayed } from "$lib/formatUtils";
-
-  let { impersonating = false } = $props();
 
   let searchQuery = $state("");
 
@@ -207,8 +205,7 @@
 
 <div
   data-collapsed={storage.settings.sidebarCollapsed}
-  class={"sidebar group bg-card data-[collapsed=true]:w-12 data-[collapsed=false]:w-64 transition-[width] flex flex-col gap-2 overflow-y-scroll shrink-0 m-2 mr-0 rounded-radius border border-border box-content" +
-    (impersonating ? " h-[calc(100%-4rem)] mt-8" : " h-[calc(100%-18px)]")}
+  class="sidebar group bg-card data-[collapsed=true]:w-12 data-[collapsed=false]:w-64 transition-[width] flex flex-col gap-2 overflow-y-scroll shrink-0 m-2 mr-0 rounded-radius border border-border box-content h-[calc(100%-18px)"
 >
   <div class="bg-card sticky top-0 py-2 z-10">
     <div

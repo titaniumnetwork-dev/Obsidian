@@ -7,7 +7,6 @@
     ChartPie,
     Check,
     Clock,
-    Cloud,
     Download,
     Ellipsis,
     Gamepad2,
