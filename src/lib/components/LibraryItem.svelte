@@ -256,12 +256,6 @@
               {/if}
             </Button>
           {/if}
-          {#if data.currentData.cloudSave}
-            <Button variant="outline" class="whitespace-nowrap cursor-default">
-              <Cloud size="16" />
-              <span>Cloud Save</span>
-            </Button>
-          {/if}
         </div>
       </div>
     </div>

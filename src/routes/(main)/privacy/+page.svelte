@@ -2,7 +2,7 @@
   import Head from "$lib/components/Head.svelte";
   import { links } from "$lib/links";
 
-  let updated = new Date(1779901012831);
+  let updated = new Date(1788130714213);
 </script>
 
 <Head title="Privacy Policy" />
@@ -21,46 +21,44 @@
   <p>
     Welcome to Obsidian. We respect your privacy and are committed to protecting
     it. This Privacy Policy explains how we handle information when you visit
-    our website and use our services, including creating an account and playing
-    games.
+    our website and use our services while playing games locally in your
+    browser.
   </p>
   <p class="text-base">1. Information We Collect</p>
   <p>
-    We collect information to provide a better experience and to allow you to
-    save your progress across devices.
+    We collect information to provide a better experience and to keep your
+    preferences and local game data available when you use the site.
   </p>
   <ul class="list-disc pl-6 flex flex-col gap-2">
     <li>
-      <p>Account Information:</p>
-      When you register for an account, we collect your email address, a username
-      of your choice, and a password (which is securely hashed). This information
-      is used to manage your account and identify you on the platform.
-    </li>
-    <li>
-      <p>Synced Storage and Game Data:</p>
-      If you are logged in, we store your game saves, high scores, and site settings
-      (such as themes and preferences) on our servers so you can access them from
-      any device. If you are not logged in, this data is stored locally in your browser.
+      <p>Local Settings and Game Data:</p>
+      We store browser-local preferences such as themes, favorites, keybinds, and
+      game save metadata in your browser so the site can function smoothly without
+      requiring an account.
     </li>
     <li>
       <p>Log Data:</p>
       Like most websites, our servers automatically record basic information that
-      your browser sends. This may include your IP address, browser type, device type,
-      and the pages you visit.
+      your browser sends. This may include your IP address, browser type, device
+      type, and the pages you visit.
     </li>
     <li>
-      <p>Avatars:</p>
-      We generate a default avatar for your account upon registration. You may also
-      have the option to update or change this later.
+      <p>Third-Party Content:</p>
+      Our website hosts various third-party games and emulators. These third parties
+      may use their own cookies or tracking scripts. We do not control these third-party
+      trackers.
     </li>
   </ul>
-  <p class="text-base">2. Cookies and Session Management</p>
-  <p>We use cookies to keep you logged in and to remember your preferences.</p>
+  <p class="text-base">2. Cookies and Local Storage</p>
+  <p>
+    We use browser storage and cookies to remember your preferences on this
+    device.
+  </p>
   <ul class="list-disc pl-6 flex flex-col gap-2">
     <li>
-      <p>Session Cookies:</p>
-      We use a session ID cookie to identify your logged-in session. This is essential
-      for the functionality of your account.
+      <p>Local Storage:</p>
+      We save your settings and game-related state in local browser storage so your
+      customizations remain available without an account.
     </li>
     <li>
       <p>Third-Party Content:</p>
@@ -81,18 +79,14 @@
   <p>You have control over your information:</p>
   <ul class="list-disc pl-6 flex flex-col gap-2">
     <li>
-      <p>Account Settings:</p>
-      You can update your username and avatar through your account settings page.
+      <p>Managing Local Data:</p>
+      You can clear your browser storage to remove saved preferences and local game
+      data.
     </li>
     <li>
-      <p>Clearing Local Data:</p>
-      If you are not using an account, you can clear your game progress by clearing
-      your browser's cache and site data.
-    </li>
-    <li>
-      <p>Account Deletion:</p>
-      If you wish to delete your account and all associated data, please contact us
-      at the email address below.
+      <p>Contact:</p>
+      If you have questions about local data or privacy, contact us using the address
+      below.
     </li>
   </ul>
   <p class="text-base">5. Changes to This Policy</p>

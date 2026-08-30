@@ -2,7 +2,7 @@
   import { getContext, onMount } from "svelte";
   import { twMerge } from "tailwind-merge";
 
-  let { className, children, onselect, ...restProps } = $props();
+  let { class: className, children, onselect, ...restProps } = $props();
   const ctx = getContext("Command");
 
   let element = $state(null);

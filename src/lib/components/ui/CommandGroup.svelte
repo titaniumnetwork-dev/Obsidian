@@ -1,5 +1,5 @@
 <script>
-  let { className, heading, children, ...restProps } = $props();
+  let { class: className, heading, children, ...restProps } = $props();
 </script>
 
 <div class={className} {...restProps}>

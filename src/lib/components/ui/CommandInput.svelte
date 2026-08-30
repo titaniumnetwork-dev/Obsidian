@@ -4,7 +4,7 @@
   import { twMerge } from "tailwind-merge";
 
   let {
-    className,
+    class: className,
     value = $bindable(""),
     placeholder,
     ...restProps

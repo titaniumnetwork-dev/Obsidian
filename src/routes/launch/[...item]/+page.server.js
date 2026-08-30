@@ -1,7 +1,7 @@
 import { getCatalog } from "$lib/catalog.js";
 import { error } from "@sveltejs/kit";
 
-export async function load({ fetch, params, locals }) {
+export async function load({ fetch, params }) {
   const catalogData = await getCatalog(fetch);
 
   const currentData = catalogData.find((item) => item.id === params.item);
@@ -12,17 +12,8 @@ export async function load({ fetch, params, locals }) {
     });
   }
 
-  if (!locals.user || locals.user.banned) {
-    return {
-      currentData,
-      path: params.path,
-      user: null,
-    };
-  }
-
   return {
     currentData,
     path: params.path,
-    user: locals.user || null,
   };
 }

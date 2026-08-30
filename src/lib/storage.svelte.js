@@ -1,11 +1,6 @@
-import { invalidateAll } from "$app/navigation";
 import { tags as catalogTagOrder } from "$lib/tags";
 
 class StorageManager {
-  #syncTimer = null;
-  #cloudSyncTimers = new Map();
-  cloudUsedBytes = $state(0);
-  cloudLimitBytes = $state(5 * 1024 * 1024);
   tabID = crypto.randomUUID();
   active = $state({});
   installed = $state([]);
@@ -35,254 +30,75 @@ class StorageManager {
   playTime = $state({});
 
   constructor() {
-    if (typeof window !== "undefined") {
-      window.addEventListener("visibilitychange", () => {
-        if (document.visibilityState === "hidden" && this.#syncTimer) {
-          this.flushSync();
+    if (typeof BroadcastChannel !== "undefined") {
+      this.storageChannel = new BroadcastChannel("storage-sync");
+      this.storageChannel.onmessage = async (e) => {
+        switch (e.data.type) {
+          case "updateSetting":
+            this.updateSetting(e.data.settingKey, e.data.value, false);
+            break;
+          case "updateKeybind":
+            this.updateKeybind(
+              e.data.ID,
+              e.data.key,
+              e.data.keyCode,
+              e.data.replaceKey,
+              false,
+            );
+            break;
+          case "removeKeybind":
+            this.removeKeybind(e.data.ID, e.data.key, false);
+            break;
+          case "updateGamepadBind":
+            this.updateGamepadBind(
+              e.data.ID,
+              e.data.action,
+              e.data.bindData,
+              false,
+            );
+            break;
+          case "removeGamepadBind":
+            this.removeGamepadBind(e.data.ID, e.data.action, false);
+            break;
+          case "updateTheme":
+            this.updateTheme(e.data.theme, false);
+            break;
+          case "addFavorite":
+            this.addFavorite(e.data.ID, false);
+            break;
+          case "removeFavorite":
+            this.removeFavorite(e.data.ID, false);
+            break;
+          case "install":
+            this.install(e.data.ID, false);
+            break;
+          case "uninstall":
+            this.uninstall(e.data.ID, false);
+            break;
+          case "setActive":
+            this.setActive(e.data.ID, false);
+            break;
+          case "deleteActive":
+            this.quitActive(e.data.ID, false);
+            break;
+          case "resumeActiveRequest":
+            if (e.data.tabID === this.tabID) {
+              this.resumeActive(e.data.ID, false);
+            }
+            break;
+          case "addHiddenTheme":
+            this.addHiddenTheme(e.data.theme, false);
+            break;
+          case "updatePlaytime":
+            this.updatePlayTime(e.data.ID, e.data.start, e.data.end, false);
+            break;
         }
-      });
-
-      if (typeof BroadcastChannel !== "undefined") {
-        this.storageChannel = new BroadcastChannel("storage-sync");
-        this.storageChannel.onmessage = async (e) => {
-          switch (e.data.type) {
-            case "updateSetting":
-              this.updateSetting(e.data.settingKey, e.data.value, false);
-              break;
-            case "updateKeybind":
-              this.updateKeybind(
-                e.data.ID,
-                e.data.key,
-                e.data.keyCode,
-                e.data.replaceKey,
-                false,
-              );
-              break;
-            case "removeKeybind":
-              this.removeKeybind(e.data.ID, e.data.key, false);
-              break;
-            case "updateGamepadBind":
-              this.updateGamepadBind(
-                e.data.ID,
-                e.data.action,
-                e.data.bindData,
-                false,
-              );
-              break;
-            case "removeGamepadBind":
-              this.removeGamepadBind(e.data.ID, e.data.action, false);
-              break;
-            case "updateTheme":
-              this.updateTheme(e.data.theme, false);
-              break;
-            case "addFavorite":
-              this.addFavorite(e.data.ID, false);
-              break;
-            case "removeFavorite":
-              this.removeFavorite(e.data.ID, false);
-              break;
-            case "install":
-              this.install(e.data.ID, false);
-              break;
-            case "uninstall":
-              this.uninstall(e.data.ID, false);
-              break;
-            case "setActive":
-              this.setActive(e.data.ID, false);
-              break;
-            case "deleteActive":
-              this.quitActive(e.data.ID, false);
-              break;
-            case "resumeActiveRequest":
-              if (e.data.tabID === this.tabID) {
-                this.resumeActive(e.data.ID, false);
-              }
-              break;
-            case "addHiddenTheme":
-              this.addHiddenTheme(e.data.theme, false);
-              break;
-            case "updatePlaytime":
-              this.updatePlayTime(e.data.ID, e.data.start, e.data.end, false);
-              break;
-            case "authChange":
-              this.loadStorage(this.catalog);
-              await invalidateAll();
-              break;
-          }
-        };
-      }
+      };
     }
-  }
-  exportData() {
-    return {
-      settings: this.settings,
-      installed: this.installed,
-      favorites: this.favorites,
-      theme: this.theme,
-      keybinds: this.keybinds,
-      gamepadBinds: this.gamepadBinds,
-      hiddenThemes: this.hiddenThemes,
-      playTime: this.playTime,
-    };
-  }
-  async broadcastAuthChange() {
-    if (this.storageChannel) {
-      this.loadStorage(this.catalog);
-      this.storageChannel.postMessage({ type: "authChange" });
-    }
-  }
-  async flushSync() {
-    if (this.#syncTimer) {
-      clearTimeout(this.#syncTimer);
-      this.#syncTimer = null;
-    }
-
-    fetch("/api/storage", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(this.exportData()),
-      keepalive: true,
-    }).catch((e) => console.error("Failed to sync storage to server", e));
-  }
-  syncToServer() {
-    if (this.#syncTimer) clearTimeout(this.#syncTimer);
-    this.#syncTimer = setTimeout(() => {
-      this.flushSync();
-    }, 3000);
-  }
-  restoreIndexedDBSave(saveKey, fileString) {
-    const parts = saveKey.split("|");
-    if (parts.length < 3) return;
-
-    const dbName = decodeURIComponent(parts[0]);
-    const storeName = decodeURIComponent(parts[1]);
-    const key = decodeURIComponent(parts.slice(2).join("|"));
-
-    let value;
-    try {
-      const rawData = JSON.parse(fileString);
-
-      if (rawData && rawData._idbType === "Uint8Array") {
-        const binaryStr = atob(rawData.b64);
-        const len = binaryStr.length;
-        const bytes = new Uint8Array(len);
-
-        for (let i = 0; i < len; i++) {
-          bytes[i] = binaryStr.charCodeAt(i);
-        }
-        value = bytes;
-      } else {
-        value = rawData;
-      }
-    } catch (e) {
-      console.error(`Failed to parse cloud save for ${key}`, e);
-      return;
-    }
-
-    //Version locked at 1. Might be a problem later but we'll see
-    const req = indexedDB.open(dbName, 1);
-
-    req.onupgradeneeded = (e) => {
-      const db = e.target.result;
-      if (!db.objectStoreNames.contains(storeName)) {
-        db.createObjectStore(storeName);
-      }
-    };
-
-    req.onsuccess = (e) => {
-      const db = e.target.result;
-
-      if (!db.objectStoreNames.contains(storeName)) {
-        console.warn(`Cannot restore ${key}: Store ${storeName} missing.`);
-        db.close();
-        return;
-      }
-
-      const tx = db.transaction(storeName, "readwrite");
-      const store = tx.objectStore(storeName);
-      store.put(value, key);
-
-      tx.oncomplete = () => db.close();
-    };
-
-    req.onerror = (e) => {
-      console.error(`Failed to open IndexedDB for ${dbName}`, e);
-    };
   }
   async loadStorage(catalogData) {
     this.catalog = catalogData;
     this.tags = catalogTagOrder;
-
-    try {
-      const res = await fetch("/api/storage");
-      if (res.ok) {
-        const json = await res.json();
-        if (json.data) {
-          localStorage.setItem("theme", json.data.theme || "Dark");
-          localStorage.setItem(
-            "settings",
-            JSON.stringify(json.data.settings || {}),
-          );
-          localStorage.setItem(
-            "installed",
-            JSON.stringify(json.data.installed || []),
-          );
-          localStorage.setItem(
-            "favorites",
-            JSON.stringify(json.data.favorites || []),
-          );
-          localStorage.setItem(
-            "keybinds",
-            JSON.stringify(json.data.keybinds || {}),
-          );
-          localStorage.setItem(
-            "gamepadBinds",
-            JSON.stringify(json.data.gamepadBinds || {}),
-          );
-          localStorage.setItem(
-            "hiddenThemes",
-            JSON.stringify(json.data.hiddenThemes || []),
-          );
-          localStorage.setItem(
-            "playTime",
-            JSON.stringify(json.data.playTime || {}),
-          );
-        }
-      }
-    } catch (e) {
-      console.error("Failed to fetch server storage", e);
-    }
-
-    try {
-      const saveRes = await fetch("/api/cloud-saves");
-      if (saveRes.ok) {
-        const saveData = await saveRes.json();
-
-        this.cloudUsedBytes = saveData.used || 0;
-        this.cloudLimitBytes = saveData.limit;
-        if (saveData.saves) {
-          for (const saveMeta of saveData.saves) {
-            const encodedKey = encodeURIComponent(saveMeta.save_key);
-
-            const fileRes = await fetch(
-              `/api/cloud-save/${encodedKey}?type=${saveMeta.type}`,
-            );
-
-            if (fileRes.ok) {
-              const fileString = await fileRes.text();
-
-              if (saveMeta.type === "indexeddb") {
-                this.restoreIndexedDBSave(saveMeta.save_key, fileString);
-              } else {
-                localStorage.setItem(saveMeta.save_key, fileString);
-              }
-            }
-          }
-        }
-      }
-    } catch (e) {
-      console.error("Failed to fetch cloud saves", e);
-    }
 
     const storedTheme = localStorage.getItem("theme");
     const storedSettings = localStorage.getItem("settings");
@@ -346,13 +162,11 @@ class StorageManager {
 
     this.isLoaded = true;
   }
-
   updateSetting(settingKey, value, share = true) {
     this.settings = { ...this.settings, [settingKey]: value };
     localStorage.setItem("settings", JSON.stringify(this.settings));
 
     if (share) {
-      this.syncToServer();
       if (this.storageChannel) {
         this.storageChannel.postMessage({
           type: "updateSetting",
@@ -369,7 +183,6 @@ class StorageManager {
     localStorage.setItem("keybinds", JSON.stringify(this.keybinds));
 
     if (share) {
-      this.syncToServer();
       if (this.storageChannel) {
         this.storageChannel.postMessage({
           type: "updateKeybind",
@@ -388,7 +201,6 @@ class StorageManager {
       localStorage.setItem("keybinds", JSON.stringify(this.keybinds));
 
       if (share) {
-        this.syncToServer();
         if (this.storageChannel) {
           this.storageChannel.postMessage({ type: "removeKeybind", ID, key });
         }
@@ -402,7 +214,6 @@ class StorageManager {
     localStorage.setItem("gamepadBinds", JSON.stringify(this.gamepadBinds));
 
     if (share) {
-      this.syncToServer();
       if (this.storageChannel) {
         this.storageChannel.postMessage({
           type: "updateGamepadBind",
@@ -420,7 +231,6 @@ class StorageManager {
       localStorage.setItem("gamepadBinds", JSON.stringify(this.gamepadBinds));
 
       if (share) {
-        this.syncToServer();
         if (this.storageChannel) {
           this.storageChannel.postMessage({
             type: "removeGamepadBind",
@@ -438,7 +248,6 @@ class StorageManager {
     localStorage.setItem("theme", theme);
 
     if (share) {
-      this.syncToServer();
       if (this.storageChannel) {
         this.storageChannel.postMessage({ type: "updateTheme", theme });
       }
@@ -462,7 +271,6 @@ class StorageManager {
       localStorage.setItem("favorites", JSON.stringify(this.favorites));
 
       if (share) {
-        this.syncToServer();
         if (this.storageChannel) {
           this.storageChannel.postMessage({ type: "addFavorite", ID });
         }
@@ -475,7 +283,6 @@ class StorageManager {
     localStorage.setItem("favorites", JSON.stringify(this.favorites));
 
     if (share) {
-      this.syncToServer();
       if (this.storageChannel) {
         this.storageChannel.postMessage({ type: "removeFavorite", ID });
       }
@@ -491,7 +298,6 @@ class StorageManager {
       );
 
       if (share) {
-        this.syncToServer();
         if (this.storageChannel) {
           this.storageChannel.postMessage({ type: "install", ID });
         }
@@ -518,7 +324,6 @@ class StorageManager {
     }
 
     if (share) {
-      this.syncToServer();
       if (this.storageChannel) {
         this.storageChannel.postMessage({ type: "uninstall", ID });
       }
@@ -591,7 +396,6 @@ class StorageManager {
     localStorage.setItem("hiddenThemes", JSON.stringify(this.hiddenThemes));
 
     if (share) {
-      this.syncToServer();
       if (this.storageChannel) {
         this.storageChannel.postMessage({ type: "addHiddenTheme", theme });
       }
@@ -607,7 +411,6 @@ class StorageManager {
     localStorage.setItem("playTime", JSON.stringify(this.playTime));
 
     if (share) {
-      this.syncToServer();
       if (this.storageChannel) {
         this.storageChannel.postMessage({
           type: "updatePlaytime",
@@ -617,35 +420,6 @@ class StorageManager {
         });
       }
     }
-  }
-
-  updateCloudSave(type, key, value) {
-    if (this.#cloudSyncTimers.has(key)) {
-      clearTimeout(this.#cloudSyncTimers.get(key));
-    }
-
-    const timer = setTimeout(async () => {
-      try {
-        const res = await fetch("/api/cloud-saves", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ type, key, value }),
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          this.cloudUsedBytes = data.newTotalSize;
-        } else if (res.status === 413) {
-          console.warn(`Storage quota exceeded for save: ${key}`);
-        }
-      } catch (e) {
-        console.error("Failed to sync game save to cloud", e);
-      }
-
-      this.#cloudSyncTimers.delete(key);
-    }, 2000);
-
-    this.#cloudSyncTimers.set(key, timer);
   }
 }
 

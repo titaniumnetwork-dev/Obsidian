@@ -6,7 +6,7 @@
   import Button from "$lib/components/ui/Button.svelte";
   import Card from "$lib/components/ui/Card.svelte";
   import { featured } from "$lib/featured.js";
-    import { links } from "$lib/links.js";
+  import { links } from "$lib/links.js";
   import { getMessage } from "$lib/messages";
   import { storage } from "$lib/storage.svelte.js";
   import { SiDiscord } from "@icons-pack/svelte-simple-icons";
@@ -132,8 +132,8 @@
       </div>
       <p class="text-sm text-muted">
         Track your playtime, save your favorites, and configure advanced
-        settings. Create a free Obsidian account to securely sync your settings
-        and saves across devices.
+        settings with browser-local syncing that keeps your library personalized
+        on this device.
       </p>
     </Card>
   </div>
@@ -171,9 +171,7 @@
   <Card class="flex-row items-center mx-4" size="sm">
     <div class="flex-col gap-1">
       <p>Ready to start playing?</p>
-      <p class="text-sm text-muted">
-        Join hundreds of players using Obsidian.
-      </p>
+      <p class="text-sm text-muted">Join hundreds of players using Obsidian.</p>
     </div>
     <div class="flex gap-2 ml-auto">
       <Button href="/library">

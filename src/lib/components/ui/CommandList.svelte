@@ -1,7 +1,7 @@
 <script>
   import { getContext } from "svelte";
 
-  let { className, children, ...restProps } = $props();
+  let { class: className, children, ...restProps } = $props();
   const ctx = getContext("Command");
 
   ctx.resetItems?.();

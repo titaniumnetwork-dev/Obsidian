@@ -2,7 +2,6 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import Logo from "$lib/assets/logo.svelte";
-  import { formatLastPlayed } from "$lib/formatUtils";
   import { storage } from "$lib/storage.svelte.js";
   import {
     Calculator,
@@ -24,7 +23,6 @@
     Star,
     Store,
     Trash,
-    User,
     X,
   } from "@lucide/svelte";
   import { evaluate } from "mathjs";
@@ -45,8 +43,9 @@
   import ContextMenuContent from "./ui/ContextMenuContent.svelte";
   import ContextMenuItem from "./ui/ContextMenuItem.svelte";
   import ContextMenuTrigger from "./ui/ContextMenuTrigger.svelte";
+    import { formatLastPlayed } from "$lib/formatUtils";
 
-  let { user, impersonating } = $props();
+  let { impersonating = false } = $props();
 
   let searchQuery = $state("");
 
@@ -184,12 +183,6 @@
 
   const settingsTabs = [
     {
-      name: "Account",
-      href: "/settings/account",
-      loggedIn: true,
-      icon: User,
-    },
-    {
       name: "General",
       href: "/settings/general",
       icon: SlidersHorizontal,
@@ -280,9 +273,9 @@
                   <CommandGroup heading="Recent">
                     {#each recentlyPlayed as game (game.id)}
                       <CommandItem
+                        class="justify-between"
                         onselect={(e, ctx) =>
                           goto("/library/" + game.id) & ctx.close()}
-                        class="justify-between"
                       >
                         <div class="flex items-center gap-2">
                           <img
@@ -426,21 +419,19 @@
           >
             {#each settingsTabs as settingsTab}
               {@const isActive = $page.url.pathname === settingsTab.href}
-              {#if settingsTab.loggedIn === true ? !!user : true}
-                <a
-                  data-active={isActive}
-                  href={settingsTab.href}
-                  class="text-sm px-2 rounded-lg h-8 flex items-center transition-colors hover:bg-secondary data-[active=true]:bg-secondary"
+              <a
+                data-active={isActive}
+                href={settingsTab.href}
+                class="text-sm px-2 rounded-lg h-8 flex items-center transition-colors hover:bg-secondary data-[active=true]:bg-secondary"
+              >
+                <settingsTab.icon
+                  size="16"
+                  class="shrink-0 group-data-[collapsed=false]:hidden"
+                />
+                <span class="group-data-[collapsed=true]:hidden"
+                  >{settingsTab.name}</span
                 >
-                  <settingsTab.icon
-                    size="16"
-                    class="shrink-0 group-data-[collapsed=false]:hidden"
-                  />
-                  <span class="group-data-[collapsed=true]:hidden"
-                    >{settingsTab.name}</span
-                  >
-                </a>
-              {/if}
+              </a>
             {/each}
           </div>
         </div>
@@ -716,47 +707,6 @@
           {/each}
         </div>
       </div>
-    {/if}
-    <hr class="mb-4 mx-2 text-border group-data-[collapsed=false]:hidden" />
-  </div>
-  <div class="p-2 pt-0">
-    {#if user}
-      <div
-        class="group-data-[collapsed=false]:h-12 rounded-xl text-sm flex items-center gap-2 group-data-[collapsed=false]:bg-secondary"
-      >
-        <a
-          class="flex gap-2 items-center group-data-[collapsed=false]:p-2 group-data-[collapsed=false]:pr-0 min-w-0"
-          href="/account"
-        >
-          <img
-            class="size-8 rounded-lg"
-            src={"/cdn/avatars/" + user.image}
-            alt="Profile"
-            draggable="false"
-          />
-          <div
-            class="flex flex-col overflow-hidden group-data-[collapsed=true]:hidden"
-          >
-            <span class="overflow-hidden whitespace-nowrap text-ellipsis"
-              >{user.username}</span
-            >
-            <span
-              class="text-xs text-muted overflow-hidden whitespace-nowrap text-ellipsis"
-              >{user.email}</span
-            >
-          </div>
-        </a>
-      </div>
-    {:else}
-      <Button
-        href="/account/login"
-        variant="secondary"
-        size="sm"
-        class="group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 justify-center"
-      >
-        <User class="shrink-0" size="16" />
-        <span class="group-data-[collapsed=true]:hidden">Sign In</span>
-      </Button>
     {/if}
   </div>
 </div>

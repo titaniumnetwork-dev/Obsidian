@@ -2,7 +2,7 @@
   import Head from "$lib/components/Head.svelte";
   import { links } from "$lib/links";
 
-  let updated = new Date(1779901012831);
+  let updated = new Date(1788130714213);
 </script>
 
 <Head title="Terms of Service" />
@@ -19,29 +19,25 @@
     </p>
   </div>
   <p>
-    Welcome to Obsidian. By accessing or using our website, creating an account,
-    or playing games, you agree to be bound by these Terms of Service. If you do
-    not agree with any part of these terms, please do not use our site.
+    Welcome to Obsidian. By accessing or using our website and playing games,
+    you agree to be bound by these Terms of Service. If you do not agree with
+    any part of these terms, please do not use our site.
   </p>
-  <p class="text-base">1. Account Registration</p>
+  <p class="text-base">1. Local Use</p>
   <p>
-    To access certain features of the site, you may be required to register for
-    an account.
+    Obsidian is designed to run primarily in your browser with local device
+    storage for preferences and saved game data.
   </p>
   <ul class="list-disc pl-6 flex flex-col gap-2">
     <li>
-      <p>Eligibility:</p>
-      You must provide accurate and complete information during registration.
-    </li>
-    <li>
-      <p>Security:</p>
-      You are responsible for maintaining the confidentiality of your account credentials
-      and for all activities that occur under your account.
+      <p>Data Responsibility:</p>
+      You are responsible for the browser data stored on your device, including local
+      settings and save data.
     </li>
     <li>
       <p>Prohibited Actions:</p>
-      You may not use a username that is offensive, vulgar, or infringes on the rights
-      of others.
+      You may not use the site to violate laws, abuse platform security, or interfere
+      with other users' experience.
     </li>
   </ul>
   <p class="text-base">2. Use of the Site and Conduct</p>
@@ -63,11 +59,11 @@
     respective owners. Obsidian does not claim ownership over third-party games
     or characters. Your use of the site does not grant you any ownership rights.
   </p>
-  <p class="text-base">4. Termination</p>
+  <p class="text-base">4. Access and Availability</p>
   <p>
-    We reserve the right to suspend or terminate your account or access to the
-    site at our sole discretion, without notice, for any reason, including
-    breach of these Terms of Service.
+    We reserve the right to restrict or terminate access to the site at our sole
+    discretion, without notice, for any reason, including breach of these Terms
+    of Service.
   </p>
   <p class="text-base">5. Disclaimer of Warranties</p>
   <p>

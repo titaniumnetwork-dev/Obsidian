@@ -1,8 +1,5 @@
 <script>
-  import { invalidateAll } from "$app/navigation";
-  import { authClient } from "$lib/client";
   import Footer from "$lib/components/Footer.svelte";
-  import Impersonating from "$lib/components/Impersonating.svelte";
   import MobileBlocker from "$lib/components/MobileBlocker.svelte";
   import Sidebar from "$lib/components/Sidebar.svelte";
   import "$lib/consoleMessage.js";
@@ -13,33 +10,6 @@
   import { Toaster } from "svelte-sonner";
 
   let { children, data } = $props();
-
-  const session = authClient.useSession();
-  let impersonating = $state(false);
-
-  $effect(() => {
-    impersonating =
-      !$session.isPending && !!$session.data?.session?.impersonatedBy;
-  });
-
-  onMount(() => {
-    if (data.user) {
-      const intervalId = setInterval(async () => {
-        const { data, error } = await authClient.getSession();
-
-        const sessionIsDead = !data;
-        const userIsBanned = data?.user?.banned;
-
-        if (sessionIsDead || userIsBanned) {
-          clearInterval(intervalId);
-          invalidateAll();
-          await storage.broadcastAuthChange();
-        }
-      }, 10000);
-
-      return () => clearInterval(intervalId);
-    }
-  });
 
   onMount(async () => {
     storage.loadStorage(data.catalogData);
@@ -108,8 +78,7 @@
 
 {#if storage.isLoaded}
   <MobileBlocker>
-    <Impersonating {authClient} {impersonating} />
-    <Sidebar {impersonating} user={data.user} />
+    <Sidebar />
     <div class="w-full overflow-auto flex flex-col">
       {@render children()}
       <Footer />
