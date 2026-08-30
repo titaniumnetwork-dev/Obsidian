@@ -99,7 +99,7 @@
         </div>
         <input
           bind:this={uploadButton}
-          onchange={uploadROM}
+          onchange={uploadSWF}
           type="file"
           accept={emuData.accept}
           class="hidden"

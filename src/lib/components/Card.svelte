@@ -110,7 +110,7 @@
         {/if}
         {#if storage.favorites.includes(data.id)}
           <ContextMenuItem onclick={() => storage.removeFavorite(data.id)}>
-            <Star size="16" class="fill-text" />
+            <Star size="16" class="fill-foreground" />
             <span>Remove Favorite</span>
           </ContextMenuItem>
         {:else}

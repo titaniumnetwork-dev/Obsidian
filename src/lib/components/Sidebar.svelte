@@ -2,9 +2,13 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import Logo from "$lib/assets/logo.svelte";
+  import { formatLastPlayed } from "$lib/formatUtils";
   import { storage } from "$lib/storage.svelte.js";
   import {
+    Calculator,
+    Check,
     ChevronRight,
+    Copy,
     Gamepad2,
     HatGlasses,
     Home,
@@ -23,17 +27,103 @@
     User,
     X,
   } from "@lucide/svelte";
+  import { evaluate } from "mathjs";
   import AlertDialog from "./ui/AlertDialog.svelte";
   import AlertDialogClose from "./ui/AlertDialogClose.svelte";
   import AlertDialogContent from "./ui/AlertDialogContent.svelte";
   import AlertDialogTrigger from "./ui/AlertDialogTrigger.svelte";
   import Button from "./ui/Button.svelte";
+  import Command from "./ui/Command.svelte";
+  import CommandContent from "./ui/CommandContent.svelte";
+  import CommandEmpty from "./ui/CommandEmpty.svelte";
+  import CommandGroup from "./ui/CommandGroup.svelte";
+  import CommandInput from "./ui/CommandInput.svelte";
+  import CommandItem from "./ui/CommandItem.svelte";
+  import CommandList from "./ui/CommandList.svelte";
+  import CommandTrigger from "./ui/CommandTrigger.svelte";
   import ContextMenu from "./ui/ContextMenu.svelte";
   import ContextMenuContent from "./ui/ContextMenuContent.svelte";
   import ContextMenuItem from "./ui/ContextMenuItem.svelte";
   import ContextMenuTrigger from "./ui/ContextMenuTrigger.svelte";
 
   let { user, impersonating } = $props();
+
+  let searchQuery = $state("");
+
+  let mathResult = $derived.by(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return null;
+
+    if (!isNaN(Number(query))) return null;
+
+    const safeQuery = query
+      .replace(/\bto\s+in\b/g, "to inch")
+      .replace(/(\d\s*)in\b/g, "$1inch");
+
+    try {
+      const result = evaluate(safeQuery);
+
+      if (typeof result === "number" && !isNaN(result) && isFinite(result)) {
+        const cleanResult = parseFloat(result.toFixed(6));
+        if (cleanResult.toString() === query.replace(/\s/g, "")) return null;
+        return cleanResult.toString();
+      }
+
+      if (result && (result.isUnit || result.type === "Unit")) {
+        const unitString = result.toString();
+
+        const normalizedQuery = query.replace(/\s/g, "");
+        const normalizedResult = unitString
+          .replace(/\s/g, "")
+          .replace("inch", "in");
+
+        if (normalizedQuery === normalizedResult) {
+          return null;
+        }
+
+        return unitString;
+      }
+
+      return null;
+    } catch (err) {
+      return null;
+    }
+  });
+
+  let recentlyPlayed = $derived(
+    [...storage.library]
+      .filter((item) => storage.playTime[item.id]?.lastPlayed > 0)
+      .sort((a, b) => {
+        const lastPlayedA = Number(storage.playTime[a.id]?.lastPlayed) || 0;
+        const lastPlayedB = Number(storage.playTime[b.id]?.lastPlayed) || 0;
+
+        if (lastPlayedA !== lastPlayedB) {
+          return lastPlayedB - lastPlayedA;
+        }
+      })
+      .slice(0, 3),
+  );
+
+  let trimmedQuery = $derived(searchQuery.trim().toLowerCase());
+
+  let searchingLibrary = $derived.by(() => {
+    if (!trimmedQuery) return [];
+
+    return [...storage.library]
+      .filter((item) => item.title.toLowerCase().includes(trimmedQuery))
+      .sort((a, b) => (a.title || "").localeCompare(b.title || ""))
+      .slice(0, 3);
+  });
+
+  let searchingStore = $derived.by(() => {
+    if (!trimmedQuery) return [];
+
+    return [...storage.catalog]
+      .filter((item) => !storage.installed.includes(item.id))
+      .filter((item) => item.title.toLowerCase().includes(trimmedQuery))
+      .sort((a, b) => (a.title || "").localeCompare(b.title || ""))
+      .slice(0, 3);
+  });
 
   let filteredLibrary = $derived.by(() => {
     //Reference active to ensure it's tracked as a dependency. Don't remove
@@ -69,6 +159,20 @@
     } else {
       storage.updateSetting("sidebarCollapsed", true);
     }
+  }
+
+  let copied = $state(false);
+  let timeoutId = null;
+
+  function handleCopy() {
+    navigator.clipboard.writeText(mathResult);
+    copied = true;
+
+    if (timeoutId) clearTimeout(timeoutId);
+
+    timeoutId = setTimeout(() => {
+      copied = false;
+    }, 2000);
   }
 
   const tabs = [
@@ -131,14 +235,140 @@
       <div
         class="flex gap-1 group-data-[collapsed=false]:items-center group-data-[collapsed=true]:flex-col"
       >
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          aria-label="Search"
-          class="text-muted"
-        >
-          <Search size="16" />
-        </Button>
+        <Command>
+          <CommandTrigger>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              aria-label="Search"
+              class="text-muted outline-none"
+            >
+              <Search size="16" />
+            </Button>
+          </CommandTrigger>
+          <CommandContent>
+            <CommandInput
+              bind:value={searchQuery}
+              placeholder="Search library or store"
+            />
+            <CommandList>
+              {#if searchQuery.length && !mathResult && !searchingLibrary.length && !searchingStore.length}
+                <CommandEmpty>No results found</CommandEmpty>
+              {/if}
+              {#if mathResult}
+                <CommandGroup heading="Math">
+                  <CommandItem class="justify-between" onselect={handleCopy}>
+                    <div class="flex items-center gap-2">
+                      <Calculator class="text-muted shrink-0" size="16" />
+                      <div>
+                        <span class="text-muted"
+                          >{searchQuery.trim() + " = "}</span
+                        >
+                        <span>{mathResult}</span>
+                      </div>
+                    </div>
+                    {#if copied}
+                      <Check class="text-muted" size="16" />
+                    {:else}
+                      <Copy class="text-muted" size="16" />
+                    {/if}
+                  </CommandItem>
+                </CommandGroup>
+              {/if}
+              {#if !searchQuery}
+                {#if recentlyPlayed.length}
+                  <CommandGroup heading="Recent">
+                    {#each recentlyPlayed as game (game.id)}
+                      <CommandItem
+                        onselect={(e, ctx) =>
+                          goto("/library/" + game.id) & ctx.close()}
+                        class="justify-between"
+                      >
+                        <div class="flex items-center gap-2">
+                          <img
+                            draggable="false"
+                            loading="lazy"
+                            class="shrink-0 size-4 rounded"
+                            alt={game.name}
+                            src={"/cdn/assets/assets/" + game.id + "/icon.webp"}
+                          />
+                          <span>{game.title}</span>
+                        </div>
+                        <span class="text-xs text-muted">
+                          {storage.playTime[game.id]?.lastPlayed
+                            ? formatLastPlayed(
+                                storage.playTime[game.id]?.lastPlayed,
+                              )
+                            : "Never Played"}
+                        </span>
+                      </CommandItem>
+                    {/each}
+                  </CommandGroup>
+                {/if}
+                {#if favoritesData.length}
+                  <CommandGroup heading="Favorites">
+                    {#each favoritesData.slice(0, 3) as game (game.id)}
+                      <CommandItem
+                        onselect={(e, ctx) =>
+                          goto("/library/" + game.id) & ctx.close()}
+                      >
+                        <img
+                          draggable="false"
+                          loading="lazy"
+                          class="shrink-0 size-4 rounded"
+                          alt={game.name}
+                          src={"/cdn/assets/assets/" + game.id + "/icon.webp"}
+                        />
+                        <span>{game.title}</span>
+                      </CommandItem>
+                    {/each}
+                  </CommandGroup>
+                {/if}
+                {#if !recentlyPlayed.length && !favoritesData.length}
+                  <CommandEmpty>No recent activity</CommandEmpty>
+                {/if}
+              {/if}
+              {#if searchQuery && searchingLibrary.length > 0}
+                <CommandGroup heading="Library">
+                  {#each searchingLibrary as game (game.id)}
+                    <CommandItem
+                      onselect={(e, ctx) =>
+                        goto("/library/" + game.id) & ctx.close()}
+                    >
+                      <img
+                        draggable="false"
+                        loading="lazy"
+                        class="shrink-0 size-4 rounded"
+                        alt={game.name}
+                        src={"/cdn/assets/assets/" + game.id + "/icon.webp"}
+                      />
+                      <span>{game.title}</span>
+                    </CommandItem>
+                  {/each}
+                </CommandGroup>
+              {/if}
+              {#if searchQuery && searchingStore.length > 0}
+                <CommandGroup heading="Store">
+                  {#each searchingStore as game (game.id)}
+                    <CommandItem
+                      onselect={(e, ctx) =>
+                        goto("/store/" + game.id) & ctx.close()}
+                    >
+                      <img
+                        draggable="false"
+                        loading="lazy"
+                        class="shrink-0 size-4 rounded"
+                        alt={game.name}
+                        src={"/cdn/assets/assets/" + game.id + "/icon.webp"}
+                      />
+                      <span>{game.title}</span>
+                    </CommandItem>
+                  {/each}
+                </CommandGroup>
+              {/if}
+            </CommandList>
+          </CommandContent>
+        </Command>
         <Button
           variant="ghost"
           size="icon-sm"
@@ -249,15 +479,11 @@
                 </a>
               </ContextMenuTrigger>
               <ContextMenuContent>
-                <ContextMenuItem
-                  onclick={() => storage.resumeActive(item.id)}
-                >
+                <ContextMenuItem onclick={() => storage.resumeActive(item.id)}>
                   <Pause size="16" />
                   <span>Resume</span>
                 </ContextMenuItem>
-                <ContextMenuItem
-                  onclick={() => storage.quitActive(item.id)}
-                >
+                <ContextMenuItem onclick={() => storage.quitActive(item.id)}>
                   <X size="16" />
                   <span>Quit</span>
                 </ContextMenuItem>
@@ -265,7 +491,7 @@
                   <ContextMenuItem
                     onclick={() => storage.removeFavorite(item.id)}
                   >
-                    <Star size="16" class="fill-text" />
+                    <Star size="16" class="fill-foreground" />
                     <span>Remove Favorite</span>
                   </ContextMenuItem>
                 {:else}
@@ -352,16 +578,14 @@
                 </a>
               </ContextMenuTrigger>
               <ContextMenuContent>
-                <ContextMenuItem
-                  onclick={() => storage.setActive(item.id)}
-                >
+                <ContextMenuItem onclick={() => storage.setActive(item.id)}>
                   <Play size="16" />
                   <span>Play</span>
                 </ContextMenuItem>
                 <ContextMenuItem
                   onclick={() => storage.removeFavorite(item.id)}
                 >
-                  <Star size="16" class="fill-text" />
+                  <Star size="16" class="fill-foreground" />
                   <span>Remove Favorite</span>
                 </ContextMenuItem>
                 <AlertDialog>
@@ -441,9 +665,7 @@
                 </a>
               </ContextMenuTrigger>
               <ContextMenuContent>
-                <ContextMenuItem
-                  onclick={() => storage.setActive(item.id)}
-                >
+                <ContextMenuItem onclick={() => storage.setActive(item.id)}>
                   <Play size="16" />
                   <span>Play</span>
                 </ContextMenuItem>

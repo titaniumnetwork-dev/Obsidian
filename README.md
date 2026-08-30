@@ -4,8 +4,6 @@ Play instantly. No downloads.
 ## Todo
 - Game
   - Dropdown menus
-- Sidebar
-  - Search
 - Store
   - Better nav and make nav work
 - Settings
@@ -18,15 +16,14 @@ Play instantly. No downloads.
   - Update all styles
   - Add added date
 - General
-  - Fix themes
-  - Fix impersonating user styles
-  - Fix long loading times loading cloud storage
-  - Option to disable accounts
-  - Use actual schema for user settings storage
+  - Remove accounts
+  - Redo privacy policy/TOS/DMCA
+  - Add back all themes
   - Obfuscate keywords
+  - Fix PWA images
+  - Other controller types
 
 ## Before Release
-- Email verify system
 - Add real recently added and featured
 - Make socials
 - Accessibility

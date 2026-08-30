@@ -141,7 +141,7 @@
                     optionsMenu.hidePopover()}
                   class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-card hover:bg-secondary flex items-center text-sm"
                 >
-                  <Star size="16" class="fill-text" />
+                  <Star size="16" class="fill-foreground" />
                   <span>Remove Favorite</span>
                 </button>
               {:else}
