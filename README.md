@@ -7,7 +7,6 @@ Play instantly. No downloads.
 - Store
   - Better nav and make nav work
 - Settings
-  - Make sidebar sort setting
   - Custom css styling
 - Creator
   - Update all styles

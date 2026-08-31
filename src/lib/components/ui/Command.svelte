@@ -17,6 +17,25 @@
     });
   }
 
+  function syncItems() {
+    const selectedItem = registeredItems[selectedIndex];
+
+    registeredItems.sort((a, b) => {
+      if (!a.element || !b.element) return 0;
+      return a.element.compareDocumentPosition(b.element) &
+        Node.DOCUMENT_POSITION_FOLLOWING
+        ? -1
+        : 1;
+    });
+
+    const selectedItemIndex = registeredItems.indexOf(selectedItem);
+    selectedIndex =
+      selectedItemIndex === -1
+        ? Math.min(selectedIndex, Math.max(registeredItems.length - 1, 0))
+        : selectedItemIndex;
+    updateHighlight();
+  }
+
   setContext("Command", {
     get dialogElement() {
       return dialogElement;
@@ -43,8 +62,10 @@
 
     registerItem(item) {
       registeredItems.push(item);
+      syncItems();
       return () => {
         registeredItems = registeredItems.filter((i) => i !== item);
+        syncItems();
       };
     },
 

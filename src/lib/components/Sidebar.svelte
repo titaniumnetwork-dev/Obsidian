@@ -89,6 +89,7 @@
 
   let recentlyPlayed = $derived(
     [...storage.library]
+      .filter((item) => !storage.active[item.id])
       .filter((item) => storage.playTime[item.id]?.lastPlayed > 0)
       .sort((a, b) => {
         const lastPlayedA = Number(storage.playTime[a.id]?.lastPlayed) || 0;
@@ -98,6 +99,25 @@
           return lastPlayedB - lastPlayedA;
         }
       })
+      .slice(0, 3),
+  );
+
+  let currentlyPlayingDataSearch = $derived(
+    Object.keys(storage.active)
+      .sort(
+        (a, b) =>
+          (storage.active[b]?.startTime || 0) -
+          (storage.active[a]?.startTime || 0),
+      )
+      .map((id) => storage.library.find((item) => item.id === id))
+      .slice(0, 3),
+  );
+
+  let favoritesDataSearch = $derived(
+    storage.favorites
+      .map((id) => storage.library.find((item) => item.id === id))
+      .filter(Boolean)
+      .filter((item) => !storage.active[item.id])
       .slice(0, 3),
   );
 
@@ -132,22 +152,86 @@
       })
       .filter((item) => !storage.active[item.id])
       .sort((a, b) => {
-        //Todo sort option
-        return (a.title || "").localeCompare(b.title || "");
+        const compareAlphabetically = () =>
+          (a.title || "").localeCompare(b.title || "");
+        const compareAlphabeticallyReverse = () =>
+          (b.title || "").localeCompare(a.title || "");
+
+        if (storage.settings.sidebarSort === "alphabetical") {
+          return compareAlphabetically();
+        } else if (storage.settings.sidebarSort === "alphabetical_reverse") {
+          return compareAlphabeticallyReverse();
+        } else if (storage.settings.sidebarSort === "recent") {
+          const lastPlayedA = Number(storage.playTime[a.id]?.lastPlayed) || 0;
+          const lastPlayedB = Number(storage.playTime[b.id]?.lastPlayed) || 0;
+
+          if (lastPlayedA !== lastPlayedB) {
+            return lastPlayedB - lastPlayedA;
+          }
+
+          return compareAlphabetically();
+        } else if (storage.settings.sidebarSort === "most_played") {
+          const playTimeA = Number(storage.playTime[a.id]?.playTime) || 0;
+          const playTimeB = Number(storage.playTime[b.id]?.playTime) || 0;
+
+          if (playTimeA !== playTimeB) {
+            return playTimeB - playTimeA;
+          }
+
+          return compareAlphabetically();
+        }
+
+        return 0;
       });
   });
 
   let currentlyPlayingData = $derived(
     Object.keys(storage.active)
-      .map((id) => storage.library.find((item) => item.id === id))
-      .reverse(),
+      .sort(
+        (a, b) =>
+          (storage.active[b]?.startTime || 0) -
+          (storage.active[a]?.startTime || 0),
+      )
+      .map((id) => storage.library.find((item) => item.id === id)),
   );
 
   let favoritesData = $derived(
     storage.favorites
       .map((id) => storage.library.find((item) => item.id === id))
       .filter(Boolean)
-      .filter((item) => !storage.active[item.id]),
+      .filter((item) => !storage.active[item.id])
+      .sort((a, b) => {
+        const compareAlphabetically = () =>
+          (a.title || "").localeCompare(b.title || "");
+        const compareAlphabeticallyReverse = () =>
+          (b.title || "").localeCompare(a.title || "");
+
+        if (storage.settings.sidebarSort === "alphabetical") {
+          return compareAlphabetically();
+        } else if (storage.settings.sidebarSort === "alphabetical_reverse") {
+          return compareAlphabeticallyReverse();
+        } else if (storage.settings.sidebarSort === "recent") {
+          const lastPlayedA = Number(storage.playTime[a.id]?.lastPlayed) || 0;
+          const lastPlayedB = Number(storage.playTime[b.id]?.lastPlayed) || 0;
+
+          if (lastPlayedA !== lastPlayedB) {
+            return lastPlayedB - lastPlayedA;
+          }
+
+          return compareAlphabetically();
+        } else if (storage.settings.sidebarSort === "most_played") {
+          const playTimeA = Number(storage.playTime[a.id]?.playTime) || 0;
+          const playTimeB = Number(storage.playTime[b.id]?.playTime) || 0;
+
+          if (playTimeA !== playTimeB) {
+            return playTimeB - playTimeA;
+          }
+
+          return compareAlphabetically();
+        }
+
+        return 0;
+      }),
   );
 
   function toggleSidebar() {
@@ -266,6 +350,32 @@
                 </CommandGroup>
               {/if}
               {#if !searchQuery}
+                {#if currentlyPlayingDataSearch.length}
+                  <CommandGroup heading="Currently Playing">
+                    {#each currentlyPlayingDataSearch as game (game.id)}
+                      <CommandItem
+                        class="justify-between"
+                        onselect={(e, ctx) =>
+                          ctx.close() &
+                          setTimeout(() => {
+                            storage.resumeActive(game.id);
+                          }, 200)}
+                      >
+                        <div class="flex items-center gap-2">
+                          <img
+                            draggable="false"
+                            loading="lazy"
+                            class="shrink-0 size-4 rounded"
+                            alt={game.name}
+                            src={"/cdn/assets/assets/" + game.id + "/icon.webp"}
+                          />
+                          <span>{game.title}</span>
+                        </div>
+                        <Pause class="text-muted" size="16" />
+                      </CommandItem>
+                    {/each}
+                  </CommandGroup>
+                {/if}
                 {#if recentlyPlayed.length}
                   <CommandGroup heading="Recent">
                     {#each recentlyPlayed as game (game.id)}
@@ -295,9 +405,9 @@
                     {/each}
                   </CommandGroup>
                 {/if}
-                {#if favoritesData.length}
+                {#if favoritesDataSearch.length}
                   <CommandGroup heading="Favorites">
-                    {#each favoritesData.slice(0, 3) as game (game.id)}
+                    {#each favoritesDataSearch as game (game.id)}
                       <CommandItem
                         onselect={(e, ctx) =>
                           goto("/library/" + game.id) & ctx.close()}
@@ -314,7 +424,7 @@
                     {/each}
                   </CommandGroup>
                 {/if}
-                {#if !recentlyPlayed.length && !favoritesData.length}
+                {#if !currentlyPlayingDataSearch && !recentlyPlayedS.length && !favoritesDataSearch.length}
                   <CommandEmpty>No recent activity</CommandEmpty>
                 {/if}
               {/if}

@@ -13,6 +13,7 @@ class StorageManager {
   hiddenThemes = $state([]);
   settings = $state({
     sidebarCollapsed: false,
+    sidebarSort: "alphabetical",
     sortBy: "alphabetical",
     maskTitle: "",
     maskIcon: "",
