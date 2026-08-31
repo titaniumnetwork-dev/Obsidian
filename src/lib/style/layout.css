@@ -210,6 +210,20 @@ html[data-theme="3kh0"] {
   --theme-radius: 0.625rem;
 }
 
+html[data-theme="Truffle"] {
+  --theme-typeset: var(--font-sans);
+  --theme-background: #121e1e;
+  --theme-foreground: var(--color-neutral-50);
+  --theme-primary-foreground: var(--color-neutral-900);
+  --theme-card: #1b2d2d;
+  --theme-primary: var(--color-white);
+  --theme-secondary: #203b3b;
+  --theme-muted: #b3b3b3;
+  --theme-border: rgb(255 255 255 / 10%);
+  --theme-input: rgb(255 255 255 / 15%);
+  --theme-radius: 0.625rem;
+}
+
 html[data-theme="Space"] {
   --theme-typeset: var(--font-sans);
   --theme-background: var(--color-slate-900);

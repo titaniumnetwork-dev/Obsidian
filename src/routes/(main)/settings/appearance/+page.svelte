@@ -1,5 +1,6 @@
 <script>
-    import Button from "$lib/components/ui/Button.svelte";
+  import { goto } from "$app/navigation";
+  import Button from "$lib/components/ui/Button.svelte";
   import Card from "$lib/components/ui/Card.svelte";
   import { storage } from "$lib/storage.svelte";
   import { themes } from "$lib/themes";
@@ -7,8 +8,10 @@
   import { HighlightStyle, syntaxHighlighting } from "@codemirror/language";
   import { EditorView } from "@codemirror/view";
   import { tags as t } from "@lezer/highlight";
+  import { Key, Sparkles } from "@lucide/svelte";
   import { color } from "@uiw/codemirror-extensions-color";
   import CodeMirror from "svelte-codemirror-editor";
+  import { toast } from "svelte-sonner";
 
   const disableGrammarly = EditorView.contentAttributes.of({
     "data-gramm": "false",
@@ -100,19 +103,42 @@
   ]);
 
   const customSyntaxTheme = syntaxHighlighting(highlighting);
+
+  function unlockTruffle() {
+    if (!storage.hiddenThemes.includes("Truffle")) {
+      storage.addHiddenTheme("Truffle");
+      storage.updateTheme("Truffle");
+      toast("Theme Unlocked", {
+        description: "You unlocked the Space theme!",
+        position: "bottom-center",
+        icon: Sparkles,
+        action: {
+          label: "Settings",
+          onClick: () => goto("/settings/appearance"),
+        },
+      });
+    }
+  }
 </script>
 
 <div class="grid grid-cols-2 gap-4">
   <Card size="sm">
-    <div>
-      <p>Theme</p>
-      <p class="text-sm text-muted">Change the look of Obsidian</p>
+    <div class="flex justify-between">
+      <div>
+        <p>Theme</p>
+        <p class="text-sm text-muted">Change the look of Obsidian</p>
+      </div>
+      {#if !storage.hiddenThemes.includes("Truffle")}
+        <button onclick={unlockTruffle} class="cursor-pointer">
+          <Key class="text-muted" size="16" />
+        </button>
+      {/if}
     </div>
     <div class="flex flex-wrap gap-2">
       {#each themes as theme}
         {#if !theme.hidden || storage.hiddenThemes.includes(theme.name)}
           <Button
-          variant="outline"
+            variant="outline"
             onclick={() => storage.updateTheme(theme.name)}
             data-active={storage.theme === theme.name}
             class="data-[active=true]:bg-secondary"

@@ -77,6 +77,19 @@ export const themes = [
     },
   },
   {
+    name: "Truffle",
+    primary: "#ffffff",
+    hidden: true,
+    css: {
+      body: {
+        "background-image":
+          "linear-gradient(to right, #192525 1px, transparent 1px), linear-gradient(to bottom, #192525 1px, transparent 1px)",
+        "background-size": "3rem 3rem",
+        "background-position": "center",
+      },
+    },
+  },
+  {
     name: "Space",
     primary: "#1d4ed8",
     hidden: true,

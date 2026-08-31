@@ -3,7 +3,7 @@ Play instantly. No downloads.
 
 ## Todo
 - Game
-  - Dropdown menus
+  - Dropdown menus on 
 - Store
   - Better nav and make nav work
 - Settings

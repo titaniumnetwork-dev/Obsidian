@@ -424,7 +424,7 @@
                     {/each}
                   </CommandGroup>
                 {/if}
-                {#if !currentlyPlayingDataSearch && !recentlyPlayedS.length && !favoritesDataSearch.length}
+                {#if !currentlyPlayingDataSearch.length && !recentlyPlayed.length && !favoritesDataSearch.length}
                   <CommandEmpty>No recent activity</CommandEmpty>
                 {/if}
               {/if}
@@ -517,7 +517,7 @@
               <span class="group-data-[collapsed=true]:hidden">Settings</span>
             </div>
             <ChevronRight
-              class="text-muted transition-transform group-data-[open=true]/collapsible:rotate-90 group-data-[collapsed=true]:hidden"
+              class="transition-transform group-data-[open=true]/collapsible:rotate-90 group-data-[collapsed=true]:hidden"
               size="16"
             />
           </button>

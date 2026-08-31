@@ -3,9 +3,10 @@
   import Head from "$lib/components/Head.svelte";
   import KenneyGamepadIcon from "$lib/components/KenneyGamepadIcon.svelte";
   import KenneyKeyboardIcon from "$lib/components/KenneyKeyboardIcon.svelte";
+  import Button from "$lib/components/ui/Button.svelte";
   import { storage } from "$lib/storage.svelte.js";
   import {
-    ChevronDown,
+    Check,
     ChevronRight,
     Disc,
     Download,
@@ -16,6 +17,7 @@
     Maximize,
     RotateCw,
     Save,
+    SwatchBook,
     Video,
     X,
   } from "@lucide/svelte";
@@ -70,6 +72,7 @@
 
   let controlsMenu = $state();
   let emulationMenu = $state();
+  let shadersMenu = $state();
   let recordingMenu = $state();
   let shaderNode = $state();
   let binding = $state({});
@@ -186,6 +189,9 @@
       }
       if (emulationMenu) {
         emulationMenu.hidePopover();
+      }
+      if (shadersMenu) {
+        shadersMenu.hidePopover();
       }
     });
 
@@ -615,17 +621,16 @@
         popover="auto"
         id="emulation"
         bind:this={emulationMenu}
-        class="[&:popover-open]:flex flex-col bg-card rounded-xl text-foreground [position-anchor:--emulation-button]
-              group-data-[overlay-style=default]:[position-area:bottom_span-right] group-data-[overlay-style=compact]:[position-area:bottom_span-left] mt-2 z-20 p-4 gap-4 overflow-visible border border-surface"
+        class="[&:popover-open]:flex flex-col bg-card rounded-lg text-inherit [position-anchor:--emulation-button] [position-area:bottom_span-right] mt-2.5 z-20 p-1 overflow-visible border border-input"
       >
         <button
           onclick={() => {
             emulationMenu.hidePopover();
             emulationSave();
           }}
-          class="px-4 py-2 cursor-pointer text-sm bg-secondary border border-border rounded-xl flex gap-2 items-center"
+          class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-card hover:bg-secondary flex items-center text-sm"
         >
-          <Save size="20" />
+          <Save size="16" />
           <span>Save</span>
         </button>
         <button
@@ -633,72 +638,76 @@
             emulationMenu.hidePopover();
             emulationLoadSave();
           }}
-          class="px-4 py-2 cursor-pointer text-sm bg-secondary border border-border rounded-xl flex gap-2 items-center"
+          class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-card hover:bg-secondary flex items-center text-sm"
         >
-          <FolderOpen size="20" />
+          <FolderOpen size="16" />
           <span>Load Save</span>
         </button>
-        <details
-          class="relative bg-secondary rounded-xl border border-border"
-          bind:this={shaderNode}
+        <button
+          popovertarget="shaders"
+          class="[anchor-name:--shaders-button] px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-card hover:bg-secondary flex items-center text-sm justify-between"
         >
-          <summary
-            class="rounded-xl flex px-4 py-2 cursor-pointer text-sm justify-between items-center h-full"
-          >
-            <span class="mr-2 select-none truncate">
-              {#if shader === "disabled"}
-                No Shader
-              {:else if shader === "4xScaleHQ.glslp"}
-                Smooth
-              {:else if shader === "crt-aperture.glslp"}
-                CRT
-              {:else if shader === "crt-geom.glslp"}
-                CRT TV
-              {/if}
-            </span>
-            <ChevronDown size="20" class="shrink-0" />
-          </summary>
-          <div
-            class="absolute mt-2 min-w-full w-max bg-card rounded-xl max-h-60 overflow-y-auto border border-surface z-10 flex flex-col"
-          >
-            <button
-              class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors"
-              onclick={(e) => {
-                emulationShader("disabled");
-                e.currentTarget.closest("details").removeAttribute("open");
-              }}
-            >
-              No Shader
-            </button>
-            <button
-              class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors"
-              onclick={(e) => {
-                emulationShader("4xScaleHQ.glslp");
-                e.currentTarget.closest("details").removeAttribute("open");
-              }}
-            >
-              Smooth
-            </button>
-            <button
-              class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors"
-              onclick={(e) => {
-                emulationShader("crt-aperture.glslp");
-                e.currentTarget.closest("details").removeAttribute("open");
-              }}
-            >
-              CRT
-            </button>
-            <button
-              class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors"
-              onclick={(e) => {
-                emulationShader("crt-geom.glslp");
-                e.currentTarget.closest("details").removeAttribute("open");
-              }}
-            >
-              CRT TV
-            </button>
+          <div class="flex items-center gap-2">
+            <SwatchBook size="16" />
+            <span>Shaders</span>
           </div>
-        </details>
+          <ChevronRight size="16" />
+        </button>
+        <div
+          popover="auto"
+          id="shaders"
+          bind:this={shadersMenu}
+          class="[&:popover-open]:flex flex-col bg-card rounded-lg text-inherit [position-anchor:--shaders-button] [position-area:right_span-bottom] z-20 p-1 overflow-visible border border-input min-w-36"
+        >
+          <button
+            onclick={(e) => {
+              emulationShader("disabled");
+              shadersMenu.hidePopover();
+            }}
+            class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-card hover:bg-secondary flex items-center text-sm justify-between"
+          >
+            <span>None</span>
+            {#if shader === "disabled"}
+              <Check size="16" />
+            {/if}
+          </button>
+          <button
+            onclick={(e) => {
+              emulationShader("4xScaleHQ.glslp");
+              shadersMenu.hidePopover();
+            }}
+            class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-card hover:bg-secondary flex items-center text-sm justify-between"
+          >
+            <span>Smooth</span>
+            {#if shader === "4xScaleHQ.glslp"}
+              <Check size="16" />
+            {/if}
+          </button>
+          <button
+            onclick={(e) => {
+              emulationShader("crt-aperture.glslp");
+              shadersMenu.hidePopover();
+            }}
+            class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-card hover:bg-secondary flex items-center text-sm justify-between"
+          >
+            <span>CRT</span>
+            {#if shader === "crt-aperture.glslp"}
+              <Check size="16" />
+            {/if}
+          </button>
+          <button
+            onclick={(e) => {
+              emulationShader("crt-geom.glslp");
+              shadersMenu.hidePopover();
+            }}
+            class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-card hover:bg-secondary flex items-center text-sm justify-between"
+          >
+            <span>CRT TV</span>
+            {#if shader === "crt-geom.glslp"}
+              <Check size="16" />
+            {/if}
+          </button>
+        </div>
       </div>
     {/if}
     {#if data.currentData.controls || (data.currentData.gamepadControls && isGamepadConnected)}
@@ -719,7 +728,7 @@
         popover="auto"
         id="controls"
         bind:this={controlsMenu}
-        class={"[&:popover-open]:flex flex-col bg-card rounded-xl text-foreground [position-anchor:--controls-button] group-data-[overlay-style=default]:[position-area:bottom_span-right] group-data-[overlay-style=compact]:[position-area:bottom_span-left] mt-2 z-20 p-4 border border-surface min-w-[299.117px]" +
+        class={"[&:popover-open]:flex flex-col bg-card rounded-xl text-foreground [position-anchor:--controls-button] group-data-[overlay-style=default]:[position-area:bottom_span-right] group-data-[overlay-style=compact]:[position-area:bottom_span-left] mt-2.5 z-20 p-2 border border-input min-w-xs gap-2" +
           (binding.key || gamepadBinding.action ? " min-h-32" : "")}
       >
         {#if binding.key || gamepadBinding.action}
@@ -727,23 +736,17 @@
             class="bg-card h-full w-full absolute top-0 bottom-0 right-0 left-0 flex flex-col justify-center items-center gap-2 rounded-xl z-10"
           >
             {#if binding.key}
-              <p class="text-muted">Waiting for input...</p>
-
+              <p class="text-muted text-sm">Waiting for input...</p>
               <div class="flex gap-2 items-center">
-                <button
-                  class="px-4 py-2 cursor-pointer text-sm bg-secondary border border-border rounded-xl"
-                >
+                <Button variant="outline" size="icon">
                   <KenneyKeyboardIcon key={binding.key} />
-                </button>
-                <ChevronRight size="20" />
-                <button
-                  aria-label="New keybind"
-                  class="px-4 py-2 cursor-pointer text-sm bg-secondary border border-border rounded-xl"
-                >
+                </Button>
+                <ChevronRight size="16" />
+                <Button aria-label="New Keybind" variant="outline" size="icon">
                   <div class="opacity-0 select-none">
                     <KenneyKeyboardIcon key={binding.key} />
                   </div>
-                </button>
+                </Button>
               </div>
             {:else}
               {@const activeBind =
@@ -752,11 +755,9 @@
                   (c) => c.action === gamepadBinding.action,
                 ) ||
                 {}}
-              <p class="text-muted">Waiting for input...</p>
+              <p class="text-muted text-sm">Waiting for input...</p>
               <div class="flex gap-2 items-center">
-                <button
-                  class="px-4 py-2 cursor-pointer text-sm bg-secondary border border-border rounded-xl flex gap-1"
-                >
+                <Button variant="outline" size="icon">
                   {#if activeBind.buttons}
                     {#each activeBind.buttons as btn}
                       <KenneyGamepadIcon
@@ -770,11 +771,12 @@
                       <KenneyGamepadIcon {axis} type={activeControllerType} />
                     {/each}
                   {/if}
-                </button>
-                <ChevronRight size="20" />
-                <button
+                </Button>
+                <ChevronRight size="16" />
+                <Button
                   aria-label="New gamepad bind"
-                  class="px-4 py-2 cursor-pointer text-sm bg-secondary border border-border rounded-xl flex gap-1"
+                  variant="outline"
+                  size="icon"
                 >
                   <div class="opacity-0 select-none flex gap-1">
                     {#if activeBind.buttons}
@@ -791,42 +793,44 @@
                       {/each}
                     {/if}
                   </div>
-                </button>
+                </Button>
               </div>
             {/if}
             <p class="text-sm text-muted">(Press Esc to reset)</p>
           </div>
         {:else}
-          <div class="flex gap-4 relative mb-2">
+          <div class="flex gap-4 relative">
             {#if data.currentData.controls}
-              <button
+              <Button
+                variant="outline"
                 onclick={() => (controlsTab = "keyboard")}
                 data-active={controlsTab === "keyboard"}
-                class="px-4 py-2 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border transition-colors data-[active=true]:bg-secondary flex gap-2 items-center"
+                class="data-[active=true]:bg-secondary"
               >
-                <Keyboard size="20" />
+                <Keyboard size="16" />
                 <span>Keyboard</span>
-              </button>
+              </Button>
             {/if}
             {#if data.currentData.gamepadControls && isGamepadConnected}
-              <button
+              <Button
+                variant="outline"
                 onclick={() => (controlsTab = "controller")}
                 data-active={controlsTab === "controller"}
-                class="px-4 py-2 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border transition-colors data-[active=true]:bg-secondary flex gap-2 items-center"
+                class="data-[active=true]:bg-secondary"
               >
-                <Gamepad2 size="20" />
+                <Gamepad2 size="16" />
                 <span
                   >Controller{data.currentData.controllerSupport
                     ? " (Native)"
                     : ""}</span
                 >
-              </button>
+              </Button>
             {/if}
           </div>
 
           {#if controlsTab === "keyboard"}
             {#each data.currentData.controls as control}
-              <div class="flex gap-2 items-center my-1 justify-between">
+              <div class="flex gap-2 items-center justify-between">
                 <span>{control.action}:</span>
                 <div class="flex gap-2">
                   {#each control.keys as keys}
@@ -836,7 +840,7 @@
                           (binding = { key: keys.key, keyCode: keys.keyCode })}
                         class="flex items-center justify-center rounded-md cursor-pointer outline-none bg-secondary border border-border overflow-hidden hover:bg-secondary-hover transition-colors"
                       >
-                        <div class="p-0.5 border-r border-border">
+                        <div class="p-0.5 border-r border-input">
                           <KenneyKeyboardIcon key={keybinds[keys.key].key} />
                         </div>
                         <div class="p-0.5 opacity-50">
@@ -949,8 +953,7 @@
       popover="auto"
       id="recording"
       bind:this={recordingMenu}
-      class="[&:popover-open]:flex flex-col bg-card rounded-xl text-foreground [position-anchor:--recording-button]
-            top-[calc(anchor(bottom)+0.5rem)] left-[calc(anchor(left))] z-20 p-4 gap-4 border border-surface"
+      class="[&:popover-open]:flex flex-col bg-card rounded-lg text-inherit [position-anchor:--recording-button] group-data-[overlay-style=default]:[position-area:bottom_span-right] group-data-[overlay-style=compact]:[position-area:bottom_span-left] mt-2.5 z-20 p-1 border border-input min-w-36"
     >
       {#if videoBlob}
         <button
@@ -958,9 +961,9 @@
             recordingMenu.hidePopover();
             downloadVideo();
           }}
-          class="px-4 py-2 cursor-pointer text-sm bg-secondary border border-border rounded-xl flex gap-2 items-center"
+          class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-card hover:bg-secondary flex items-center text-sm"
         >
-          <Download size="20" />
+          <Download size="16" />
           <span>Download Recording</span>
         </button>
       {/if}
@@ -969,9 +972,9 @@
           onclick={() => {
             mediaRecorder.stop();
           }}
-          class="px-4 py-2 cursor-pointer text-sm bg-secondary border border-border rounded-xl flex gap-2 items-center"
+          class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-card hover:bg-secondary flex items-center text-sm"
         >
-          <X size="20" />
+          <X size="16" />
           <span>Stop Recording</span>
         </button>
       {:else}
@@ -980,9 +983,9 @@
             recordingMenu.hidePopover();
             startRecording();
           }}
-          class="px-4 py-2 cursor-pointer text-sm bg-secondary border border-border rounded-xl flex gap-2 items-center"
+          class="px-2 py-1.5 gap-2 rounded-md cursor-pointer transition-colors bg-card hover:bg-secondary flex items-center text-sm"
         >
-          <Disc size="20" />
+          <Disc size="16" />
           <span>Start Recording</span>
         </button>
       {/if}
