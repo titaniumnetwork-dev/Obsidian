@@ -69,7 +69,7 @@
               style={"--hero: url('/cdn/assets/assets/" +
                 item.id +
                 "/hero.webp')"}
-              class="shrink-0 [background:linear-gradient(to_left,var(--color-overlay)0%,var(--theme-card)60%)padding-box,var(--hero)left/cover_padding-box,var(--color-card)] w-full h-96 flex flex-col items-start justify-between p-4 gap-4 rounded-radius border border-border relative"
+              class="shrink-0 [background:linear-gradient(to_left,var(--color-overlay)0%,var(--theme-card)60%)padding-box,var(--hero)left/cover_padding-box,var(--color-card)] w-full h-96 flex flex-col items-start justify-between p-4 gap-4 rounded-lg border border-border relative"
             >
               <div class="absolute top-4 right-4 flex flex-wrap gap-2">
                 {#each item.tags as tag}
@@ -98,7 +98,7 @@
                     {#if storage.installed.includes(item.id)}
                       <a
                         href={"/library/" + item.id}
-                        class="bg-primary h-9 px-14 py-2.5 cursor-pointer rounded-full flex gap-2 items-center text-card text-sm w-fit"
+                        class="bg-primary h-9 px-14 py-2.5 cursor-pointer rounded-full flex gap-2 items-center text-primary-foreground text-sm w-fit"
                       >
                         <Check size="20" />
                         <span>View in Library</span>
@@ -110,7 +110,7 @@
                             e.preventDefault() & storage.install(item.id);
                             goto("/library/" + item.id);
                           }}
-                          class="bg-primary h-9 px-14 py-2.5 cursor-pointer rounded-full flex gap-2 items-center text-card text-sm"
+                          class="bg-primary h-9 px-14 py-2.5 cursor-pointer rounded-full flex gap-2 items-center text-primary-foreground text-sm"
                         >
                           <Download size="20" />
                           <span>Install</span>
@@ -156,42 +156,42 @@
       <div class="flex gap-4">
         <a
           href="/store/tag/Action"
-          class="flex flex-1 flex-col items-center justify-center bg-card rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
+          class="flex flex-1 flex-col items-center justify-center bg-card rounded-lg p-6 text-sm border border-border gap-1.5 cursor-pointer"
         >
           <Sword />
           <p>Action</p>
         </a>
         <a
           href="/store/tag/Puzzle"
-          class="flex flex-1 flex-col items-center justify-center bg-card rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
+          class="flex flex-1 flex-col items-center justify-center bg-card rounded-lg p-6 text-sm border border-border gap-1.5 cursor-pointer"
         >
           <Puzzle />
           <p>Puzzle</p>
         </a>
         <a
           href="/store/tag/Shooter"
-          class="flex flex-1 flex-col items-center justify-center bg-card rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
+          class="flex flex-1 flex-col items-center justify-center bg-card rounded-lg p-6 text-sm border border-border gap-1.5 cursor-pointer"
         >
           <Crosshair />
           <p>Shooter</p>
         </a>
         <a
           href="/store/tag/Racing"
-          class="flex flex-1 flex-col items-center justify-center bg-card rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
+          class="flex flex-1 flex-col items-center justify-center bg-card rounded-lg p-6 text-sm border border-border gap-1.5 cursor-pointer"
         >
           <CarFront />
           <p>Racing</p>
         </a>
         <a
           href="/store/tag/Horror"
-          class="flex flex-1 flex-col items-center justify-center bg-card rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
+          class="flex flex-1 flex-col items-center justify-center bg-card rounded-lg p-6 text-sm border border-border gap-1.5 cursor-pointer"
         >
           <Ghost />
           <p>Horror</p>
         </a>
         <a
           href="/store/tag/Arcade"
-          class="flex flex-1 flex-col items-center justify-center bg-card rounded-radius p-6 text-sm border border-border gap-1.5 cursor-pointer"
+          class="flex flex-1 flex-col items-center justify-center bg-card rounded-lg p-6 text-sm border border-border gap-1.5 cursor-pointer"
         >
           <Zap />
           <p>Arcade</p>
@@ -236,7 +236,7 @@
     </div>
     <a
       href={links.discord}
-      class="h-9 px-2.5 bg-primary text-card rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
+      class="h-9 px-2.5 bg-primary text-primary-foreground rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
     >
       <SiDiscord size="16" />
       <span>Join Discord Server</span>

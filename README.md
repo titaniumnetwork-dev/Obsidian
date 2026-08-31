@@ -12,7 +12,6 @@ Play instantly. No downloads.
   - Update all styles
   - Add added date
 - General
-  - Add back all themes
   - Obfuscate keywords
   - Fix PWA images
   - Other controller types

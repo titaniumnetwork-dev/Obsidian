@@ -365,7 +365,7 @@
     </div>
     <a
       href={"/store?search=" + searchQuery}
-      class="h-9 px-2.5 bg-primary text-card rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
+      class="h-9 px-2.5 bg-primary text-primary-foreground rounded-md flex gap-1.5 items-center cursor-pointer text-sm"
     >
       <Store size="16" />
       <span>Search the Store</span>
@@ -384,7 +384,7 @@
     </div>
     <a
       href="/store"
-      class="h-9 px-2.5 bg-primary text-card rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
+      class="h-9 px-2.5 bg-primary text-primary-foreground rounded-md flex gap-1.5 items-center cursor-pointer text-sm"
     >
       <Store size="16" />
       <span>Browse Store</span>

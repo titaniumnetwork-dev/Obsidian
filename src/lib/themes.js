@@ -48,12 +48,31 @@ export const themes = [
     primary: "#1e66f5",
   },
   {
+    name: "Sunset",
+    primary: "#ff7e5f",
+  },
+  {
+    name: "Zen",
+    primary: "#d1cfc0",
+  },
+  {
     name: "3kh0",
     primary: "#4caf50",
     hidden: true,
     css: {
       ".sidebar": {
         position: "relative",
+      },
+      ".sidebar::before": {
+        content: "''",
+        "box-shadow": "0 5px 200px var(--color-primary)",
+        width: "100%",
+        height: "100%",
+        transform: "translateY(-100%)",
+        position: "absolute",
+      },
+      ".sidebar > :first-child": {
+        background: "transparent",
       },
     },
   },
@@ -63,7 +82,7 @@ export const themes = [
     hidden: true,
     css: {
       ".logo": {
-        filter: "drop-shadow(0 0 64px var(--color-primary))",
+        filter: "drop-shadow(0 0 32px var(--color-primary))",
       },
     },
   },
@@ -76,5 +95,5 @@ export const themes = [
     name: "Lime",
     primary: "#d8fa99",
     hidden: true,
-  }
+  },
 ];

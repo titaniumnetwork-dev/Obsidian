@@ -28,17 +28,17 @@
         aria-label="Default Card Size"
         onclick={() => storage.updateSetting("cards", "default")}
         data-active={storage.settings.cards === "default"}
-        class="p-2.5 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border data-[active=true]:bg-secondary"
+        class="p-2.5 text-sm cursor-pointer rounded-lg whitespace-nowrap border border-border data-[active=true]:bg-secondary"
       >
-        <div class="bg-input aspect-2/3 w-8 rounded-lg"></div>
+        <div class="bg-input aspect-2/3 w-8 rounded-md"></div>
       </button>
       <button
         aria-label="Square Card Size"
         onclick={() => storage.updateSetting("cards", "square")}
         data-active={storage.settings.cards === "square"}
-        class="p-2.5 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border transition-colors data-[active=true]:bg-secondary flex items-start"
+        class="p-2.5 text-sm cursor-pointer rounded-lg whitespace-nowrap border border-border transition-colors data-[active=true]:bg-secondary flex items-start"
       >
-        <div class="bg-input aspect-square w-8 rounded-lg"></div>
+        <div class="bg-input aspect-square w-8 rounded-md"></div>
       </button>
     </div>
   </Card>

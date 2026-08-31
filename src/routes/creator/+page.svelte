@@ -398,7 +398,7 @@
 <Head title="Creator" />
 
 <div
-  class="group bg-card w-64 flex flex-col gap-2 overflow-y-scroll shrink-0 m-2 mr-0 rounded-radius border border-border box-content h-[calc(100%-18px)] p-2"
+  class="group bg-card w-64 flex flex-col gap-2 overflow-y-scroll shrink-0 m-2 mr-0 rounded-lg border border-border box-content h-[calc(100%-18px)] p-2"
 >
   <div>
     <p>Creator</p>
@@ -953,7 +953,7 @@
         <div class="flex gap-2 flex-col min-[1192px]:flex-row">
           <div class="flex gap-2">
             <div
-              class="bg-primary px-14 py-2 rounded-full flex gap-2 items-center text-card border border-border-primary"
+              class="bg-primary px-14 py-2 rounded-full flex gap-2 items-center text-primary-foreground border border-border-primary"
             >
               <Play size="20" />
               <span>Play</span>

@@ -89,7 +89,7 @@
     </div>
     <div class="flex flex-col gap-2">
       <div
-        class="w-80 focus-within:bg-secondary bg-card border border-border rounded-xl items-center h-9 px-2.5"
+        class="w-80 focus-within:bg-secondary bg-card border border-border rounded-lg items-center h-9 px-2.5"
       >
         <input
           value={storage.settings.maskTitle}
@@ -99,7 +99,7 @@
         />
       </div>
       <div
-        class="w-80 focus-within:bg-secondary bg-card border border-border rounded-xl items-center h-9 px-2.5"
+        class="w-80 focus-within:bg-secondary bg-card border border-border rounded-lg items-center h-9 px-2.5"
       >
         <input
           value={storage.settings.maskIcon}
@@ -119,7 +119,7 @@
       <Button
         variant="outline"
         onclick={() => (binding = true)}
-        class="outline-none"
+        class="outline-none bg-secondary"
       >
         {#if binding}
           <span>Waiting for key...</span>
@@ -130,7 +130,7 @@
         {/if}
       </Button>
       <div
-        class="w-80 focus-within:bg-secondary bg-card border border-border rounded-xl items-center h-9 px-2.5"
+        class="w-80 focus-within:bg-secondary bg-card border border-border rounded-lg items-center h-9 px-2.5"
       >
         <input
           value={storage.settings.panicURL}

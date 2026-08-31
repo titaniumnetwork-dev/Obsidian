@@ -133,7 +133,7 @@
       <p class="text-sm text-muted">Ultimate customizability</p>
     </div>
     <div
-      class="editor-container max-w-xl rounded-2xl overflow-hidden border border-border bg-card"
+      class="editor-container max-w-xl rounded-lg overflow-hidden border border-border bg-card"
     >
       <CodeMirror
         theme={[customTheme, customSyntaxTheme]}

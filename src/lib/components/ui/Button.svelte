@@ -16,7 +16,7 @@
     base: "rounded-lg flex gap-1.5 items-center cursor-pointer text-sm transition-colors disabled:opacity-50 disabled:cursor-default",
     variants: {
       variant: {
-        default: "bg-primary text-card",
+        default: "bg-primary text-primary-foreground",
         outline: "bg-card border border-input",
         secondary: "bg-secondary",
         ghost: "hover:bg-secondary",

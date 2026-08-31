@@ -76,11 +76,11 @@
   <div class="grid grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] gap-4">
     {#each filteredEmulators as item (item.id)}
       <a
-        class="w-full cursor-pointer flex flex-col gap-2 bg-card rounded-radius p-2 text-sm border border-border"
+        class="w-full cursor-pointer flex flex-col gap-2 bg-card rounded-lg p-2 text-sm border border-border"
         href={"/emulation/" + item.id}
       >
         <div
-          class="aspect-square bg-secondary rounded-lg flex items-center justify-center"
+          class="aspect-square bg-secondary rounded-md flex items-center justify-center"
         >
           <item.icon class="size-3/5" />
         </div>

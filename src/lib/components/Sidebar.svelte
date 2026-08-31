@@ -289,7 +289,7 @@
 
 <div
   data-collapsed={storage.settings.sidebarCollapsed}
-  class="sidebar group bg-card data-[collapsed=true]:w-12 data-[collapsed=false]:w-64 transition-[width] flex flex-col gap-2 overflow-y-scroll shrink-0 m-2 mr-0 rounded-radius border border-border box-content h-[calc(100%-18px)"
+  class="sidebar group bg-card data-[collapsed=true]:w-12 data-[collapsed=false]:w-64 transition-[width] flex flex-col gap-2 overflow-y-scroll shrink-0 m-2 mr-0 rounded-lg border border-border box-content h-[calc(100%-18px)"
 >
   <div class="bg-card sticky top-0 py-2 z-10">
     <div
@@ -371,7 +371,7 @@
                           />
                           <span>{game.title}</span>
                         </div>
-                        <Pause class="text-muted" size="16" />
+                        <Pause class="text-muted" size="14" />
                       </CommandItem>
                     {/each}
                   </CommandGroup>
@@ -474,7 +474,7 @@
           size="icon-sm"
           aria-label="Toggle Sidebar"
           onclick={toggleSidebar}
-          class="size-8 cursor-pointer flex items-center justify-center rounded-lg transition-colors hover:bg-secondary text-muted"
+          class="size-8 cursor-pointer flex items-center justify-center rounded-md transition-colors hover:bg-secondary text-muted"
         >
           <Sidebar size="16" />
         </Button>
@@ -497,7 +497,7 @@
             <a
               data-active={isActive}
               href={tab.href}
-              class="flex items-center cursor-pointer text-sm rounded-lg h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 group-data-[collapsed=false]:px-2 gap-2 transition-colors hover:bg-secondary data-[active=true]:bg-secondary group-data-[collapsed=true]:justify-center overflow-hidden"
+              class="flex items-center cursor-pointer text-sm rounded-md h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 group-data-[collapsed=false]:px-2 gap-2 transition-colors hover:bg-secondary data-[active=true]:bg-secondary group-data-[collapsed=true]:justify-center overflow-hidden"
             >
               <tab.icon class="shrink-0" size="16" />
               <span class="group-data-[collapsed=true]:hidden">{tab.name}</span>
@@ -510,7 +510,7 @@
             onclick={() =>
               (this.parentElement.dataset.open =
                 this.parentElement.dataset.open === "true" ? "false" : "true")}
-            class="flex items-center justify-between cursor-pointer text-sm rounded-lg h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 group-data-[collapsed=false]:px-2 gap-2 transition-colors hover:bg-secondary group-data-[open=false]/collapsible:data-[active=true]:bg-secondary group-data-[collapsed=true]:justify-center overflow-hidden"
+            class="flex items-center justify-between cursor-pointer text-sm rounded-md h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 group-data-[collapsed=false]:px-2 gap-2 transition-colors hover:bg-secondary group-data-[open=false]/collapsible:data-[active=true]:bg-secondary group-data-[collapsed=true]:justify-center overflow-hidden"
           >
             <div class="flex items-center gap-2">
               <Settings size="16" />
@@ -529,7 +529,7 @@
               <a
                 data-active={isActive}
                 href={settingsTab.href}
-                class="text-sm px-2 rounded-lg h-8 flex items-center transition-colors hover:bg-secondary data-[active=true]:bg-secondary"
+                class="text-sm px-2 rounded-md h-8 flex items-center transition-colors hover:bg-secondary data-[active=true]:bg-secondary"
               >
                 <settingsTab.icon
                   size="16"
@@ -559,14 +559,14 @@
                 <a
                   href={"/library/" + item.id}
                   data-current={$page.url.pathname === "/library/" + item.id}
-                  class="cursor-pointer group-data-[collapsed=false]:h-12 group-data-[collapsed=true]:h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 rounded-lg text-sm flex items-center justify-between group-data-[collapsed=false]:p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-secondary data-[current=false]:hover:bg-secondary transition-colors data-[current=true]:bg-secondary whitespace-nowrap group-data-[collapsed=true]:justify-center"
+                  class="cursor-pointer group-data-[collapsed=false]:h-12 group-data-[collapsed=true]:h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 rounded-md text-sm flex items-center justify-between group-data-[collapsed=false]:p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-secondary data-[current=false]:hover:bg-secondary transition-colors data-[current=true]:bg-secondary whitespace-nowrap group-data-[collapsed=true]:justify-center"
                 >
                   <div class="flex gap-2 items-center overflow-hidden">
                     <img
                       draggable="false"
                       loading="lazy"
                       alt={item.title + " logo"}
-                      class="shrink-0 group-data-[collapsed=false]:size-8 group-data-[collapsed=true]:size-4 group-data-[collapsed=false]:rounded-lg group-data-[collapsed=true]:rounded-md"
+                      class="shrink-0 group-data-[collapsed=false]:size-8 group-data-[collapsed=true]:size-4 rounded-sm"
                       src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
                     />
                     <span
@@ -658,14 +658,14 @@
                 <a
                   href={"/library/" + item.id}
                   data-current={$page.url.pathname === "/library/" + item.id}
-                  class="cursor-pointer group-data-[collapsed=false]:h-12 group-data-[collapsed=true]:h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 rounded-lg text-sm flex items-center justify-between group-data-[collapsed=false]:p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-secondary data-[current=false]:hover:bg-secondary transition-colors data-[current=true]:bg-secondary whitespace-nowrap group-data-[collapsed=true]:justify-center"
+                  class="cursor-pointer group-data-[collapsed=false]:h-12 group-data-[collapsed=true]:h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 rounded-md text-sm flex items-center justify-between group-data-[collapsed=false]:p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-secondary data-[current=false]:hover:bg-secondary transition-colors data-[current=true]:bg-secondary whitespace-nowrap group-data-[collapsed=true]:justify-center"
                 >
                   <div class="flex gap-2 items-center overflow-hidden">
                     <img
                       draggable="false"
                       loading="lazy"
                       alt={item.title + " logo"}
-                      class="shrink-0 group-data-[collapsed=false]:size-8 group-data-[collapsed=true]:size-4 group-data-[collapsed=false]:rounded-lg group-data-[collapsed=true]:rounded-md"
+                      class="shrink-0 group-data-[collapsed=false]:size-8 group-data-[collapsed=true]:size-4 rounded-sm"
                       src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
                     />
                     <span
@@ -745,14 +745,14 @@
                 <a
                   href={"/library/" + item.id}
                   data-current={$page.url.pathname === "/library/" + item.id}
-                  class="cursor-pointer group-data-[collapsed=false]:h-12 group-data-[collapsed=true]:h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 rounded-lg text-sm flex items-center justify-between group-data-[collapsed=false]:p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-secondary data-[current=false]:hover:bg-secondary transition-colors data-[current=true]:bg-secondary whitespace-nowrap group-data-[collapsed=true]:justify-center"
+                  class="cursor-pointer group-data-[collapsed=false]:h-12 group-data-[collapsed=true]:h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 rounded-md text-sm flex items-center justify-between group-data-[collapsed=false]:p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-secondary data-[current=false]:hover:bg-secondary transition-colors data-[current=true]:bg-secondary whitespace-nowrap group-data-[collapsed=true]:justify-center"
                 >
                   <div class="flex gap-2 items-center overflow-hidden">
                     <img
                       draggable="false"
                       loading="lazy"
                       alt={item.title + " logo"}
-                      class="group-data-[collapsed=false]:size-8 group-data-[collapsed=true]:size-4 group-data-[collapsed=false]:rounded-lg group-data-[collapsed=true]:rounded-md"
+                      class="group-data-[collapsed=false]:size-8 group-data-[collapsed=true]:size-4 rounded-sm"
                       src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
                     />
                     <span

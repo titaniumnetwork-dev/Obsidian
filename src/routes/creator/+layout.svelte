@@ -65,11 +65,11 @@
     unstyled: true,
     classes: {
       toast:
-        "w-max text-sm px-4 py-2 bg-secondary flex gap-4 items-center border border-border rounded-2xl shadow-lg",
+        "w-max text-sm p-4 bg-card flex gap-4 items-center border border-border rounded-xl shadow-md",
       content: "flex-1 flex flex-col",
       description: "whitespace-nowrap text-muted",
       actionButton:
-        "px-4 py-1 bg-primary text-card rounded-xl border border-border-primary cursor-pointer",
+        "h-9 px-2.5 bg-primary text-primary-foreground rounded-md cursor-pointer",
     },
   }}
 />

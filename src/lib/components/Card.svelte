@@ -29,14 +29,14 @@
   <ContextMenu>
     <ContextMenuTrigger>
       <a
-        class="h-full w-full rounded-radius border border-border"
+        class="h-full w-full rounded-lg border border-border"
         href={link + data.id}
       >
         <img
           draggable="false"
           loading="lazy"
           alt={data.title + " cover"}
-          class="w-full h-full object-cover group-data-[cards-style=default]:object-center group-data-[cards-style=square]:object-top cursor-pointer rounded-radius"
+          class="w-full h-full object-cover group-data-[cards-style=default]:object-center group-data-[cards-style=square]:object-top cursor-pointer rounded-lg"
           src={"/cdn/assets/assets/" + data.id + "/cover.webp"}
         />
       </a>

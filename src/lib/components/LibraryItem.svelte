@@ -49,13 +49,13 @@
     style={"--hero: url('/cdn/assets/assets/" +
       data.currentData.id +
       "/hero.webp')"}
-    class="relative [background:linear-gradient(to_bottom,var(--color-overlay)_0%,var(--theme-background)_100%)_padding-box,var(--hero)center/cover_padding-box,var(--color-background)] w-full h-112 flex flex-col items-start justify-between p-4 gap-4 rounded-t-radius border-x border-t border-transparent"
+    class="relative [background:linear-gradient(to_bottom,var(--color-overlay)_0%,var(--theme-background)_100%)_padding-box,var(--hero)center/cover_padding-box,var(--color-background)] w-full h-112 flex flex-col items-start justify-between p-4 gap-4 rounded-t-lg border-x border-t border-transparent"
   >
     <div
-      class="pointer-events-none absolute -inset-x-px -top-px bottom-0 rounded-t-2xl border-x border-t border-background mask-[linear-gradient(to_bottom,transparent_50%,black_100%)]"
+      class="pointer-events-none absolute -inset-x-px -top-px bottom-0 rounded-t-lg border-x border-t border-background mask-[linear-gradient(to_bottom,transparent_50%,black_100%)]"
     ></div>
     <div
-      class="pointer-events-none absolute -inset-x-px -top-px bottom-0 rounded-t-2xl border-x border-t border-border mask-[linear-gradient(to_bottom,black_50%,transparent_100%)]"
+      class="pointer-events-none absolute -inset-x-px -top-px bottom-0 rounded-t-lg border-x border-t border-border mask-[linear-gradient(to_bottom,black_50%,transparent_100%)]"
     ></div>
     <div class="flex flex-wrap gap-2 ml-auto">
       {#each data.currentData.tags as tag}
@@ -276,13 +276,13 @@
                 href={itemInstalled
                   ? "/library/" + item.id
                   : "/store/" + item.id}
-                class="cursor-pointer h-14 rounded-2xl text-sm flex items-center justify-between p-2 gap-2 whitespace-nowrap bg-secondary"
+                class="cursor-pointer h-14 rounded-lg text-sm flex items-center justify-between p-2 gap-2 whitespace-nowrap bg-card border border-input"
               >
                 <div class="flex gap-2 items-center overflow-hidden">
                   <img
                     draggable="false"
                     alt={item.title + " logo"}
-                    class="h-10 w-10 rounded-xl"
+                    class="h-10 w-10 rounded-md"
                     src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
                   />
                   <span>{item.title}</span>

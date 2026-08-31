@@ -61,7 +61,7 @@
 
 <div class="flex flex-col items-center justify-center px-4 mt-auto">
   <div
-    class="w-full max-w-xl p-6 bg-card border border-border rounded-radius flex flex-col gap-6"
+    class="w-full max-w-xl p-6 bg-card border border-border rounded-xl flex flex-col gap-6"
   >
     <div class="flex flex-col gap-4">
       <div class="flex gap-4 items-center">
@@ -81,11 +81,11 @@
         ondragover={handleDragOver}
         ondragleave={handleDragLeave}
         ondrop={handleDrop}
-        class="w-full p-12 rounded-[10px] bg-secondary flex flex-col justify-center items-center cursor-pointer gap-4 border border-dashed
+        class="w-full p-12 rounded-lg bg-secondary flex flex-col justify-center items-center cursor-pointer gap-4 border border-dashed
  border-transparent data-[dragging=true]:border-input"
       >
         <div
-          class="w-10 h-10 rounded-[10px] flex items-center justify-center border border-border"
+          class="w-10 h-10 rounded-md flex items-center justify-center border border-border"
         >
           <Upload size="20" />
         </div>

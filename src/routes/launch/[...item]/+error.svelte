@@ -4,6 +4,7 @@
   import Footer from "$lib/components/Footer.svelte";
   import Head from "$lib/components/Head.svelte";
   import Sidebar from "$lib/components/Sidebar.svelte";
+  import Button from "$lib/components/ui/Button.svelte";
   import { storage } from "$lib/storage.svelte";
   import { ArrowLeft, Home } from "@lucide/svelte";
 </script>
@@ -19,20 +20,17 @@
     </h1>
     <p>Message: {$page.error?.message}</p>
     <div class="flex gap-4">
-      <button
-        onclick={() => window.history.back()}
-        class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer"
-      >
-        <ArrowLeft size="20" />
+      <Button variant="outline" onclick={() => window.history.back()}>
+        <ArrowLeft size="16" />
         <span>Go Back</span>
-      </button>
-      <a
-        class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer"
+      </Button>
+      <Button
+        variant="outline"
         href={storage.settings.libraryMode ? "/library" : "/"}
       >
-        <Home size="20" />
+        <Home size="16" />
         <span>Home</span>
-      </a>
+      </Button>
     </div>
   </div>
   <Footer />
