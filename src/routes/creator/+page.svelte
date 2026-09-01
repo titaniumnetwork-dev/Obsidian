@@ -29,6 +29,7 @@
   let developer = $state("");
   let description = $state("");
   let id = $state("");
+  let dateAdded = $state("");
   let version = $state("");
   let tags = $state([]);
   let hero = $state("");
@@ -124,6 +125,7 @@
       !description ||
       !developer ||
       !id ||
+      !dateAdded ||
       !hero ||
       !cover ||
       !icon ||
@@ -157,6 +159,7 @@
       developer,
       description,
       id,
+      dateAdded,
       type,
       controllerSupport,
       tags: [...tags],
@@ -379,6 +382,7 @@
     developer = "";
     description = "";
     id = "";
+    dateAdded = "";
     version = "";
     tags = [];
     hero = "";
@@ -483,6 +487,30 @@
     </div>
     <button
       onclick={generateID}
+      class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
+      >Gen</button
+    >
+  </div>
+  <div class="flex gap-2">
+    <div
+      class="focus-within:bg-secondary bg-card rounded-xl items-center flex border border-border"
+    >
+      <input
+        bind:value={dateAdded}
+        placeholder="Date Added"
+        class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-muted"
+      />
+      {#if dateAdded.length > 0}
+        <button
+          class="mr-3 cursor-pointer shrink-0 text-muted"
+          onclick={() => (dateAdded = "")}
+        >
+          <X size="20" />
+        </button>
+      {/if}
+    </div>
+    <button
+      onclick={() => (dateAdded = Date.now())}
       class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
       >Gen</button
     >

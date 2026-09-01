@@ -6,8 +6,6 @@ Play instantly. No downloads.
   - Dropdown menus on 
 - Store
   - Better nav and make nav work
-- Settings
-  - Custom css styling
 - Creator
   - Update all styles
   - Add added date
