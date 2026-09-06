@@ -103,8 +103,8 @@
   <p class="text-base">6. Contact Us</p>
   <p>
     If you have any questions, concerns, or requests regarding this Privacy
-    Policy, please contact us at <a class="hover:underline" href={links.email}
-      >support@obsidian.com</a
+    Policy, please contact us at <a class="hover:underline" href={"mailto:" + links.email}
+      >{links.email}</a
     >.
   </p>
 </div>

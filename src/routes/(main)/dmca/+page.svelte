@@ -96,7 +96,7 @@
     To submit a DMCA notice or counter-notice, please send the required
     information to our designated copyright agent at <a
       class="hover:underline"
-      href={links.email}>support@obsidian.com</a
+      href={"mailto:" + links.email}>{links.email}</a
     >.
   </p>
 </div>

@@ -85,8 +85,8 @@
   <p class="text-base">7. Contact Us</p>
   <p>
     If you have any questions, concerns, or requests regarding these Terms of
-    Service, please contact us at <a class="hover:underline" href={links.email}
-      >support@obsidian.com</a
+    Service, please contact us at <a class="hover:underline" href={"mailto:" + links.email}
+      >{links.email}</a
     >.
   </p>
 </div>

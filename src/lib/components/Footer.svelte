@@ -38,7 +38,7 @@
   </div>
 
   <div class="flex items-center gap-4">
-    <a class="text-muted hover:underline" href={links.email}
+    <a class="text-muted hover:underline" href={"mailto:" + links.email}
       >Contact</a
     >
     <a class="text-muted hover:underline" href="/terms"
