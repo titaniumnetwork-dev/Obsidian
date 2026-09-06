@@ -52,7 +52,7 @@
       </button>
     {/if}
   </div>
-  <div class="flex gap-2 overflow-y-scroll no-scrollbar">
+  <div class="flex gap-2 overflow-y-scroll scrollbar-none">
     <Button
       variant="outline"
       onclick={() => ((filterCompany = ""), removeURLParam("company"))}

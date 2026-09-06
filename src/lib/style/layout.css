@@ -291,10 +291,6 @@ html[data-theme="Lime"] {
   --radius-4xl: calc(var(--theme-radius) * 2.6);
 }
 
-@utility no-scrollbar {
-  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
-}
-
 @utility justify-safe {
   justify-content: safe center;
 }

@@ -483,7 +483,7 @@
     </div>
   </div>
   <div
-    class="flex flex-col gap-2 overflow-auto flex-1 group-data-[collapsed=true]:no-scrollbar"
+    class="flex flex-col gap-2 overflow-auto flex-1 group-data-[collapsed=true]:scrollbar-none"
   >
     <div>
       <hr class="mb-4 mx-2 text-border group-data-[collapsed=false]:hidden" />

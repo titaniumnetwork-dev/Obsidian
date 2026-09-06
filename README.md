@@ -8,7 +8,6 @@ Play instantly. No downloads.
   - Better nav and make nav work
 - Creator
   - Update all styles
-  - Add added date
 - General
   - Fix PWA images
   - Other controller types

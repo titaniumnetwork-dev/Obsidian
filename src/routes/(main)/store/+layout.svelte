@@ -59,7 +59,7 @@
     <ChevronDown size="16" />
   </a>
   <!--
-  <div class="flex gap-2 overflow-y-scroll no-scrollbar">
+  <div class="flex gap-2 overflow-y-scroll scrollbar-none">
     <a
       href="/store"
       data-active={$page.url.pathname === "/store"}
