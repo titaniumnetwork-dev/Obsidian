@@ -20,6 +20,7 @@
     User,
     X,
   } from "@lucide/svelte";
+  import Obfuscate from "./Obfuscate.svelte";
   import AlertDialog from "./ui/AlertDialog.svelte";
   import AlertDialogClose from "./ui/AlertDialogClose.svelte";
   import AlertDialogContent from "./ui/AlertDialogContent.svelte";
@@ -165,10 +166,11 @@
                 </AlertDialogTrigger>
                 <AlertDialogContent class="items-center text-center">
                   <div class="flex flex-col items-center gap-1.5">
-                    <p>Uninstall Game?</p>
+                    <p>Uninstall <Obfuscate text="Game"></Obfuscate>?</p>
                     <p class="text-sm text-muted">
-                      This will permanently uninstall this game. All data and
-                      stats will be deleted.
+                      This will permanently uninstall this <Obfuscate
+                        text="game"
+                      ></Obfuscate>. All data and stats will be deleted.
                     </p>
                   </div>
                   <div class="w-full flex gap-2">
@@ -304,10 +306,11 @@
                   </AlertDialogTrigger>
                   <AlertDialogContent class="items-center text-center">
                     <div class="flex flex-col items-center gap-1.5">
-                      <p>Uninstall Game?</p>
+                      <p>Uninstall <Obfuscate text="Game"></Obfuscate>?</p>
                       <p class="text-sm text-muted">
-                        This will permanently uninstall this game. All data and
-                        stats will be deleted.
+                        This will permanently uninstall this <Obfuscate
+                          text="game"
+                        ></Obfuscate>. All data and stats will be deleted.
                       </p>
                     </div>
                     <div class="w-full flex gap-2">

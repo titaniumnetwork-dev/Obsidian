@@ -109,7 +109,7 @@
       storage.addHiddenTheme("Truffle");
       storage.updateTheme("Truffle");
       toast("Theme Unlocked", {
-        description: "You unlocked the Space theme!",
+        description: "You unlocked the Truffle theme!",
         position: "bottom-center",
         icon: Sparkles,
         action: {
@@ -119,24 +119,33 @@
       });
     }
   }
+
+  const unlockedHiddenThemes = $derived(
+    themes
+      .filter((theme) => theme.hidden)
+      .filter((theme) => storage.hiddenThemes.includes(theme.name)).length,
+  );
+  const allHiddenThemes = $derived(
+    themes.filter((theme) => theme.hidden).length,
+  );
 </script>
 
 <div class="grid grid-cols-2 gap-4">
   <Card size="sm">
     <div class="flex justify-between">
       <div>
-        <p>Theme</p>
+        <p>Themes</p>
         <p class="text-sm text-muted">Change the look of Obsidian</p>
       </div>
       {#if !storage.hiddenThemes.includes("Truffle")}
-        <button onclick={unlockTruffle} class="cursor-pointer">
+        <button onclick={unlockTruffle} class="cursor-pointer h-fit">
           <Key class="text-muted" size="16" />
         </button>
       {/if}
     </div>
     <div class="flex flex-wrap gap-2">
       {#each themes as theme}
-        {#if !theme.hidden || storage.hiddenThemes.includes(theme.name)}
+        {#if !theme.hidden}
           <Button
             variant="outline"
             onclick={() => storage.updateTheme(theme.name)}
@@ -152,6 +161,32 @@
         {/if}
       {/each}
     </div>
+    {#if storage.hiddenThemes.length > 0}
+      <div>
+        <p>Hidden Themes ({unlockedHiddenThemes}/{allHiddenThemes})</p>
+        <p class="text-sm text-muted">
+          Search around the site for these secret themes
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        {#each themes as theme}
+          {#if theme.hidden && storage.hiddenThemes.includes(theme.name)}
+            <Button
+              variant="outline"
+              onclick={() => storage.updateTheme(theme.name)}
+              data-active={storage.theme === theme.name}
+              class="data-[active=true]:bg-secondary"
+            >
+              <div
+                style={"background: " + theme.primary}
+                class="h-4 w-4 rounded-full border border-input"
+              ></div>
+              <span>{theme.name}</span>
+            </Button>
+          {/if}
+        {/each}
+      </div>
+    {/if}
   </Card>
   <Card size="sm">
     <div>

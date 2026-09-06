@@ -2,6 +2,7 @@
   import logo from "$lib/assets/logo.svg";
   import { storage } from "$lib/storage.svelte";
   import { themes } from "$lib/themes";
+  import { hiddenClass } from "$lib/utils";
 
   let { title, forceTitle, icon } = $props();
 
@@ -59,4 +60,5 @@
   <meta name="description" content="Play instantly. No downloads." />
   {@html `<style>${themeCustomCSS}</style>`}
   {@html `<style>${storage.settings.customCSS}</style>`}
+  {@html `<style>.${hiddenClass} {position: absolute;z-index: -10;opacity: 0;}</style>`}
 </svelte:head>

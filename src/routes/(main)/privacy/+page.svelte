@@ -1,5 +1,6 @@
 <script>
   import Head from "$lib/components/Head.svelte";
+  import Obfuscate from "$lib/components/Obfuscate.svelte";
   import { links } from "$lib/links";
 
   let updated = new Date(1788130714213);
@@ -21,32 +22,33 @@
   <p>
     Welcome to Obsidian. We respect your privacy and are committed to protecting
     it. This Privacy Policy explains how we handle information when you visit
-    our website and use our services while playing games locally in your
-    browser.
+    our website and use our services while playing <Obfuscate text="games"
+    ></Obfuscate> locally in your browser.
   </p>
   <p class="text-base">1. Information We Collect</p>
   <p>
     We collect information to provide a better experience and to keep your
-    preferences and local game data available when you use the site.
+    preferences and local <Obfuscate text="game"></Obfuscate> data available when
+    you use the site.
   </p>
   <ul class="list-disc pl-6 flex flex-col gap-2">
     <li>
-      <p>Local Settings and Game Data:</p>
+      <p>Local Settings and <Obfuscate text="Game"></Obfuscate> Data:</p>
       We store browser-local preferences such as themes, favorites, keybinds, and
-      game save metadata in your browser so the site can function smoothly without
-      requiring an account.
+      <Obfuscate text="game"></Obfuscate> save metadata in your browser so the site
+      can function smoothly without requiring an account.
     </li>
     <li>
       <p>Log Data:</p>
       Like most websites, our servers automatically record basic information that
-      your browser sends. This may include your IP address, browser type, device
-      type, and the pages you visit.
+      your browser sends. This may include your IP address, browser type, device type,
+      and the pages you visit.
     </li>
     <li>
       <p>Third-Party Content:</p>
-      Our website hosts various third-party games and emulators. These third parties
-      may use their own cookies or tracking scripts. We do not control these third-party
-      trackers.
+      Our website hosts various third-party <Obfuscate text="games"></Obfuscate> and
+      emulators. These third parties may use their own cookies or tracking scripts.
+      We do not control these third-party trackers.
     </li>
   </ul>
   <p class="text-base">2. Cookies and Local Storage</p>
@@ -57,14 +59,15 @@
   <ul class="list-disc pl-6 flex flex-col gap-2">
     <li>
       <p>Local Storage:</p>
-      We save your settings and game-related state in local browser storage so your
-      customizations remain available without an account.
+      We save your settings and <Obfuscate text="game"></Obfuscate>-related
+      state in local browser storage so your customizations remain available
+      without an account.
     </li>
     <li>
       <p>Third-Party Content:</p>
-      Our website hosts various third-party games and emulators. These third parties
-      may use their own cookies or tracking scripts. We do not control these third-party
-      trackers.
+      Our website hosts various third-party <Obfuscate text="games"></Obfuscate> and
+      emulators. These third parties may use their own cookies or tracking scripts.
+      We do not control these third-party trackers.
     </li>
   </ul>
   <p class="text-base">3. Children's Privacy</p>
@@ -80,7 +83,9 @@
   <ul class="list-disc pl-6 flex flex-col gap-2">
     <li>
       <p>Managing Local Data:</p>
-      You can clear your browser storage to remove saved preferences and local game
+      You can clear your browser storage to remove saved preferences and local <Obfuscate
+        text="game"
+      ></Obfuscate>
       data.
     </li>
     <li>

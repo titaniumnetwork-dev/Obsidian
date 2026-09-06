@@ -1,5 +1,6 @@
 <script>
   import Head from "$lib/components/Head.svelte";
+  import Obfuscate from "$lib/components/Obfuscate.svelte";
   import { links } from "$lib/links";
 
   let updated = new Date(1779901012831);
@@ -27,9 +28,9 @@
   <p class="text-base">1. Filing a DMCA Notice of Infringement</p>
   <p>
     If you are a copyright owner or an agent thereof, and you believe that any
-    content hosted on our site (such as web games or emulated files) infringes
-    your copyrights, you may submit a notification pursuant to the DMCA by
-    providing us with the following information in writing:
+    content hosted on our site (such as web <Obfuscate text="games"></Obfuscate> or
+    emulated files) infringes your copyrights, you may submit a notification pursuant
+    to the DMCA by providing us with the following information in writing:
   </p>
   <ul class="list-disc pl-6 flex flex-col gap-2">
     <li>
@@ -45,7 +46,9 @@
       Identification of the material that is claimed to be infringing or to be
       the subject of infringing activity and that is to be removed or access to
       which is to be disabled, and information reasonably sufficient to permit
-      us to locate the material (such as the specific URL of the game page).
+      us to locate the material (such as the specific URL of the <Obfuscate
+        text="game"
+      ></Obfuscate> page).
     </li>
     <li>
       Information reasonably sufficient to permit us to contact you, such as an

@@ -1,5 +1,6 @@
 <script>
   import Head from "$lib/components/Head.svelte";
+  import Obfuscate from "$lib/components/Obfuscate.svelte";
   import { links } from "$lib/links";
 
   let updated = new Date(1788130714213);
@@ -19,14 +20,15 @@
     </p>
   </div>
   <p>
-    Welcome to Obsidian. By accessing or using our website and playing games,
-    you agree to be bound by these Terms of Service. If you do not agree with
-    any part of these terms, please do not use our site.
+    Welcome to Obsidian. By accessing or using our website and playing <Obfuscate
+      text="games"
+    ></Obfuscate>, you agree to be bound by these Terms of Service. If you do
+    not agree with any part of these terms, please do not use our site.
   </p>
   <p class="text-base">1. Local Use</p>
   <p>
     Obsidian is designed to run primarily in your browser with local device
-    storage for preferences and saved game data.
+    storage for preferences and saved <Obfuscate text="game"></Obfuscate> data.
   </p>
   <ul class="list-disc pl-6 flex flex-col gap-2">
     <li>
@@ -50,13 +52,16 @@
     <li>Using automated systems (bots, scrapers) to access the site.</li>
     <li>Harassing or interfering with other users' enjoyment of the site.</li>
     <li>
-      Exploiting bugs or vulnerabilities to gain an unfair advantage in games.
+      Exploiting bugs or vulnerabilities to gain an unfair advantage in <Obfuscate
+        text="games"
+      ></Obfuscate>.
     </li>
   </ul>
   <p class="text-base">3. Intellectual Property</p>
   <p>
-    The games, software, and assets on this site are the property of their
-    respective owners. Obsidian does not claim ownership over third-party games
+    The <Obfuscate text="games"></Obfuscate>, software, and assets on this site
+    are the property of their respective owners. Obsidian does not claim
+    ownership over third-party <Obfuscate text="games"></Obfuscate>
     or characters. Your use of the site does not grant you any ownership rights.
   </p>
   <p class="text-base">4. Access and Availability</p>
@@ -68,9 +73,9 @@
   <p class="text-base">5. Disclaimer of Warranties</p>
   <p>
     Obsidian is provided "as is". We make no warranties regarding the
-    availability of the site, the accuracy of game data, or the safety of synced
-    storage. We are not responsible for any loss of data, including game saves
-    or progress.
+    availability of the site, the accuracy of <Obfuscate text="game"
+    ></Obfuscate> data, or the safety of synced storage. We are not responsible for
+    any loss of data, including <Obfuscate text="game"></Obfuscate> saves or progress.
   </p>
   <p class="text-base">6. Limitation of Liability</p>
   <p>

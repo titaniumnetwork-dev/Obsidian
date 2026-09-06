@@ -10,7 +10,6 @@ Play instantly. No downloads.
   - Update all styles
   - Add added date
 - General
-  - Obfuscate keywords
   - Fix PWA images
   - Other controller types
 

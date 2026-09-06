@@ -1,6 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
   import Cards from "$lib/components/Cards.svelte";
+  import Obfuscate from "$lib/components/Obfuscate.svelte";
   import { carousel, featured } from "$lib/featured.js";
   import { links } from "$lib/links";
   import { storage } from "$lib/storage.svelte.js";
@@ -224,14 +225,14 @@
     <Cards data={sortedLibrary} link="/store/" buttons="store" />
   {/if}
 </div>
-{#if sortedLibrary.length === 0}
+{#if storage.catalog.length > 0 && sortedLibrary.length === 0}
   <div class="flex flex-col gap-4 h-full w-full justify-center items-center">
     <div class="flex flex-col gap-2 max-w-sm items-center">
       <SearchX class="mb-2" size="32" />
       <p class="text-sm text-center">No results found</p>
       <p class="text-muted text-sm text-center text-balance">
         Try checking for typos or adjusting your search terms. Join our Discord
-        server to request a game.
+        server to request a <Obfuscate text="game"></Obfuscate>.
       </p>
     </div>
     <a

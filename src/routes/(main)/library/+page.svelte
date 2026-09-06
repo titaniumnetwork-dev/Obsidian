@@ -2,6 +2,7 @@
   import { page } from "$app/stores";
   import Cards from "$lib/components/Cards.svelte";
   import Head from "$lib/components/Head.svelte";
+  import Obfuscate from "$lib/components/Obfuscate.svelte";
   import Button from "$lib/components/ui/Button.svelte";
   import { storage } from "$lib/storage.svelte.js";
   import { removeURLParam, setURLParam } from "$lib/utils.js";
@@ -379,7 +380,7 @@
       <p class="text-sm">Nothing in your library</p>
       <p class="text-muted text-sm text-center text-balance">
         It looks a little quiet here. Browse the store to discover your next
-        favorite game and start building your collection.
+        favorite <Obfuscate text="game"></Obfuscate> and start building your collection.
       </p>
     </div>
     <a

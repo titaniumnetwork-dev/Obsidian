@@ -3,6 +3,7 @@
   import Logo from "$lib/assets/logo.svelte";
   import Cards from "$lib/components/Cards.svelte";
   import Head from "$lib/components/Head.svelte";
+  import Obfuscate from "$lib/components/Obfuscate.svelte";
   import Button from "$lib/components/ui/Button.svelte";
   import Card from "$lib/components/ui/Card.svelte";
   import { featured } from "$lib/featured.js";
@@ -76,9 +77,11 @@
       class="text-center max-w-2xl"
       onpointerup={(e) => (e.target.textContent = getMessage())}
     >
-      Obsidian is your ultimate web-based game library. Dive into a massive
-      collection of classic and modern online games, preserved Flash
-      masterpieces, and emulated retro classics directly in your browser.
+      Obsidian is your ultimate web-based <Obfuscate text="game"></Obfuscate> library.
+      Dive into a massive collection of classic and modern online <Obfuscate
+        text="games"
+      ></Obfuscate>, preserved Flash masterpieces, and emulated retro classics
+      directly in your browser.
     </p>
     <div class="flex gap-2">
       <Button href="/library">
@@ -98,9 +101,10 @@
         <p>100% Free Forever</p>
       </div>
       <p class="text-sm text-muted">
-        All games are completely free, no paywalls, and no subscriptions. Enjoy
-        full, unrestricted access to our entire gaming library completely free
-        of charge.
+        All <Obfuscate text="games"></Obfuscate> are completely free, no paywalls,
+        and no subscriptions. Enjoy full, unrestricted access to our entire <Obfuscate
+          text="gaming"
+        ></Obfuscate> library completely free of charge.
       </p>
     </Card>
     <Card size="sm">
@@ -109,19 +113,21 @@
         <p>Massive Library</p>
       </div>
       <p class="text-sm text-muted">
-        Play thousands of curated games directly in your browser with zero
-        downloads. Powered by Ruffle for classic Flash hits and EmulatorJS for
-        retro consoles.
+        Play thousands of curated <Obfuscate text="games"></Obfuscate> directly in
+        your browser with zero downloads. Powered by Ruffle for classic Flash hits
+        and EmulatorJS for retro consoles.
       </p>
     </Card>
     <Card size="sm">
       <div class="flex gap-1.5 items-center">
         <Heart size="16" />
-        <p>Built for Gamers</p>
+        <p>Built for <Obfuscate text="Gamers"></Obfuscate></p>
       </div>
       <p class="text-sm text-muted">
-        Created by gamers, for gamers. We've stripped away the bloat to focus
-        entirely on delivering a gaming experience with the quality-of-life
+        Created by <Obfuscate text="gamers"></Obfuscate>, for <Obfuscate
+          text="gamers"
+        ></Obfuscate>. We've stripped away the bloat to focus entirely on
+        delivering a <Obfuscate text="gaming"></Obfuscate> experience with the quality-of-life
         features you actually want.
       </p>
     </Card>
@@ -142,8 +148,9 @@
     <div class="flex-col gap-1">
       <p>Join the Obsidian Community</p>
       <p class="text-muted">
-        Request new games, report bugs, participate in events, and hang out with
-        other players in our official Discord server.
+        Request new <Obfuscate text="games"></Obfuscate>, report bugs,
+        participate in events, and hang out with other players in our official
+        Discord server.
       </p>
     </div>
     <Button href={links.discord} class="ml-auto">

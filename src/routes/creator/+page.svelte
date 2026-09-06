@@ -3,6 +3,7 @@
   import Head from "$lib/components/Head.svelte";
   import KenneyGamepadIcon from "$lib/components/KenneyGamepadIcon.svelte";
   import KenneyKeyboardIcon from "$lib/components/KenneyKeyboardIcon.svelte";
+  import Obfuscate from "$lib/components/Obfuscate.svelte";
   import { storage } from "$lib/storage.svelte";
   import {
     ChartPie,
@@ -406,7 +407,9 @@
 >
   <div>
     <p>Creator</p>
-    <p class="text-sm text-muted">Automate the game creation process</p>
+    <p class="text-sm text-muted">
+      Automate the <Obfuscate text="game"></Obfuscate> creation process
+    </p>
   </div>
   <div
     class="w-full flex items-center justify-between p-2 gap-2 bg-secondary whitespace-nowrap h-12 rounded-lg text-sm"
