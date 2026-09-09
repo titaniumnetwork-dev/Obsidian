@@ -113,7 +113,7 @@
         <p>Massive Library</p>
       </div>
       <p class="text-sm text-muted">
-        Play thousands of curated <Obfuscate text="games"></Obfuscate> directly in
+        Play hundreds of curated <Obfuscate text="games"></Obfuscate> directly in
         your browser with zero downloads. Powered by Ruffle for classic Flash hits
         and EmulatorJS for retro consoles.
       </p>
@@ -137,9 +137,8 @@
         <p>Advanced Features</p>
       </div>
       <p class="text-sm text-muted">
-        Track your playtime, save your favorites, and configure advanced
-        settings with browser-local syncing that keeps your library personalized
-        on this device.
+        Track your playtime, save your favorites, and configure many
+        settings and themes with local syncing and the ability to download and store data and <Obfuscate text="game"></Obfuscate> saves.
       </p>
     </Card>
   </div>

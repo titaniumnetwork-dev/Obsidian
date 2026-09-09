@@ -128,6 +128,8 @@
   const allHiddenThemes = $derived(
     themes.filter((theme) => theme.hidden).length,
   );
+
+  const roundings = ["Sharp", "Default", "Soft"]
 </script>
 
 <div class="grid grid-cols-2 gap-4">
@@ -187,6 +189,24 @@
         {/each}
       </div>
     {/if}
+  </Card>
+  <Card size="sm">
+    <div>
+      <p>Rounding</p>
+      <p class="text-sm text-muted">Change the rounding of everything</p>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      {#each roundings as rounding}
+        <Button
+          variant="outline"
+          onclick={() => storage.updateRounding(rounding)}
+          data-active={storage.rounding === rounding}
+          class="data-[active=true]:bg-secondary"
+        >
+          <span>{rounding}</span>
+        </Button>
+      {/each}
+    </div>
   </Card>
   <Card size="sm">
     <div>

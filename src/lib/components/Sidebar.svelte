@@ -9,6 +9,7 @@
     Check,
     ChevronRight,
     Copy,
+    Download,
     Gamepad2,
     HatGlasses,
     Home,
@@ -269,6 +270,11 @@
       name: "General",
       href: "/settings/general",
       icon: SlidersHorizontal,
+    },
+    {
+      name: "Backup",
+      href: "/settings/backup",
+      icon: Download,
     },
     {
       name: "Appearance",

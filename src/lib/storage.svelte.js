@@ -10,6 +10,7 @@ class StorageManager {
   keybinds = $state({});
   gamepadBinds = $state({});
   theme = $state("Dark");
+  rounding = $state("Default");
   hiddenThemes = $state([]);
   settings = $state({
     sidebarCollapsed: false,
@@ -64,6 +65,9 @@ class StorageManager {
           case "updateTheme":
             this.updateTheme(e.data.theme, false);
             break;
+          case "updateRounding":
+            this.updateRounding(e.data.rounding, false);
+            break;
           case "addFavorite":
             this.addFavorite(e.data.ID, false);
             break;
@@ -102,6 +106,7 @@ class StorageManager {
     this.tags = catalogTagOrder;
 
     const storedTheme = localStorage.getItem("theme");
+    const storedRounding = localStorage.getItem("rounding");
     const storedSettings = localStorage.getItem("settings");
     const storedInstalled = localStorage.getItem("installed");
     const storedFavorites = localStorage.getItem("favorites");
@@ -114,6 +119,9 @@ class StorageManager {
       this.theme = storedTheme.replace(/['"]+/g, "");
     }
     document.documentElement.dataset.theme = this.theme;
+
+    this.rounding = storedRounding || "Default";
+    document.documentElement.dataset.rounding = this.rounding;
 
     if (storedKeybinds) {
       try {
@@ -263,6 +271,29 @@ class StorageManager {
 
     document.startViewTransition(() => {
       this.executeThemeSwap(theme, share);
+    });
+  }
+
+  executeRoundingSwap(rounding, share) {
+    this.rounding = rounding;
+    document.documentElement.dataset.rounding = rounding;
+    localStorage.setItem("rounding", rounding);
+
+    if (share) {
+      if (this.storageChannel) {
+        this.storageChannel.postMessage({ type: "updateRounding", rounding });
+      }
+    }
+  }
+
+  updateRounding(rounding, share = true) {
+    if (!document.startViewTransition) {
+      this.executeRoundingSwap(rounding, share);
+      return;
+    }
+
+    document.startViewTransition(() => {
+      this.executeRoundingSwap(rounding, share);
     });
   }
 

@@ -34,7 +34,7 @@
     <div>
       <p>Sort</p>
       <p class="text-sm text-muted">
-        Change the sort order of the library in the sidebar
+        Change the sort order of the items in the sidebar
       </p>
     </div>
     <div class="flex justify-start">

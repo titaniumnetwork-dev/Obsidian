@@ -54,20 +54,20 @@
         class="text-muted hover:underline"
         href="https://github.com"
       >
-        <SiGithub size="16" />
+        <SiGithub title="Github" size="16" />
       </a>
       -->
       <a class="text-muted hover:underline" href={links.discord}>
-        <SiDiscord size="16" />
+        <SiDiscord title="Discord" size="16" />
       </a>
       <a class="text-muted hover:underline" href={links.youtube}>
-        <SiYoutube size="16" />
+        <SiYoutube title="YouTube" size="16" />
       </a>
       <a class="text-muted hover:underline" href={links.tiktok}>
-        <SiTiktok size="16" />
+        <SiTiktok title="TikTok" size="16" />
       </a>
       <a class="text-muted hover:underline" href={links.patreon}>
-        <SiPatreon size="16" />
+        <SiPatreon title="Patreon" size="16" />
       </a>
     </div>
   </div>

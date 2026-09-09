@@ -1,5 +1,6 @@
 <script>
   import { aspects } from "$lib/aspects";
+  import Obfuscate from "$lib/components/Obfuscate.svelte";
   import Button from "$lib/components/ui/Button.svelte";
   import Card from "$lib/components/ui/Card.svelte";
   import Switch from "$lib/components/ui/Switch.svelte";
@@ -46,7 +47,7 @@
     <div>
       <p>Aspect Ratio</p>
       <p class="text-sm text-muted">
-        Change the size in which the iframe is rendered
+        Change the size in which the <Obfuscate text="game"></Obfuscate> is rendered
       </p>
     </div>
     <div class="flex flex-wrap gap-2">
@@ -72,8 +73,8 @@
   </Card>
   <Card size="sm">
     <div>
-      <p>Overlay</p>
-      <p class="text-sm text-muted">Change the Obsidian overlay style</p>
+      <p><Obfuscate text="Game"></Obfuscate> Options</p>
+      <p class="text-sm text-muted">Change the in <Obfuscate text="game"></Obfuscate> options style</p>
     </div>
     <div class="flex flex-wrap gap-2">
       <Button
@@ -91,6 +92,15 @@
         class="data-[active=true]:bg-secondary"
       >
         <span>Compact</span>
+      </Button>
+      <Button
+        disabled
+        variant="outline"
+        onclick={() => storage.updateSetting("overlay", "overlay")}
+        data-active={storage.settings.overlay === "overlay"}
+        class="data-[active=true]:bg-secondary"
+      >
+        <span>Overlay (Coming Soon)</span>
       </Button>
     </div>
   </Card>

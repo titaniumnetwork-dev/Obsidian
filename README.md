@@ -13,6 +13,7 @@ Play instantly. No downloads.
   - Other controller types
 
 ## Before Release
+- Input component
 - Add real recently added and featured
 - Make socials
 - Accessibility

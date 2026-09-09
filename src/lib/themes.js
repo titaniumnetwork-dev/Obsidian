@@ -56,6 +56,10 @@ export const themes = [
     primary: "#d1cfc0",
   },
   {
+    name: "OLED",
+    primary: "#000000",
+  },
+  {
     name: "3kh0",
     primary: "#4caf50",
     hidden: true,
