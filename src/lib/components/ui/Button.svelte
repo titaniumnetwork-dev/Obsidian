@@ -17,7 +17,7 @@
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground",
-        outline: "bg-card border border-input",
+        outline: "bg-input/30 border border-input",
         secondary: "bg-secondary",
         ghost: "hover:bg-secondary",
       },

@@ -2,6 +2,7 @@
   import KenneyKeyboardIcon from "$lib/components/KenneyKeyboardIcon.svelte";
   import Button from "$lib/components/ui/Button.svelte";
   import Card from "$lib/components/ui/Card.svelte";
+  import Input from "$lib/components/ui/Input.svelte";
   import Switch from "$lib/components/ui/Switch.svelte";
   import { storage } from "$lib/storage.svelte";
   import { X } from "@lucide/svelte";
@@ -87,27 +88,17 @@
         </Button>
       {/each}
     </div>
-    <div class="flex flex-col gap-2">
-      <div
-        class="w-80 focus-within:bg-secondary bg-card border border-border rounded-lg items-center h-9 px-2.5"
-      >
-        <input
-          value={storage.settings.maskTitle}
-          oninput={(e) => storage.updateSetting("maskTitle", e.target.value)}
-          placeholder="Title"
-          class="h-full w-full bg-transparent outline-none placeholder:text-muted text-sm"
-        />
-      </div>
-      <div
-        class="w-80 focus-within:bg-secondary bg-card border border-border rounded-lg items-center h-9 px-2.5"
-      >
-        <input
-          value={storage.settings.maskIcon}
-          oninput={(e) => storage.updateSetting("maskIcon", e.target.value)}
-          placeholder="Icon"
-          class="h-full w-full bg-transparent outline-none placeholder:text-muted text-sm"
-        />
-      </div>
+    <div class="flex gap-2">
+      <Input
+        value={storage.settings.maskTitle}
+        oninput={(e) => storage.updateSetting("maskTitle", e.target.value)}
+        placeholder="Title"
+      />
+      <Input
+        value={storage.settings.maskIcon}
+        oninput={(e) => storage.updateSetting("maskIcon", e.target.value)}
+        placeholder="Icon"
+      />
     </div>
   </Card>
   <Card size="sm">
@@ -119,7 +110,7 @@
       <Button
         variant="outline"
         onclick={() => (binding = true)}
-        class="outline-none bg-secondary"
+        class="outline-none shrink-0"
       >
         {#if binding}
           <span>Waiting for key...</span>
@@ -129,16 +120,11 @@
           Choose Key
         {/if}
       </Button>
-      <div
-        class="w-80 focus-within:bg-secondary bg-card border border-border rounded-lg items-center h-9 px-2.5"
-      >
-        <input
-          value={storage.settings.panicURL}
-          oninput={(e) => storage.updateSetting("panicURL", e.target.value)}
-          placeholder="URL"
-          class="h-full w-full bg-transparent outline-none placeholder:text-muted text-sm"
-        />
-      </div>
+      <Input
+        value={storage.settings.panicURL}
+        oninput={(e) => storage.updateSetting("panicURL", e.target.value)}
+        placeholder="URL"
+      />
     </div>
   </Card>
   <Card size="sm" class="flex-row justify-between">

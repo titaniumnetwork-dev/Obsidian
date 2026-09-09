@@ -39,7 +39,7 @@
     </div>
     <div class="flex justify-start">
       <details
-        class="relative bg-secondary rounded-lg border border-input h-9"
+        class="relative bg-input/30 rounded-lg border border-input h-9"
         bind:this={sortNode}
       >
         <summary

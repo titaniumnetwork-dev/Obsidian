@@ -25,22 +25,24 @@
       <p class="text-sm text-muted">Change the card style to your liking</p>
     </div>
     <div class="flex flex-wrap gap-2">
-      <button
+      <Button
+        variant="ghost"
         aria-label="Default Card Size"
         onclick={() => storage.updateSetting("cards", "default")}
         data-active={storage.settings.cards === "default"}
-        class="p-2.5 text-sm cursor-pointer rounded-lg whitespace-nowrap border border-border data-[active=true]:bg-secondary"
+        class="data-[active=true]:bg-secondary border border-border h-auto py-2.5 items-start"
       >
         <div class="bg-input aspect-2/3 w-8 rounded-md"></div>
-      </button>
-      <button
+      </Button>
+      <Button
+        variant="ghost"
         aria-label="Square Card Size"
         onclick={() => storage.updateSetting("cards", "square")}
         data-active={storage.settings.cards === "square"}
-        class="p-2.5 text-sm cursor-pointer rounded-lg whitespace-nowrap border border-border transition-colors data-[active=true]:bg-secondary flex items-start"
+        class="data-[active=true]:bg-secondary border border-border h-auto py-2.5 items-start"
       >
         <div class="bg-input aspect-square w-8 rounded-md"></div>
-      </button>
+      </Button>
     </div>
   </Card>
   <Card size="sm">
@@ -61,10 +63,10 @@
       </Button>
       {#each aspects as aspect}
         <Button
-          variant="outline"
+          variant="ghost"
           onclick={() => storage.updateSetting("aspect", aspect.value)}
           data-active={storage.settings.aspect === aspect.value}
-          class="data-[active=true]:bg-secondary"
+          class="data-[active=true]:bg-secondary border border-border"
         >
           <span>{aspect.name}</span>
         </Button>
@@ -74,31 +76,33 @@
   <Card size="sm">
     <div>
       <p><Obfuscate text="Game"></Obfuscate> Options</p>
-      <p class="text-sm text-muted">Change the in <Obfuscate text="game"></Obfuscate> options style</p>
+      <p class="text-sm text-muted">
+        Change the in <Obfuscate text="game"></Obfuscate> options style
+      </p>
     </div>
     <div class="flex flex-wrap gap-2">
       <Button
-        variant="outline"
+        variant="ghost"
         onclick={() => storage.updateSetting("overlay", "default")}
         data-active={storage.settings.overlay === "default"}
-        class="data-[active=true]:bg-secondary"
+        class="data-[active=true]:bg-secondary border border-border"
       >
         <span>Default</span>
       </Button>
       <Button
-        variant="outline"
+        variant="ghost"
         onclick={() => storage.updateSetting("overlay", "compact")}
         data-active={storage.settings.overlay === "compact"}
-        class="data-[active=true]:bg-secondary"
+        class="data-[active=true]:bg-secondary border border-border"
       >
         <span>Compact</span>
       </Button>
       <Button
         disabled
-        variant="outline"
+        variant="ghost"
         onclick={() => storage.updateSetting("overlay", "overlay")}
         data-active={storage.settings.overlay === "overlay"}
-        class="data-[active=true]:bg-secondary"
+        class="data-[active=true]:bg-secondary border border-border"
       >
         <span>Overlay (Coming Soon)</span>
       </Button>

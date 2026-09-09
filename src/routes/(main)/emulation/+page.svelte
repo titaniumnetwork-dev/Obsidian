@@ -2,9 +2,14 @@
   import { page } from "$app/stores";
   import Head from "$lib/components/Head.svelte";
   import Button from "$lib/components/ui/Button.svelte";
+  import InputGroup from "$lib/components/ui/InputGroup.svelte";
+  import InputGroupAddon from "$lib/components/ui/InputGroupAddon.svelte";
+  import InputGroupInput from "$lib/components/ui/InputGroupInput.svelte";
   import { companies, emulators } from "$lib/emulators";
+    import { links } from "$lib/links";
   import { removeURLParam, setURLParam } from "$lib/utils";
-  import { Search, X } from "@lucide/svelte";
+    import { SiDiscord } from "@icons-pack/svelte-simple-icons";
+  import { Search, SearchX, X } from "@lucide/svelte";
 
   let searchQuery = $state($page.data.search || "");
   let filterCompany = $state("");
@@ -30,28 +35,29 @@
 <Head title="Emulation" />
 
 <div class="flex gap-2 p-4 bg-background sticky top-0 z-10">
-  <div
-    class="bg-card rounded-lg items-center flex w-96 border border-input h-9 px-2.5 gap-1.5"
-  >
-    <Search size="16" class="text-muted shrink-0" />
-    <input
+  <InputGroup width="fixed">
+    <InputGroupAddon>
+      <Search size="16" class="text-muted" />
+    </InputGroupAddon>
+    <InputGroupInput
       oninput={(e) =>
         e.target.value
           ? setURLParam("search", e.target.value)
           : removeURLParam("search")}
       bind:value={searchQuery}
       placeholder="Search emulators"
-      class="w-full h-full bg-transparent outline-none placeholder:text-muted text-sm"
     />
     {#if searchQuery.length > 0}
-      <button
-        class="cursor-pointer shrink-0 text-muted"
-        onclick={() => ((searchQuery = ""), removeURLParam("search"))}
-      >
-        <X size="16" />
-      </button>
+      <InputGroupAddon>
+        <button
+          class="cursor-pointer text-muted"
+          onclick={() => ((searchQuery = ""), removeURLParam("search"))}
+        >
+          <X size="16" />
+        </button>
+      </InputGroupAddon>
     {/if}
-  </div>
+  </InputGroup>
   <div class="flex gap-2 overflow-y-scroll scrollbar-none">
     <Button
       variant="outline"
@@ -93,7 +99,21 @@
   </div>
 </div>
 {#if filteredEmulators.length === 0}
-  <div class="text-muted text-center p-4 text-sm">
-    No results found
+  <div class="flex flex-col gap-4 h-full w-full justify-center items-center">
+    <div class="flex flex-col gap-2 max-w-sm items-center">
+      <SearchX class="mb-2" size="32" />
+      <p class="text-sm text-center">No results found</p>
+      <p class="text-muted text-sm text-center text-balance">
+        Try checking for typos or adjusting your search terms. Join our Discord
+        server to request an emulator.
+      </p>
+    </div>
+    <a
+      href={links.discord}
+      class="h-9 px-2.5 bg-primary text-primary-foreground rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
+    >
+      <SiDiscord size="16" />
+      <span>Join Discord Server</span>
+    </a>
   </div>
 {/if}

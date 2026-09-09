@@ -1,7 +1,9 @@
 <script>
   import { Search } from "@lucide/svelte";
   import { getContext, tick } from "svelte";
-  import { twMerge } from "tailwind-merge";
+  import InputGroup from "./InputGroup.svelte";
+  import InputGroupAddon from "./InputGroupAddon.svelte";
+  import InputGroupInput from "./InputGroupInput.svelte";
 
   let {
     class: className,
@@ -30,18 +32,15 @@
   });
 </script>
 
-<div
-  class={twMerge(
-    "bg-input/30 rounded-lg items-center flex border border-input h-8 px-2.5 gap-1.5 shrink-0",
-    className,
-  )}
->
-  <Search class="text-muted" size="16" />
-  <input
+<InputGroup size="sm" class={className}>
+  <InputGroupAddon>
+    <Search class="text-muted" size="16" />
+  </InputGroupAddon>
+  <InputGroupInput
     bind:value
     onkeydown={handleKeydown}
     class="w-full h-full bg-transparent outline-none placeholder:text-muted text-sm"
     {placeholder}
     {...restProps}
   />
-</div>
+</InputGroup>

@@ -149,10 +149,10 @@
       {#each themes as theme}
         {#if !theme.hidden}
           <Button
-            variant="outline"
+            variant="ghost"
             onclick={() => storage.updateTheme(theme.name)}
             data-active={storage.theme === theme.name}
-            class="data-[active=true]:bg-secondary"
+            class="data-[active=true]:bg-secondary border border-border"
           >
             <div
               style={"background: " + theme.primary}
@@ -174,10 +174,10 @@
         {#each themes as theme}
           {#if theme.hidden && storage.hiddenThemes.includes(theme.name)}
             <Button
-              variant="outline"
+              variant="ghost"
               onclick={() => storage.updateTheme(theme.name)}
               data-active={storage.theme === theme.name}
-              class="data-[active=true]:bg-secondary"
+              class="data-[active=true]:bg-secondary border border-border"
             >
               <div
                 style={"background: " + theme.primary}
@@ -198,10 +198,10 @@
     <div class="flex flex-wrap gap-2">
       {#each roundings as rounding}
         <Button
-          variant="outline"
+          variant="ghost"
           onclick={() => storage.updateRounding(rounding)}
           data-active={storage.rounding === rounding}
-          class="data-[active=true]:bg-secondary"
+          class="data-[active=true]:bg-secondary border border-border"
         >
           <span>{rounding}</span>
         </Button>
