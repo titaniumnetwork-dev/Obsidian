@@ -19,7 +19,7 @@
         default: "bg-primary text-primary-foreground",
         outline: "bg-input/30 border border-input",
         secondary: "bg-secondary",
-        ghost: "hover:bg-secondary",
+        ghost: "hover:not-disabled:bg-secondary",
       },
       size: {
         default: "h-9 px-2.5",

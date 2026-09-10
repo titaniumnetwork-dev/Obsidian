@@ -269,7 +269,7 @@
       <p>
         {collections[data.currentData.collection].title} Collection
       </p>
-      <div class="flex flex-wrap gap-4">
+      <div class="flex flex-wrap gap-2">
         {#each collectionData as item (item.id)}
           {@const itemInstalled = storage.installed.includes(item.id)}
           <ContextMenu>
@@ -278,16 +278,16 @@
                 href={itemInstalled
                   ? "/library/" + item.id
                   : "/store/" + item.id}
-                class="cursor-pointer h-14 rounded-lg text-sm flex items-center justify-between p-2 gap-2 whitespace-nowrap bg-card border border-input"
+                class="cursor-pointer h-12 max-w-60 rounded-md text-sm flex items-center justify-between p-2 gap-2 bg-input/30 whitespace-nowrap border border-input"
               >
                 <div class="flex gap-2 items-center overflow-hidden">
                   <img
                     draggable="false"
                     alt={item.title + " logo"}
-                    class="h-10 w-10 rounded-md"
+                    class="size-8 rounded-sm"
                     src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
                   />
-                  <span>{item.title}</span>
+                  <span class="overflow-hidden text-ellipsis">{item.title}</span>
                 </div>
               </a>
             </ContextMenuTrigger>

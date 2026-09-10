@@ -64,25 +64,25 @@
     </div>
     <div class="flex flex-wrap gap-2">
       <Button
-        variant="outline"
+        variant="ghost"
         size="icon"
         aria-label="No Mask"
         onclick={() => setMask("", "")}
         data-active={storage.settings.maskTitle === "" &&
           storage.settings.maskIcon === ""}
-        class="rounded-full data-[active=true]:bg-secondary"
+        class="rounded-full data-[active=true]:bg-secondary border border-border"
       >
         <X size="16" />
       </Button>
       {#each maskTemplates as mask}
         <Button
-          variant="outline"
+          variant="ghost"
           size="icon"
           aria-label={mask.title}
           onclick={() => setMask(mask.title, mask.icon)}
           data-active={storage.settings.maskTitle === mask.title &&
             storage.settings.maskIcon === mask.icon}
-          class="rounded-full p-2 data-[active=true]:bg-secondary"
+          class="rounded-full p-2 data-[active=true]:bg-secondary border border-border"
         >
           <img draggable="false" alt={mask.title} src={mask.icon} size="16" />
         </Button>
