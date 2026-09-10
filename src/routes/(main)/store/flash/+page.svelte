@@ -17,11 +17,7 @@
         item.title.toLowerCase().includes(searchQuery().toLowerCase()),
       )
       .filter((item) => {
-        if (data.category) {
-          return item.type === data.category;
-        } else {
-          return true;
-        }
+        return item.type === "Flash";
       })
       .sort((a, b) => {
         //Alphabetical
@@ -30,12 +26,7 @@
   );
 </script>
 
-<Cards
-  title={data.category}
-  data={sortedLibrary}
-  link="/store/"
-  buttons="store"
-/>
+<Cards title="Flash" data={sortedLibrary} link="/store/" buttons="store" />
 {#if !sortedLibrary.length}
   <div class="flex flex-col gap-4 h-full w-full justify-center items-center">
     <div class="flex flex-col gap-2 max-w-sm items-center">

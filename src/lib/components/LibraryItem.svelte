@@ -1,6 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
   import { collections } from "$lib/collections";
+  import { emulators } from "$lib/emulators";
   import { formatLastPlayed, formatPlaytime } from "$lib/formatUtils";
   import { storage } from "$lib/storage.svelte.js";
   import {
@@ -9,6 +10,7 @@
     Clock,
     Download,
     Ellipsis,
+    Gamepad,
     Gamepad2,
     Keyboard,
     Pause,
@@ -257,6 +259,16 @@
               {/if}
             </Button>
           {/if}
+          {#if data.currentData.emulator}
+            <Button variant="outline" class="whitespace-nowrap cursor-default">
+              <Gamepad size="16" />
+              <span
+                >{emulators.filter(
+                  (emu) => emu.id === data.currentData.emulator,
+                )[0].title}</span
+              >
+            </Button>
+          {/if}
         </div>
       </div>
     </div>
@@ -287,7 +299,8 @@
                     class="size-8 rounded-sm"
                     src={"/cdn/assets/assets/" + item.id + "/icon.webp"}
                   />
-                  <span class="overflow-hidden text-ellipsis">{item.title}</span>
+                  <span class="overflow-hidden text-ellipsis">{item.title}</span
+                  >
                 </div>
               </a>
             </ContextMenuTrigger>

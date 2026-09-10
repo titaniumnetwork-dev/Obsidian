@@ -86,7 +86,7 @@
                 <button
                   aria-label="Previous Slide"
                   onclick={prev}
-                  class="bg-secondary border border-input size-8 cursor-pointer rounded-full flex justify-center items-center shrink-0"
+                  class="bg-secondary border border-input size-9 cursor-pointer rounded-full flex justify-center items-center shrink-0"
                 >
                   <ChevronLeft size="16" />
                 </button>
@@ -129,7 +129,7 @@
                 <button
                   aria-label="Next Slide"
                   onclick={next}
-                  class="bg-secondary border border-input size-8 cursor-pointer rounded-full flex justify-center items-center shrink-0"
+                  class="bg-secondary border border-input size-9 cursor-pointer rounded-full flex justify-center items-center shrink-0"
                 >
                   <ChevronRight size="16" />
                 </button>

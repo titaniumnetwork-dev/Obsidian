@@ -4,6 +4,7 @@
   import KenneyGamepadIcon from "$lib/components/KenneyGamepadIcon.svelte";
   import KenneyKeyboardIcon from "$lib/components/KenneyKeyboardIcon.svelte";
   import Obfuscate from "$lib/components/Obfuscate.svelte";
+  import { emulators } from "$lib/emulators";
   import { storage } from "$lib/storage.svelte";
   import {
     ChartPie,
@@ -37,6 +38,7 @@
   let cover = $state("");
   let icon = $state("");
   let type = $state("HTML");
+  let emulator = $state("");
   let path = $state("");
   let rom = $state("");
   let controls = $state([]);
@@ -181,6 +183,9 @@
         break;
       case "Emulation":
         data.rom = rom;
+        if (emulator) {
+          data.emulator = emulator;
+        }
         break;
     }
 
@@ -695,6 +700,49 @@
         </button>
       {/if}
     </div>
+    <details
+      class="relative bg-secondary rounded-xl border border-border"
+      bind:this={emulatorNode}
+    >
+      <summary
+        class="rounded-xl flex px-4 py-2 cursor-pointer text-sm justify-between"
+      >
+        <span class="mr-2 select-none">
+          {#if emulator}
+            {emulators.filter((emu) => emu.id === emulator)[0].title}
+          {:else}
+            Select Emulator
+          {/if}
+        </span>
+        <ChevronDown size="20" />
+      </summary>
+      <div
+        class="absolute mt-2 min-w-full w-max bg-card rounded-xl max-h-60 overflow-y-auto border border-surface z-10"
+      >
+        {#each emulators as eachEmulator}
+          <label
+            class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors"
+          >
+            <div class="relative flex items-center justify-center">
+              <input
+                type="checkbox"
+                class="peer w-4 h-4 cursor-pointer appearance-none border border-border checked:bg-primary rounded"
+                value={eachEmulator.id}
+                checked={emulator === eachEmulator.id}
+                onchange={(e) => {
+                  emulator = eachEmulator.id;
+                }}
+              />
+              <Check
+                class="absolute hidden peer-checked:block text-card"
+                size="14"
+              />
+            </div>
+            <p class="select-none">{eachEmulator.title}</p>
+          </label>
+        {/each}
+      </div>
+    </details>
   {/if}
   <label
     class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
