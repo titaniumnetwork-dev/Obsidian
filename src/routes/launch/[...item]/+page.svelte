@@ -738,11 +738,11 @@
             {#if binding.key}
               <p class="text-muted text-sm">Waiting for input...</p>
               <div class="flex gap-2 items-center">
-                <Button variant="outline" size="icon">
+                <Button variant="outline">
                   <KenneyKeyboardIcon key={binding.key} />
                 </Button>
                 <ChevronRight size="16" />
-                <Button aria-label="New Keybind" variant="outline" size="icon">
+                <Button aria-label="New Keybind" variant="outline">
                   <div class="opacity-0 select-none">
                     <KenneyKeyboardIcon key={binding.key} />
                   </div>
@@ -757,7 +757,7 @@
                 {}}
               <p class="text-muted text-sm">Waiting for input...</p>
               <div class="flex gap-2 items-center">
-                <Button variant="outline" size="icon">
+                <Button variant="outline">
                   {#if activeBind.buttons}
                     {#each activeBind.buttons as btn}
                       <KenneyGamepadIcon
@@ -776,7 +776,6 @@
                 <Button
                   aria-label="New gamepad bind"
                   variant="outline"
-                  size="icon"
                 >
                   <div class="opacity-0 select-none flex gap-1">
                     {#if activeBind.buttons}
@@ -799,13 +798,13 @@
             <p class="text-sm text-muted">(Press Esc to reset)</p>
           </div>
         {:else}
-          <div class="flex gap-4 relative">
+          <div class="flex gap-2 relative">
             {#if data.currentData.controls}
               <Button
-                variant="outline"
+                variant="ghost"
                 onclick={() => (controlsTab = "keyboard")}
                 data-active={controlsTab === "keyboard"}
-                class="data-[active=true]:bg-secondary"
+                class="data-[active=true]:bg-secondary border border-border"
               >
                 <Keyboard size="16" />
                 <span>Keyboard</span>
@@ -813,10 +812,10 @@
             {/if}
             {#if data.currentData.gamepadControls && isGamepadConnected}
               <Button
-                variant="outline"
+                variant="ghost"
                 onclick={() => (controlsTab = "controller")}
                 data-active={controlsTab === "controller"}
-                class="data-[active=true]:bg-secondary"
+                class="data-[active=true]:bg-secondary border border-border"
               >
                 <Gamepad2 size="16" />
                 <span
@@ -863,7 +862,7 @@
           {:else if controlsTab === "controller" && isGamepadConnected}
             {#each data.currentData.gamepadControls as control}
               {@const activeBind = gamepadBinds[control.action] || control}
-              <div class="flex gap-2 items-center my-1 justify-between">
+              <div class="flex gap-2 items-center justify-between">
                 <span>{control.action}:</span>
                 {#if gamepadBinds[control.action]}
                   <button
