@@ -34,6 +34,14 @@
     .map((id) => storage.catalog.find((item) => item.id === id))
     .filter(Boolean);
 
+  let recentlyAddedData = $derived(
+    [...storage.catalog]
+      .sort((a, b) => {
+        return b.dateAdded - a.dateAdded;
+      })
+      .slice(0, 5),
+  );
+
   let clickCount = $state(0);
   let timeoutId;
 
@@ -137,8 +145,9 @@
         <p>Advanced Features</p>
       </div>
       <p class="text-sm text-muted">
-        Track your playtime, save your favorites, and configure many
-        settings and themes with local syncing and the ability to download and store data and <Obfuscate text="game"></Obfuscate> saves.
+        Track your playtime, save your favorites, and configure many settings
+        and themes with local syncing and the ability to download and store data
+        and <Obfuscate text="game"></Obfuscate> saves.
       </p>
     </Card>
   </div>
@@ -168,7 +177,7 @@
   <div>
     <Cards
       title="Recently Added"
-      data={featuredData.reverse()}
+      data={recentlyAddedData}
       buttons="store"
       link="/store/"
       newBadge={true}
