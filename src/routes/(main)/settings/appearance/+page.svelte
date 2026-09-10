@@ -30,7 +30,9 @@
     ".cm-content": {
       caretColor: "var(--theme-foreground)",
     },
-    ".cm-cursor, .cm-dropCursor": { borderLeftColor: "var(--theme-foreground)" },
+    ".cm-cursor, .cm-dropCursor": {
+      borderLeftColor: "var(--theme-foreground)",
+    },
     "&.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection":
       { backgroundColor: "Highlight" },
 
@@ -92,8 +94,7 @@
     },
     {
       tag: [t.comment, t.meta],
-      color:
-        "color-mix(in oklab, var(--theme-muted) 60%, transparent)",
+      color: "color-mix(in oklab, var(--theme-muted) 60%, transparent)",
     },
     {
       tag: t.invalid,
@@ -129,7 +130,7 @@
     themes.filter((theme) => theme.hidden).length,
   );
 
-  const roundings = ["Sharp", "Default", "Soft"]
+  const roundings = ["Sharp", "Default", "Soft"];
 </script>
 
 <div class="grid grid-cols-2 gap-4">

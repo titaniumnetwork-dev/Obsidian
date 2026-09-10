@@ -32,10 +32,10 @@
       {/if}
     {/if}
     <div
-      class="grid grid-cols-[repeat(auto-fill,minmax(13rem,1fr))] gap-4 
-            group-data-[row=true]:grid-rows-1 
-            group-data-[row=true]:gap-y-0 
-            group-data-[row=true]:overflow-hidden 
+      class="grid grid-cols-[repeat(auto-fill,minmax(13rem,1fr))] gap-4
+            group-data-[row=true]:grid-rows-1
+            group-data-[row=true]:gap-y-0
+            group-data-[row=true]:overflow-hidden
             group-data-[row=true]:auto-rows-[0px]"
     >
       {#each newData as item (item.id)}

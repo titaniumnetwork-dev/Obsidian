@@ -13,10 +13,16 @@
   let activeTrigger = $state(null);
 
   const ctx = {
-    get isOpen() { return isOpen; },
-    get x() { return x; },
-    get y() { return y; },
-    
+    get isOpen() {
+      return isOpen;
+    },
+    get x() {
+      return x;
+    },
+    get y() {
+      return y;
+    },
+
     open(e) {
       e.preventDefault();
       e.stopPropagation();
@@ -25,9 +31,10 @@
       activeMenus.add(ctx.close);
 
       if (activeTrigger) activeTrigger.removeAttribute("data-context-menu");
-      
+
       activeTrigger = e.currentTarget;
-      if (activeTrigger) activeTrigger.setAttribute("data-context-menu", "true");
+      if (activeTrigger)
+        activeTrigger.setAttribute("data-context-menu", "true");
 
       x = e.clientX;
       y = e.clientY;
@@ -36,7 +43,7 @@
     close() {
       if (!isOpen) return;
       isOpen = false;
-      
+
       activeMenus.delete(ctx.close);
       if (activeTrigger) {
         activeTrigger.removeAttribute("data-context-menu");
@@ -46,7 +53,7 @@
     updatePosition(newX, newY) {
       x = newX;
       y = newY;
-    }
+    },
   };
 
   setContext("ContextMenu", ctx);

@@ -1,5 +1,4 @@
 <script>
-  import { Search } from "@lucide/svelte";
   import { getContext } from "svelte";
   import { twMerge } from "tailwind-merge";
   import { tv } from "tailwind-variants";

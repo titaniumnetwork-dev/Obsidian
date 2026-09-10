@@ -41,12 +41,8 @@
     <a class="text-muted hover:underline" href={"mailto:" + links.email}
       >Contact</a
     >
-    <a class="text-muted hover:underline" href="/terms"
-      >Terms of Service</a
-    >
-    <a class="text-muted hover:underline" href="/privacy"
-      >Privacy Policy</a
-    >
+    <a class="text-muted hover:underline" href="/terms">Terms of Service</a>
+    <a class="text-muted hover:underline" href="/privacy">Privacy Policy</a>
     <a class="text-muted hover:underline" href="/dmca">DMCA</a>
     <div class="flex items-center gap-6 mx-2">
       <!--

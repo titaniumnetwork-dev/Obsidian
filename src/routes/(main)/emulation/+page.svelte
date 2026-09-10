@@ -6,9 +6,9 @@
   import InputGroupAddon from "$lib/components/ui/InputGroupAddon.svelte";
   import InputGroupInput from "$lib/components/ui/InputGroupInput.svelte";
   import { companies, emulators } from "$lib/emulators";
-    import { links } from "$lib/links";
+  import { links } from "$lib/links";
   import { removeURLParam, setURLParam } from "$lib/utils";
-    import { SiDiscord } from "@icons-pack/svelte-simple-icons";
+  import { SiDiscord } from "@icons-pack/svelte-simple-icons";
   import { Search, SearchX, X } from "@lucide/svelte";
 
   let searchQuery = $state($page.data.search || "");

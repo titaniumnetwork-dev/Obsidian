@@ -35,6 +35,9 @@ const messages = [
   "Crazy? I was crazy once, They locked me in a room, a rubber room, a rubber room with rats, and rats make me crazy.",
   "Literally 1984",
   "The lag is due to your chromebook I'm sorry",
+  "Truely MASSSSIVEEEE collection",
+  "Hello user! I... I have bad news. Actually, there is no game.",
+  "Dont be clicking on my logo",
 ];
 
 let availablePool = [];

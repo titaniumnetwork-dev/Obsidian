@@ -773,10 +773,7 @@
                   {/if}
                 </Button>
                 <ChevronRight size="16" />
-                <Button
-                  aria-label="New gamepad bind"
-                  variant="outline"
-                >
+                <Button aria-label="New gamepad bind" variant="outline">
                   <div class="opacity-0 select-none flex gap-1">
                     {#if activeBind.buttons}
                       {#each activeBind.buttons as btn}

@@ -35,10 +35,9 @@
     .filter(Boolean);
 
   let recentlyAddedData = $derived(
-    [...storage.catalog]
-      .sort((a, b) => {
-        return b.dateAdded - a.dateAdded;
-      })
+    [...storage.catalog].sort((a, b) => {
+      return b.dateAdded - a.dateAdded;
+    }),
   );
 
   let clickCount = $state(0);
@@ -81,14 +80,16 @@
       Play instantly. <span class="text-muted">No downloads.</span>
     </h1>
     <p
-      class="text-center max-w-2xl"
+      class="text-center max-w-2xl h-18 flex items-center select-none"
       onpointerup={(e) => (e.target.textContent = getMessage())}
     >
-      Obsidian is your ultimate web-based <Obfuscate text="game"></Obfuscate> library.
-      Dive into a massive collection of classic and modern online <Obfuscate
-        text="games"
-      ></Obfuscate>, preserved Flash masterpieces, and emulated retro classics
-      directly in your browser.
+      <span>
+        Obsidian is your ultimate web-based <Obfuscate text="game"></Obfuscate> library.
+        Dive into a massive collection of classic and modern online <Obfuscate
+          text="games"
+        ></Obfuscate>, preserved Flash masterpieces, and emulated retro classics
+        directly in your browser.
+      </span>
     </p>
     <div class="flex gap-2">
       <Button href="/library">

@@ -1,13 +1,13 @@
 <script>
   import { page } from "$app/stores";
-    import Ruffle from "$lib/assets/emulation/Ruffle.svelte";
+  import Ruffle from "$lib/assets/emulation/Ruffle.svelte";
   import Head from "$lib/components/Head.svelte";
   import Button from "$lib/components/ui/Button.svelte";
   import InputGroup from "$lib/components/ui/InputGroup.svelte";
   import InputGroupAddon from "$lib/components/ui/InputGroupAddon.svelte";
   import InputGroupInput from "$lib/components/ui/InputGroupInput.svelte";
   import { removeURLParam, setURLParam } from "$lib/utils.js";
-  import { ChevronDown, Folder, Gamepad, Gamepad2, Home, Search, Tag, X } from "@lucide/svelte";
+  import { ChevronDown, Gamepad, Home, Search, Tag, X } from "@lucide/svelte";
   import { setContext } from "svelte";
 
   let { data, children } = $props();
