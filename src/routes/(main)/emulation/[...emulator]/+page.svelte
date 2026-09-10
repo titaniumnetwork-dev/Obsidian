@@ -115,42 +115,36 @@
 <div class={playerHidden ? " hidden" : ""}>
   <div
     data-overlay-style={storage.settings.overlay}
-    class="group bg-background fixed top-0 right-0 left-0 flex data-[overlay-style=default]:gap-4 data-[overlay-style=default]:p-4 data-[overlay-style=compact]:px-4 data-[overlay-style=compact]:py-2 data-[overlay-style=compact]:gap-2 z-10 justify-end items-center border-b border-surface data-[overlay-style=compact]:h-10"
+    class="group bg-background fixed top-0 right-0 left-0 flex justify-end items-center border-b border-border h-17 px-4 z-10"
   >
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-2">
       <button
         onclick={() => frame.requestFullscreen()}
-        class="group-data-[overlay-style=default]:px-4 group-data-[overlay-style=default]:py-2 group-data-[overlay-style=compact]:p-1 cursor-pointer text-sm bg-secondary border border-border group-data-[overlay-style=default]:rounded-xl group-data-[overlay-style=compact]:rounded-lg flex gap-2"
+        class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
       >
-        <Maximize
-          class="group-data-[overlay-style=default]:w-5 group-data-[overlay-style=default]:h-5 group-data-[overlay-style=compact]:w-4 group-data-[overlay-style=compact]:h-4"
-        />
+        <Maximize size="16" />
         <span class="group-data-[overlay-style=compact]:hidden">Fullscreen</span
         >
       </button>
       <button
         onclick={() => frame.contentWindow.location.reload()}
-        class="group-data-[overlay-style=default]:px-4 group-data-[overlay-style=default]:py-2 group-data-[overlay-style=compact]:p-1 cursor-pointer text-sm bg-secondary border border-border group-data-[overlay-style=default]:rounded-xl group-data-[overlay-style=compact]:rounded-lg flex gap-2"
+        class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
       >
-        <RotateCw
-          class="group-data-[overlay-style=default]:w-5 group-data-[overlay-style=default]:h-5 group-data-[overlay-style=compact]:w-4 group-data-[overlay-style=compact]:h-4"
-        />
+        <RotateCw size="16" />
         <span class="group-data-[overlay-style=compact]:hidden">Reload</span>
       </button>
       <button
         onclick={() => exit()}
-        class="group-data-[overlay-style=default]:px-4 group-data-[overlay-style=default]:py-2 group-data-[overlay-style=compact]:p-1 cursor-pointer text-sm bg-secondary border border-border group-data-[overlay-style=default]:rounded-xl group-data-[overlay-style=compact]:rounded-lg flex gap-2"
+        class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
       >
-        <X
-          class="group-data-[overlay-style=default]:w-5 group-data-[overlay-style=default]:h-5 group-data-[overlay-style=compact]:w-4 group-data-[overlay-style=compact]:h-4"
-        />
+        <X size="16" />
         <span class="group-data-[overlay-style=compact]:hidden">Exit</span>
       </button>
     </div>
   </div>
   <div
     data-overlay-style={storage.settings.overlay}
-    class="fixed data-[overlay-style=default]:top-17 data-[overlay-style=compact]:top-10 bottom-0 right-0 left-0 h-[calc(100vh-4.25rem)] w-full flex items-center justify-center z-10"
+    class="fixed data-[overlay-style=default]:top-17 bottom-0 right-0 left-0 h-[calc(100vh-4.25rem)] w-full flex items-center justify-center"
   >
     <iframe
       bind:this={frame}

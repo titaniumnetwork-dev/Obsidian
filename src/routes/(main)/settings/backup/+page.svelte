@@ -23,12 +23,12 @@
       </p>
     </div>
     <div class="flex gap-2">
-      <Button disabled variant="outline"
-        >Upload <Obfuscate text="Game"></Obfuscate> Data</Button
-      >
-      <Button disabled variant="outline"
-        >Download <Obfuscate text="Game"></Obfuscate> Data</Button
-      >
+      <Button disabled variant="outline">
+        <span>Upload <Obfuscate text="Game"></Obfuscate> Data</span>
+      </Button>
+      <Button disabled variant="outline">
+        <span>Download <Obfuscate text="Game"></Obfuscate> Data</span>
+      </Button>
     </div>
   </Card>
 </div>

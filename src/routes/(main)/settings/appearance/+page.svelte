@@ -19,8 +19,8 @@
 
   export const customTheme = EditorView.theme({
     "&": {
-      color: "var(--color-text)",
-      backgroundColor: "var(--color-secondary)",
+      color: "var(--theme-foreground)",
+      backgroundColor: "var(--theme-secondary)",
       minHeight: "16rem",
     },
     ".cm-scroller": {
@@ -28,9 +28,9 @@
       padding: "0.25rem",
     },
     ".cm-content": {
-      caretColor: "var(--color-text)",
+      caretColor: "var(--theme-foreground)",
     },
-    ".cm-cursor, .cm-dropCursor": { borderLeftColor: "var(--color-text)" },
+    ".cm-cursor, .cm-dropCursor": { borderLeftColor: "var(--theme-foreground)" },
     "&.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection":
       { backgroundColor: "Highlight" },
 
@@ -39,37 +39,37 @@
     },
     ".cm-activeLine": { backgroundColor: "transparent" },
     ".cm-gutters": {
-      backgroundColor: "var(--color-secondary)",
-      color: "var(--color-text-placeholder)",
+      backgroundColor: "var(--theme-secondary)",
+      color: "var(--theme-muted)",
       border: "none",
     },
     ".cm-activeLineGutter": {
-      backgroundColor: "var(--color-secondary)",
+      backgroundColor: "var(--theme-secondary)",
     },
     ".cm-foldPlaceholder": {
       backgroundColor: "transparent",
       border: "none",
-      color: "var(--color-text)",
+      color: "var(--theme-foreground)",
     },
     ".cm-tooltip": {
-      border: "1px solid var(--color-border)",
-      backgroundColor: "var(--color-secondary)",
+      border: "1px solid var(--theme-border)",
+      backgroundColor: "var(--theme-secondary)",
       borderRadius: "0.75rem",
       overflow: "hidden",
-      color: "var(--color-text)",
+      color: "var(--theme-foreground)",
     },
     ".cm-completionLabel": {
-      color: "var(--color-text)",
+      color: "var(--theme-foreground)",
     },
     ".cm-completionMatchedText": {
       textDecoration: "none",
-      color: "var(--color-text)",
+      color: "var(--theme-foreground)",
     },
     ".cm-tooltip-autocomplete > ul > li": {
       padding: "6px 8px !important",
     },
     ".cm-tooltip-autocomplete > ul > li[aria-selected]": {
-      backgroundColor: "var(--color-secondary)",
+      backgroundColor: "var(--theme-input)",
     },
     ".cm-lineNumbers .cm-gutterElement": {
       minWidth: "24px",
@@ -84,16 +84,16 @@
     },
     {
       tag: [t.string, t.className, t.constant(t.name), t.attributeName],
-      color: "var(--theme-text-placeholder)",
+      color: "var(--theme-muted)",
     },
     {
       tag: [t.name, t.propertyName, t.operator, t.punctuation],
-      color: "var(--theme-text)",
+      color: "var(--theme-foreground)",
     },
     {
       tag: [t.comment, t.meta],
       color:
-        "color-mix(in oklab, var(--theme-text-placeholder) 60%, transparent)",
+        "color-mix(in oklab, var(--theme-muted) 60%, transparent)",
     },
     {
       tag: t.invalid,
