@@ -39,7 +39,6 @@
       .sort((a, b) => {
         return b.dateAdded - a.dateAdded;
       })
-      .slice(0, 5),
   );
 
   let clickCount = $state(0);
@@ -181,6 +180,7 @@
       buttons="store"
       link="/store/"
       newBadge={true}
+      row={true}
     />
   </div>
   <Card class="flex-row items-center mx-4" size="sm">

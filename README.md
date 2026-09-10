@@ -2,14 +2,12 @@
 Play instantly. No downloads.
 
 ## Todo
-- Pikuniku controls
 - Store
-  - Better nav and make nav work
+  - Retro and flash pages
 - Creator
   - Update all styles
 
 ## Before Release
-- Flesh out store and featured
 - Make socials
 - Accessibility
 

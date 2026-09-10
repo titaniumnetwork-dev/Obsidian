@@ -18,7 +18,7 @@
 
 <div
   data-cards-style={storage.settings.cards}
-  class="group w-full data-[cards-style=default]:aspect-2/3 data-[cards-style=square]:aspect-square bg-cover bg-center flex flex-col relative"
+  class="group/card w-full data-[cards-style=default]:aspect-2/3 data-[cards-style=square]:aspect-square bg-cover bg-center flex flex-col relative"
 >
   {#if newBadge === true}
     <div
@@ -37,7 +37,7 @@
           draggable="false"
           loading="lazy"
           alt={data.title + " cover"}
-          class="w-full h-full object-cover group-data-[cards-style=default]:object-center group-data-[cards-style=square]:object-top cursor-pointer rounded-lg"
+          class="w-full h-full object-cover group-data-[cards-style=default]/card:object-center group-data-[cards-style=square]/card:object-top cursor-pointer rounded-lg"
           src={"/cdn/assets/assets/" + data.id + "/cover.webp"}
         />
       </a>
@@ -169,7 +169,7 @@
       {data.title}
     </a>
     <div
-      class="opacity-0 group-hover:opacity-100 transition-opacity text-muted flex items-center pt-2"
+      class="opacity-0 group-hover/card:opacity-100 transition-opacity text-muted flex items-center pt-2"
     >
       {#if buttons === "default"}
         {#if storage.active[data.id]}

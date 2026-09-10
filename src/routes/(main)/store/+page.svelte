@@ -207,6 +207,8 @@
     />
     <Cards
       title="Platformers"
+      row={true}
+      viewAll={"/store/tag/Platformer"}
       data={storage.catalog.filter((item) =>
         item.tags.some((itemTag) => itemTag === "Platformer"),
       )}
@@ -215,8 +217,40 @@
     />
     <Cards
       title="Puzzles"
+      row={true}
+      viewAll={"/store/tag/Puzzle"}
       data={storage.catalog.filter((item) =>
         item.tags.some((itemTag) => itemTag === "Puzzle"),
+      )}
+      link="/store/"
+      buttons="store"
+    />
+    <Cards
+      title="Shooters"
+      row={true}
+      viewAll={"/store/tag/Shooter"}
+      data={storage.catalog.filter((item) =>
+        item.tags.some((itemTag) => itemTag === "Shooter"),
+      )}
+      link="/store/"
+      buttons="store"
+    />
+    <Cards
+      title="Strategy"
+      row={true}
+      viewAll={"/store/tag/Strategy"}
+      data={storage.catalog.filter((item) =>
+        item.tags.some((itemTag) => itemTag === "Strategy"),
+      )}
+      link="/store/"
+      buttons="store"
+    />
+    <Cards
+      title="Driving"
+      row={true}
+      viewAll={"/store/tag/Driving"}
+      data={storage.catalog.filter((item) =>
+        item.tags.some((itemTag) => itemTag === "Driving"),
       )}
       link="/store/"
       buttons="store"

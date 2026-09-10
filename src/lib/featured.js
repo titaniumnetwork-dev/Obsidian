@@ -1,14 +1,20 @@
 export const carousel = [
   "52670c5c-f85c-44b2-8306-8d6381466199",
   "440c5a5c-4e43-4404-90dd-67d0c877fcf3",
-  "4466a2be-dd7f-4170-82ed-548d9f31fc4f",
+  "4c4774e9-08f3-434d-8372-6f724c0dd903",
   "db2fd199-a687-4055-818b-6aac58f4f070",
+  "648e72f1-76e1-4669-904f-3ba84bee35eb",
 ];
+
 export const featured = [
+  "d41d9e86-3046-4cd1-9a5f-9caf641d5dca",
   "01b8559e-7a81-4664-94bd-624fb4c11c7b",
   "0abcc623-ec00-493a-9139-e23b85071e5a",
-  "52670c5c-f85c-44b2-8306-8d6381466199",
   "5beca41c-e780-4487-8529-97a178c181cc",
-  "db2fd199-a687-4055-818b-6aac58f4f070",
+  "9372969a-79d5-4836-892f-2454fd2d3dbd",
+  "bc64c4a5-c685-4b8f-a94f-3995de5a2497",
+  "0d8195e5-7736-400d-9352-d8cb9a96b1de",
+  "6f324fd5-98e0-4184-9d0e-78b75febe17b",
+  "c75db71a-ed5a-4ed9-9cf2-5c73fb513c79",
+  "fc64139e-b8aa-4925-ab83-869a5c8c31cc",
 ];
-export const categories = ["HTML", "Flash", "Emulation"];

@@ -1,12 +1,13 @@
 <script>
   import { page } from "$app/stores";
+    import Ruffle from "$lib/assets/emulation/Ruffle.svelte";
   import Head from "$lib/components/Head.svelte";
   import Button from "$lib/components/ui/Button.svelte";
   import InputGroup from "$lib/components/ui/InputGroup.svelte";
   import InputGroupAddon from "$lib/components/ui/InputGroupAddon.svelte";
   import InputGroupInput from "$lib/components/ui/InputGroupInput.svelte";
   import { removeURLParam, setURLParam } from "$lib/utils.js";
-  import { ChevronDown, Folder, Home, Search, Tag, X } from "@lucide/svelte";
+  import { ChevronDown, Folder, Gamepad, Gamepad2, Home, Search, Tag, X } from "@lucide/svelte";
   import { setContext } from "svelte";
 
   let { data, children } = $props();
@@ -48,11 +49,17 @@
   </Button>
   <a
     class="h-9 px-2.5 bg-card rounded-lg flex gap-1.5 items-center cursor-pointer border border-input text-sm"
-    href="/store"
+    href="/store/category/Flash"
   >
-    <Folder size="16" />
-    <span>Categories</span>
-    <ChevronDown size="16" />
+    <Ruffle class="size-4" />
+    <span>Flash</span>
+  </a>
+  <a
+    class="h-9 px-2.5 bg-card rounded-lg flex gap-1.5 items-center cursor-pointer border border-input text-sm"
+    href="/retro"
+  >
+    <Gamepad size="16" />
+    <span>Retro</span>
   </a>
   <a
     class="h-9 px-2.5 bg-card rounded-lg flex gap-1.5 items-center cursor-pointer border border-input text-sm"
