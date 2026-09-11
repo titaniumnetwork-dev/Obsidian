@@ -1,15 +1,12 @@
 # Obsidian
 Play instantly. No downloads.
 
-## Todo
-- Store
-  - Retro and flash pages
-
 ## Before Release
 - Make socials
 - Accessibility
 
 ## After release
+- Emulator based controls for retro games
 - Rebind controller keybinds in creator
 - Other controller types
 - Overlay game menu

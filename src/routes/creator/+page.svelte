@@ -751,7 +751,7 @@
     <p class="text-sm">JSON Data</p>
     <Textarea readonly value={JSON.stringify(generateData, null, 2)}></Textarea>
     {#if hero && cover && icon}
-      <Button variant="outline" onclick={downloadAssets}>
+      <Button variant="outline" onclick={downloadAssets} class="justify-center">
         <Download size="16" />
         <span>Download Image Assets</span>
       </Button>
