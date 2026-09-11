@@ -4,14 +4,13 @@ Play instantly. No downloads.
 ## Todo
 - Store
   - Retro and flash pages
-- Creator
-  - Update all styles
 
 ## Before Release
 - Make socials
 - Accessibility
 
 ## After release
+- Rebind controller keybinds in creator
 - Other controller types
 - Overlay game menu
 - Local backups

@@ -1,9 +1,14 @@
 <script>
+  import Logo from "$lib/assets/logo.svelte";
   import Footer from "$lib/components/Footer.svelte";
   import Head from "$lib/components/Head.svelte";
   import KenneyGamepadIcon from "$lib/components/KenneyGamepadIcon.svelte";
   import KenneyKeyboardIcon from "$lib/components/KenneyKeyboardIcon.svelte";
   import Obfuscate from "$lib/components/Obfuscate.svelte";
+  import Button from "$lib/components/ui/Button.svelte";
+  import Input from "$lib/components/ui/Input.svelte";
+  import Switch from "$lib/components/ui/Switch.svelte";
+  import Textarea from "$lib/components/ui/Textarea.svelte";
   import { emulators } from "$lib/emulators";
   import { storage } from "$lib/storage.svelte";
   import {
@@ -13,25 +18,27 @@
     Clock,
     Download,
     Ellipsis,
+    Gamepad,
+    Gamepad2,
+    Keyboard,
     Play,
     Plus,
     RefreshCcw,
     Share,
-    Sparkles,
     Tag,
+    Tags,
     Trash,
     Upload,
     User,
     X,
   } from "@lucide/svelte";
   import JSZip from "jszip";
-  import { onMount } from "svelte";
 
   let title = $state("");
   let developer = $state("");
   let description = $state("");
-  let id = $state("");
-  let dateAdded = $state("");
+  let id = $state(self.crypto.randomUUID());
+  let dateAdded = $state(Date.now());
   let version = $state("");
   let tags = $state([]);
   let hero = $state("");
@@ -39,7 +46,7 @@
   let icon = $state("");
   let type = $state("HTML");
   let emulator = $state("");
-  let path = $state("");
+  let path = $state("/index.html");
   let rom = $state("");
   let controls = $state([]);
   let gamepadControls = $state([]);
@@ -96,7 +103,7 @@
 
     const link = document.createElement("a");
     link.href = zipUrl;
-    link.download = `${title} Assets.zip`;
+    link.download = title ? `${title} Assets.zip` : `${id} Assets.zip`;
     document.body.appendChild(link);
     link.click();
 
@@ -104,69 +111,41 @@
     URL.revokeObjectURL(zipUrl);
   }
 
-  function generateID() {
-    id = self.crypto.randomUUID();
-  }
-
   let tagsNode;
-  let typeNode;
+  let emulatorNode;
 
   function handleClickOutside(event) {
     if (tagsNode && !tagsNode.contains(event.target)) {
       tagsNode.removeAttribute("open");
     }
-    if (typeNode && !typeNode.contains(event.target)) {
-      typeNode.removeAttribute("open");
+    if (emulatorNode && !emulatorNode.contains(event.target)) {
+      emulatorNode.removeAttribute("open");
     }
   }
 
-  let isComplete = $state();
-
-  $effect(() => {
-    if (
-      !title ||
-      !description ||
-      !developer ||
-      !id ||
-      !dateAdded ||
-      !hero ||
-      !cover ||
-      !icon ||
-      tags.length === 0
-    ) {
-      isComplete = false;
-      return;
-    }
-
-    switch (type) {
-      case "HTML":
-        if (!path) {
-          isComplete = false;
-          return;
-        }
-        break;
-      case "Emulation":
-        if (!rom) {
-          isComplete = false;
-          return;
-        }
-        break;
-    }
-
-    isComplete = true;
-  });
-
   let generateData = $derived.by(() => {
     let data = {
-      title,
-      developer,
-      description,
       id,
       dateAdded,
       type,
       controllerSupport,
-      tags: [...tags],
     };
+
+    if (tags.length) {
+      data.tags = [...tags];
+    }
+
+    if (title) {
+      data.title = title;
+    }
+
+    if (developer) {
+      data.developer = developer;
+    }
+
+    if (description) {
+      data.description = description;
+    }
 
     if (controls.length > 0) data.controls = controls;
     if (gamepadControls.length > 0) data.gamepadControls = gamepadControls;
@@ -179,10 +158,14 @@
 
     switch (type) {
       case "HTML":
-        data.path = path;
+        if (path) {
+          data.path = path;
+        }
         break;
       case "Emulation":
-        data.rom = rom;
+        if (rom) {
+          data.rom = rom;
+        }
         if (emulator) {
           data.emulator = emulator;
         }
@@ -191,59 +174,6 @@
 
     return data;
   });
-
-  let availabilityPromise = $state(Promise.resolve("no"));
-  let isGenerating = $state(false);
-
-  onMount(() => {
-    if (window?.LanguageModel) {
-      availabilityPromise = window.LanguageModel.availability();
-    }
-  });
-
-  const tagSchema = {
-    type: "array",
-    items: {
-      type: "string",
-    },
-  };
-
-  async function generateTags() {
-    if (isGenerating) return;
-    isGenerating = true;
-
-    const session = await LanguageModel.create({
-      initialPrompts: [
-        {
-          role: "system",
-          content: `You are a video game categorization assistant generating tags for an online storefront.  You will be given a game's title, developer, and description.  Your job is to select between 4 to 6 relevant tags from the allowed tags list. Tags: ${[...storage.tags].join(", ")}`,
-        },
-      ],
-      monitor(m) {
-        m.addEventListener("downloadprogress", (e) => {
-          console.log(`Downloaded ${e.loaded * 100}%`);
-        });
-      },
-    });
-
-    const rawResponse = await session.prompt(
-      `Title: ${title}, Developer: ${developer}, Description: ${description}`,
-      {
-        responseConstraint: tagSchema,
-      },
-    );
-
-    try {
-      const parsedTags = JSON.parse(rawResponse.trim()).filter((tag) =>
-        storage.tags.includes(tag),
-      );
-      tags = parsedTags;
-    } catch (e) {
-      console.error(e);
-    }
-
-    isGenerating = false;
-  }
 
   let activeListeningIndex = $state({ actionIdx: null, keyIdx: null });
   let newActionName = $state("");
@@ -384,23 +314,26 @@
   }
 
   function reset() {
+    id = self.crypto.randomUUID();
+    dateAdded = Date.now();
+
     title = "";
     developer = "";
     description = "";
-    id = "";
-    dateAdded = "";
     version = "";
     tags = [];
     hero = "";
     cover = "";
     icon = "";
     type = "HTML";
-    path = "";
+    path = "/index.html";
     rom = "";
     controls = [];
     gamepadControls = [];
     controllerSupport = false;
   }
+
+  let allTagsSelected = $derived(tags.length === storage.tags.length);
 </script>
 
 <svelte:window onclick={handleClickOutside} />
@@ -408,329 +341,76 @@
 <Head title="Creator" />
 
 <div
-  class="group bg-card w-64 flex flex-col gap-2 overflow-y-scroll shrink-0 m-2 mr-0 rounded-lg border border-border box-content h-[calc(100%-18px)] p-2"
+  class="group bg-card w-64 flex flex-col gap-2 shrink-0 m-2 mr-0 rounded-lg border border-border box-content h-[calc(100%-18px)"
 >
-  <div>
-    <p>Creator</p>
-    <p class="text-sm text-muted">
-      Automate the <Obfuscate text="game"></Obfuscate> creation process
-    </p>
-  </div>
-  <div
-    class="w-full flex items-center justify-between p-2 gap-2 bg-secondary whitespace-nowrap h-12 rounded-lg text-sm"
-  >
-    <div class="flex gap-2 items-center overflow-hidden">
-      {#if icon}
-        <img
-          draggable="false"
-          alt={title || "Title"}
-          class="size-8 rounded-lg"
-          src={icon}
-        />
-      {:else}
-        <div class="size-8 rounded-lg border border-border"></div>
-      {/if}
-      <span
-        class="group-data-[style=hidden]:opacity-0 group-data-[style=compact]:opacity-0 transition-opacity overflow-hidden text-ellipsis"
-        >{title || "Title"}</span
-      >
+  <div class="bg-card sticky top-0 py-2 z-10">
+    <div class="flex items-center mx-2 gap-1 justify-between overflow-hidden">
+      <div class="flex gap-2 items-center">
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          aria-label="Home Logo"
+          href={storage.settings.libraryMode ? "/library" : "/"}
+        >
+          <Logo class="size-5" />
+        </Button>
+        <p class="text-sm">
+          <Obfuscate text="Game"></Obfuscate> Creator
+        </p>
+      </div>
     </div>
   </div>
-  <div
-    class="focus-within:bg-secondary bg-card rounded-xl items-center flex border border-border"
-  >
-    <input
-      bind:value={title}
-      placeholder="Title"
-      class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-muted"
-    />
-    {#if title.length > 0}
-      <button
-        class="mr-3 cursor-pointer shrink-0 text-muted"
-        onclick={() => (title = "")}
-      >
-        <X size="20" />
-      </button>
-    {/if}
-  </div>
-  <div
-    class="focus-within:bg-secondary bg-card rounded-xl items-center flex border border-border"
-  >
-    <input
-      bind:value={developer}
-      placeholder="Developer"
-      class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-muted"
-    />
-    {#if developer.length > 0}
-      <button
-        class="mr-3 cursor-pointer shrink-0 text-muted"
-        onclick={() => (developer = "")}
-      >
-        <X size="20" />
-      </button>
-    {/if}
-  </div>
-  <textarea
-    bind:value={description}
-    placeholder="Description"
-    class="focus-within:bg-secondary bg-card rounded-xl items-center flex border border-border h-48 w-full px-4 outline-none placeholder:text-muted py-2 resize-none shrink-0"
-  ></textarea>
-  <div class="flex gap-2">
-    <div
-      class="focus-within:bg-secondary bg-card rounded-xl items-center flex border border-border"
-    >
-      <input
-        bind:value={id}
-        placeholder="ID"
-        class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-muted"
-      />
-      {#if id.length > 0}
-        <button
-          class="mr-3 cursor-pointer shrink-0 text-muted"
-          onclick={() => (id = "")}
-        >
-          <X size="20" />
-        </button>
-      {/if}
-    </div>
-    <button
-      onclick={generateID}
-      class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
-      >Gen</button
-    >
-  </div>
-  <div class="flex gap-2">
-    <div
-      class="focus-within:bg-secondary bg-card rounded-xl items-center flex border border-border"
-    >
-      <input
-        bind:value={dateAdded}
-        placeholder="Date Added"
-        class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-muted"
-      />
-      {#if dateAdded.length > 0}
-        <button
-          class="mr-3 cursor-pointer shrink-0 text-muted"
-          onclick={() => (dateAdded = "")}
-        >
-          <X size="20" />
-        </button>
-      {/if}
-    </div>
-    <button
-      onclick={() => (dateAdded = Date.now())}
-      class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
-      >Gen</button
-    >
-  </div>
-  <div
-    class="focus-within:bg-secondary bg-card rounded-xl items-center flex border border-border"
-  >
-    <input
-      bind:value={version}
-      placeholder="Version (Optional)"
-      class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-muted"
-    />
-    {#if version.length > 0}
-      <button
-        class="mr-3 cursor-pointer shrink-0 text-muted"
-        onclick={() => (version = "")}
-      >
-        <X size="20" />
-      </button>
-    {/if}
-  </div>
-  <details
-    class="relative bg-secondary rounded-xl border border-border"
-    bind:this={tagsNode}
-  >
-    <summary
-      class="rounded-xl flex px-4 py-2 cursor-pointer text-sm justify-between"
-    >
-      <span class="mr-2 select-none">
-        {#if tags.length === 0}
-          Select Tags
-        {:else}
-          {tags.length > 1 ? tags.length + " Tags" : tags[0]}
-        {/if}
-      </span>
-      <ChevronDown size="20" />
-    </summary>
-    <div
-      class="absolute mt-2 min-w-full w-max bg-card rounded-xl max-h-60 overflow-y-auto border border-surface z-10"
-    >
-      <label
-        class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors"
-      >
-        <button
-          class="select-none"
-          onclick={(e) => {
-            tags = [];
-          }}
-        >
-          None</button
-        >
-      </label>
-      {#each storage.tags as tag}
-        <label
-          class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors"
-        >
-          <div class="relative flex items-center justify-center">
-            <input
-              type="checkbox"
-              class="peer w-4 h-4 cursor-pointer appearance-none border border-border checked:bg-primary rounded"
-              value={tag}
-              checked={tags.includes(tag)}
-              onchange={(e) => {
-                const isChecked = e.target.checked;
-
-                const newTags = isChecked
-                  ? [...tags, tag]
-                  : tags.filter((t) => t !== tag);
-
-                tags = newTags;
-              }}
-            />
-            <Check
-              class="absolute hidden peer-checked:block text-card"
-              size="14"
-            />
-          </div>
-          <p class="select-none">{tag}</p>
-        </label>
-      {/each}
-    </div>
-  </details>
-  {#await availabilityPromise then result}
-    {#if result === "downloadable" || result === "downloading" || result === "available"}
-      {#if title && developer && description}
-        <button
-          disabled={isGenerating}
-          onclick={generateTags}
-          class={"px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border text-sm" +
-            (isGenerating ? " text-muted" : " cursor-pointer")}
-        >
-          <Sparkles size="20" />
-          {#if isGenerating}
-            <span>Generating Tags...</span>
-          {:else}
-            <span>Generate Tags</span>
-          {/if}
-        </button>
-      {/if}
-    {/if}
-  {/await}
-  <details
-    class="relative bg-secondary rounded-xl border border-border"
-    bind:this={typeNode}
-  >
-    <summary
-      class="rounded-xl flex px-4 py-2 cursor-pointer text-sm justify-between items-center h-full"
-    >
-      <span class="mr-2 select-none truncate">
-        {type}
-      </span>
-      <ChevronDown size="20" class="shrink-0" />
-    </summary>
-    <div
-      class="absolute mt-2 min-w-full w-max bg-card rounded-xl max-h-60 overflow-y-auto border border-surface z-10 flex flex-col"
-    >
-      <button
-        class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors"
-        onclick={(e) => {
-          type = "HTML";
-          e.currentTarget.closest("details").removeAttribute("open");
-        }}
-      >
-        HTML
-      </button>
-      <button
-        class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors"
-        onclick={(e) => {
-          type = "Flash";
-          e.currentTarget.closest("details").removeAttribute("open");
-        }}
-      >
-        Flash
-      </button>
-      <button
-        class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors"
-        onclick={(e) => {
-          type = "Emulation";
-          e.currentTarget.closest("details").removeAttribute("open");
-        }}
-      >
-        Emulation
-      </button>
-    </div>
-  </details>
-  {#if type === "HTML"}
-    <div
-      class="focus-within:bg-secondary bg-card rounded-xl items-center flex border border-border"
-    >
-      <input
-        bind:value={path}
-        placeholder="Path (/file.html)"
-        class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-muted"
-      />
-      {#if path.length > 0}
-        <button
-          class="mr-3 cursor-pointer shrink-0 text-muted"
-          onclick={() => (path = "")}
-        >
-          <X size="20" />
-        </button>
-      {/if}
-    </div>
-  {:else if type === "Emulation"}
-    <div
-      class="focus-within:bg-secondary bg-card rounded-xl items-center flex border border-border"
-    >
-      <input
-        bind:value={rom}
-        placeholder="Rom (/file.rom)"
-        class="h-9 w-full px-4 bg-transparent outline-none placeholder:text-muted"
-      />
-      {#if rom.length > 0}
-        <button
-          class="mr-3 cursor-pointer shrink-0 text-muted"
-          onclick={() => (rom = "")}
-        >
-          <X size="20" />
-        </button>
-      {/if}
-    </div>
+  <div class="flex flex-col gap-2 overflow-y-auto p-2 pt-0 *:shrink-0">
+    <Input bind:value={title} placeholder="Title" />
+    <Input bind:value={developer} placeholder="Developer" />
+    <Textarea bind:value={description} placeholder="Description"></Textarea>
+    <Input bind:value={version} placeholder="Version (Optional)" />
     <details
-      class="relative bg-secondary rounded-xl border border-border"
-      bind:this={emulatorNode}
+      class="relative bg-input/30 rounded-lg border border-input h-9"
+      bind:this={tagsNode}
     >
       <summary
-        class="rounded-xl flex px-4 py-2 cursor-pointer text-sm justify-between"
+        class="flex gap-1.5 cursor-pointer text-sm justify-center items-center h-full select-none px-2"
       >
-        <span class="mr-2 select-none">
-          {#if emulator}
-            {emulators.filter((emu) => emu.id === emulator)[0].title}
-          {:else}
-            Select Emulator
-          {/if}
-        </span>
-        <ChevronDown size="20" />
+        {#if tags.length === 0}
+          <Tags size="16" />
+          <span>Select Tags</span>
+          <ChevronDown size="16" />
+        {:else if allTagsSelected}
+          <Tags size="16" />
+        {:else}
+          <Tags size="16" />
+          <span> {tags.length > 1 ? tags.length + " Tags" : tags[0]}</span>
+          <ChevronDown size="16" />
+        {/if}
       </summary>
       <div
-        class="absolute mt-2 min-w-full w-max bg-card rounded-xl max-h-60 overflow-y-auto border border-surface z-10"
+        class="absolute -left-px -right-px min-w-[calc(100%+2px)] w-max mt-2.5 bg-card rounded-lg max-h-60 overflow-y-auto border border-input z-10 flex flex-col p-1"
       >
-        {#each emulators as eachEmulator}
+        <button
+          onclick={(e) => (tags = [])}
+          class="rounded-md flex items-center px-2 py-1.5 gap-1.5 cursor-pointer hover:bg-secondary text-sm transition-colors"
+        >
+          <p class="select-none">None</p>
+        </button>
+        {#each storage.tags as tag}
           <label
-            class="flex items-center px-4 py-2 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors"
+            class="rounded-md flex items-center px-2 py-1.5 gap-1.5 cursor-pointer hover:bg-secondary text-sm transition-colors"
           >
             <div class="relative flex items-center justify-center">
               <input
                 type="checkbox"
                 class="peer w-4 h-4 cursor-pointer appearance-none border border-border checked:bg-primary rounded"
-                value={eachEmulator.id}
-                checked={emulator === eachEmulator.id}
+                value={tag}
+                checked={tags.includes(tag)}
                 onchange={(e) => {
-                  emulator = eachEmulator.id;
+                  const isChecked = e.target.checked;
+
+                  const newTags = isChecked
+                    ? [...tags, tag]
+                    : tags.filter((t) => t !== tag);
+
+                  tags = newTags;
                 }}
               />
               <Check
@@ -738,364 +418,504 @@
                 size="14"
               />
             </div>
-            <p class="select-none">{eachEmulator.title}</p>
+            <p class="select-none">{tag}</p>
           </label>
         {/each}
       </div>
     </details>
-  {/if}
-  <label
-    class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
-  >
-    <Upload size="20" />
-    <span>Upload Hero Image</span>
-    <input
-      class="hidden"
-      type="file"
-      accept="image/*"
-      onchange={async (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          const heroImage = await formatImage(file, 1400, 448);
-          if (heroImage) {
-            hero = URL.createObjectURL(heroImage);
-          }
-        }
-      }}
-    />
-  </label>
-  <label
-    class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
-  >
-    <Upload size="20" />
-    <span>Upload Cover Image</span>
-    <input
-      class="hidden"
-      type="file"
-      accept="image/*"
-      onchange={async (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          const coverImage = await formatImage(file, 432, 648);
-          if (coverImage) {
-            cover = URL.createObjectURL(coverImage);
-          }
-        }
-      }}
-    />
-  </label>
-  <label
-    class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
-  >
-    <Upload size="20" />
-    <span>Upload Icon Image</span>
-    <input
-      class="hidden"
-      type="file"
-      accept="image/*"
-      onchange={async (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          const iconImage = await formatImage(file, 80, 80);
-          if (iconImage) {
-            icon = URL.createObjectURL(iconImage);
-          }
-        }
-      }}
-    />
-  </label>
-
-  <p>Keyboard Controls</p>
-  <div class="flex gap-2">
-    <input
-      class="h-9 w-full px-4 focus-within:bg-secondary bg-card rounded-xl placeholder:text-muted border border-border outline-none"
-      placeholder="Action"
-      bind:value={newActionName}
-      onkeydown={(e) => e.key === "Enter" && addAction()}
-    />
-    <button
-      class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
-      onclick={addAction}
-      disabled={!newActionName.trim()}>Add</button
-    >
-  </div>
-  {#if controls.length > 0}
-    <div class="flex flex-col gap-4">
-      {#each controls as actionItem, actionIdx}
-        <div class="flex flex-col gap-2 border border-border rounded-2xl p-2">
-          <div class="flex gap-2">
-            <input
-              type="text"
-              bind:value={actionItem.action}
-              class="h-9 w-full px-4 focus-within:bg-secondary bg-card rounded-xl placeholder:text-muted border border-border outline-none"
-            />
-            <button
-              class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
-              onclick={() => removeAction(actionIdx)}
-            >
-              <Trash size="20" />
-            </button>
-          </div>
-          <div class="flex flex-col gap-2">
-            {#each actionItem.keys as keyItem, keyIdx}
-              {@const isListening =
-                activeListeningIndex.actionIdx === actionIdx &&
-                activeListeningIndex.keyIdx === keyIdx}
-              <div class="flex gap-2">
-                <button
-                  class="outline-none px-4 py-2 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border w-full flex justify-center"
-                  class:listening={isListening}
-                  onclick={() => startListening(actionIdx, keyIdx)}
-                >
-                  {#if isListening}
-                    <span>Waiting for key...</span>
-                  {:else}
-                    <div
-                      class="flex items-center justify-center p-0.5 rounded-md outline-none bg-secondary border border-border"
-                    >
-                      <KenneyKeyboardIcon key={keyItem.key} />
-                    </div>
-                  {/if}
-                </button>
-                <button
-                  class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
-                  onclick={() => removeKey(actionIdx, keyIdx)}
-                >
-                  <X size="20" />
-                </button>
-              </div>
-            {/each}
-
-            <button
-              class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm outline-none justify-center"
-              onclick={() => addKeySlot(actionIdx)}
-            >
-              <Plus size="20" />
-              <span>Add Key</span>
-            </button>
-          </div>
-        </div>
-      {/each}
-    </div>
-  {/if}
-
-  <p>Gamepad Controls</p>
-  <div class="flex gap-2">
-    <input
-      class="h-9 w-full px-4 focus-within:bg-secondary bg-card rounded-xl placeholder:text-muted border border-border outline-none"
-      placeholder="Action"
-      bind:value={newGamepadActionName}
-      onkeydown={(e) => e.key === "Enter" && addGamepadAction()}
-    />
-    <button
-      class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
-      onclick={addGamepadAction}
-      disabled={!newGamepadActionName.trim()}>Add</button
-    >
-  </div>
-  {#if gamepadControls.length > 0}
-    <div class="flex flex-col gap-4">
-      {#each gamepadControls as actionItem, actionIdx}
-        <div class="flex flex-col gap-2 border border-border rounded-2xl p-2">
-          <div class="flex gap-2">
-            <input
-              type="text"
-              bind:value={actionItem.action}
-              class="h-9 w-full px-4 focus-within:bg-secondary bg-card rounded-xl placeholder:text-muted border border-border outline-none"
-            />
-            <button
-              class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
-              onclick={() => removeGamepadAction(actionIdx)}
-            >
-              <Trash size="20" />
-            </button>
-          </div>
-          <div class="flex flex-col gap-2">
-            {#if actionItem.buttons}
-              {#each actionItem.buttons as btn, btnIdx}
-                <div class="flex gap-2">
-                  <button
-                    class="outline-none px-4 py-2 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border w-full flex justify-center"
-                  >
-                    <div
-                      class="flex items-center justify-center p-0.5 rounded-md outline-none bg-secondary border border-border"
-                    >
-                      <KenneyGamepadIcon
-                        button={btn}
-                        type="xbox"
-                        size="w-6 h-6"
-                      />
-                    </div>
-                  </button>
-                  <button
-                    class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
-                    onclick={() => actionItem.buttons.splice(btnIdx, 1)}
-                  >
-                    <X size="20" />
-                  </button>
-                </div>
-              {/each}
-            {/if}
-            {#if actionItem.axes}
-              {#each actionItem.axes as axis, axisIdx}
-                <div class="flex gap-2">
-                  <button
-                    class="outline-none px-4 py-2 text-sm cursor-pointer rounded-xl whitespace-nowrap border border-border w-full flex justify-center"
-                  >
-                    <div
-                      class="flex items-center justify-center p-0.5 rounded-md outline-none bg-secondary border border-border"
-                    >
-                      <KenneyGamepadIcon {axis} type="xbox" size="w-6 h-6" />
-                    </div>
-                  </button>
-                  <button
-                    class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
-                    onclick={() => actionItem.axes.splice(axisIdx, 1)}
-                  >
-                    <X size="20" />
-                  </button>
-                </div>
-              {/each}
-            {/if}
-          </div>
-          <button
-            class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm outline-none w-full justify-center transition-colors"
-            onclick={() => startGamepadListening(actionIdx)}
-          >
-            {#if activeGamepadListeningIndex === actionIdx}
-              <span>Waiting for input...</span>
-            {:else}
-              <Plus size="20" />
-              <span>Add Bind</span>
-            {/if}
-          </button>
-        </div>
-      {/each}
-    </div>
-  {/if}
-
-  <p>Controller Support</p>
-  <input
-    aria-label="Controller Support"
-    checked={controllerSupport}
-    onchange={(e) => (controllerSupport = e.target.checked)}
-    class="shrink-0 appearance-none cursor-pointer transition-colors bg-card checked:bg-secondary border border-border w-11 h-6 rounded-full flex items-center px-0.5 before:content-[''] before:h-4 before:w-4 before:rounded-full before:border before:border-border checked:before:border-border-primary before:bg-secondary checked:before:bg-primary before:block checked:before:translate-x-5.5 before:transition-[translate,background,border]"
-    type="checkbox"
-  />
-
-  {#if isComplete}
-    <textarea
-      class="bg-secondary rounded-xl items-center flex border border-border h-96 w-full px-4 outline-none placeholder:text-muted py-2 resize-none shrink-0"
-      readonly
-      value={JSON.stringify(generateData, null, 2)}></textarea>
-    <button
-      onclick={downloadAssets}
-      class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
-    >
-      <Download size="20" />
-      <span>Download Assets</span>
-    </button>
-  {/if}
-  <button
-    onclick={reset}
-    class="px-4 py-2 bg-secondary rounded-xl flex gap-2 items-center border border-border cursor-pointer text-sm"
-  >
-    <RefreshCcw size="20" />
-    <span>Reset All</span>
-  </button>
-</div>
-<div class="w-full overflow-auto flex flex-col">
-  <div class="p-4 pt-0 flex flex-col gap-4 item">
     <div
-      style={"--hero: url('" + hero + "')"}
-      class="relative [background:linear-gradient(to_bottom,var(--color-overlay)_0%,var(--theme-background)_100%)_padding-box,var(--hero)center/cover_padding-box,var(--color-background)] w-full h-112 flex flex-col items-start justify-between p-8 pb-4 gap-4 rounded-t-2xl border-x border-t border-transparent"
+      class="bg-card grid grid-cols-3 items-center p-1 h-9 rounded-lg text-sm border border-input gap-1 shrink-0"
     >
-      <div
-        class="pointer-events-none absolute -inset-x-px -top-px bottom-0 rounded-t-2xl border-x border-t border-background mask-[linear-gradient(to_bottom,transparent_50%,black_100%)]"
-      ></div>
-      <div
-        class="pointer-events-none absolute -inset-x-px -top-px bottom-0 rounded-t-2xl border-x border-t border-border mask-[linear-gradient(to_bottom,black_50%,transparent_100%)]"
-      ></div>
-      <div class="flex flex-wrap gap-4 ml-auto">
-        {#each tags as tag}
-          <div
-            class="px-4 py-1 text-sm rounded-full bg-secondary border border-border flex items-center"
+      <button
+        onclick={() => (type = "HTML")}
+        data-active={type === "HTML"}
+        class="h-full flex items-center justify-center data-[active=true]:bg-input transition-colors rounded-md px-2 cursor-pointer"
+        >HTML</button
+      >
+      <button
+        onclick={() => (type = "Flash")}
+        data-active={type === "Flash"}
+        class="h-full flex items-center justify-center data-[active=true]:bg-input transition-colors rounded-md px-2 cursor-pointer"
+        >Flash</button
+      >
+      <button
+        onclick={() => (type = "Emulation")}
+        data-active={type === "Emulation"}
+        class="h-full flex items-center justify-center data-[active=true]:bg-input transition-colors rounded-md px-2 cursor-pointer"
+        >Emulation</button
+      >
+    </div>
+    {#if type === "HTML"}
+      <Input bind:value={path} placeholder="Index file path" />
+    {:else if type === "Emulation"}
+      <Input bind:value={rom} placeholder="Rom file path" />
+      <details
+        class="relative bg-input/30 rounded-lg border border-input h-9"
+        bind:this={emulatorNode}
+      >
+        <summary
+          class="flex gap-1.5 cursor-pointer text-sm justify-center items-center h-full select-none px-2"
+        >
+          <Gamepad size="16" />
+          {#if emulator}
+            {emulators.filter((emu) => emu.id === emulator)[0].title}
+          {:else}
+            Select Emulator
+          {/if}
+          <ChevronDown size="16" />
+        </summary>
+        <div
+          class="absolute mt-2.5 bg-card rounded-lg max-h-60 overflow-y-auto border border-input z-10 flex flex-col p-1"
+        >
+          <button
+            onclick={(e) => (emulator = "")}
+            class="rounded-md flex items-center px-2 py-1.5 gap-1.5 cursor-pointer hover:bg-secondary text-sm transition-colors"
           >
-            {tag}
+            <p class="select-none">Clear</p>
+          </button>
+          {#each emulators as eachEmulator}
+            <label
+              class="rounded-md flex items-center px-2 py-1.5 gap-1.5 cursor-pointer hover:bg-secondary text-sm transition-colors"
+            >
+              <div class="relative flex items-center justify-center">
+                <input
+                  type="checkbox"
+                  class="peer w-4 h-4 cursor-pointer appearance-none border border-border checked:bg-primary rounded"
+                  value={eachEmulator.id}
+                  checked={emulator === eachEmulator.id}
+                  onchange={(e) => {
+                    emulator = eachEmulator.id;
+                  }}
+                />
+                <Check
+                  class="absolute hidden peer-checked:block text-card"
+                  size="14"
+                />
+              </div>
+              <p class="select-none">{eachEmulator.title}</p>
+            </label>
+          {/each}
+        </div>
+      </details>
+    {/if}
+    <div>
+      <Button
+        variant="outline"
+        class="w-full justify-center"
+        onclick={(e) => e.target.nextElementSibling.click()}
+      >
+        <Upload class="pointer-events-none" size="16" />
+        <span class="pointer-events-none">Upload Hero</span>
+      </Button>
+      <input
+        class="hidden"
+        type="file"
+        accept="image/*"
+        onchange={async (e) => {
+          const file = e.target.files[0];
+          if (file) {
+            const heroImage = await formatImage(file, 1400, 448);
+            if (heroImage) {
+              hero = URL.createObjectURL(heroImage);
+            }
+          }
+        }}
+      />
+    </div>
+    <div>
+      <Button
+        variant="outline"
+        class="w-full justify-center"
+        onclick={(e) => e.target.nextElementSibling.click()}
+      >
+        <Upload class="pointer-events-none" size="16" />
+        <span class="pointer-events-none">Upload Cover</span>
+      </Button>
+      <input
+        class="hidden"
+        type="file"
+        accept="image/*"
+        onchange={async (e) => {
+          const file = e.target.files[0];
+          if (file) {
+            const coverImage = await formatImage(file, 432, 648);
+            if (coverImage) {
+              cover = URL.createObjectURL(coverImage);
+            }
+          }
+        }}
+      />
+    </div>
+    <div>
+      <Button
+        variant="outline"
+        class="w-full justify-center"
+        onclick={(e) => e.target.nextElementSibling.click()}
+      >
+        <Upload class="pointer-events-none" size="16" />
+        <span class="pointer-events-none">Upload Icon</span>
+      </Button>
+      <input
+        class="hidden"
+        type="file"
+        accept="image/*"
+        onchange={async (e) => {
+          const file = e.target.files[0];
+          if (file) {
+            const iconImage = await formatImage(file, 80, 80);
+            if (iconImage) {
+              icon = URL.createObjectURL(iconImage);
+            }
+          }
+        }}
+      />
+    </div>
+    <p class="text-sm">Keyboard Controls</p>
+    <div class="flex gap-2">
+      <Input
+        placeholder="Action"
+        bind:value={newActionName}
+        onkeydown={(e) => e.key === "Enter" && addAction()}
+      />
+      <Button
+        size="icon"
+        variant="outline"
+        onclick={addAction}
+        disabled={!newActionName.trim()}
+        class="shrink-0"
+      >
+        <Plus size="16" />
+      </Button>
+    </div>
+    {#if controls.length > 0}
+      <div class="flex flex-col gap-4">
+        {#each controls as actionItem, actionIdx}
+          <div
+            class="flex flex-col gap-2 bg-secondary border border-input rounded-xl p-2"
+          >
+            <div class="flex gap-2">
+              <Input
+                type="text"
+                bind:value={actionItem.action}
+                class="w-auto"
+              />
+              <Button
+                size="icon"
+                variant="outline"
+                class="shrink-0"
+                onclick={() => removeAction(actionIdx)}
+              >
+                <Trash size="16" />
+              </Button>
+            </div>
+            <div class="flex flex-col gap-2">
+              {#each actionItem.keys as keyItem, keyIdx}
+                {@const isListening =
+                  activeListeningIndex.actionIdx === actionIdx &&
+                  activeListeningIndex.keyIdx === keyIdx}
+                <div class="flex gap-2">
+                  <Button
+                    variant="outline"
+                    class="w-full justify-center outline-none"
+                    onclick={() => startListening(actionIdx, keyIdx)}
+                  >
+                    {#if isListening}
+                      <span>Waiting for key...</span>
+                    {:else}
+                      <KenneyKeyboardIcon key={keyItem.key} />
+                    {/if}
+                  </Button>
+                  <Button
+                    size="icon"
+                    variant="outline"
+                    class="shrink-0"
+                    onclick={() => removeKey(actionIdx, keyIdx)}
+                  >
+                    <X size="16" />
+                  </Button>
+                </div>
+              {/each}
+              <Button
+                class="justify-center outline-none"
+                variant="outline"
+                onclick={() => addKeySlot(actionIdx)}
+              >
+                <Plus size="16" />
+                <span>Add Key</span>
+              </Button>
+            </div>
           </div>
         {/each}
       </div>
-      <div class="w-full">
-        <h1 class="text-6xl font-bold mb-4 sm:w-2/3">
-          {title || "Title"}
-        </h1>
-        <div class="flex gap-2 flex-col min-[1192px]:flex-row">
-          <div class="flex gap-2">
-            <div
-              class="bg-primary px-14 py-2 rounded-full flex gap-2 items-center text-primary-foreground border border-border-primary"
-            >
-              <Play size="20" />
-              <span>Play</span>
-            </div>
-            <div
-              class="bg-secondary h-10 w-10 rounded-full flex items-center justify-center border border-border"
-            >
-              <Share size="20" />
-            </div>
-            <div
-              class="bg-secondary h-10 w-10 rounded-full flex items-center justify-center border border-border"
-            >
-              <Ellipsis size="20" />
-            </div>
-          </div>
+    {/if}
+    <p class="text-sm">Gamepad Controls</p>
+    <div class="flex gap-2">
+      <Input
+        placeholder="Action"
+        bind:value={newGamepadActionName}
+        onkeydown={(e) => e.key === "Enter" && addGamepadAction()}
+      />
+      <Button
+        size="icon"
+        variant="outline"
+        onclick={addGamepadAction}
+        disabled={!newGamepadActionName.trim()}
+        class="shrink-0"
+      >
+        <Plus size="16" />
+      </Button>
+    </div>
+    {#if gamepadControls.length > 0}
+      <div class="flex flex-col gap-4">
+        {#each gamepadControls as actionItem, actionIdx}
           <div
-            class="flex flex-wrap gap-4 min-[1192px]:ml-auto mt-2 min-[1192px]:mt-0"
+            class="flex flex-col gap-2 bg-secondary border border-input rounded-xl p-2"
           >
-            <div
-              class="flex items-center bg-secondary rounded-xl px-4 py-2 gap-2 text-sm border border-border"
-            >
-              <Clock size="20" />
-              <span>Last Played</span>
-            </div>
-            <div
-              class="flex items-center bg-secondary rounded-xl px-4 py-2 gap-2 text-sm border border-border"
-            >
-              <ChartPie size="20" />
-              <span>Play Time</span>
-            </div>
-            <div
-              class="flex items-center bg-secondary rounded-xl px-4 py-2 gap-2 text-sm border border-border"
-            >
-              <User size="20" />
-              <span>{developer || "Developer"}</span>
-            </div>
-            {#if version}
-              <div
-                class="flex items-center bg-secondary rounded-xl px-4 py-2 gap-2 text-sm border border-border"
+            <div class="flex gap-2">
+              <Input type="text" bind:value={actionItem.action} />
+              <Button
+                size="icon"
+                variant="outline"
+                class="shrink-0"
+                onclick={() => removeGamepadAction(actionIdx)}
               >
-                <Tag size="20" />
-                <span>{version}</span>
+                <Trash size="16" />
+              </Button>
+            </div>
+            {#if actionItem.buttons && actionItem.buttons.length > 0}
+              <div class="flex flex-col gap-2">
+                {#each actionItem.buttons as btn, btnIdx}
+                  <div class="flex gap-2">
+                    <Button
+                      variant="outline"
+                      class="w-full justify-center outline-none"
+                    >
+                      <KenneyGamepadIcon button={btn} type="xbox" />
+                    </Button>
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      onclick={() => actionItem.buttons.splice(btnIdx, 1)}
+                      class="shrink-0"
+                    >
+                      <X size="16" />
+                    </Button>
+                  </div>
+                {/each}
               </div>
             {/if}
+            {#if actionItem.axes && actionItem.axes.length > 0}
+              <div class="flex flex-col gap-2">
+                {#each actionItem.axes as axis, axisIdx}
+                  <div class="flex gap-2">
+                    <Button
+                      variant="outline"
+                      class="w-full justify-center outline-none"
+                    >
+                      <KenneyGamepadIcon {axis} type="xbox" />
+                    </Button>
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      onclick={() => actionItem.axes.splice(axisIdx, 1)}
+                      class="shrink-0"
+                    >
+                      <X size="16" />
+                    </Button>
+                  </div>
+                {/each}
+              </div>
+            {/if}
+            <Button
+              variant="outline"
+              class="justify-center"
+              onclick={() => startGamepadListening(actionIdx)}
+            >
+              {#if activeGamepadListeningIndex === actionIdx}
+                <span>Waiting for input...</span>
+              {:else}
+                <Plus size="16" />
+                <span>Add Bind</span>
+              {/if}
+            </Button>
+          </div>
+        {/each}
+      </div>
+    {/if}
+    <p class="text-sm">Controller Support</p>
+    <Switch
+      aria-label="Controller Support"
+      checked={controllerSupport}
+      onchange={(e) => (controllerSupport = e.target.checked)}
+    />
+    <p class="text-sm">JSON Data</p>
+    <Textarea readonly value={JSON.stringify(generateData, null, 2)}></Textarea>
+    {#if hero && cover && icon}
+      <Button variant="outline" onclick={downloadAssets}>
+        <Download size="16" />
+        <span>Download Image Assets</span>
+      </Button>
+    {/if}
+    <Button variant="outline" onclick={reset} class="justify-center">
+      <RefreshCcw size="16" />
+      <span>Reset All</span>
+    </Button>
+  </div>
+</div>
+<div class="flex flex-col w-full">
+  <div class="w-full overflow-auto flex items-start p-4 gap-4">
+    <div class="flex flex-col gap-4">
+      <div
+        class="h-12 w-64 rounded-md text-sm flex items-center justify-between p-2 gap-2 bg-card whitespace-nowrap border border-border"
+        data-current="true"
+      >
+        <div class="flex gap-2 items-center overflow-hidden">
+          <div
+            class="[background:var(--icon)center/cover_padding-box,var(--color-secondary)] size-8 rounded-sm"
+            alt="Icon"
+            style={"--icon: url('" + icon + "')"}
+          ></div>
+          <span class="overflow-hidden text-ellipsis">{title || "Title"}</span>
+        </div>
+      </div>
+      <div
+        class="group/card w-full aspect-2/3 bg-cover bg-center flex flex-col relative"
+      >
+        <div class="h-full w-full rounded-lg border border-input">
+          <div
+            alt="Cover"
+            class="[background:var(--cover)center/cover_padding-box,var(--color-card)] w-full h-full object-cover object-center rounded-lg"
+            style={"--cover: url('" + cover + "')"}
+          ></div>
+        </div>
+        <div class="flex">
+          <div
+            class="text-nowrap overflow-hidden text-ellipsis text-sm cursor-pointer pt-2 pr-2 flex-1"
+          >
+            {title || "Title"}
           </div>
         </div>
       </div>
     </div>
-    <div class="sm:w-2/3 ml-8">
-      <p>{description || "Description"}</p>
-    </div>
-  </div>
-  <div
-    class="p-4 pt-0 grid grid-cols-[repeat(auto-fill,minmax(13rem,1fr))] gap-4"
-  >
-    <div
-      style={"--cover: url('" + cover + "')"}
-      data-cards-style={storage.settings.cards}
-      class="ml-8 outline-none group w-full data-[cards-style=default]:aspect-2/3 data-[cards-style=square]:aspect-square bg-cover bg-center flex flex-col gap-4"
-    >
-      <div
-        class="group-data-[cards-style=default]:[background:var(--cover)center/cover_padding-box,var(--color-secondary)] group-data-[cards-style=square]:[background:var(--cover)top/cover_padding-box,var(--color-secondary)] w-full h-full rounded-2xl border border-border"
-      ></div>
+    <div class="w-full overflow-auto flex flex-col">
+      <div class="flex flex-col gap-4 item">
+        <div
+          style={"--hero: url('" + hero + "')"}
+          class="relative [background:linear-gradient(to_bottom,var(--color-overlay)_0%,var(--theme-background)_100%)_padding-box,var(--hero)center/cover_padding-box,var(--color-card)] w-full h-112 flex flex-col items-start justify-between p-4 gap-4 rounded-t-lg border-x border-t border-transparent"
+        >
+          <div
+            class="pointer-events-none absolute -inset-x-px -top-px bottom-0 rounded-t-lg border-x border-t border-background mask-[linear-gradient(to_bottom,transparent_50%,black_100%)]"
+          ></div>
+          <div
+            class="pointer-events-none absolute -inset-x-px -top-px bottom-0 rounded-t-lg border-x border-t border-border mask-[linear-gradient(to_bottom,black_50%,transparent_100%)]"
+          ></div>
+          <div class="flex flex-wrap gap-2 ml-auto">
+            {#each tags as tag}
+              <button
+                class="h-6 px-2 py-0.5 text-xs rounded-full bg-secondary flex items-center"
+              >
+                {tag}
+              </button>
+            {/each}
+          </div>
+          <div class="w-full">
+            <h1 class="text-6xl font-bold mb-4 sm:w-2/3">{title || "Title"}</h1>
+            <div class="flex gap-2">
+              <div class="flex gap-2">
+                <Button class="w-42 justify-center rounded-full cursor-default">
+                  <Play size="16" />
+                  <span>Play</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  aria-label="Share"
+                  class="rounded-full cursor-default"
+                >
+                  <Share size="16" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  aria-label="Options"
+                  class="rounded-full cursor-default"
+                >
+                  <Ellipsis size="16" />
+                </Button>
+              </div>
+              <div class="flex gap-2 ml-auto overflow-scroll">
+                <Button
+                  variant="outline"
+                  class="whitespace-nowrap cursor-default"
+                >
+                  <Clock size="16" />
+                  <span>Last Played</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  class="whitespace-nowrap cursor-default"
+                >
+                  <ChartPie size="16" />
+                  <span>Playtime</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  class="whitespace-nowrap cursor-default"
+                >
+                  <User size="16" />
+                  <span>{developer || "Developer"}</span>
+                </Button>
+                {#if version}
+                  <Button
+                    variant="outline"
+                    class="whitespace-nowrap cursor-default"
+                  >
+                    <Tag size="16" />
+                    <span>{version}</span>
+                  </Button>
+                {/if}
+                {#if controls.length > 0 || gamepadControls.length > 0}
+                  <Button
+                    variant="outline"
+                    class="whitespace-nowrap cursor-default"
+                  >
+                    {#if controls.length > 0}
+                      <Keyboard size="16" />
+                    {/if}
+                    {#if gamepadControls.length > 0}
+                      <Gamepad2 size="16" />
+                    {/if}
+                    {#if controls.length > 0}
+                      <span>Keyboard</span>
+                    {/if}
+                    {#if controls.length > 0 && gamepadControls.length > 0}
+                      <span> + </span>
+                    {/if}
+                    {#if gamepadControls.length > 0}
+                      <span>Controller</span>
+                    {/if}
+                  </Button>
+                {/if}
+                {#if emulator}
+                  <Button
+                    variant="outline"
+                    class="whitespace-nowrap cursor-default"
+                  >
+                    <Gamepad size="16" />
+                    <span
+                      >{emulators.filter((emu) => emu.id === emulator)[0]
+                        .title}</span
+                    >
+                  </Button>
+                {/if}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-2/3 ml-4">
+          <p>{description || "Description"}</p>
+        </div>
+      </div>
     </div>
   </div>
   <Footer />

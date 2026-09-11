@@ -108,6 +108,7 @@
     </div>
     <div class="flex gap-2">
       <Button
+        size="icon"
         variant="outline"
         onclick={() => (binding = true)}
         class="outline-none shrink-0"
