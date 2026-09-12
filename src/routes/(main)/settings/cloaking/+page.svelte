@@ -108,7 +108,9 @@
     </div>
     <div class="flex gap-2">
       <Button
-        size="icon"
+        size={binding || storage.settings.panicKey.length === 0
+          ? "default"
+          : "icon"}
         variant="outline"
         onclick={() => (binding = true)}
         class="outline-none shrink-0"

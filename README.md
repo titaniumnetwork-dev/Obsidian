@@ -4,6 +4,7 @@ Play instantly. No downloads.
 ## Before Release
 - Make socials
 - Accessibility
+- Install PWA button
 
 ## After release
 - Emulator based controls for retro games

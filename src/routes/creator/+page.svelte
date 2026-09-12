@@ -18,6 +18,7 @@
     Clock,
     Download,
     Ellipsis,
+    ExternalLink,
     Gamepad,
     Gamepad2,
     Keyboard,
@@ -111,8 +112,8 @@
     URL.revokeObjectURL(zipUrl);
   }
 
-  let tagsNode;
-  let emulatorNode;
+  let tagsNode = $state();
+  let emulatorNode = $state();
 
   function handleClickOutside(event) {
     if (tagsNode && !tagsNode.contains(event.target)) {
@@ -497,6 +498,17 @@
           {/each}
         </div>
       </details>
+    {/if}
+    {#if title}
+      <Button
+        target="_blank"
+        class="justify-center"
+        href={"https://www.steamgriddb.com/search/grids?term=" + title}
+        variant="outline"
+      >
+        <ExternalLink size="16" />
+        <span>SteamGridDB</span>
+      </Button>
     {/if}
     <div>
       <Button
