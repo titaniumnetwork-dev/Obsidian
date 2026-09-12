@@ -342,7 +342,7 @@
 <Head title="Creator" />
 
 <div
-  class="group bg-card w-64 flex flex-col gap-2 shrink-0 m-2 mr-0 rounded-lg border border-border box-content h-[calc(100%-18px)"
+  class="group bg-card w-64 flex flex-col gap-2 shrink-0 m-2 mr-0 rounded-lg border border-border box-content overflow-y-scroll h-[calc(100%-18px)"
 >
   <div class="bg-card sticky top-0 py-2 z-10">
     <div class="flex items-center mx-2 gap-1 justify-between overflow-hidden">

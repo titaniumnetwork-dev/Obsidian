@@ -12,6 +12,7 @@ Play instantly. No downloads.
 - Other controller types
 - Overlay game menu
 - Local backups
+- Script to format and validate catalog and sort by a-z
 
 # License
 Obsidian uses the Apache 2.0 with Commons Clause v1.0. Commercial use is strictly prohibited.
