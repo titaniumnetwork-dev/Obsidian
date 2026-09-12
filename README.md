@@ -11,7 +11,6 @@ Play instantly. No downloads.
 - Rebind controller keybinds in creator
 - Other controller types
 - Overlay game menu
-- Local backups
 - Script to format and validate catalog and sort by a-z
 
 # License
