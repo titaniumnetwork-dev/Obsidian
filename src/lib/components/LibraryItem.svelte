@@ -8,6 +8,7 @@
     ChartPie,
     Check,
     Clock,
+    Cookie,
     Download,
     Ellipsis,
     Gamepad,
@@ -103,7 +104,11 @@
                 onclick={() => storage.setActive(data.currentData.id)}
                 class="w-42 justify-center rounded-full"
               >
-                <Play size="16" />
+                {#if data.currentData.id === "db2fd199-a687-4055-818b-6aac58f4f070"}
+                  <Cookie size="16" />
+                {:else}
+                  <Play size="16" />
+                {/if}
                 <span>Play</span>
               </Button>
             {/if}
