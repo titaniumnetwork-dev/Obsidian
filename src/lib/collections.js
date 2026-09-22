@@ -49,4 +49,11 @@ export const collections = {
       "289da80d-e78e-4e3d-b67c-d612cb84a13b",
     ],
   },
+  "9f521896-dfdc-412f-b672-1d38564cccb6": {
+    title: "Hollow Knight",
+    items: [
+      "4c4774e9-08f3-434d-8372-6f724c0dd903",
+      "9677f340-512e-4c63-9dde-f11bb5db89cd",
+    ],
+  },
 };

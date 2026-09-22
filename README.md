@@ -5,6 +5,9 @@ Play instantly. No downloads.
 - Make socials
 - Accessibility
 - Install PWA button
+- Search tags (also creator)
+- Search clear button
+- Featured collections in store
 
 ## After release
 - Emulator based controls for retro games
