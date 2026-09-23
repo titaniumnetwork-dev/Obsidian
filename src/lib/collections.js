@@ -56,4 +56,11 @@ export const collections = {
       "9677f340-512e-4c63-9dde-f11bb5db89cd",
     ],
   },
+  "7febe2ec-5fbb-4563-8992-c08dc357ffd9": {
+    title: "Portal",
+    items: [
+      "ed27b04a-a6a9-4e92-a7ad-ac5d5540bc5c",
+      "a00b13bd-5a07-43f5-9c42-edc4addf3f58",
+    ],
+  },
 };

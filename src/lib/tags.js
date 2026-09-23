@@ -46,6 +46,7 @@ export const tags = [
   "Management",
   "Math",
   "Medieval",
+  "Metroidvania",
   "Minimalist",
   "Multiplayer",
   "Multiple Endings",

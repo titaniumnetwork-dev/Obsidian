@@ -2,7 +2,7 @@ import { json } from "@sveltejs/kit";
 
 export async function GET({ setHeaders, platform }) {
   setHeaders({
-    "Cache-Control": "public, max-age=3600, s-maxage=3600",
+    /*"Cache-Control": "public, max-age=3600, s-maxage=3600", */
     "Content-Type": "application/json",
   });
 
