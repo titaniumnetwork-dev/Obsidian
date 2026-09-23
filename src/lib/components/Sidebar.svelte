@@ -292,6 +292,8 @@
       icon: HatGlasses,
     },
   ];
+
+  let settingsOpen = $state(false);
 </script>
 
 <div
@@ -511,12 +513,10 @@
             </a>
           {/if}
         {/each}
-        <div data-open={false} class="group/collapsible flex flex-col">
+        <div data-open={settingsOpen} class="group/collapsible flex flex-col">
           <button
             data-active={$page.url.pathname.startsWith("/settings/")}
-            onclick={() =>
-              (this.parentElement.dataset.open =
-                this.parentElement.dataset.open === "true" ? "false" : "true")}
+            onclick={() => (settingsOpen = !settingsOpen)}
             class="flex items-center justify-between cursor-pointer text-sm rounded-md h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 group-data-[collapsed=false]:px-2 gap-2 transition-colors hover:bg-secondary group-data-[open=false]/collapsible:data-[active=true]:bg-secondary group-data-[collapsed=true]:justify-center overflow-hidden"
           >
             <div class="flex items-center gap-2">

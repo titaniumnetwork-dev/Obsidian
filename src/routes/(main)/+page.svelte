@@ -9,9 +9,11 @@
   import { featured } from "$lib/featured.js";
   import { links } from "$lib/links.js";
   import { getMessage } from "$lib/messages";
+  import { pwa } from "$lib/pwa.svelte";
   import { storage } from "$lib/storage.svelte.js";
   import { SiDiscord } from "@icons-pack/svelte-simple-icons";
   import {
+    Download,
     Heart,
     Library,
     LockOpen,
@@ -21,7 +23,6 @@
     Store,
   } from "@lucide/svelte";
   import { toast } from "svelte-sonner";
-
   let { data } = $props();
 
   if (storage.settings.libraryMode) {
@@ -67,6 +68,16 @@
       timeoutId = setTimeout(() => {
         clickCount = 0;
       }, 1000);
+    }
+  }
+
+  async function installApp() {
+    if (pwa.installPrompt) {
+      await pwa.installPrompt.prompt();
+      const { outcome } = await pwa.installPrompt.userChoice;
+      if (outcome === "accepted") {
+        pwa.installPrompt = null;
+      }
     }
   }
 </script>
@@ -185,19 +196,34 @@
     />
   </div>
   <Card class="flex-row items-center mx-4" size="sm">
-    <div class="flex-col gap-1">
-      <p>Ready to start playing?</p>
-      <p class="text-sm text-muted">Join hundreds of players using Obsidian.</p>
-    </div>
-    <div class="flex gap-2 ml-auto">
-      <Button href="/library">
-        <Library size="16" />
-        <span>Your library</span>
+    {#if pwa.installPrompt}
+      <div class="flex-col gap-1">
+        <p>Play Obsidian anywhere</p>
+        <p class="text-sm text-muted">
+          Bypass the browser and launch games instantly.
+        </p>
+      </div>
+      <Button class="ml-auto" onclick={installApp}>
+        <Download size="16" />
+        <span>Install App</span>
       </Button>
-      <Button variant="outline" href="/store" class="bg-secondary">
-        <Store size="16" />
-        <span>Browse Store</span>
-      </Button>
-    </div>
+    {:else}
+      <div class="flex-col gap-1">
+        <p>Ready to start playing?</p>
+        <p class="text-sm text-muted">
+          Join hundreds of players using Obsidian.
+        </p>
+      </div>
+      <div class="flex gap-2 ml-auto">
+        <Button href="/library">
+          <Library size="16" />
+          <span>Your library</span>
+        </Button>
+        <Button variant="outline" href="/store" class="bg-secondary">
+          <Store size="16" />
+          <span>Browse Store</span>
+        </Button>
+      </div>
+    {/if}
   </Card>
 </div>
