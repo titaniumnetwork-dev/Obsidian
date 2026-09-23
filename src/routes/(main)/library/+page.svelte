@@ -237,7 +237,7 @@
       </div>
     </details>
     {#if sortedLibrary.length > 0}
-      <Button variant="outline" size="icon" onclick={(e) => pickRandom(e)}>
+      <Button variant="outline" size="icon" onclick={(e) => pickRandom(e)} aria-label="Random">
         <Dice5 class="pointer-events-none" size="16" />
       </Button>
     {/if}

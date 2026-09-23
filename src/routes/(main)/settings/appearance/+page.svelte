@@ -141,7 +141,7 @@
         <p class="text-sm text-muted">Change the look of Obsidian</p>
       </div>
       {#if !storage.hiddenThemes.includes("Truffle")}
-        <button onclick={unlockTruffle} class="cursor-pointer h-fit">
+        <button onclick={unlockTruffle} class="cursor-pointer h-fit" aria-label="Secret Key">
           <Key class="text-muted" size="16" />
         </button>
       {/if}

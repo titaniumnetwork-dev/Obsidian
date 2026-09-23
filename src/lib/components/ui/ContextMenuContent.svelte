@@ -70,7 +70,10 @@
 />
 
 <div
-  aria-hidden={!ctx.isOpen}
+  role="menu"
+  aria-orientation="vertical"
+  aria-label="Context Menu"
+  inert={!ctx.isOpen}
   bind:this={menuEl}
   class="fixed z-50 min-w-36 overflow-y-auto bg-card border border-input rounded-lg shadow-md p-1 flex flex-col
          {ctx.isOpen

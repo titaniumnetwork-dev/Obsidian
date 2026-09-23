@@ -3,12 +3,9 @@ Play instantly. No downloads.
 
 ## Before Release
 - Make socials
-- Accessibility
-- Search tags (also creator)
-- Search clear button
-- Featured collections in store
 
 ## After release
+- Search tags (also creator)
 - Emulator based controls for retro games
 - Rebind controller keybinds in creator
 - Other controller types

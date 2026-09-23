@@ -135,16 +135,20 @@
                 </button>
               </div>
               <div
-                class="absolute right-0 left-0 bottom-4 w-fit mx-auto flex gap-2"
+                class="absolute right-0 left-0 bottom-4 w-fit mx-auto flex"
               >
                 {#each carouselData as carouselPage, index}
                   {@const current = index === carouselIndex}
                   <button
                     aria-label={"Carousel Slide " + index}
                     onclick={() => (carouselIndex = index)}
-                    class={"size-2 rounded-full cursor-pointer transition-[background,width]" +
-                      (current ? " bg-primary" : " bg-input")}
-                  ></button>
+                    class="size-6 rounded-full cursor-pointer flex items-center justify-center"
+                  >
+                    <div
+                      class={"size-2 rounded-full transition-[background,width]" +
+                        (current ? " bg-primary" : " bg-input")}
+                    ></div>
+                  </button>
                 {/each}
               </div>
             </div>

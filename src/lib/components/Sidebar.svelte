@@ -442,7 +442,9 @@
                   {#each searchingLibrary as game (game.id)}
                     <CommandItem
                       onselect={(e, ctx) =>
-                        goto("/library/" + game.id) & ctx.close()}
+                        goto("/library/" + game.id) &
+                        ctx.close() &
+                        (searchQuery = "")}
                     >
                       <img
                         draggable="false"
@@ -461,7 +463,9 @@
                   {#each searchingStore as game (game.id)}
                     <CommandItem
                       onselect={(e, ctx) =>
-                        goto("/store/" + game.id) & ctx.close()}
+                        goto("/store/" + game.id) &
+                        ctx.close() &
+                        (searchQuery = "")}
                     >
                       <img
                         draggable="false"

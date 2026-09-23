@@ -1,5 +1,5 @@
 <script>
-  import { Search } from "@lucide/svelte";
+  import { Search, X } from "@lucide/svelte";
   import { getContext, tick } from "svelte";
   import InputGroup from "./InputGroup.svelte";
   import InputGroupAddon from "./InputGroupAddon.svelte";
@@ -43,4 +43,11 @@
     {placeholder}
     {...restProps}
   />
+  {#if value.length > 0}
+    <InputGroupAddon>
+      <button class="cursor-pointer text-muted" onclick={() => (value = "")}>
+        <X size="16" />
+      </button>
+    </InputGroupAddon>
+  {/if}
 </InputGroup>

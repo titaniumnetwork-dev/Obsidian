@@ -8,7 +8,7 @@
   import InputGroupInput from "$lib/components/ui/InputGroupInput.svelte";
   import { tags } from "$lib/tags.js";
   import { removeURLParam, setURLParam } from "$lib/utils.js";
-  import { ChevronDown, Gamepad, Home, Search, Tag, X } from "@lucide/svelte";
+  import { ChevronDown, Gamepad, Home, Search, Store, Tag, X } from "@lucide/svelte";
   import { setContext } from "svelte";
 
   let { data, children } = $props();
@@ -47,8 +47,8 @@
     {/if}
   </InputGroup>
   <Button variant="outline" href="/store">
-    <Home size="16" />
-    <span>Home</span>
+    <Store size="16" />
+    <span>Store</span>
   </Button>
   <a
     class="h-9 px-2.5 bg-card rounded-lg flex gap-1.5 items-center cursor-pointer border border-input text-sm"
@@ -92,44 +92,5 @@
       </a>
     {/each}
   </div>
-
-  <!--
-  <a
-    class="h-9 px-2.5 bg-card rounded-lg flex gap-1.5 items-center cursor-pointer border border-input text-sm"
-    href="/store"
-  >
-    <Tag size="16" />
-    <span>Tags</span>
-    <ChevronDown size="16" />
-  </a>
-  -->
-  <!--
-  <div class="flex gap-2 overflow-y-scroll scrollbar-none">
-    <a
-      href="/store"
-      data-active={$page.url.pathname === "/store"}
-      class="h-9 px-2.5 flex items-center text-sm cursor-pointer rounded-lg whitespace-nowrap border border-input transition-colors data-[active=true]:bg-card"
-      >All</a
-    >
-    {#each categories as category}
-      <a
-        href={"/store/category/" + category}
-        data-active={decodeURIComponent($page.url.pathname) ===
-          "/store/category/" + category}
-        class="h-9 px-2.5 flex items-center text-sm cursor-pointer rounded-lg whitespace-nowrap border border-input transition-colors data-[active=true]:bg-card"
-        >{category}</a
-      >
-    {/each}
-    {#each storage.tags as tag}
-      <a
-        href={"/store/tag/" + tag}
-        data-active={decodeURIComponent($page.url.pathname) ===
-          "/store/tag/" + tag}
-        class="h-9 px-2.5 flex items-center text-sm cursor-pointer rounded-lg whitespace-nowrap border border-input transition-colors data-[active=true]:bg-card"
-        >{tag}</a
-      >
-    {/each}
-  </div>
-  -->
 </div>
 {@render children()}
