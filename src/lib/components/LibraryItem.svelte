@@ -42,9 +42,9 @@
 
   const collectionData = $derived(
     data.currentData.collection &&
-      storage.catalog.filter((i) =>
-        collections[data.currentData.collection].items.includes(i.id),
-      ),
+      [...collections[data.currentData.collection].items]
+        .map((item) => storage.catalog.find((i) => i.id === item))
+        .filter(Boolean),
   );
 </script>
 

@@ -63,4 +63,28 @@ export const collections = {
       "a00b13bd-5a07-43f5-9c42-edc4addf3f58",
     ],
   },
+  "73a60946-f19d-432e-b8b7-4056baa4ce3a": {
+    title: "Fireboy & Watergirl",
+    items: [
+      "4fffa921-7ef4-4893-b2a3-fe9794f88dfb",
+      "73a60946-f19d-432e-b8b7-4056baa4ce3a",
+      "c3643748-7734-4a8e-9413-f00e41d49ab8",
+      "c9464536-0d0e-4772-a81b-8ea21d07e12b",
+    ],
+  },
+  "41bd3cd6-24fc-4cef-a6ba-754594ecbc9e": {
+    title: "Kindergarten",
+    items: [
+      "70a13019-78c4-46e9-a321-86d751c5228f",
+      "ed649cf3-1172-4d50-8fb1-26ac19cda728",
+    ],
+  },
+  "604800d0-60a3-4a60-a2ea-1062153f5a75": {
+    title: "Vex",
+    items: [
+      "af544f53-16b3-4b4a-b92b-5caaae08a9ef",
+      "f94174a4-4ddc-4811-8352-73a7a5031cc1",
+      "4466a2be-dd7f-4170-82ed-548d9f31fc4f",
+    ],
+  },
 };

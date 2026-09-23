@@ -3,12 +3,7 @@
   import Logo from "$lib/assets/logo.svelte";
   import { links } from "$lib/links";
   import { storage } from "$lib/storage.svelte";
-  import {
-    SiDiscord,
-    SiPatreon,
-    SiTiktok,
-    SiYoutube,
-  } from "@icons-pack/svelte-simple-icons";
+  import { SiDiscord, SiTiktok } from "@icons-pack/svelte-simple-icons";
   import { Sparkles } from "@lucide/svelte";
   import { toast } from "svelte-sonner";
 
@@ -56,15 +51,19 @@
       <a class="text-muted hover:underline" href={links.discord}>
         <SiDiscord title="Discord" size="16" />
       </a>
+      <!--
       <a class="text-muted hover:underline" href={links.youtube}>
         <SiYoutube title="YouTube" size="16" />
       </a>
+      -->
       <a class="text-muted hover:underline" href={links.tiktok}>
         <SiTiktok title="TikTok" size="16" />
       </a>
+      <!--
       <a class="text-muted hover:underline" href={links.patreon}>
         <SiPatreon title="Patreon" size="16" />
       </a>
+      -->
     </div>
   </div>
 </footer>
