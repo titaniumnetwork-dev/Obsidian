@@ -145,7 +145,7 @@
                     class="size-6 rounded-full cursor-pointer flex items-center justify-center"
                   >
                     <div
-                      class={"size-2 rounded-full transition-[background,width]" +
+                      class={"size-2.5 rounded-full transition-[background,width]" +
                         (current ? " bg-primary" : " bg-input")}
                     ></div>
                   </button>

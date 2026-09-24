@@ -85,6 +85,17 @@ export const collections = {
       "af544f53-16b3-4b4a-b92b-5caaae08a9ef",
       "f94174a4-4ddc-4811-8352-73a7a5031cc1",
       "4466a2be-dd7f-4170-82ed-548d9f31fc4f",
+      "4312f97e-8ead-4d94-87fd-c93412488ff0",
+      "e6f992fd-b044-4dab-b1d9-077eef68a6fa",
+      "4d74c915-d1ae-4add-a4be-01690825c933",
+      "f2eced73-ab21-4ef1-a4db-78e4b52b350b",
+      "c5810aab-32f3-4edc-98af-e51b5402dbcb",
+      "1002ef60-0274-4e24-bb74-997c95368a92",
+      "c06b86d9-6fbc-4d25-a035-393b8d1b6b18",
     ],
   },
+  "59469c2e-a54e-4dc4-beaf-68c540354b12": {
+    title: "The World’s Hardest Game",
+    items: ["b903985f-a31d-42e6-8058-250072d85e2a", "1d44d099-582a-4287-a88c-750ca9305f02"]
+  }
 };
