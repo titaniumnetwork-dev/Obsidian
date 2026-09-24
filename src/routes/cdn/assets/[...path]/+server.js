@@ -1,7 +1,7 @@
 import { error } from "@sveltejs/kit";
 
 export async function GET({ platform, params }) {
-  const bucket = platform?.env?.GAMES;
+  const bucket = platform?.env?.FILES;
 
   if (!bucket) {
     error(500, "R2 binding not found");

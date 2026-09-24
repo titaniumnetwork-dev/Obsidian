@@ -6,7 +6,7 @@ export async function GET({ setHeaders, platform }) {
     "Content-Type": "application/json",
   });
 
-  const bucket = platform?.env?.GAMES;
+  const bucket = platform?.env?.FILES;
 
   if (!bucket) {
     console.error("Cloudflare R2 bucket binding not found.");

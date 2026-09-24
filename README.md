@@ -14,7 +14,7 @@ Play instantly. No downloads.
 - Permissions: "Object Read & Write"
 - Apply to specific buckets only: "files"
 - Save "Access Key ID" and "Secret Access Key"
-- Download rclone
+- Download Rclone
 
 Windows
 ```bash
@@ -60,6 +60,7 @@ README.md
 - Enter the production branch name: main
 
 ## Todo
+- Better caching
 - Search tags (also creator)
 - Emulator based controls for retro games
 - Rebind controller keybinds in creator
