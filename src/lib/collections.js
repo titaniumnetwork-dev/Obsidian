@@ -96,6 +96,17 @@ export const collections = {
   },
   "59469c2e-a54e-4dc4-beaf-68c540354b12": {
     title: "The World’s Hardest Game",
-    items: ["b903985f-a31d-42e6-8058-250072d85e2a", "1d44d099-582a-4287-a88c-750ca9305f02"]
-  }
+    items: [
+      "b903985f-a31d-42e6-8058-250072d85e2a",
+      "1d44d099-582a-4287-a88c-750ca9305f02",
+    ],
+  },
+  "fdcc8f08-c844-4b24-8d06-780da6538436": {
+    title: "The Fancy Pants Adventures",
+    items: [
+      "618fdf20-6f14-4d2e-b8a8-ab985b680847",
+      "ed7738ae-0796-4c4e-92c3-8371a5ad15c1",
+      "97b007cf-72f9-42b1-b128-4b3386aed065",
+    ],
+  },
 };

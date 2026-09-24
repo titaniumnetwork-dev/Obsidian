@@ -6,8 +6,8 @@
   "compatibility_flags": ["nodejs_compat"],
   "r2_buckets": [
     {
-      "binding": "GAMES",
-      "bucket_name": "games",
+      "binding": "FILES",
+      "bucket_name": "files",
       "remote": true
     }
   ]
