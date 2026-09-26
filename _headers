@@ -2,9 +2,11 @@
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Embedder-Policy: credentialless
   Cross-Origin-Resource-Policy: cross-origin
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
 
 /emulatorjs/*
-  Cache-Control: public, max-age=3600, s-maxage=3600
+  Cache-Control: public, max-age=31536000, immutable
 
 /ruffle/*
-  Cache-Control: public, max-age=3600, s-maxage=3600
+  Cache-Control: public, max-age=31536000, immutable

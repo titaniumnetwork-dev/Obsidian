@@ -1,18 +1,22 @@
-let cachedCatalog = null;
+let catalogPromise = null;
 
 export async function getCatalog(fetch) {
-  if (cachedCatalog) {
-    return cachedCatalog;
+  if (!catalogPromise) {
+    catalogPromise = fetch("/api/catalog")
+      .then((response) => {
+        if (!response.ok) {
+          console.error("Failed to fetch full catalog");
+          catalogPromise = null;
+          return [];
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.error("Network error fetching catalog:", error);
+        catalogPromise = null;
+        return [];
+      });
   }
 
-  const response = await fetch("/api/catalog");
-
-  if (!response.ok) {
-    console.error("Failed to fetch full catalog");
-    return [];
-  }
-
-  cachedCatalog = await response.json();
-
-  return cachedCatalog;
+  return catalogPromise;
 }
