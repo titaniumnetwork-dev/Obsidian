@@ -1,7 +1,9 @@
 import { error } from "@sveltejs/kit";
 
 export async function GET({ request, platform, params }) {
-  const cache = caches.default;
+  const cache =
+    platform?.caches?.default ||
+    (typeof caches !== "undefined" ? caches.default : null);
   let response = await cache.match(request);
 
   if (response) {
