@@ -5,7 +5,12 @@ export async function GET({ request, platform }) {
     platform?.caches?.default ||
     (typeof caches !== "undefined" ? caches.default : null);
 
-  let response = await cache.match(request);
+  let response = null;
+  if (cache) {
+    try {
+      response = await cache.match(request);
+    } catch {}
+  }
   if (response) {
     return response;
   }
@@ -35,8 +40,10 @@ export async function GET({ request, platform }) {
 
   response = new Response(r2Object.body, { headers });
 
-  if (platform?.context?.waitUntil) {
-    platform.context.waitUntil(cache.put(request, response.clone()));
+  if (cache && platform?.context?.waitUntil) {
+    try {
+      platform.context.waitUntil(cache.put(request, response.clone()));
+    } catch {}
   }
 
   return response;

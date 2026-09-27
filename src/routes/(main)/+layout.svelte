@@ -4,7 +4,6 @@
   import Sidebar from "$lib/components/Sidebar.svelte";
   import "$lib/consoleMessage.js";
   import "$lib/konami.svelte.js";
-  import { pwa } from "$lib/pwa.svelte.js";
   import { storage } from "$lib/storage.svelte";
   import "$lib/style/layout.css";
   import { onMount } from "svelte";
@@ -13,7 +12,7 @@
   let { children, data } = $props();
 
   onMount(async () => {
-    storage.loadStorage(data.catalogData);
+    await storage.loadStorage(data.catalogData);
 
     window.addEventListener("keydown", (e) => {
       if (e.code === storage.settings.panicKey) {
