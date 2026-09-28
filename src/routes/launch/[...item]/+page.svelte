@@ -4,6 +4,7 @@
   import KenneyGamepadIcon from "$lib/components/KenneyGamepadIcon.svelte";
   import KenneyKeyboardIcon from "$lib/components/KenneyKeyboardIcon.svelte";
   import Button from "$lib/components/ui/Button.svelte";
+  import { emulators } from "$lib/emulators.js";
   import { storage } from "$lib/storage.svelte.js";
   import {
     Check,
@@ -50,8 +51,13 @@
           ".swf"
         );
       case "Emulation":
+        let emuCore = emulators.filter(
+          (emu) => emu.id === data.currentData.emulator,
+        )[0].core;
         return (
-          "/emu/cdn/assets/emulation/" +
+          "/emu/" +
+          emuCore +
+          "/cdn/assets/emulation/" +
           data.currentData.id +
           "/" +
           (data.currentData.version || data.currentData.internalVersion) +

@@ -17,6 +17,7 @@ import Nintendo64 from "./assets/emulation/Nintendo64.svelte";
 import NintendoDS from "./assets/emulation/NintendoDS.svelte";
 import PCEngineSuperGrafx from "./assets/emulation/PCEngineSuperGrafx.svelte";
 import Playstation from "./assets/emulation/Playstation.svelte";
+import PSP from "./assets/emulation/PSP.svelte";
 import Ruffle from "./assets/emulation/Ruffle.svelte";
 import SegaCD from "./assets/emulation/SegaCD.svelte";
 import SegaGenesis from "./assets/emulation/SegaGenesis.svelte";
@@ -34,6 +35,7 @@ export const emulators = [
     icon: Atari2600,
     accept: ".a26,.bin",
     company: "Atari",
+    core: "a2600",
   },
   {
     title: "Atari 5200",
@@ -41,6 +43,7 @@ export const emulators = [
     icon: Atari5200,
     accept: ".a52,.bin",
     company: "Atari",
+    core: "a5200",
   },
   {
     title: "Atari 7800",
@@ -48,6 +51,7 @@ export const emulators = [
     icon: Atari7800,
     accept: ".a78,.bin",
     company: "Atari",
+    core: "a7800",
   },
   {
     title: "Atari Jaguar",
@@ -55,6 +59,7 @@ export const emulators = [
     icon: AtariJaguar,
     accept: ".j64,.jag",
     company: "Atari",
+    core: "jaguar",
   },
   {
     title: "Atari Lynx",
@@ -62,6 +67,7 @@ export const emulators = [
     icon: AtariLynx,
     accept: ".lnx",
     company: "Atari",
+    core: "lynx",
   },
   {
     title: "ColecoVision",
@@ -69,6 +75,7 @@ export const emulators = [
     icon: ColecoVision,
     accept: ".col,.cv",
     company: "Coleco",
+    core: "coleco",
   },
   {
     title: "Flash Player",
@@ -83,6 +90,7 @@ export const emulators = [
     icon: Gameboy,
     accept: ".gb",
     company: "Nintendo",
+    core: "gb",
   },
   {
     title: "Game Boy Advance",
@@ -90,6 +98,7 @@ export const emulators = [
     icon: GameboyAdvance,
     accept: ".gba",
     company: "Nintendo",
+    core: "gba",
   },
   {
     title: "Game Boy Color",
@@ -97,6 +106,7 @@ export const emulators = [
     icon: GameboyColor,
     accept: ".gbc",
     company: "Nintendo",
+    core: "gbc",
   },
   {
     title: "Game Gear",
@@ -104,6 +114,7 @@ export const emulators = [
     icon: GameGear,
     accept: ".gg",
     company: "Sega",
+    core: "segaMD",
   },
   {
     title: "Sega Master System",
@@ -111,6 +122,7 @@ export const emulators = [
     icon: SegaMasterSystem,
     accept: ".sms",
     company: "Sega",
+    core: "segaMD",
   },
   {
     title: "Neo Geo",
@@ -118,6 +130,7 @@ export const emulators = [
     icon: NeoGeo,
     accept: ".zip",
     company: "SNK",
+    core: "fbneo",
   },
   {
     title: "Neo Geo CD",
@@ -125,6 +138,7 @@ export const emulators = [
     icon: NeoGeoCD,
     accept: ".cue,.chd",
     company: "SNK",
+    core: "neocd",
   },
   {
     title: "Neo Geo Pocket",
@@ -132,6 +146,7 @@ export const emulators = [
     icon: NeoGeoPocket,
     accept: ".ngp",
     company: "SNK",
+    core: "ngp",
   },
   {
     title: "Neo Geo Pocket Color",
@@ -139,6 +154,7 @@ export const emulators = [
     icon: NeoGeoPocketColor,
     accept: ".ngc",
     company: "SNK",
+    core: "ngp",
   },
   {
     title: "Nintendo 64",
@@ -146,13 +162,15 @@ export const emulators = [
     icon: Nintendo64,
     accept: ".n64,.z64",
     company: "Nintendo",
+    core: "n64",
   },
   {
     title: "Nintendo DS",
     id: "nintendo-ds",
     icon: NintendoDS,
-    accept: ".gb",
+    accept: ".nds",
     company: "Nintendo",
+    core: "nds",
   },
   {
     title: "Nintendo Entertainment System",
@@ -161,6 +179,7 @@ export const emulators = [
     icon: NES,
     accept: ".fds,.nes,.unif,.unf",
     company: "Nintendo",
+    core: "nes",
   },
   {
     title: "PC Engine SuperGrafx",
@@ -168,13 +187,24 @@ export const emulators = [
     icon: PCEngineSuperGrafx,
     accept: ".sgx",
     company: "NEC",
+    core: "pce",
   },
   {
     title: "Playstation",
-    id: "Playstation",
+    id: "playstation",
     icon: Playstation,
     accept: ".cue,.iso,.chd,.pbp,.toc,.m3u",
     company: "Sony",
+    core: "psx",
+  },
+  {
+    title: "PlayStation Portable",
+    shortTitle: "PSP",
+    id: "psp",
+    icon: PSP,
+    accept: ".iso,.cso,.chd,.pbp",
+    company: "Sony",
+    core: "psp",
   },
   {
     title: "Sega CD",
@@ -182,6 +212,7 @@ export const emulators = [
     icon: SegaCD,
     accept: ".cue,.chd,.iso",
     company: "Sega",
+    core: "segaMD",
   },
   {
     title: "Sega Genesis",
@@ -189,6 +220,7 @@ export const emulators = [
     icon: SegaGenesis,
     accept: ".md,.smd,.gen,.bin",
     company: "Sega",
+    core: "segaMD",
   },
   {
     title: "Sega Saturn",
@@ -196,6 +228,7 @@ export const emulators = [
     icon: SegaSaturn,
     accept: ".cue,.chd,.iso",
     company: "Sega",
+    core: "saturn",
   },
   {
     title: "Super Nintendo Entertainment System",
@@ -204,6 +237,7 @@ export const emulators = [
     icon: SNES,
     accept: ".smc,.fig,.sfc,.gd3,.gd7,.dx2,.bsx,.swc",
     company: "Nintendo",
+    core: "snes",
   },
   {
     title: "TurboGrafx-16",
@@ -211,6 +245,7 @@ export const emulators = [
     icon: TurboGrafx16,
     accept: ".pce",
     company: "NEC",
+    core: "pce",
   },
   {
     title: "TurboGrafx-CD",
@@ -218,6 +253,7 @@ export const emulators = [
     icon: TurboGrafx16,
     accept: ".cue,.chd",
     company: "NEC",
+    core: "pce",
   },
   {
     title: "Virtual Boy",
@@ -225,6 +261,7 @@ export const emulators = [
     icon: VirtualBoy,
     accept: ".vb",
     company: "Nintendo",
+    core: "vb",
   },
   {
     title: "WonderSwan",
@@ -232,6 +269,7 @@ export const emulators = [
     icon: WonderSwan,
     accept: ".ws",
     company: "Bandai",
+    core: "ws",
   },
   {
     title: "WonderSwan Color",
@@ -239,6 +277,7 @@ export const emulators = [
     icon: WonderSwan,
     accept: ".wsc",
     company: "Bandai",
+    core: "ws",
   },
 ];
 

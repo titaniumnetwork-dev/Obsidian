@@ -21,6 +21,7 @@
     playerHidden = false;
     frame.contentWindow.postMessage({
       type: "run",
+      core: emuData.core,
       file: e.target.files[0],
     });
   }

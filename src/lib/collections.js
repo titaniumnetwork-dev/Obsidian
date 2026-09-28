@@ -109,4 +109,12 @@ export const collections = {
       "97b007cf-72f9-42b1-b128-4b3386aed065",
     ],
   },
+  "16fb74cb-d2be-4ae8-b621-62fd0d95b491": {
+    title: "The Binding of Isaac",
+    items: [
+      "724c0a1b-eb56-4519-960e-f0d9048db209",
+      "1763b860-a03c-43a5-960d-ee2377920995",
+      "7b5a9391-4709-4832-b65c-6ef831336220",
+    ],
+  },
 };

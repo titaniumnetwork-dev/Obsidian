@@ -56,11 +56,14 @@ README.md
 ### Deploy with Wrangler
 - Make sure your logged in with `wranger login`
 - Run `pnpm run deploy` to deploy with Cloudflare Pages
-- "Create a new project" if needed
-- Enter the production branch name: main
+- "Create a new project" if needed and enter the production branch name `main`
+
+## Google AdSense
+- Place ads.txt inside the `/static/` folder
+- Use PUBLIC_ADSENSE_PUB_ID inside `.env`
 
 ## Todo
-- Better caching
+- Put collections in DB
 - Search tags (also creator)
 - Emulator based controls for retro games
 - Rebind controller keybinds in creator

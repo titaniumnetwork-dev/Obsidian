@@ -6,27 +6,6 @@
 
   let enableThreads = false;
 
-  function getCore(ext) {
-    if (["fds", "nes", "unif", "unf"].includes(ext)) return "nes";
-
-    if (["smc", "fig", "sfc", "gd3", "gd7", "dx2", "bsx", "swc"].includes(ext))
-      return "snes";
-
-    if (["z64", "n64"].includes(ext)) return "n64";
-
-    if (["pce"].includes(ext)) return "pce";
-
-    if (["ngp", "ngc"].includes(ext)) return "ngp";
-
-    if (["ws", "wsc"].includes(ext)) return "ws";
-
-    if (["col", "cv"].includes(ext)) return "coleco";
-
-    if (["d64"].includes(ext)) return "vice_x64sc";
-
-    if (["nds", "gba", "gb", "z64", "n64"].includes(ext)) return ext;
-  }
-
   function loadSave() {
     EJS_emulator.storage.states
       .get(EJS_emulator.getBaseFileName() + ".state")
@@ -45,14 +24,13 @@
     }
 
     const parts = url.split(".");
-    const core = getCore(parts.pop());
 
     const script = document.createElement("script");
 
     window.EJS_player = "#game";
     window.EJS_gameName = parts.shift();
     window.EJS_gameUrl = "/" + url;
-    window.EJS_core = core;
+    window.EJS_core = data.core;
     window.EJS_startOnLoaded = true;
     window.EJS_threads = enableThreads;
     window.EJS_volume = 1;

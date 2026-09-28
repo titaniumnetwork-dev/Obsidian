@@ -6,27 +6,6 @@
 
   let enableThreads = false;
 
-  function getCore(ext) {
-    if (["fds", "nes", "unif", "unf"].includes(ext)) return "nes";
-
-    if (["smc", "fig", "sfc", "gd3", "gd7", "dx2", "bsx", "swc"].includes(ext))
-      return "snes";
-
-    if (["z64", "n64"].includes(ext)) return "n64";
-
-    if (["pce"].includes(ext)) return "pce";
-
-    if (["ngp", "ngc"].includes(ext)) return "ngp";
-
-    if (["ws", "wsc"].includes(ext)) return "ws";
-
-    if (["col", "cv"].includes(ext)) return "coleco";
-
-    if (["d64"].includes(ext)) return "vice_x64sc";
-
-    if (["nds", "gba", "gb", "z64", "n64"].includes(ext)) return ext;
-  }
-
   function loadSave() {
     EJS_emulator.storage.states
       .get(EJS_emulator.getBaseFileName() + ".state")
@@ -35,7 +14,7 @@
       });
   }
 
-  async function run(file) {
+  async function run(core, file) {
     if (window.SharedArrayBuffer) {
       enableThreads = true;
     } else {
@@ -45,7 +24,6 @@
     }
 
     const parts = file.name.split(".");
-    const core = getCore(parts.pop());
 
     const script = document.createElement("script");
 
@@ -70,8 +48,9 @@
   onMount(() => {
     window.addEventListener("message", function (e) {
       if (e.data && e.data.type === "run") {
+        const core = e.data.core;
         const file = e.data.file;
-        run(file);
+        run(core, file);
       }
     });
   });
