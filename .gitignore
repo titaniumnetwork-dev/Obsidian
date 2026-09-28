@@ -18,6 +18,7 @@ Thumbs.db
 .env.*
 !.env.example
 !.env.test
+static/ads.txt
 
 # Vite / Logs
 vite.config.js.timestamp-*
