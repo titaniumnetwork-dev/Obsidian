@@ -1,8 +1,8 @@
 <script>
+  import { PUBLIC_ADSENSE_PUB_ID } from "$env/static/public";
   import logo from "$lib/assets/logo.svg";
   import { storage } from "$lib/storage.svelte";
   import { themes } from "$lib/themes";
-  import { hiddenClass } from "$lib/utils";
 
   let { title, forceTitle, icon } = $props();
 
@@ -61,4 +61,11 @@
   {@html `<style>${themeCustomCSS}</style>`}
   {@html `<style>${storage.settings.customCSS}</style>`}
   {@html `<style>.${hiddenClass} {position: absolute;z-index: -10;opacity: 0;}</style>`}
+  {#if PUBLIC_ADSENSE_PUB_ID}
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={PUBLIC_ADSENSE_PUB_ID}"
+      crossorigin="anonymous"
+    ></script>
+  {/if}
 </svelte:head>
