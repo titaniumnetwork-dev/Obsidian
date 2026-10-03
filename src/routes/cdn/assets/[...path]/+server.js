@@ -33,8 +33,8 @@ export async function GET({ request, platform, params }) {
 
   response = new Response(object.body, { headers });
 
-  if (platform?.context?.waitUntil) {
-    platform.context.waitUntil(cache.put(request, response.clone()));
+  if (platform?.ctx?.waitUntil) {
+    platform.ctx.waitUntil(cache.put(request, response.clone()));
   }
 
   return response;

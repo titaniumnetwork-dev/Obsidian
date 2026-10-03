@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "obsidian",
-  "compatibility_date": "2026-05-20",
+  "compatibility_date": "2026-10-02",
   "pages_build_output_dir": ".svelte-kit/cloudflare",
   "compatibility_flags": ["nodejs_compat"],
   "r2_buckets": [

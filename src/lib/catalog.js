@@ -1,3 +1,5 @@
+import { env } from "cloudflare:workers";
+
 export async function getCatalog(platform, pageUrl) {
   const cache =
     platform?.caches?.default ||
@@ -19,13 +21,19 @@ export async function getCatalog(platform, pageUrl) {
   }
 
   try {
-    const bucket = platform?.env?.FILES;
+    const bucket = platform?.env?.FILES ?? env?.FILES;
     if (!bucket) {
+      console.warn(
+        "Cloudflare R2 binding not found. Configure the FILES bucket in wrangler.json or pass it when running wrangler pages dev.",
+      );
       return [];
     }
 
     const catalogObject = await bucket.get("catalog.json");
     if (!catalogObject) {
+      console.warn(
+        'Catalog file "catalog.json" was not found in the FILES bucket.',
+      );
       return [];
     }
 
@@ -44,8 +52,8 @@ export async function getCatalog(platform, pageUrl) {
 
       try {
         const cacheWrite = cache.put(cacheRequest, response);
-        if (platform?.context?.waitUntil) {
-          platform.context.waitUntil(cacheWrite);
+        if (platform?.ctx?.waitUntil) {
+          platform.ctx.waitUntil(cacheWrite);
         } else {
           await cacheWrite;
         }

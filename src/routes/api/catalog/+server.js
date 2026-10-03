@@ -1,6 +1,7 @@
-import { json } from "@sveltejs/kit";
+import { env } from "cloudflare:workers";
 
 export async function GET({ request, platform }) {
+  const runtimeEnv = platform?.env ?? env;
   const cache =
     platform?.caches?.default ||
     (typeof caches !== "undefined" ? caches.default : null);
@@ -14,17 +15,27 @@ export async function GET({ request, platform }) {
   if (response) {
     return response;
   }
-  
-  const bucket = platform?.env?.FILES;
+
+  const bucket = runtimeEnv?.FILES;
   if (!bucket) {
-    console.error("Cloudflare R2 bucket binding not found.");
-    return json([]);
+    console.error(
+      "Cloudflare R2 bucket binding not found.",
+    );
+    return Response.json(
+      { error: "Cloudflare R2 bucket binding not found." },
+      { status: 500 },
+    );
   }
 
   const r2Object = await bucket.get("catalog.json");
   if (!r2Object) {
-    console.error("Catalog file not found in R2.");
-    return json([]);
+    console.error('Catalog file "catalog.json" not found in the FILES bucket.');
+    return Response.json(
+      {
+        error: 'Catalog file "catalog.json" not found in the FILES bucket.',
+      },
+      { status: 404 },
+    );
   }
 
   const headers = new Headers();
@@ -39,9 +50,9 @@ export async function GET({ request, platform }) {
 
   response = new Response(r2Object.body, { headers });
 
-  if (cache && platform?.context?.waitUntil) {
+  if (cache && platform?.ctx?.waitUntil) {
     try {
-      platform.context.waitUntil(cache.put(request, response.clone()));
+      platform.ctx.waitUntil(cache.put(request, response.clone()));
     } catch {}
   }
 

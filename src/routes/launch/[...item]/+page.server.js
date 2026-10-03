@@ -7,9 +7,7 @@ export async function load({ platform, params, url }) {
   const currentData = catalogData.find((item) => item.id === params.item);
 
   if (!currentData) {
-    error(404, {
-      message: "Not found",
-    });
+    error(404, "Not found");
   }
 
   return {

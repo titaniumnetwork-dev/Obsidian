@@ -5,9 +5,7 @@ export async function load({ fetch, params }) {
   const validRoute = routes.find((route) => route === params.emulator);
 
   if (!validRoute) {
-    error(404, {
-      message: "Not found",
-    });
+    error(404, "Not found");
   }
 
   return {
