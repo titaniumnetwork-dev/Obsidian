@@ -1,9 +1,9 @@
 <script>
   import { goto } from "$app/navigation";
-  import Button from "$lib/components/ui/Button.svelte";
-  import Card from "$lib/components/ui/Card.svelte";
-  import { storage } from "$lib/storage.svelte";
-  import { themes } from "$lib/themes";
+  import Button from "#lib/components/ui/Button.svelte";
+  import Card from "#lib/components/ui/Card.svelte";
+  import { storage } from "#lib/storage.svelte";
+  import { themes } from "#lib/themes";
   import { css } from "@codemirror/lang-css";
   import { HighlightStyle, syntaxHighlighting } from "@codemirror/language";
   import { EditorView } from "@codemirror/view";

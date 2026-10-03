@@ -1,16 +1,16 @@
 <script>
   import { goto } from "$app/navigation";
-  import Logo from "$lib/assets/logo.svelte";
-  import Cards from "$lib/components/Cards.svelte";
-  import Head from "$lib/components/Head.svelte";
-  import Obfuscate from "$lib/components/Obfuscate.svelte";
-  import Button from "$lib/components/ui/Button.svelte";
-  import Card from "$lib/components/ui/Card.svelte";
-  import { featured } from "$lib/featured.js";
-  import { links } from "$lib/links.js";
-  import { getMessage } from "$lib/messages";
-  import { pwa } from "$lib/pwa.svelte";
-  import { storage } from "$lib/storage.svelte.js";
+  import Logo from "#lib/assets/logo.svelte";
+  import Cards from "#lib/components/Cards.svelte";
+  import Head from "#lib/components/Head.svelte";
+  import Obfuscate from "#lib/components/Obfuscate.svelte";
+  import Button from "#lib/components/ui/Button.svelte";
+  import Card from "#lib/components/ui/Card.svelte";
+  import { featured } from "#lib/featured.js";
+  import { links } from "#lib/links.js";
+  import { getMessage } from "#lib/messages";
+  import { pwa } from "#lib/pwa.svelte";
+  import { storage } from "#lib/storage.svelte.js";
   import { SiDiscord } from "@icons-pack/svelte-simple-icons";
   import {
     Download,

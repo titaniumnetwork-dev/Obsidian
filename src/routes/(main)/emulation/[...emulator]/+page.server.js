@@ -1,4 +1,4 @@
-import { routes } from "$lib/emulators";
+import { routes } from "#lib/emulators";
 import { error } from "@sveltejs/kit";
 
 export async function load({ fetch, params }) {

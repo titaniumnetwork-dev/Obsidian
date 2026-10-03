@@ -1,13 +1,13 @@
 <script>
-  import { page } from "$app/stores";
-  import Ruffle from "$lib/assets/emulation/Ruffle.svelte";
-  import Head from "$lib/components/Head.svelte";
-  import Button from "$lib/components/ui/Button.svelte";
-  import InputGroup from "$lib/components/ui/InputGroup.svelte";
-  import InputGroupAddon from "$lib/components/ui/InputGroupAddon.svelte";
-  import InputGroupInput from "$lib/components/ui/InputGroupInput.svelte";
-  import { tags } from "$lib/tags.js";
-  import { removeURLParam, setURLParam } from "$lib/utils.js";
+  import { page } from "$app/state";
+  import Ruffle from "#lib/assets/emulation/Ruffle.svelte";
+  import Head from "#lib/components/Head.svelte";
+  import Button from "#lib/components/ui/Button.svelte";
+  import InputGroup from "#lib/components/ui/InputGroup.svelte";
+  import InputGroupAddon from "#lib/components/ui/InputGroupAddon.svelte";
+  import InputGroupInput from "#lib/components/ui/InputGroupInput.svelte";
+  import { tags } from "#lib/tags.js";
+  import { removeURLParam, setURLParam } from "#lib/utils.js";
   import { ChevronDown, Gamepad, Home, Search, Store, Tag, X } from "@lucide/svelte";
   import { setContext } from "svelte";
 
@@ -15,7 +15,7 @@
 
   let tagsMenu = $state();
 
-  let searchQuery = $state($page.data.search || "");
+  let searchQuery = $state(page.data.search || "");
 
   setContext("searchQuery", () => searchQuery);
 </script>

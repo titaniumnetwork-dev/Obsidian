@@ -1,9 +1,9 @@
 <script>
   import { goto } from "$app/navigation";
-  import { collections } from "$lib/collections";
-  import { emulators } from "$lib/emulators";
-  import { formatLastPlayed, formatPlaytime } from "$lib/formatUtils";
-  import { storage } from "$lib/storage.svelte.js";
+  import { collections } from "#lib/collections";
+  import { emulators } from "#lib/emulators";
+  import { formatLastPlayed, formatPlaytime } from "#lib/formatUtils";
+  import { storage } from "#lib/storage.svelte.js";
   import {
     ChartPie,
     Check,

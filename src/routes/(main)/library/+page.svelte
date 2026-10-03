@@ -1,14 +1,14 @@
 <script>
-  import { page } from "$app/stores";
-  import Cards from "$lib/components/Cards.svelte";
-  import Head from "$lib/components/Head.svelte";
-  import Obfuscate from "$lib/components/Obfuscate.svelte";
-  import Button from "$lib/components/ui/Button.svelte";
-  import InputGroup from "$lib/components/ui/InputGroup.svelte";
-  import InputGroupAddon from "$lib/components/ui/InputGroupAddon.svelte";
-  import InputGroupInput from "$lib/components/ui/InputGroupInput.svelte";
-  import { storage } from "$lib/storage.svelte.js";
-  import { removeURLParam, setURLParam } from "$lib/utils.js";
+  import { page } from "$app/state";
+  import Cards from "#lib/components/Cards.svelte";
+  import Head from "#lib/components/Head.svelte";
+  import Obfuscate from "#lib/components/Obfuscate.svelte";
+  import Button from "#lib/components/ui/Button.svelte";
+  import InputGroup from "#lib/components/ui/InputGroup.svelte";
+  import InputGroupAddon from "#lib/components/ui/InputGroupAddon.svelte";
+  import InputGroupInput from "#lib/components/ui/InputGroupInput.svelte";
+  import { storage } from "#lib/storage.svelte.js";
+  import { removeURLParam, setURLParam } from "#lib/utils.js";
   import {
     ArrowDownUp,
     Check,
@@ -24,19 +24,19 @@
 
   let { data } = $props();
 
-  let searchQuery = $state($page.data.search || "");
+  let searchQuery = $state(page.data.search || "");
   let sortCategory = $state("all");
   let tagFilter = $state(storage.tags);
 
-  if ($page.data.category) {
-    if (["all", "Flash", "HTML", "Emulation"].includes($page.data.category)) {
-      sortCategory = $page.data.category;
+  if (page.data.category) {
+    if (["all", "Flash", "HTML", "Emulation"].includes(page.data.category)) {
+      sortCategory = page.data.category;
     }
   }
 
-  if ($page.data.tags) {
+  if (page.data.tags) {
     try {
-      let tagData = JSON.parse($page.data.tags);
+      let tagData = JSON.parse(page.data.tags);
       if (Array.isArray(tagData)) {
         tagData = tagData.filter((tag) => storage.tags.includes(tag));
         if (tagData.length) {

@@ -1,16 +1,16 @@
 <script>
-  import Logo from "$lib/assets/logo.svelte";
-  import Footer from "$lib/components/Footer.svelte";
-  import Head from "$lib/components/Head.svelte";
-  import KenneyGamepadIcon from "$lib/components/KenneyGamepadIcon.svelte";
-  import KenneyKeyboardIcon from "$lib/components/KenneyKeyboardIcon.svelte";
-  import Obfuscate from "$lib/components/Obfuscate.svelte";
-  import Button from "$lib/components/ui/Button.svelte";
-  import Input from "$lib/components/ui/Input.svelte";
-  import Switch from "$lib/components/ui/Switch.svelte";
-  import Textarea from "$lib/components/ui/Textarea.svelte";
-  import { emulators } from "$lib/emulators";
-  import { storage } from "$lib/storage.svelte";
+  import Logo from "#lib/assets/logo.svelte";
+  import Footer from "#lib/components/Footer.svelte";
+  import Head from "#lib/components/Head.svelte";
+  import KenneyGamepadIcon from "#lib/components/KenneyGamepadIcon.svelte";
+  import KenneyKeyboardIcon from "#lib/components/KenneyKeyboardIcon.svelte";
+  import Obfuscate from "#lib/components/Obfuscate.svelte";
+  import Button from "#lib/components/ui/Button.svelte";
+  import Input from "#lib/components/ui/Input.svelte";
+  import Switch from "#lib/components/ui/Switch.svelte";
+  import Textarea from "#lib/components/ui/Textarea.svelte";
+  import { emulators } from "#lib/emulators";
+  import { storage } from "#lib/storage.svelte";
   import {
     ChartPie,
     Check,

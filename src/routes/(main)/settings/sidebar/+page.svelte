@@ -1,7 +1,7 @@
 <script>
-  import Card from "$lib/components/ui/Card.svelte";
-  import Switch from "$lib/components/ui/Switch.svelte";
-  import { storage } from "$lib/storage.svelte.js";
+  import Card from "#lib/components/ui/Card.svelte";
+  import Switch from "#lib/components/ui/Switch.svelte";
+  import { storage } from "#lib/storage.svelte.js";
   import { ArrowDownUp, Check, ChevronDown } from "@lucide/svelte";
 
   let sortNode;

@@ -1,5 +1,5 @@
 <script>
-  import Head from "$lib/components/Head.svelte";
+  import Head from "#lib/components/Head.svelte";
 
   let { children } = $props();
 </script>

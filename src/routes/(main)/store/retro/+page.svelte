@@ -1,9 +1,9 @@
 <script>
-  import Cards from "$lib/components/Cards.svelte";
-  import Obfuscate from "$lib/components/Obfuscate.svelte";
-  import { emulators } from "$lib/emulators";
-  import { links } from "$lib/links.js";
-  import { storage } from "$lib/storage.svelte";
+  import Cards from "#lib/components/Cards.svelte";
+  import Obfuscate from "#lib/components/Obfuscate.svelte";
+  import { emulators } from "#lib/emulators";
+  import { links } from "#lib/links.js";
+  import { storage } from "#lib/storage.svelte";
   import { SiDiscord } from "@icons-pack/svelte-simple-icons";
   import { SearchX } from "@lucide/svelte";
   import { getContext } from "svelte";

@@ -1,6 +1,6 @@
 <script>
   import { goto } from "$app/navigation";
-  import { storage } from "$lib/storage.svelte";
+  import { storage } from "#lib/storage.svelte";
   import { Check, Download, Pause, Play, Star, Trash, X } from "@lucide/svelte";
   import Obfuscate from "./Obfuscate.svelte";
   import AlertDialog from "./ui/AlertDialog.svelte";

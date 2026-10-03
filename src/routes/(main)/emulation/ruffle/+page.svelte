@@ -1,7 +1,7 @@
 <script>
-  import Head from "$lib/components/Head.svelte";
-  import { emulators } from "$lib/emulators.js";
-  import { storage } from "$lib/storage.svelte.js";
+  import Head from "#lib/components/Head.svelte";
+  import { emulators } from "#lib/emulators.js";
+  import { storage } from "#lib/storage.svelte.js";
   import { Maximize, RotateCw, Upload, X } from "@lucide/svelte";
 
   let frame = $state();

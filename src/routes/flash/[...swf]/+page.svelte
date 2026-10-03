@@ -1,5 +1,5 @@
 <script>
-  import "$lib/style/layout.css";
+  import "#lib/style/layout.css";
   import { onMount } from "svelte";
 
   let { data } = $props();

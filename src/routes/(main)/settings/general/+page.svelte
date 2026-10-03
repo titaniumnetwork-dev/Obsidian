@@ -1,10 +1,10 @@
 <script>
-  import { aspects } from "$lib/aspects";
-  import Obfuscate from "$lib/components/Obfuscate.svelte";
-  import Button from "$lib/components/ui/Button.svelte";
-  import Card from "$lib/components/ui/Card.svelte";
-  import Switch from "$lib/components/ui/Switch.svelte";
-  import { storage } from "$lib/storage.svelte.js";
+  import { aspects } from "#lib/aspects";
+  import Obfuscate from "#lib/components/Obfuscate.svelte";
+  import Button from "#lib/components/ui/Button.svelte";
+  import Card from "#lib/components/ui/Card.svelte";
+  import Switch from "#lib/components/ui/Switch.svelte";
+  import { storage } from "#lib/storage.svelte.js";
 </script>
 
 <div class="grid grid-cols-2 gap-4">

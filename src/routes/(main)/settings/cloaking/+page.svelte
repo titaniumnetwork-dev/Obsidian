@@ -1,10 +1,10 @@
 <script>
-  import KenneyKeyboardIcon from "$lib/components/KenneyKeyboardIcon.svelte";
-  import Button from "$lib/components/ui/Button.svelte";
-  import Card from "$lib/components/ui/Card.svelte";
-  import Input from "$lib/components/ui/Input.svelte";
-  import Switch from "$lib/components/ui/Switch.svelte";
-  import { storage } from "$lib/storage.svelte";
+  import KenneyKeyboardIcon from "#lib/components/KenneyKeyboardIcon.svelte";
+  import Button from "#lib/components/ui/Button.svelte";
+  import Card from "#lib/components/ui/Card.svelte";
+  import Input from "#lib/components/ui/Input.svelte";
+  import Switch from "#lib/components/ui/Switch.svelte";
+  import { storage } from "#lib/storage.svelte";
   import { X } from "@lucide/svelte";
 
   function setMask(title, icon) {

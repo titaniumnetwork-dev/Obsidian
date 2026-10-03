@@ -1,22 +1,22 @@
 <script>
-  import { page } from "$app/stores";
-  import Head from "$lib/components/Head.svelte";
-  import Button from "$lib/components/ui/Button.svelte";
-  import InputGroup from "$lib/components/ui/InputGroup.svelte";
-  import InputGroupAddon from "$lib/components/ui/InputGroupAddon.svelte";
-  import InputGroupInput from "$lib/components/ui/InputGroupInput.svelte";
-  import { companies, emulators } from "$lib/emulators";
-  import { links } from "$lib/links";
-  import { removeURLParam, setURLParam } from "$lib/utils";
+  import { page } from "$app/state";
+  import Head from "#lib/components/Head.svelte";
+  import Button from "#lib/components/ui/Button.svelte";
+  import InputGroup from "#lib/components/ui/InputGroup.svelte";
+  import InputGroupAddon from "#lib/components/ui/InputGroupAddon.svelte";
+  import InputGroupInput from "#lib/components/ui/InputGroupInput.svelte";
+  import { companies, emulators } from "#lib/emulators";
+  import { links } from "#lib/links";
+  import { removeURLParam, setURLParam } from "#lib/utils";
   import { SiDiscord } from "@icons-pack/svelte-simple-icons";
   import { Search, SearchX, X } from "@lucide/svelte";
 
-  let searchQuery = $state($page.data.search || "");
+  let searchQuery = $state(page.data.search || "");
   let filterCompany = $state("");
 
-  if ($page.data.company) {
-    if (companies.includes($page.data.company)) {
-      filterCompany = $page.data.company;
+  if (page.data.company) {
+    if (companies.includes(page.data.company)) {
+      filterCompany = page.data.company;
     }
   }
 

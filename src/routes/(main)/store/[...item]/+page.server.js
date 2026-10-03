@@ -1,4 +1,4 @@
-import { getCatalog } from "$lib/catalog.js";
+import { getCatalog } from "#lib/catalog.js";
 import { error } from "@sveltejs/kit";
 
 export async function load({ platform, params, url }) {

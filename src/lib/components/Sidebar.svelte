@@ -1,9 +1,9 @@
 <script>
   import { goto } from "$app/navigation";
-  import { page } from "$app/stores";
-  import Logo from "$lib/assets/logo.svelte";
-  import { formatLastPlayed } from "$lib/formatUtils";
-  import { storage } from "$lib/storage.svelte.js";
+  import { page } from "$app/state";
+  import Logo from "#lib/assets/logo.svelte";
+  import { formatLastPlayed } from "#lib/formatUtils";
+  import { storage } from "#lib/storage.svelte.js";
   import {
     Calculator,
     Check,
@@ -502,10 +502,10 @@
       <div class="p-2 pt-0 flex flex-col gap-1">
         {#each tabs as tab}
           {@const isActive =
-            $page.url.pathname === tab.href ||
+            page.url.pathname === tab.href ||
             (tab.href !== "/library" &&
-              $page.url.pathname.startsWith(tab.href + "/") &&
-              $page.url.pathname !== tab.href + "/")}
+              page.url.pathname.startsWith(tab.href + "/") &&
+              page.url.pathname !== tab.href + "/")}
           {#if tab.href === "/" ? !storage.settings.libraryMode : true}
             <a
               data-active={isActive}
@@ -519,7 +519,7 @@
         {/each}
         <div data-open={settingsOpen} class="group/collapsible flex flex-col">
           <button
-            data-active={$page.url.pathname.startsWith("/settings/")}
+            data-active={page.url.pathname.startsWith("/settings/")}
             onclick={() => (settingsOpen = !settingsOpen)}
             class="flex items-center justify-between cursor-pointer text-sm rounded-md h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 group-data-[collapsed=false]:px-2 gap-2 transition-colors hover:bg-secondary group-data-[open=false]/collapsible:data-[active=true]:bg-secondary group-data-[collapsed=true]:justify-center overflow-hidden"
           >
@@ -536,7 +536,7 @@
             class="group-data-[collapsed=false]:px-2.5 group-data-[collapsed=false]:py-0.5 group-data-[collapsed=false]:border-l group-data-[collapsed=false]:border-border group-data-[collapsed=false]:mx-3.5 flex flex-col gap-1 group-data-[open=false]/collapsible:hidden group-data-[collapsed=true]:mt-1"
           >
             {#each settingsTabs as settingsTab}
-              {@const isActive = $page.url.pathname === settingsTab.href}
+              {@const isActive = page.url.pathname === settingsTab.href}
               <a
                 data-active={isActive}
                 href={settingsTab.href}
@@ -569,7 +569,7 @@
               <ContextMenuTrigger>
                 <a
                   href={"/library/" + item.id}
-                  data-current={$page.url.pathname === "/library/" + item.id}
+                  data-current={page.url.pathname === "/library/" + item.id}
                   class="cursor-pointer group-data-[collapsed=false]:h-12 group-data-[collapsed=true]:h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 rounded-md text-sm flex items-center justify-between group-data-[collapsed=false]:p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-secondary data-[current=false]:hover:bg-secondary transition-colors data-[current=true]:bg-secondary whitespace-nowrap group-data-[collapsed=true]:justify-center"
                 >
                   <div class="flex gap-2 items-center overflow-hidden">
@@ -641,7 +641,7 @@
                           storage.quitActive(item.id);
                           storage.uninstall(item.id);
 
-                          if ($page.url.pathname === "/library/" + item.id) {
+                          if (page.url.pathname === "/library/" + item.id) {
                             goto("/library", { replaceState: true });
                           }
                         }}>Uninstall</Button
@@ -669,7 +669,7 @@
               <ContextMenuTrigger>
                 <a
                   href={"/library/" + item.id}
-                  data-current={$page.url.pathname === "/library/" + item.id}
+                  data-current={page.url.pathname === "/library/" + item.id}
                   class="cursor-pointer group-data-[collapsed=false]:h-12 group-data-[collapsed=true]:h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 rounded-md text-sm flex items-center justify-between group-data-[collapsed=false]:p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-secondary data-[current=false]:hover:bg-secondary transition-colors data-[current=true]:bg-secondary whitespace-nowrap group-data-[collapsed=true]:justify-center"
                 >
                   <div class="flex gap-2 items-center overflow-hidden">
@@ -729,7 +729,7 @@
                         onclick={() => {
                           storage.uninstall(item.id);
 
-                          if ($page.url.pathname === "/library/" + item.id) {
+                          if (page.url.pathname === "/library/" + item.id) {
                             goto("/library", { replaceState: true });
                           }
                         }}>Uninstall</Button
@@ -757,7 +757,7 @@
               <ContextMenuTrigger>
                 <a
                   href={"/library/" + item.id}
-                  data-current={$page.url.pathname === "/library/" + item.id}
+                  data-current={page.url.pathname === "/library/" + item.id}
                   class="cursor-pointer group-data-[collapsed=false]:h-12 group-data-[collapsed=true]:h-8 group-data-[collapsed=false]:w-full group-data-[collapsed=true]:w-8 rounded-md text-sm flex items-center justify-between group-data-[collapsed=false]:p-2 gap-2 data-[current=false]:data-[context-menu=true]:bg-secondary data-[current=false]:hover:bg-secondary transition-colors data-[current=true]:bg-secondary whitespace-nowrap group-data-[collapsed=true]:justify-center"
                 >
                   <div class="flex gap-2 items-center overflow-hidden">
@@ -815,7 +815,7 @@
                         onclick={() => {
                           storage.uninstall(item.id);
 
-                          if ($page.url.pathname === "/library/" + item.id) {
+                          if (page.url.pathname === "/library/" + item.id) {
                             goto("/library", { replaceState: true });
                           }
                         }}>Uninstall</Button

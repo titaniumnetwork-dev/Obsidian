@@ -1,4 +1,4 @@
-import { tags as catalogTagOrder } from "$lib/tags";
+import { tags as catalogTagOrder } from "#lib/tags";
 
 class StorageManager {
   tabID = crypto.randomUUID();

@@ -1,10 +1,10 @@
 <script>
   import { goto } from "$app/navigation";
-  import Cards from "$lib/components/Cards.svelte";
-  import Obfuscate from "$lib/components/Obfuscate.svelte";
-  import { carousel, featured } from "$lib/featured.js";
-  import { links } from "$lib/links";
-  import { storage } from "$lib/storage.svelte.js";
+  import Cards from "#lib/components/Cards.svelte";
+  import Obfuscate from "#lib/components/Obfuscate.svelte";
+  import { carousel, featured } from "#lib/featured.js";
+  import { links } from "#lib/links";
+  import { storage } from "#lib/storage.svelte.js";
   import { SiDiscord } from "@icons-pack/svelte-simple-icons";
   import {
     CarFront,

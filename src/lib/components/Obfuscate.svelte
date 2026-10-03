@@ -1,5 +1,5 @@
 <script>
-  import { hiddenClass, randomLetter } from "$lib/utils";
+  import { hiddenClass, randomLetter } from "#lib/utils";
   import { twMerge } from "tailwind-merge";
 
   let { class: className, text, ...restProps } = $props();

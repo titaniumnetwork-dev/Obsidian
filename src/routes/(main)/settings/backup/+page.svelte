@@ -1,11 +1,11 @@
 <script>
   import { invalidateAll } from "$app/navigation";
-  import CBOR from "$lib/cbor-x";
-  import Obfuscate from "$lib/components/Obfuscate.svelte";
-  import Button from "$lib/components/ui/Button.svelte";
-  import Card from "$lib/components/ui/Card.svelte";
-  import LittleExport from "$lib/little-export.js";
-  import { storage } from "$lib/storage.svelte";
+  import CBOR from "#lib/cbor-x";
+  import Obfuscate from "#lib/components/Obfuscate.svelte";
+  import Button from "#lib/components/ui/Button.svelte";
+  import Card from "#lib/components/ui/Card.svelte";
+  import LittleExport from "#lib/little-export.js";
+  import { storage } from "#lib/storage.svelte";
   import { Download, Upload } from "@lucide/svelte";
 
   async function uploadBackup(file) {

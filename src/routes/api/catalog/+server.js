@@ -14,7 +14,7 @@ export async function GET({ request, platform }) {
   if (response) {
     return response;
   }
-
+  
   const bucket = platform?.env?.FILES;
   if (!bucket) {
     console.error("Cloudflare R2 bucket binding not found.");
@@ -33,7 +33,6 @@ export async function GET({ request, platform }) {
     "Cache-Control",
     "public, max-age=300, s-maxage=300, stale-while-revalidate=86400",
   );
-
   if (r2Object.httpEtag) {
     headers.set("ETag", r2Object.httpEtag);
   }

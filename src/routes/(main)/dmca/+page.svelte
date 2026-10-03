@@ -1,7 +1,7 @@
 <script>
-  import Head from "$lib/components/Head.svelte";
-  import Obfuscate from "$lib/components/Obfuscate.svelte";
-  import { links } from "$lib/links";
+  import Head from "#lib/components/Head.svelte";
+  import Obfuscate from "#lib/components/Obfuscate.svelte";
+  import { links } from "#lib/links";
 
   let updated = new Date(1779901012831);
 </script>

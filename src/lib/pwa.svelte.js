@@ -1,7 +1,7 @@
 import { toast } from "svelte-sonner";
 import { BadgeCheck } from "@lucide/svelte";
 import { goto } from "$app/navigation";
-import { storage } from "$lib/storage.svelte";
+import { storage } from "#lib/storage.svelte";
 
 export const pwa = $state({
   installPrompt: null,

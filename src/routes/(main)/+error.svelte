@@ -1,24 +1,24 @@
 <script>
-  import { page } from "$app/stores";
-  import ErrorGame from "$lib/components/ErrorGame.svelte";
-  import Head from "$lib/components/Head.svelte";
-  import Button from "$lib/components/ui/Button.svelte";
-  import { storage } from "$lib/storage.svelte";
+  import { page } from "$app/state";
+  import ErrorGame from "#lib/components/ErrorGame.svelte";
+  import Head from "#lib/components/Head.svelte";
+  import Button from "#lib/components/ui/Button.svelte";
+  import { storage } from "#lib/storage.svelte";
   import { ArrowLeft, Home } from "@lucide/svelte";
 </script>
 
-<Head title={$page.status === 404 ? "Page Not Found" : "An Error Occurred"} />
+<Head title={page.status === 404 ? "Page Not Found" : "An Error Occurred"} />
 
 <div class="flex flex-col gap-4 items-center my-8">
   <ErrorGame />
   <div class="flex items-center flex-col gap-2">
     <p>
-      {$page.status === 404 ? "Page Not Found" : "An Error Occurred"}
+      {page.status === 404 ? "Page Not Found" : "An Error Occurred"}
     </p>
     <p class="text-sm text-muted">
-      {$page.error?.message === "Not found"
+      {page.error?.message === "Not found"
         ? "The page you're looking for doesn't exist"
-        : $page.error?.message}
+        : page.error?.message}
     </p>
   </div>
   <div class="flex gap-2">

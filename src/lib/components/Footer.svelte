@@ -1,8 +1,8 @@
 <script>
   import { goto } from "$app/navigation";
-  import Logo from "$lib/assets/logo.svelte";
-  import { links } from "$lib/links";
-  import { storage } from "$lib/storage.svelte";
+  import Logo from "#lib/assets/logo.svelte";
+  import { links } from "#lib/links";
+  import { storage } from "#lib/storage.svelte";
   import { SiDiscord, SiTiktok } from "@icons-pack/svelte-simple-icons";
   import { Sparkles } from "@lucide/svelte";
   import { toast } from "svelte-sonner";
@@ -28,7 +28,7 @@
   class="footer mb-4 mx-4 mt-auto flex gap-4 justify-between pt-16 text-sm"
 >
   <div class="flex items-center gap-2">
-    <Logo onpointerdown={logoPressed} class="h-6 w-6" />
+    <Logo onpointerdown={logoPressed} class="size-6" />
     <p>Obsidian {new Date().getFullYear()}</p>
   </div>
 

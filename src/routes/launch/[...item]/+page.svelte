@@ -1,11 +1,11 @@
 <script>
   import { goto } from "$app/navigation";
-  import Head from "$lib/components/Head.svelte";
-  import KenneyGamepadIcon from "$lib/components/KenneyGamepadIcon.svelte";
-  import KenneyKeyboardIcon from "$lib/components/KenneyKeyboardIcon.svelte";
-  import Button from "$lib/components/ui/Button.svelte";
-  import { emulators } from "$lib/emulators.js";
-  import { storage } from "$lib/storage.svelte.js";
+  import Head from "#lib/components/Head.svelte";
+  import KenneyGamepadIcon from "#lib/components/KenneyGamepadIcon.svelte";
+  import KenneyKeyboardIcon from "#lib/components/KenneyKeyboardIcon.svelte";
+  import Button from "#lib/components/ui/Button.svelte";
+  import { emulators } from "#lib/emulators.js";
+  import { storage } from "#lib/storage.svelte.js";
   import {
     Check,
     ChevronRight,

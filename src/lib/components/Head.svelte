@@ -1,9 +1,9 @@
 <script>
-  import * as env from "$env/static/public";
-  import logo from "$lib/assets/logo.svg";
-  import { storage } from "$lib/storage.svelte";
-  import { themes } from "$lib/themes";
-  import { hiddenClass } from "$lib/utils";
+  import * as env from "$app/env/public";
+  import logo from "#lib/assets/logo.svg";
+  import { storage } from "#lib/storage.svelte";
+  import { themes } from "#lib/themes";
+  import { hiddenClass } from "#lib/utils";
 
   let { title, forceTitle, icon } = $props();
 
