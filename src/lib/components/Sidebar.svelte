@@ -613,14 +613,14 @@
                   <AlertDialogTrigger>
                     <ContextMenuItem>
                       <Trash size="16" />
-                      <span>Uninstall</span>
+                      <span>Remove from Library</span>
                     </ContextMenuItem>
                   </AlertDialogTrigger>
                   <AlertDialogContent class="items-center text-center">
                     <div class="flex flex-col items-center gap-1.5">
-                      <p>Uninstall <Obfuscate text="Game"></Obfuscate>?</p>
+                      <p>Remove from Library?</p>
                       <p class="text-sm text-muted">
-                        This will permanently uninstall this <Obfuscate
+                        This will permanently remove this <Obfuscate
                           text="game"
                         ></Obfuscate>. All data and stats will be deleted.
                       </p>
@@ -644,7 +644,7 @@
                           if (page.url.pathname === "/library/" + item.id) {
                             goto("/library", { replaceState: true });
                           }
-                        }}>Uninstall</Button
+                        }}>Remove</Button
                       >
                     </div>
                   </AlertDialogContent>
@@ -702,14 +702,14 @@
                   <AlertDialogTrigger>
                     <ContextMenuItem>
                       <Trash size="16" />
-                      <span>Uninstall</span>
+                      <span>Remove from Library</span>
                     </ContextMenuItem>
                   </AlertDialogTrigger>
                   <AlertDialogContent class="items-center text-center">
                     <div class="flex flex-col items-center gap-1.5">
-                      <p>Uninstall <Obfuscate text="Game"></Obfuscate>?</p>
+                      <p>Remove from Library?</p>
                       <p class="text-sm text-muted">
-                        This will permanently uninstall this <Obfuscate
+                        This will permanently remove this <Obfuscate
                           text="game"
                         ></Obfuscate>. All data and stats will be deleted.
                       </p>
@@ -732,7 +732,7 @@
                           if (page.url.pathname === "/library/" + item.id) {
                             goto("/library", { replaceState: true });
                           }
-                        }}>Uninstall</Button
+                        }}>Remove</Button
                       >
                     </div>
                   </AlertDialogContent>
@@ -788,14 +788,14 @@
                   <AlertDialogTrigger>
                     <ContextMenuItem>
                       <Trash size="16" />
-                      <span>Uninstall</span>
+                      <span>Remove from Library</span>
                     </ContextMenuItem>
                   </AlertDialogTrigger>
                   <AlertDialogContent class="items-center text-center">
                     <div class="flex flex-col items-center gap-1.5">
-                      <p>Uninstall <Obfuscate text="Game"></Obfuscate>?</p>
+                      <p>Remove from Library?</p>
                       <p class="text-sm text-muted">
-                        This will permanently uninstall this <Obfuscate
+                        This will permanently remove this <Obfuscate
                           text="game"
                         ></Obfuscate>. All data and stats will be deleted.
                       </p>
@@ -818,7 +818,7 @@
                           if (page.url.pathname === "/library/" + item.id) {
                             goto("/library", { replaceState: true });
                           }
-                        }}>Uninstall</Button
+                        }}>Remove</Button
                       >
                     </div>
                   </AlertDialogContent>
