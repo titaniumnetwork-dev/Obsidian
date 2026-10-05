@@ -214,7 +214,7 @@
             </Button>
           {/if}
         </div>
-        <div class="flex gap-2 ml-auto overflow-scroll">
+        <div class="flex gap-2 ml-auto overflow-x-auto overflow-y-hidden">
           <Button variant="outline" class="whitespace-nowrap cursor-default">
             <Clock size="16" />
             <span
