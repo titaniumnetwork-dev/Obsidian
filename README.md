@@ -1,9 +1,21 @@
-# Obsidian
-Play instantly. No downloads.
+<p align="center">
+  <kbd>
+    <img width="100px" src="https://raw.githubusercontent.com/titaniumnetwork-dev/Obsidian/refs/heads/main/static/assets/logo-180.png">
+  </kbd>
+</p>
+
+<h1 align="center">
+  Obsidian
+</h1>
+
+<p align="center">
+  Play instantly. No downloads.
+</p>
 
 Obsidian is your ultimate web-based game library. Dive into a massive collection of classic and modern online games, preserved Flash masterpieces, and emulated retro classics directly in your browser.
 
 ## Features
+
 - A large collection of popular games
 - Browse the store and install games to your personal library
 - Sort by tags and view games in the same collection
@@ -16,11 +28,13 @@ Obsidian is your ultimate web-based game library. Dive into a massive collection
 - Additional advanced settings (and lots of fun secrets!)
 
 ## Community
+
 Request new games, report bugs, participate in events, and hang out with other players in the [TitaniumNetwork Discord](https://discord.gg/unblock).
 
 ## Setup
 
 ### Setup Cloudflare R2 Bucket
+
 - Create Bucket
 - Bucket name "files"
 - Back to R2 overview
@@ -34,16 +48,19 @@ Request new games, report bugs, participate in events, and hang out with other p
 - Download Rclone
 
 Windows
+
 ```bash
 sudo -v ; curl https://rclone.org/install.sh | sudo bash
 ```
 
 MacOS
+
 ```bash
 brew install rclone
 ```
 
 ### Setup Rclone Conenction to Cloudflare R2
+
 - Run `rclone config`
 - New remote (n)
 - Name: files
@@ -59,9 +76,11 @@ brew install rclone
 - Quit (q)
 
 ### Upload Games
+
 Run `rclone sync ./ files:files --progress --transfers 10 --exclude-from .rclone-ignore` in the games folder directory
 
 .rclone-ignore
+
 ```
 .DS_Store
 **/.DS_Store
@@ -71,13 +90,16 @@ README.md
 ```
 
 ### Deploy with Wrangler
+
 - Make sure your logged in with `wranger login`
 - Run `pnpm run deploy` to deploy with Cloudflare Pages
 - "Create a new project" if needed and enter the production branch name `main`
 
 ## Google AdSense
+
 - Place ads.txt inside the `/static/` folder
 - Use PUBLIC_ADSENSE_PUB_ID inside `.env`
 
 # License
+
 Obsidian uses the AGPL-3.0 license.
