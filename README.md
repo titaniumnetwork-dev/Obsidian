@@ -17,7 +17,7 @@ Obsidian is your ultimate web-based game library. Dive into a massive collection
 ## Features
 
 - A large collection of popular games
-- Browse the store and install games to your personal library
+- Browse the store and add games to your personal library
 - Sort by tags and view games in the same collection
 - Save your favorite games
 - Run multiple games at once in a "Steam like" interface

@@ -1,7 +1,16 @@
 <script>
-  import { goto } from "$app/navigation";
   import { storage } from "#lib/storage.svelte";
-  import { Check, Download, Pause, Play, Star, Trash, X } from "@lucide/svelte";
+  import { goto } from "$app/navigation";
+  import {
+    Check,
+    Download,
+    Pause,
+    Play,
+    Plus,
+    Star,
+    Trash,
+    X,
+  } from "@lucide/svelte";
   import Obfuscate from "./Obfuscate.svelte";
   import AlertDialog from "./ui/AlertDialog.svelte";
   import AlertDialogClose from "./ui/AlertDialogClose.svelte";
@@ -53,15 +62,15 @@
             <AlertDialogTrigger>
               <ContextMenuItem>
                 <Trash size="16" />
-                <span>Uninstall</span>
+                <span>Remove from Library</span>
               </ContextMenuItem>
             </AlertDialogTrigger>
             <AlertDialogContent class="items-center text-center">
               <div class="flex flex-col items-center gap-1.5">
-                <p>Uninstall <Obfuscate text="Game"></Obfuscate>?</p>
+                <p>Remove from Library?</p>
                 <p class="text-sm text-muted">
-                  This will permanently uninstall this <Obfuscate text="game"
-                  ></Obfuscate>. All data and stats will be deleted.
+                  This will permanently remove this <Obfuscate text="game"
+                  ></Obfuscate> from. All data and stats will be deleted.
                 </p>
               </div>
               <div class="w-full flex gap-2">
@@ -82,15 +91,15 @@
                     }
 
                     storage.uninstall(data.id);
-                  }}>Uninstall</Button
+                  }}>Remove</Button
                 >
               </div>
             </AlertDialogContent>
           </AlertDialog>
         {:else}
           <ContextMenuItem onclick={() => storage.install(data.id)}>
-            <Download size="16" />
-            <span>Install</span>
+            <Plus size="16" />
+            <span>Add to Library</span>
           </ContextMenuItem>
         {/if}
       {:else}
@@ -124,14 +133,14 @@
           <AlertDialogTrigger>
             <ContextMenuItem>
               <Trash size="16" />
-              <span>Uninstall</span>
+              <span>Remove from Library</span>
             </ContextMenuItem>
           </AlertDialogTrigger>
           <AlertDialogContent class="items-center text-center">
             <div class="flex flex-col items-center gap-1.5">
-              <p>Uninstall <Obfuscate text="Game"></Obfuscate>?</p>
+              <p>Remove from Library?</p>
               <p class="text-sm text-muted">
-                This will permanently uninstall this <Obfuscate text="game"
+                This will permanently remove this <Obfuscate text="game"
                 ></Obfuscate>. All data and stats will be deleted.
               </p>
             </div>
@@ -153,7 +162,7 @@
                   }
 
                   storage.uninstall(data.id);
-                }}>Uninstall</Button
+                }}>Remove</Button
               >
             </div>
           </AlertDialogContent>
@@ -229,11 +238,11 @@
           {/if}
         {:else}
           <button
-            aria-label="Install"
+            aria-label="Add to Library"
             onclick={() => storage.install(data.id)}
             class="cursor-pointer"
           >
-            <Download size="16" />
+            <Plus size="16" />
           </button>
         {/if}
       {/if}

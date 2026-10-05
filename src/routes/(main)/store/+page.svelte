@@ -1,10 +1,10 @@
 <script>
-  import { goto } from "$app/navigation";
   import Cards from "#lib/components/Cards.svelte";
   import Obfuscate from "#lib/components/Obfuscate.svelte";
   import { carousel, featured } from "#lib/featured.js";
   import { links } from "#lib/links";
   import { storage } from "#lib/storage.svelte.js";
+  import { goto } from "$app/navigation";
   import { SiDiscord } from "@icons-pack/svelte-simple-icons";
   import {
     CarFront,
@@ -12,8 +12,8 @@
     ChevronLeft,
     ChevronRight,
     Crosshair,
-    Download,
     Ghost,
+    Plus,
     Puzzle,
     SearchX,
     Sword,
@@ -113,8 +113,8 @@
                           }}
                           class="bg-primary h-9 px-14 py-2.5 cursor-pointer rounded-full flex gap-2 items-center text-primary-foreground text-sm"
                         >
-                          <Download size="20" />
-                          <span>Install</span>
+                          <Plus size="20" />
+                          <span>Add to Library</span>
                         </button>
                         <a
                           href={"/store/" + item.id}
@@ -134,9 +134,7 @@
                   <ChevronRight size="16" />
                 </button>
               </div>
-              <div
-                class="absolute right-0 left-0 bottom-4 w-fit mx-auto flex"
-              >
+              <div class="absolute right-0 left-0 bottom-4 w-fit mx-auto flex">
                 {#each carouselData as carouselPage, index}
                   {@const current = index === carouselIndex}
                   <button
