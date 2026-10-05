@@ -1,7 +1,22 @@
 # Obsidian
 Play instantly. No downloads.
 
+Obsidian is your ultimate web-based game library. Dive into a massive collection of classic and modern online games, preserved Flash masterpieces, and emulated retro classics directly in your browser.
 
+## Features
+- A large collection of popular games
+- Browse the store and install games to your personal library
+- Sort by tags and view games in the same collection
+- Save your favorite games
+- Run multiple games at once in a "Steam like" interface
+- Keep track of your playtime
+- Large collection of emulators
+- Download and upload local backups
+- Tab cloaking
+- Additional advanced settings (and lots of fun secrets!)
+
+## Community
+Request new games, report bugs, participate in events, and hang out with other players in the [TitaniumNetwork Discord](https://discord.gg/unblock).
 
 ## Setup
 
@@ -64,14 +79,5 @@ README.md
 - Place ads.txt inside the `/static/` folder
 - Use PUBLIC_ADSENSE_PUB_ID inside `.env`
 
-## Todo
-- Put collections in DB
-- Search tags (also creator)
-- Emulator based controls for retro games
-- Rebind controller keybinds in creator
-- Other controller types
-- Overlay game menu
-- Script to format and validate catalog and sort by a-z
-
 # License
-Obsidian uses the Apache 2.0 with Commons Clause v1.0. Commercial use is strictly prohibited.
+Obsidian uses the AGPL-3.0 license.

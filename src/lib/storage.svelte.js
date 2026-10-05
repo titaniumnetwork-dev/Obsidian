@@ -103,7 +103,7 @@ class StorageManager {
     }
   }
   async loadStorage(catalogData) {
-    this.catalog = catalogData;
+    this.catalog = catalogData.filter((item) => !item.hidden);
     this.tags = catalogTagOrder;
 
     const storedTheme = localStorage.getItem("theme");

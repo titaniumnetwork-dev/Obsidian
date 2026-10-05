@@ -95,11 +95,13 @@
       onpointerup={(e) => (e.target.textContent = getMessage())}
     >
       <span>
-        Obsidian is your ultimate web-based <Obfuscate text="game"></Obfuscate> library.
-        Dive into a massive collection of classic and modern online <Obfuscate
-          text="games"
-        ></Obfuscate>, preserved Flash masterpieces, and emulated retro classics
-        directly in your browser.
+        Obsidian is your ultimate web-based <Obfuscate
+          class="pointer-events-none"
+          text="game"
+        ></Obfuscate> library. Dive into a massive collection of classic and modern
+        online <Obfuscate class="pointer-events-none" text="games"></Obfuscate>,
+        preserved Flash masterpieces, and emulated retro classics directly in
+        your browser.
       </span>
     </p>
     <div class="flex gap-2">
@@ -169,7 +171,7 @@
       <p class="text-muted">
         Request new <Obfuscate text="games"></Obfuscate>, report bugs,
         participate in events, and hang out with other players in the <Obfuscate
-          text="TitaniumNetowork"
+          text="TitaniumNetwork"
         ></Obfuscate> Discord.
       </p>
     </div>
