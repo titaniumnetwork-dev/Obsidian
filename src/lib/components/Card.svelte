@@ -70,7 +70,7 @@
                 <p>Remove from Library?</p>
                 <p class="text-sm text-muted">
                   This will permanently remove this <Obfuscate text="game"
-                  ></Obfuscate> from. All data and stats will be deleted.
+                  ></Obfuscate>. All data and stats will be deleted.
                 </p>
               </div>
               <div class="w-full flex gap-2">
