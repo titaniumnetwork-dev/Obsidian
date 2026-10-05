@@ -1,9 +1,14 @@
 <script>
-  import { goto } from "$app/navigation";
   import Logo from "#lib/assets/logo.svelte";
   import { links } from "#lib/links";
   import { storage } from "#lib/storage.svelte";
-  import { SiDiscord, SiTiktok } from "@icons-pack/svelte-simple-icons";
+  import { goto } from "$app/navigation";
+  import {
+    SiDiscord,
+    SiGithub,
+    SiTiktok,
+    SiYoutube,
+  } from "@icons-pack/svelte-simple-icons";
   import { Sparkles } from "@lucide/svelte";
   import { toast } from "svelte-sonner";
 
@@ -40,22 +45,15 @@
     <a class="text-muted hover:underline" href="/privacy">Privacy Policy</a>
     <a class="text-muted hover:underline" href="/dmca">DMCA</a>
     <div class="flex items-center gap-6 mx-2">
-      <!--
-      <a
-        class="text-muted hover:underline"
-        href="https://github.com"
-      >
+      <a class="text-muted hover:underline" href={links.github}>
         <SiGithub title="Github" size="16" />
       </a>
-      -->
       <a class="text-muted hover:underline" href={links.discord}>
         <SiDiscord title="Discord" size="16" />
       </a>
-      <!--
       <a class="text-muted hover:underline" href={links.youtube}>
         <SiYoutube title="YouTube" size="16" />
       </a>
-      -->
       <a class="text-muted hover:underline" href={links.tiktok}>
         <SiTiktok title="TikTok" size="16" />
       </a>

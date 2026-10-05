@@ -1,9 +1,9 @@
 {
   "name": "obsidian",
+  "author": "Nebelung",
   "description": "Play instantly. No downloads.",
   "version": "1.0.0",
-  "author": "Nebelung",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "AGPL-3.0-only",
   "type": "module",
   "scripts": {
     "dev": "vite dev",

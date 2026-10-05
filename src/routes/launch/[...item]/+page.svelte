@@ -1,11 +1,11 @@
 <script>
-  import { goto } from "$app/navigation";
   import Head from "#lib/components/Head.svelte";
   import KenneyGamepadIcon from "#lib/components/KenneyGamepadIcon.svelte";
   import KenneyKeyboardIcon from "#lib/components/KenneyKeyboardIcon.svelte";
   import Button from "#lib/components/ui/Button.svelte";
   import { emulators } from "#lib/emulators.js";
   import { storage } from "#lib/storage.svelte.js";
+  import { goto } from "$app/navigation";
   import {
     Check,
     ChevronRight,
@@ -1002,6 +1002,18 @@
     {#if window.opener}
       <button
         onclick={() => window.close()}
+        class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
+      >
+        <X size="16" />
+        <span class="group-data-[overlay-style=compact]:hidden">Quit</span>
+      </button>
+    {/if}
+    {#if storage.settings.launch === "currentTab"}
+      <button
+        onclick={() => {
+          storage.quitActive(data.currentData.id);
+          goto("/library/" + data.currentData.id);
+        }}
         class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
       >
         <X size="16" />

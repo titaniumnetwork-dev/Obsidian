@@ -108,4 +108,30 @@
       </Button>
     </div>
   </Card>
+  <Card size="sm">
+    <div>
+      <p>Launch Mode</p>
+      <p class="text-sm text-muted">
+        Open <Obfuscate text="games"></Obfuscate> in a new tab or stay in the current tab. Useful for <Obfuscate text="proxying"></Obfuscate> Obsidian.
+      </p>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <Button
+        variant="ghost"
+        onclick={() => storage.updateSetting("launch", "newTab")}
+        data-active={storage.settings.launch === "newTab"}
+        class="data-[active=true]:bg-secondary border border-border"
+      >
+        <span>New Tab</span>
+      </Button>
+      <Button
+        variant="ghost"
+        onclick={() => storage.updateSetting("launch", "currentTab")}
+        data-active={storage.settings.launch === "currentTab"}
+        class="data-[active=true]:bg-secondary border border-border"
+      >
+        <span>Current Tab</span>
+      </Button>
+    </div>
+  </Card>
 </div>

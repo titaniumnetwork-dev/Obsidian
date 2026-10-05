@@ -1,5 +1,4 @@
 <script>
-  import { goto } from "$app/navigation";
   import Logo from "#lib/assets/logo.svelte";
   import Cards from "#lib/components/Cards.svelte";
   import Head from "#lib/components/Head.svelte";
@@ -11,6 +10,7 @@
   import { getMessage } from "#lib/messages";
   import { pwa } from "#lib/pwa.svelte";
   import { storage } from "#lib/storage.svelte.js";
+  import { goto } from "$app/navigation";
   import { SiDiscord } from "@icons-pack/svelte-simple-icons";
   import {
     Download,
@@ -165,11 +165,12 @@
   <Card class="flex-row items-center mx-4" size="sm">
     <MessageSquare />
     <div class="flex-col gap-1">
-      <p>Join the Obsidian Community</p>
+      <p>Join the <Obfuscate text="TN"></Obfuscate> Community</p>
       <p class="text-muted">
         Request new <Obfuscate text="games"></Obfuscate>, report bugs,
-        participate in events, and hang out with other players in our official
-        Discord server.
+        participate in events, and hang out with other players in the <Obfuscate
+          text="TitaniumNetowork"
+        ></Obfuscate> Discord.
       </p>
     </div>
     <Button href={links.discord} class="ml-auto">

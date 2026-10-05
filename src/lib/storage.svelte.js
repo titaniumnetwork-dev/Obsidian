@@ -25,6 +25,7 @@ class StorageManager {
     customCSS: "",
     cards: "default",
     overlay: "default",
+    launch: "newTab",
     libraryMode: false,
   });
   favorites = $state([]);
@@ -170,6 +171,27 @@ class StorageManager {
     }
 
     this.isLoaded = true;
+
+    if (
+      window.location.pathname.startsWith("/launch/") &&
+      this.settings.launch === "currentTab"
+    ) {
+      const id = window.location.pathname.split("/launch/")[1]?.split("/")[0];
+      if (id) {
+        const now = Date.now();
+        this.active[id] = {
+          lastTick: now,
+          startTime: now,
+        };
+        this.active[id].intervalId = setInterval(() => {
+          if (this.active[id]) {
+            const tickNow = Date.now();
+            this.updatePlayTime(id, this.active[id].lastTick, tickNow);
+            this.active[id].lastTick = tickNow;
+          }
+        }, 1000);
+      }
+    }
   }
   updateSetting(settingKey, value, share = true) {
     this.settings = { ...this.settings, [settingKey]: value };
@@ -367,11 +389,13 @@ class StorageManager {
     const standalone = window.matchMedia("(display-mode: standalone)").matches;
     const width = window.screen.width;
     const height = window.screen.height;
+    const launchMode =
+      storage.settings.launch === "newTab" ? "_blank" : "_self";
 
     this.active[ID] = {
       win: window.open(
         "/launch/" + ID,
-        "_blank",
+        launchMode,
         standalone ? `width=${width},height=${height},left=0,top=0` : null,
       ),
       tabID: storage.tabID,

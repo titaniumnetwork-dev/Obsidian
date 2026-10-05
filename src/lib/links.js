@@ -1,7 +1,8 @@
 export const links = {
   email: "support@playobsidian.com",
-  discord: "https://discord.gg/FYAdGB7mVQ",
-  youtube: "https://youtube.com/",
-  tiktok: "https://www.tiktok.com/@obsidian.ubg",
+  github: "http://github.com/titaniumnetwork-dev/Obsidian",
+  discord: "http://discord.gg/unblock",
+  youtube: "https://www.youtube.com/@Titanium-Network",
+  tiktok: "https://www.tiktok.com/@titaniumnetwork.org",
   patreon: "https://patreon.com/",
 };
