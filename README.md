@@ -22,6 +22,7 @@ Obsidian is your ultimate web-based game library. Dive into a massive collection
 - Save your favorite games
 - Run multiple games at once in a "Steam like" interface
 - Keep track of your playtime
+- Record gameplay and change keybinds to your liking
 - Large collection of emulators
 - Download and upload local backups
 - Tab cloaking
@@ -32,6 +33,13 @@ Obsidian is your ultimate web-based game library. Dive into a massive collection
 Request new games, report bugs, participate in events, and hang out with other players in the [TitaniumNetwork Discord](https://discord.gg/unblock).
 
 ## Setup
+
+### Running locally
+
+> [!TIP]
+> Run `pnpm install` to install the required dependencies.
+
+Run `pnpm dev` to run Obsidian in development mode
 
 ### Setup Cloudflare R2 Bucket
 
@@ -100,6 +108,10 @@ README.md
 - Place ads.txt inside the `/static/` folder
 - Use PUBLIC_ADSENSE_PUB_ID inside `.env`
 
-# License
+## Developers
+
+[Nebelung](https://github.com/Nebelung-Dev) - Creator and developer
+
+## License
 
 Obsidian uses the AGPL-3.0 license.

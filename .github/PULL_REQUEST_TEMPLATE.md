@@ -16,4 +16,4 @@
 - [ ] I have performed a self-review of my own code.
 - [ ] I have tested these changes locally and they work as expected.
 - [ ] My changes do not generate any new console warnings or errors.
-- [ ] **I have read and agree to the terms of the Obsidian [Contributor License Agreement](https://github.com/obsidian-games/obsidian/blob/main/CONTRIBUTING.md).**
+- [ ] **I have read and agree to the terms of the Obsidian [Contributor License Agreement](https://github.com/titaniumnetwork-dev/obsidian/blob/main/CONTRIBUTING.md).**
