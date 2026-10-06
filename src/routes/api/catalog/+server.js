@@ -1,17 +1,4 @@
 import { env } from "cloudflare:workers";
-import { offlineCatalog } from "#lib/catalog.js";
-
-const offline = import.meta.env.MODE === "offline";
-
-function offlineResponse() {
-  const headers = new Headers();
-  headers.set("Content-Type", "application/json");
-  headers.set(
-    "Cache-Control",
-    "public, max-age=300, s-maxage=300, stale-while-revalidate=86400",
-  );
-  return new Response(JSON.stringify(offlineCatalog), { headers });
-}
 
 export async function GET({ request, platform }) {
   const runtimeEnv = platform?.env ?? env;
@@ -31,12 +18,7 @@ export async function GET({ request, platform }) {
 
   const bucket = runtimeEnv?.FILES;
   if (!bucket) {
-    if (offline) {
-      return offlineResponse();
-    }
-    console.error(
-      "Cloudflare R2 bucket binding not found.",
-    );
+    console.error("Cloudflare R2 bucket binding not found.");
     return Response.json(
       { error: "Cloudflare R2 bucket binding not found." },
       { status: 500 },
@@ -45,9 +27,6 @@ export async function GET({ request, platform }) {
 
   const r2Object = await bucket.get("catalog.json");
   if (!r2Object) {
-    if (offline) {
-      return offlineResponse();
-    }
     console.error('Catalog file "catalog.json" not found in the FILES bucket.');
     return Response.json(
       {

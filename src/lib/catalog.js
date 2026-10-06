@@ -2,37 +2,50 @@ import { env } from "cloudflare:workers";
 
 export const offlineCatalog = [
   {
-    id: "blank-1",
-    title: "Blank",
-    description: "Blank",
-    developer: "Blank",
-    version: "1.0.0",
+    title: "Temp 1",
+    developer: "Developer",
+    description: "Description",
+    id: "1",
+    type: "HTML",
     tags: ["Action"],
-    dateAdded: 3,
+    controllerSupport: false,
+    internalVersion: "1",
+    path: "/index.html",
+    dateAdded: 1,
   },
   {
-    id: "blank-2",
-    title: "Blank",
-    description: "Blank",
-    developer: "Blank",
-    version: "1.0.0",
+    title: "Temp 2",
+    developer: "Developer",
+    description: "Description",
+    id: "2",
+    type: "HTML",
     tags: ["Action"],
+    controllerSupport: false,
+    internalVersion: "1",
+    path: "/index.html",
     dateAdded: 2,
   },
   {
-    id: "blank-3",
-    title: "Blank",
-    description: "Blank",
-    developer: "Blank",
-    version: "1.0.0",
+    title: "Temp 3",
+    developer: "Developer",
+    description: "Description",
+    id: "3",
+    type: "HTML",
     tags: ["Action"],
-    dateAdded: 1,
+    controllerSupport: false,
+    internalVersion: "1",
+    path: "/index.html",
+    dateAdded: 3,
   },
 ];
 
 const offline = import.meta.env.MODE === "offline";
 
 export async function getCatalog(platform, pageUrl) {
+  if (offline) {
+    return offlineCatalog;
+  }
+
   const cache =
     platform?.caches?.default ||
     (typeof caches !== "undefined" ? caches.default : null);
@@ -55,9 +68,6 @@ export async function getCatalog(platform, pageUrl) {
   try {
     const bucket = platform?.env?.FILES ?? env?.FILES;
     if (!bucket) {
-      if (offline) {
-        return offlineCatalog;
-      }
       console.warn(
         "Cloudflare R2 binding not found. Configure the FILES bucket in wrangler.json or pass it when running wrangler pages dev.",
       );
@@ -66,9 +76,6 @@ export async function getCatalog(platform, pageUrl) {
 
     const catalogObject = await bucket.get("catalog.json");
     if (!catalogObject) {
-      if (offline) {
-        return offlineCatalog;
-      }
       console.warn(
         'Catalog file "catalog.json" was not found in the FILES bucket.',
       );
