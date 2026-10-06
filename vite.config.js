@@ -4,7 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 import mkcert from "vite-plugin-mkcert";
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     {
       name: "headers",
@@ -34,9 +34,10 @@ export default defineConfig({
           filename.split(/[/\\]/).includes("node_modules") ? undefined : true,
       },
       adapter: adapter({
-        platformProxy: {
-          configPath: "wrangler.json",
-        },
+        platformProxy:
+          mode === "offline"
+            ? { configPath: "wrangler.json", remoteBindings: false }
+            : { configPath: "wrangler.json" },
         routes: {
           include: ["/*"],
           // Make sure to update this
@@ -53,4 +54,4 @@ export default defineConfig({
       }),
     }),
   ],
-});
+}));

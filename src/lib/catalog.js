@@ -1,5 +1,37 @@
 import { env } from "cloudflare:workers";
 
+export const offlineCatalog = [
+  {
+    id: "blank-1",
+    title: "Blank",
+    description: "Blank",
+    developer: "Blank",
+    version: "1.0.0",
+    tags: ["Action"],
+    dateAdded: 3,
+  },
+  {
+    id: "blank-2",
+    title: "Blank",
+    description: "Blank",
+    developer: "Blank",
+    version: "1.0.0",
+    tags: ["Action"],
+    dateAdded: 2,
+  },
+  {
+    id: "blank-3",
+    title: "Blank",
+    description: "Blank",
+    developer: "Blank",
+    version: "1.0.0",
+    tags: ["Action"],
+    dateAdded: 1,
+  },
+];
+
+const offline = import.meta.env.MODE === "offline";
+
 export async function getCatalog(platform, pageUrl) {
   const cache =
     platform?.caches?.default ||
@@ -23,6 +55,9 @@ export async function getCatalog(platform, pageUrl) {
   try {
     const bucket = platform?.env?.FILES ?? env?.FILES;
     if (!bucket) {
+      if (offline) {
+        return offlineCatalog;
+      }
       console.warn(
         "Cloudflare R2 binding not found. Configure the FILES bucket in wrangler.json or pass it when running wrangler pages dev.",
       );
@@ -31,6 +66,9 @@ export async function getCatalog(platform, pageUrl) {
 
     const catalogObject = await bucket.get("catalog.json");
     if (!catalogObject) {
+      if (offline) {
+        return offlineCatalog;
+      }
       console.warn(
         'Catalog file "catalog.json" was not found in the FILES bucket.',
       );
