@@ -118,4 +118,11 @@ export const collections = {
       "a50408c0-57f2-4ea0-94ef-bfdd88ba72ef",
     ],
   },
+  "4c2a56b7-a699-415e-b4c4-6ade2f2edf65": {
+    title: "GTA",
+    items: [
+      "061da45d-147e-4e55-b6ba-164ee2f0c060",
+      "53828ff6-dfa6-439b-944d-702fe3f7232e",
+    ],
+  },
 };
