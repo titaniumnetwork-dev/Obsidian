@@ -7,6 +7,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
+    "local": "vite dev --mode offline --open",
     "preview": "vite preview",
     "build": "node build-ruffle.js && node build-emulatorjs.js && vite build",
     "deploy": "pnpm run build && wrangler pages deploy .svelte-kit/cloudflare"

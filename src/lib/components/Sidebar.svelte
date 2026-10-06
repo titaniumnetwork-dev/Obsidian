@@ -298,7 +298,7 @@
 
 <div
   data-collapsed={storage.settings.sidebarCollapsed}
-  class="sidebar group bg-card data-[collapsed=true]:w-12 data-[collapsed=false]:w-64 transition-[width] flex flex-col gap-2 overflow-y-scroll shrink-0 m-2 mr-0 rounded-lg border border-border box-content h-[calc(100%-18px)"
+  class="sidebar group bg-card data-[collapsed=true]:w-12 data-[collapsed=false]:w-64 transition-[width] flex flex-col gap-2 overflow-y-auto shrink-0 m-2 mr-0 rounded-lg border border-border box-content h-[calc(100%-18px)"
 >
   <div class="bg-card sticky top-0 py-2 z-10">
     <div
