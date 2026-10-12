@@ -590,6 +590,11 @@
     }
     shader = newShader;
   }
+
+  function quitCurrent() {
+    storage.quitActive(data.currentData.id);
+    window.location = "/library/" + data.currentData.id;
+  }
 </script>
 
 <Head
@@ -1008,10 +1013,7 @@
     {/if}
     {#if storage.settings.launch === "currentTab"}
       <button
-        onclick={() => {
-          storage.quitActive(data.currentData.id);
-          goto("/library/" + data.currentData.id);
-        }}
+        onclick={quitCurrent}
         class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
       >
         <X size="16" />

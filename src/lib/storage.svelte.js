@@ -438,7 +438,11 @@ class StorageManager {
     const entry = this.active[ID];
     if (entry) {
       clearInterval(entry.intervalId);
-      if (entry.win) entry.win.close();
+      if (storage.settings.launch === "newTab") {
+        if (entry.win) {
+          entry.win.close();
+        }
+      }
       this.updatePlayTime(ID, entry.lastTick, Date.now());
       delete this.active[ID];
     }
