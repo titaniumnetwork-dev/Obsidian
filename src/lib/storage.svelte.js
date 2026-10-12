@@ -18,6 +18,7 @@ class StorageManager {
     sortBy: "alphabetical",
     maskTitle: "",
     maskIcon: "",
+    autoMask: false,
     panicKey: "",
     panicURL: "",
     aspect: "",

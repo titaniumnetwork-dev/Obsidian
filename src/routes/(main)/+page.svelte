@@ -26,9 +26,7 @@
   let { data } = $props();
 
   if (storage.settings.libraryMode) {
-    goto("/library", {
-      replaceState: true,
-    });
+    goto("/library");
   }
 
   let featuredData = featured

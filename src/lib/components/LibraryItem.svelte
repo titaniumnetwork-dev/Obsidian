@@ -195,7 +195,7 @@
                       onclick={() =>
                         storage.uninstall(data.currentData.id) &
                         optionsMenu.hidePopover() &
-                        goto("/library", { replaceState: true })}
+                        goto("/library")}
                       >Remove</Button
                     >
                   </div>
@@ -206,7 +206,7 @@
             <Button
               onclick={() =>
                 storage.install(data.currentData.id) &
-                goto("/library/" + data.currentData.id, { replaceState: true })}
+                goto("/library/" + data.currentData.id)}
               class="w-42 justify-center rounded-full"
             >
               <Plus size="16" />

@@ -101,6 +101,18 @@
       />
     </div>
   </Card>
+  <Card size="sm" class="flex-row justify-between">
+    <div>
+      <p>Auto Mask</p>
+      <p class="text-sm text-muted">Apply tab masking on another website</p>
+    </div>
+    <Switch
+      aria-label="Auto Mask"
+      checked={storage.settings.autoMask}
+      onchange={(e) => storage.updateSetting("autoMask", e.target.checked)}
+      disabled={!storage.settings.maskTitle && !storage.settings.maskIcon}
+    />
+  </Card>
   <Card size="sm">
     <div>
       <p>Panic Key</p>

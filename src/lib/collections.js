@@ -120,9 +120,13 @@ export const collections = {
   },
   "4c2a56b7-a699-415e-b4c4-6ade2f2edf65": {
     title: "GTA",
+    items: ["061da45d-147e-4e55-b6ba-164ee2f0c060"],
+  },
+  "e321bfa7-eb1d-479a-a41f-3c104862c84d": {
+    title: "Endoparasitic",
     items: [
-      "061da45d-147e-4e55-b6ba-164ee2f0c060",
-      "53828ff6-dfa6-439b-944d-702fe3f7232e",
+      "4722c386-fe79-417f-b9a7-7e99a8f4ae5f",
+      "218acb41-23b8-4f79-b2cb-7e6d4c386478",
     ],
   },
 };

@@ -70,9 +70,7 @@
 
   untrack(() => {
     if (data && !storage.installed.includes(data.currentData.id)) {
-      goto("/store/" + data.currentData.id, {
-        replaceState: true,
-      });
+      goto("/store/" + data.currentData.id, {});
     }
   });
 

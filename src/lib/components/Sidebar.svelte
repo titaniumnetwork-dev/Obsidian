@@ -1,9 +1,9 @@
 <script>
-  import { goto } from "$app/navigation";
-  import { page } from "$app/state";
   import Logo from "#lib/assets/logo.svelte";
   import { formatLastPlayed } from "#lib/formatUtils";
   import { storage } from "#lib/storage.svelte.js";
+  import { goto } from "$app/navigation";
+  import { page } from "$app/state";
   import {
     Calculator,
     Check,
@@ -620,8 +620,7 @@
                     <div class="flex flex-col items-center gap-1.5">
                       <p>Remove from Library?</p>
                       <p class="text-sm text-muted">
-                        This will permanently remove this <Obfuscate
-                          text="game"
+                        This will permanently remove this <Obfuscate text="game"
                         ></Obfuscate>. All data and stats will be deleted.
                       </p>
                     </div>
@@ -642,7 +641,7 @@
                           storage.uninstall(item.id);
 
                           if (page.url.pathname === "/library/" + item.id) {
-                            goto("/library", { replaceState: true });
+                            goto("/library");
                           }
                         }}>Remove</Button
                       >
@@ -709,8 +708,7 @@
                     <div class="flex flex-col items-center gap-1.5">
                       <p>Remove from Library?</p>
                       <p class="text-sm text-muted">
-                        This will permanently remove this <Obfuscate
-                          text="game"
+                        This will permanently remove this <Obfuscate text="game"
                         ></Obfuscate>. All data and stats will be deleted.
                       </p>
                     </div>
@@ -730,7 +728,7 @@
                           storage.uninstall(item.id);
 
                           if (page.url.pathname === "/library/" + item.id) {
-                            goto("/library", { replaceState: true });
+                            goto("/library");
                           }
                         }}>Remove</Button
                       >
@@ -795,8 +793,7 @@
                     <div class="flex flex-col items-center gap-1.5">
                       <p>Remove from Library?</p>
                       <p class="text-sm text-muted">
-                        This will permanently remove this <Obfuscate
-                          text="game"
+                        This will permanently remove this <Obfuscate text="game"
                         ></Obfuscate>. All data and stats will be deleted.
                       </p>
                     </div>
@@ -816,7 +813,7 @@
                           storage.uninstall(item.id);
 
                           if (page.url.pathname === "/library/" + item.id) {
-                            goto("/library", { replaceState: true });
+                            goto("/library");
                           }
                         }}>Remove</Button
                       >

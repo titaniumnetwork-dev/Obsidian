@@ -11,6 +11,9 @@
   let favicon = $state();
   let pageTitle = $state();
 
+  let isLocalVisible = $state(true);
+  let isRemoteVisible = $state(false);
+
   const themeData = $derived(
     themes.filter((theme) => theme.name === storage.theme)[0],
   );
@@ -23,6 +26,51 @@
         : "Obsidian";
 
     favicon = icon ? icon : logo;
+  });
+
+  $effect(() => {
+    if (typeof BroadcastChannel === "undefined") return;
+
+    const channel = new BroadcastChannel("visibility");
+    let hideTimeout;
+
+    const updateVisibility = () => {
+      isLocalVisible = !document.hidden;
+
+      if (isLocalVisible) {
+        isRemoteVisible = false;
+        channel.postMessage("visible");
+      } else {
+        channel.postMessage("hidden");
+        channel.postMessage("query");
+      }
+    };
+
+    channel.onmessage = (event) => {
+      if (event.data === "visible") {
+        clearTimeout(hideTimeout);
+        isRemoteVisible = true;
+      } else if (event.data === "hidden") {
+        clearTimeout(hideTimeout);
+        hideTimeout = setTimeout(() => {
+          isRemoteVisible = false;
+        }, 100);
+      } else if (event.data === "query") {
+        if (!document.hidden) {
+          channel.postMessage("visible");
+        }
+      }
+    };
+
+    updateVisibility();
+
+    document.addEventListener("visibilitychange", updateVisibility);
+
+    return () => {
+      document.removeEventListener("visibilitychange", updateVisibility);
+      channel.close();
+      clearTimeout(hideTimeout);
+    };
   });
 
   let themeCustomCSS = $state("");
@@ -46,19 +94,26 @@
       themeCustomCSS = "";
     }
   });
+
+  const shouldMask = $derived(
+    !storage.settings.autoMask || (!isLocalVisible && !isRemoteVisible),
+  );
+
+  const activeTitle = $derived(
+    shouldMask && storage.settings.maskTitle
+      ? storage.settings.maskTitle
+      : pageTitle,
+  );
+  const activeIcon = $derived(
+    shouldMask && storage.settings.maskIcon
+      ? storage.settings.maskIcon
+      : favicon,
+  );
 </script>
 
 <svelte:head>
-  <title
-    >{storage.settings.maskTitle
-      ? storage.settings.maskTitle
-      : pageTitle}</title
-  >
-  <link
-    crossorigin="anonymous"
-    rel="icon"
-    href={storage.settings.maskIcon ? storage.settings.maskIcon : favicon}
-  />
+  <title>{activeTitle}</title>
+  <link crossorigin="anonymous" rel="icon" href={activeIcon} />
   <meta name="description" content="Play instantly. No downloads." />
   {@html `<style>${themeCustomCSS}</style>`}
   {@html `<style>${storage.settings.customCSS}</style>`}
