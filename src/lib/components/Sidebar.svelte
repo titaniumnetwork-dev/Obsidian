@@ -294,6 +294,8 @@
   ];
 
   let settingsOpen = $state(false);
+
+  let sidebarScrollEl;
 </script>
 
 <div
@@ -310,6 +312,7 @@
           size="icon-sm"
           aria-label="Home Logo"
           href={storage.settings.libraryMode ? "/library" : "/"}
+          onpointerdown={() => sidebarScrollEl?.scrollTo({ top: 0, behavior: "smooth" })}
         >
           <Logo class="size-5" />
         </Button>
@@ -495,6 +498,7 @@
     </div>
   </div>
   <div
+    bind:this={sidebarScrollEl}
     class="flex flex-col gap-2 overflow-auto flex-1 group-data-[collapsed=true]:scrollbar-none"
   >
     <div>
