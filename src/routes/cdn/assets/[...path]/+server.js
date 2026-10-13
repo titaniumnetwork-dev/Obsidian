@@ -53,7 +53,7 @@ export async function GET({ request, platform, params }) {
 
     fullSize = meta.size;
 
-    if (etagHeader.includes(meta.httpEtag)) {
+    if (etagHeader?.includes(meta.httpEtag)) {
       const headers = new Headers();
       setCommonHeaders(headers, meta);
       return new Response(null, { status: 304, headers });
