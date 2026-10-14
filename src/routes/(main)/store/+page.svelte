@@ -378,7 +378,6 @@
     <div class="mx-4 py-4 rounded-xl border border-border bg-card">
       <Cards
         title="FNAF Collection"
-        row={true}
         data={getCollection("90980804-79f0-433d-9103-c3294a3c7ff4")}
         link="/store/"
         buttons="store"

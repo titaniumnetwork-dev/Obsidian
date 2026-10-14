@@ -537,7 +537,7 @@
             />
           </button>
           <div
-            class="group-data-[collapsed=false]:px-2.5 group-data-[collapsed=false]:py-0.5 group-data-[collapsed=false]:border-l group-data-[collapsed=false]:border-border group-data-[collapsed=false]:mx-3.5 flex flex-col gap-1 group-data-[open=false]/collapsible:hidden group-data-[collapsed=true]:mt-1"
+            class="group-data-[collapsed=false]:px-2.5 group-data-[collapsed=false]:py-1 group-data-[collapsed=false]:border-l group-data-[collapsed=false]:border-border group-data-[collapsed=false]:mx-3.5 flex flex-col gap-1 group-data-[open=false]/collapsible:hidden group-data-[collapsed=true]:mt-1"
           >
             {#each settingsTabs as settingsTab}
               {@const isActive = page.url.pathname === settingsTab.href}
