@@ -120,7 +120,11 @@ export const collections = {
   },
   "4c2a56b7-a699-415e-b4c4-6ade2f2edf65": {
     title: "GTA",
-    items: ["061da45d-147e-4e55-b6ba-164ee2f0c060"],
+    items: [
+      "061da45d-147e-4e55-b6ba-164ee2f0c060",
+      "0eb9ae41-8ccd-4eea-b7b6-0e47e791a0e3",
+      "4b91b9f3-05af-4af9-8703-331e3c5aeb85",
+    ],
   },
   "e321bfa7-eb1d-479a-a41f-3c104862c84d": {
     title: "Endoparasitic",
@@ -129,4 +133,19 @@ export const collections = {
       "218acb41-23b8-4f79-b2cb-7e6d4c386478",
     ],
   },
+  "65229aa7-4269-4159-b813-3978b51e6880": {
+    title: "Angry Birds",
+    items: [
+      "7d1411c8-5954-4798-a3bb-185d2a20f1f5",
+      "18e7eb21-93df-4fd1-b272-7b07e965ec76",
+    ],
+  },
+  "2b398788-0536-4a31-aab1-d2612e8a81e0": {
+    title: "Granny",
+    items: [
+      "f0ba92e4-669b-4564-a6aa-b4ed9b1c3e15",
+      "d5c5e925-1eff-449f-ac66-5ac8cbff1f64",
+      "df22abbd-9c33-4cce-88f8-9533ac49e42e"
+    ]
+  }
 };

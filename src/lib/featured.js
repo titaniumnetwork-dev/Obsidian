@@ -1,4 +1,5 @@
 export const carousel = [
+  "d41d9e86-3046-4cd1-9a5f-9caf641d5dca",
   "52670c5c-f85c-44b2-8306-8d6381466199",
   "440c5a5c-4e43-4404-90dd-67d0c877fcf3",
   "4c4774e9-08f3-434d-8372-6f724c0dd903",
@@ -7,14 +8,14 @@ export const carousel = [
 ];
 
 export const featured = [
-  "d41d9e86-3046-4cd1-9a5f-9caf641d5dca",
-  "01b8559e-7a81-4664-94bd-624fb4c11c7b",
-  "0abcc623-ec00-493a-9139-e23b85071e5a",
-  "5beca41c-e780-4487-8529-97a178c181cc",
+  "6f324fd5-98e0-4184-9d0e-78b75febe17b",
+  "349c92c6-5f9c-4a8a-87aa-05d3b6819f42",
+  "a498930d-5864-472b-ac6f-e1e41886c095",
+  "9677f340-512e-4c63-9dde-f11bb5db89cd",
   "9372969a-79d5-4836-892f-2454fd2d3dbd",
   "bc64c4a5-c685-4b8f-a94f-3995de5a2497",
+  "3d6e3130-003d-4548-8426-89614184c94d",
   "0d8195e5-7736-400d-9352-d8cb9a96b1de",
-  "6f324fd5-98e0-4184-9d0e-78b75febe17b",
+  "46975ef1-a576-49c2-b0ae-b740301204d2",
   "c75db71a-ed5a-4ed9-9cf2-5c73fb513c79",
-  "fc64139e-b8aa-4925-ab83-869a5c8c31cc",
 ];

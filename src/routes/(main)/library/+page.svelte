@@ -1,5 +1,4 @@
 <script>
-  import { page } from "$app/state";
   import Cards from "#lib/components/Cards.svelte";
   import Head from "#lib/components/Head.svelte";
   import Obfuscate from "#lib/components/Obfuscate.svelte";
@@ -9,6 +8,8 @@
   import InputGroupInput from "#lib/components/ui/InputGroupInput.svelte";
   import { storage } from "#lib/storage.svelte.js";
   import { removeURLParam, setURLParam } from "#lib/utils.js";
+  import { goto } from "$app/navigation";
+  import { page } from "$app/state";
   import {
     ArrowDownUp,
     Check,
@@ -107,9 +108,10 @@
     e.target.children[0].classList.add("animate-shake");
     setTimeout(() => {
       e.target.children[0].classList.remove("animate-shake");
-      window.location.href =
+      goto(
         "/library/" +
-        sortedLibrary[Math.floor(Math.random() * sortedLibrary.length)].id;
+          sortedLibrary[Math.floor(Math.random() * sortedLibrary.length)].id,
+      );
     }, 300);
   }
 
@@ -237,7 +239,12 @@
       </div>
     </details>
     {#if sortedLibrary.length > 0}
-      <Button variant="outline" size="icon" onclick={(e) => pickRandom(e)} aria-label="Random">
+      <Button
+        variant="outline"
+        size="icon"
+        onclick={(e) => pickRandom(e)}
+        aria-label="Random"
+      >
         <Dice5 class="pointer-events-none" size="16" />
       </Button>
     {/if}

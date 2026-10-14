@@ -37,7 +37,7 @@ importers:
         version: 1.2.5
       '@lucide/svelte':
         specifier: ^1.55.0
-        version: 1.55.0(svelte@5.57.2)
+        version: 1.56.0(svelte@5.57.2)
       '@ruffle-rs/ruffle':
         specifier: 0.6.0
         version: 0.6.0
@@ -68,7 +68,7 @@ importers:
     devDependencies:
       '@inlang/cli':
         specifier: ^3.4.0
-        version: 3.4.0
+        version: 3.4.2
       '@sveltejs/adapter-cloudflare':
         specifier: ^8.0.0
         version: 8.0.0(@sveltejs/kit@3.0.1(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.2)(vite@8.3.4(@types/node@25.9.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.4)))(svelte@5.57.2)(vite@8.3.4(@types/node@25.9.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.4)))(wrangler@4.149.0(@types/node@25.9.1))
@@ -754,13 +754,13 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@inlang/cli@3.4.0':
-    resolution: {integrity: sha512-Xz9rshYJNTtEdap5fEGeg6TcLGHHREBqkS4ssYRZO2dc9IDkSngYubXweQnWu+6EwsfLniZlWAKqsG+9c1bMDQ==}
+  '@inlang/cli@3.4.2':
+    resolution: {integrity: sha512-NXvY3qL4eYt39Evf4sWs/e56p6SXVIgb22Q115YV7RYU/8D3cVaDBvUlg4jyUiwJyojzBCIO3o0Lxu4KR+XhWA==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  '@inlang/sdk@4.0.0':
-    resolution: {integrity: sha512-AwGasJATSKq9J3EVBdmIbpU++2DTI8z0J5WbejT6lqymLaoDB4cf95Zp0ijmJp7XUNP/z10qQfA2lz0TAojRYA==}
+  '@inlang/sdk@4.0.2':
+    resolution: {integrity: sha512-IiOiQpybiV2HrguH+2eG+9Pqsm8AuUBtjHpgl3rnwXkE9x1p+mAC5YqVVRlquGLELXxFiu90zvgFXdYnt4X3LA==}
     engines: {node: '>=20.0.0'}
 
   '@jridgewell/gen-mapping@0.3.13':
@@ -797,8 +797,8 @@ packages:
   '@lix-js/sdk@0.19.0':
     resolution: {integrity: sha512-ks7hKZdJGH0APlSLWtFYCXDO3yIoleoPqzLgkZYtMbaiWRN2Ih772tNGGBZFLKbutq6DuNRwcjNkG94KqWRbBA==}
 
-  '@lucide/svelte@1.55.0':
-    resolution: {integrity: sha512-CTxJ3qbkDK2oCW1VJYKhqAUfOongRJqc9YWmJZn8E06QpCU7i5yAnUny4h/zMNy/iYpMtGiJDRSb6AVIornuXg==}
+  '@lucide/svelte@1.56.0':
+    resolution: {integrity: sha512-YzbcmneHmPog3wAdXSl7oORgJhFc6klu8rRLMmm5uXwPQ8B0740c7dcNd3oJ72nCPvlbCW1XEmsWa4I0SDIogw==}
     peerDependencies:
       svelte: ^5
 
@@ -2271,12 +2271,12 @@ snapshots:
   '@img/sharp-win32-x64@0.35.5':
     optional: true
 
-  '@inlang/cli@3.4.0':
+  '@inlang/cli@3.4.2':
     dependencies:
-      '@inlang/sdk': 4.0.0
+      '@inlang/sdk': 4.0.2
       esbuild-wasm: 0.19.12
 
-  '@inlang/sdk@4.0.0':
+  '@inlang/sdk@4.0.2':
     dependencies:
       '@lix-js/sdk': 0.19.0
       '@sinclair/typebox': 0.31.28
@@ -2329,7 +2329,7 @@ snapshots:
       binaryen: 130.0.0
       fflate: 0.8.3
 
-  '@lucide/svelte@1.55.0(svelte@5.57.2)':
+  '@lucide/svelte@1.56.0(svelte@5.57.2)':
     dependencies:
       svelte: 5.57.2
 
@@ -3104,7 +3104,7 @@ snapshots:
 
   tsx@4.22.4:
     dependencies:
-      esbuild: 0.28.1
+      esbuild: 0.28.2
     optionalDependencies:
       fsevents: 2.3.3
     optional: true
