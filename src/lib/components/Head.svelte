@@ -2,7 +2,6 @@
   import logo from "#lib/assets/logo.svg";
   import { storage } from "#lib/storage.svelte";
   import { themes } from "#lib/themes";
-  import { page } from "$app/state";
   import { hiddenClass } from "#lib/utils";
 
   const adsensePubId = import.meta.env.PUBLIC_ADSENSE_PUB_ID;
@@ -115,11 +114,6 @@
 <svelte:head>
   <title>{activeTitle}</title>
   <link crossorigin="anonymous" rel="icon" href={activeIcon} />
-  <meta name="description" content="Play instantly. No downloads." />
-  <meta property="og:title" content="Obsidian" />
-  <meta property="og:description" content="Play instantly. No downloads." />
-  <meta property="og:image" content="{page.url}assets/logo-512.png" />
-  <meta name="theme-color" content="#e5e5e5" />
   {@html `<style>${themeCustomCSS}</style>`}
   {@html `<style>${storage.settings.customCSS}</style>`}
   {@html `<style>.${hiddenClass} {position: absolute;z-index: -10;opacity: 0;}</style>`}

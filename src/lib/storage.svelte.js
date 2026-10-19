@@ -104,7 +104,7 @@ class StorageManager {
     }
   }
   async loadStorage(catalogData) {
-    this.catalog = catalogData.filter((item) => !item.hidden);
+    this.catalog = catalogData;
     this.tags = catalogTagOrder;
 
     const storedTheme = localStorage.getItem("theme");
@@ -154,6 +154,16 @@ class StorageManager {
         this.installed = JSON.parse(storedInstalled);
       } catch (e) {}
     }
+
+    this.catalog = this.catalog.filter((item) => {
+      if (item.hidden) {
+        if (!this.installed.includes(item.id)) {
+          return false;
+        }
+      }
+
+      return true;
+    });
 
     this.library = this.catalog.filter((item) =>
       this.installed.includes(item.id),
