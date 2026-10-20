@@ -3,6 +3,7 @@
   import Head from "#lib/components/Head.svelte";
   import Obfuscate from "#lib/components/Obfuscate.svelte";
   import Button from "#lib/components/ui/Button.svelte";
+  import Card from "#lib/components/ui/Card.svelte";
   import InputGroup from "#lib/components/ui/InputGroup.svelte";
   import InputGroupAddon from "#lib/components/ui/InputGroupAddon.svelte";
   import InputGroupInput from "#lib/components/ui/InputGroupInput.svelte";
@@ -364,6 +365,37 @@
     </details>
   </div>
 </div>
+{#if sortedLibrary.length > 0}
+  {#if !storage.libraryModeDismissed}
+    <Card class="flex-row items-center mx-4 mb-4" size="sm">
+      <div class="flex-col gap-1">
+        <p>Library Mode</p>
+        <p class="text-sm text-muted">
+          Hide the home page and jump straight into your <Obfuscate
+            text="games!"
+          ></Obfuscate> Turn off anytime in settings.
+        </p>
+      </div>
+      <div class="flex gap-2 ml-auto">
+        <Button
+          onclick={() => {
+            (storage.updateSetting("libraryMode", true),
+              storage.setLibraryModeDismissed(true));
+          }}
+        >
+          <span>Enable</span>
+        </Button>
+        <Button
+          variant="outline"
+          class="bg-secondary"
+          onclick={() => storage.setLibraryModeDismissed(true)}
+        >
+          <span>Dismiss</span>
+        </Button>
+      </div>
+    </Card>
+  {/if}
+{/if}
 <Cards data={sortedLibrary} />
 {#if storage.library.length > 0 && sortedLibrary.length === 0}
   <div class="flex flex-col gap-4 h-full w-full justify-center items-center">

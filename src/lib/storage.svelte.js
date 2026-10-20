@@ -32,6 +32,7 @@ class StorageManager {
   favorites = $state([]);
   isLoaded = $state(false);
   playTime = $state({});
+  libraryModeDismissed = $state(false);
 
   constructor() {
     if (typeof BroadcastChannel !== "undefined") {
@@ -99,6 +100,9 @@ class StorageManager {
           case "updatePlaytime":
             this.updatePlayTime(e.data.ID, e.data.start, e.data.end, false);
             break;
+          case "setLibraryModeDismissed":
+            this.setLibraryModeDismissed(true, false);
+            break;
         }
       };
     }
@@ -116,6 +120,9 @@ class StorageManager {
     const storedGamepadBinds = localStorage.getItem("gamepadBinds");
     const storedHiddenThemes = localStorage.getItem("hiddenThemes");
     const storedPlayTime = localStorage.getItem("playTime");
+    const storedLibraryModeDismissed = localStorage.getItem(
+      "libraryModeDismissed",
+    );
 
     if (storedTheme) {
       this.theme = storedTheme.replace(/['"]+/g, "");
@@ -179,6 +186,10 @@ class StorageManager {
       try {
         this.favorites = JSON.parse(storedFavorites);
       } catch (e) {}
+    }
+
+    if (storedLibraryModeDismissed) {
+      this.libraryModeDismissed = Boolean(storedLibraryModeDismissed);
     }
 
     this.isLoaded = true;
@@ -488,6 +499,19 @@ class StorageManager {
           ID,
           start,
           end,
+        });
+      }
+    }
+  }
+
+  setLibraryModeDismissed(dismissed, share = true) {
+    this.libraryModeDismissed = dismissed;
+    localStorage.setItem("libraryModeDismissed", String(dismissed));
+
+    if (share) {
+      if (this.storageChannel) {
+        this.storageChannel.postMessage({
+          type: "setLibraryModeDismissed",
         });
       }
     }

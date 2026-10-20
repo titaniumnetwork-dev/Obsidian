@@ -14,11 +14,8 @@
   import { SiDiscord } from "@icons-pack/svelte-simple-icons";
   import {
     Download,
-    Heart,
     Library,
-    LockOpen,
     MessageSquare,
-    SlidersHorizontal,
     Sparkles,
     Store,
   } from "@lucide/svelte";
@@ -83,7 +80,7 @@
 <Head />
 
 <div class="flex flex-col mt-28 gap-16">
-  <div class="flex flex-col gap-8 items-center mb-16">
+  <div class="flex flex-col gap-8 items-center">
     <Logo onclick={handleRapidClick} class="logo w-20 h-20" />
     <h1 class="text-6xl font-bold text-center">
       Play instantly. <span class="text-muted">No downloads.</span>
@@ -113,71 +110,6 @@
       </Button>
     </div>
   </div>
-  <div class="grid grid-cols-4 gap-4 mx-4">
-    <Card size="sm">
-      <div class="flex gap-1.5 items-center">
-        <LockOpen size="16" />
-        <p>100% Free Forever</p>
-      </div>
-      <p class="text-sm text-muted">
-        All <Obfuscate text="games"></Obfuscate> are completely free, no paywalls,
-        and no subscriptions. Enjoy full, unrestricted access to our entire <Obfuscate
-          text="gaming"
-        ></Obfuscate> library completely free of charge.
-      </p>
-    </Card>
-    <Card size="sm">
-      <div class="flex gap-1.5 items-center">
-        <Library size="16" />
-        <p>Massive Library</p>
-      </div>
-      <p class="text-sm text-muted">
-        Play hundreds of curated <Obfuscate text="games"></Obfuscate> directly in
-        your browser with zero downloads. Powered by Ruffle for classic Flash hits
-        and EmulatorJS for retro consoles.
-      </p>
-    </Card>
-    <Card size="sm">
-      <div class="flex gap-1.5 items-center">
-        <Heart size="16" />
-        <p>Built for <Obfuscate text="Gamers"></Obfuscate></p>
-      </div>
-      <p class="text-sm text-muted">
-        Created by <Obfuscate text="gamers"></Obfuscate>, for <Obfuscate
-          text="gamers"
-        ></Obfuscate>. We've stripped away the bloat to focus entirely on
-        delivering a <Obfuscate text="gaming"></Obfuscate> experience with the quality-of-life
-        features you actually want.
-      </p>
-    </Card>
-    <Card size="sm">
-      <div class="flex gap-1.5 items-center">
-        <SlidersHorizontal size="16" />
-        <p>Advanced Features</p>
-      </div>
-      <p class="text-sm text-muted">
-        Track your playtime, save your favorites, and configure many settings
-        and themes with local syncing and the ability to download and store data
-        and <Obfuscate text="game"></Obfuscate> saves.
-      </p>
-    </Card>
-  </div>
-  <Card class="flex-row items-center mx-4" size="sm">
-    <MessageSquare />
-    <div class="flex-col gap-1">
-      <p>Join the <Obfuscate text="TN"></Obfuscate> Community</p>
-      <p class="text-muted">
-        Request new <Obfuscate text="games"></Obfuscate>, report bugs,
-        participate in events, and hang out with other players in the <Obfuscate
-          text="TitaniumNetwork"
-        ></Obfuscate> Discord.
-      </p>
-    </div>
-    <Button href={links.discord} class="ml-auto">
-      <SiDiscord size="16" />
-      <span>Join Discord Server</span>
-    </Button>
-  </Card>
   <div>
     <Cards
       title="Featured"
@@ -209,22 +141,20 @@
         <span>Install App</span>
       </Button>
     {:else}
+      <MessageSquare />
       <div class="flex-col gap-1">
-        <p>Ready to start playing?</p>
-        <p class="text-sm text-muted">
-          Join hundreds of players using Obsidian.
+        <p>Join the <Obfuscate text="TN"></Obfuscate> Community</p>
+        <p class="text-muted">
+          Request new <Obfuscate text="games"></Obfuscate>, report bugs,
+          participate in events, and hang out with other players in the <Obfuscate
+            text="TitaniumNetwork"
+          ></Obfuscate> Discord.
         </p>
       </div>
-      <div class="flex gap-2 ml-auto">
-        <Button href="/library">
-          <Library size="16" />
-          <span>Your library</span>
-        </Button>
-        <Button variant="outline" href="/store" class="bg-secondary">
-          <Store size="16" />
-          <span>Browse Store</span>
-        </Button>
-      </div>
+      <Button href={links.discord} class="ml-auto">
+        <SiDiscord size="16" />
+        <span>Join Discord Server</span>
+      </Button>
     {/if}
   </Card>
 </div>
