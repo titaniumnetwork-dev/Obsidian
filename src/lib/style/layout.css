@@ -195,6 +195,19 @@ html[data-theme="OLED"] {
   --theme-input: #2b2b2d;
 }
 
+html[data-theme="Top Hat"] {
+  --theme-typeset: var(--font-sans);
+  --theme-background: #0d1116;
+  --theme-foreground: white;
+  --theme-primary-foreground: white;
+  --theme-card: #131820;
+  --theme-primary: #ff5861;
+  --theme-secondary: #22262f;
+  --theme-muted: #bbbcbe;
+  --theme-border: color-mix(in srgb, currentColor 14%, transparent);
+  --theme-input: #3b4252;
+}
+
 html[data-theme="3kh0"] {
   --theme-typeset: var(--font-sans);
   --theme-background: var(--color-mist-900);
@@ -310,11 +323,7 @@ html[data-rounding="Soft"] {
 
 @utility scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: color-mix(
-      in oklab,
-      var(--theme-muted) 40%,
-      transparent
-    )
+  scrollbar-color: color-mix(in oklab, var(--theme-muted) 40%, transparent)
     transparent;
   &::-webkit-scrollbar {
     width: 8px;
@@ -324,21 +333,13 @@ html[data-rounding="Soft"] {
     background: transparent;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: color-mix(
-      in oklab,
-      var(--theme-muted) 35%,
-      transparent
-    );
+    background-color: color-mix(in oklab, var(--theme-muted) 35%, transparent);
     border-radius: var(--theme-radius);
     border: 2px solid transparent;
     background-clip: content-box;
   }
   &::-webkit-scrollbar-thumb:hover {
-    background-color: color-mix(
-      in oklab,
-      var(--theme-muted) 65%,
-      transparent
-    );
+    background-color: color-mix(in oklab, var(--theme-muted) 65%, transparent);
     border-width: 1px;
   }
   &::-webkit-scrollbar-corner {
@@ -348,11 +349,7 @@ html[data-rounding="Soft"] {
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: color-mix(
-      in oklab,
-      var(--theme-muted) 40%,
-      transparent
-    )
+  scrollbar-color: color-mix(in oklab, var(--theme-muted) 40%, transparent)
     transparent;
 }
 
@@ -366,22 +363,14 @@ html[data-rounding="Soft"] {
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: color-mix(
-    in oklab,
-    var(--theme-muted) 35%,
-    transparent
-  );
+  background-color: color-mix(in oklab, var(--theme-muted) 35%, transparent);
   border-radius: var(--theme-radius);
   border: 2px solid transparent;
   background-clip: content-box;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background-color: color-mix(
-    in oklab,
-    var(--theme-muted) 65%,
-    transparent
-  );
+  background-color: color-mix(in oklab, var(--theme-muted) 65%, transparent);
   border-width: 1px;
 }
 

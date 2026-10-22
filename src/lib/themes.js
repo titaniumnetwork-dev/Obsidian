@@ -60,6 +60,10 @@ export const themes = [
     primary: "#000000",
   },
   {
+    name: "Top Hat",
+    primary: "#ff5861"
+  }
+  {
     name: "3kh0",
     primary: "#4caf50",
     hidden: true,
