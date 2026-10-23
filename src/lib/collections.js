@@ -99,6 +99,8 @@ export const collections = {
     items: [
       "b903985f-a31d-42e6-8058-250072d85e2a",
       "1d44d099-582a-4287-a88c-750ca9305f02",
+      "92495c19-b923-4dfa-a77c-4498172f4f4e",
+      "35d45605-a4c7-4a50-bbe9-d6fc77944f96",
     ],
   },
   "fdcc8f08-c844-4b24-8d06-780da6538436": {
@@ -145,7 +147,7 @@ export const collections = {
     items: [
       "f0ba92e4-669b-4564-a6aa-b4ed9b1c3e15",
       "d5c5e925-1eff-449f-ac66-5ac8cbff1f64",
-      "df22abbd-9c33-4cce-88f8-9533ac49e42e"
-    ]
-  }
+      "df22abbd-9c33-4cce-88f8-9533ac49e42e",
+    ],
+  },
 };
