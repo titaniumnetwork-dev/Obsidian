@@ -22,9 +22,13 @@ async function handleSocialBots({ event, resolve }) {
 
   const isSocialBot =
     /Discordbot|Twitterbot|facebookexternalhit|LinkedInBot/i.test(userAgent);
+  const isGoogleBot =
+    /Googlebot|Google-InspectionTool|Storebot-Google|GoogleOther/i.test(
+      userAgent,
+    );
   const pathSegments = url.pathname.split("/").filter(Boolean);
 
-  if (isSocialBot) {
+  if (isSocialBot || isGoogleBot) {
     const metaData = await getMetaDataForRoute(
       pathSegments,
       url,
@@ -32,7 +36,8 @@ async function handleSocialBots({ event, resolve }) {
     );
 
     if (metaData) {
-      const html = `<!DOCTYPE html>
+      if (isSocialBot) {
+        const html = `<!DOCTYPE html>
             <html lang="en">
             <head>
                 <meta charset="utf-8" />
@@ -52,9 +57,36 @@ async function handleSocialBots({ event, resolve }) {
             <body></body>
             </html>`;
 
-      return new Response(html, {
-        headers: { "content-type": "text/html;charset=UTF-8" },
-      });
+        return new Response(html, {
+          headers: { "content-type": "text/html;charset=UTF-8" },
+        });
+      }
+
+      if (isGoogleBot) {
+        const googleHeadTags = `
+          <title>${metaData.title}</title>
+          <meta name="description" content="${metaData.description}" />
+          <link rel="icon" type="image/png" href="${url.origin}/assets/logo.png" />
+          <link rel="apple-touch-icon" href="${url.origin}/assets/logo.png" />
+          <meta property="og:title" content="${metaData.title}" />
+          <meta property="og:description" content="${metaData.description}" />
+          <meta property="og:image" content="${metaData.image}" />
+          <meta property="og:url" content="${url.href}" />
+          <meta property="og:type" content="website" />
+          <meta property="og:site_name" content="${metaData.siteName || "Obsidian"}" />
+        `;
+
+        return resolve(event, {
+          transformPageChunk: ({ html }) =>
+            html
+              .replace(/<title>.*?<\/title>/is, "")
+              .replace(
+                /<link[^>]*rel=["'](?:shortcut |apple-touch-)?icon["'][^>]*>/gi,
+                "",
+              )
+              .replace("<head>", `<head>${googleHeadTags}`),
+        });
+      }
     }
   }
 
