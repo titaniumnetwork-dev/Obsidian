@@ -52,6 +52,20 @@
     storage.updateSetting("panicKey", e.code);
     binding = false;
   }
+
+  function aboutBlankCloak() {
+    const currentURL = window.location.href;
+    const win = window.open("about:blank", "_blank");
+
+    if (win) {
+      win.document.write(
+        `<body style="margin:0"><iframe src="${currentURL}" style="width:100vw;height:100vh;border:none;display:block"></iframe></body>`,
+      );
+      win.document.close();
+    }
+
+    window.location.replace("about:blank");
+  }
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
@@ -153,5 +167,12 @@
       onchange={(e) =>
         storage.updateSetting("closePrevention", e.target.checked)}
     />
+  </Card>
+  <Card size="sm" class="flex-row justify-between">
+    <div>
+      <p>about:blank Cloak</p>
+      <p class="text-sm text-muted">Open Obsidian in an about:blank window</p>
+    </div>
+    <Button variant="outline" onclick={aboutBlankCloak}>Open</Button>
   </Card>
 </div>
