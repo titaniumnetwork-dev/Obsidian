@@ -600,6 +600,7 @@
 <Head
   forceTitle={data.currentData.title}
   icon={"/cdn/assets/assets/" + data.currentData.id + "/icon.webp"}
+  ads={false}
 />
 
 <svelte:window onclick={handleClickOutside} onkeydown={handleKeydown} />

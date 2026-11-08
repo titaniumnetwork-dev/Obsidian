@@ -1,10 +1,17 @@
 <script>
+  import { isAdDomain } from "#lib/ads.js";
   import { aspects } from "#lib/aspects";
   import Obfuscate from "#lib/components/Obfuscate.svelte";
   import Button from "#lib/components/ui/Button.svelte";
   import Card from "#lib/components/ui/Card.svelte";
   import Switch from "#lib/components/ui/Switch.svelte";
   import { storage } from "#lib/storage.svelte.js";
+
+  function updateAdsToggle(e) {
+    storage.updateSetting("ads", e.target.checked);
+
+    window.location.reload();
+  }
 </script>
 
 <div class="grid grid-cols-2 gap-4">
@@ -112,7 +119,8 @@
     <div>
       <p>Launch Mode</p>
       <p class="text-sm text-muted">
-        Open <Obfuscate text="games"></Obfuscate> in a new tab or stay in the current tab. Useful for <Obfuscate text="proxying"></Obfuscate> Obsidian.
+        Open <Obfuscate text="games"></Obfuscate> in a new tab or stay in the current
+        tab. Useful for <Obfuscate text="proxying"></Obfuscate> Obsidian.
       </p>
     </div>
     <div class="flex flex-wrap gap-2">
@@ -134,4 +142,17 @@
       </Button>
     </div>
   </Card>
+  {#if isAdDomain()}
+    <Card size="sm" class="flex-row justify-between">
+      <div>
+        <p>Show Ads</p>
+        <p class="text-sm text-muted">Support Obsidian by showing ads</p>
+      </div>
+      <Switch
+        aria-label="Show Ads"
+        checked={storage.settings.ads}
+        onchange={updateAdsToggle}
+      />
+    </Card>
+  {/if}
 </div>

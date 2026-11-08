@@ -2,6 +2,7 @@
   import Logo from "#lib/assets/logo.svelte";
   import Cards from "#lib/components/Cards.svelte";
   import Head from "#lib/components/Head.svelte";
+  import NativeBanner from "#lib/components/NativeBanner.svelte";
   import Obfuscate from "#lib/components/Obfuscate.svelte";
   import Button from "#lib/components/ui/Button.svelte";
   import Card from "#lib/components/ui/Card.svelte";
@@ -118,6 +119,7 @@
       link="/store/"
     />
   </div>
+  <NativeBanner />
   <div>
     <Cards
       title="Recently Added"

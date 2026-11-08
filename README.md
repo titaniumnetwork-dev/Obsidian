@@ -85,7 +85,7 @@ brew install rclone
 
 ### Upload Games
 
-Run `rclone sync ./ files:files --progress --transfers 10 --exclude-from .rclone-ignore` in the games folder directory
+Run `rclone sync ./ files:files --progress --transfers 32 --checkers 64 --fast-list --buffer-size 64M --exclude-from .rclone-ignore` in the games folder directory
 
 .rclone-ignore
 
@@ -103,10 +103,8 @@ README.md
 - Run `pnpm run deploy` to deploy with Cloudflare Pages
 - "Create a new project" if needed and enter the production branch name `main`
 
-## Google AdSense
-
-- Place ads.txt inside the `/static/` folder
-- Use PUBLIC_ADSENSE_PUB_ID inside `.env`
+## Adsterra
+Rename `.env.example` to `.env` and configure values
 
 ## Developers
 

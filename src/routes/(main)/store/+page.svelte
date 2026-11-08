@@ -1,6 +1,7 @@
 <script>
   import { collections } from "#lib/collections.js";
   import Cards from "#lib/components/Cards.svelte";
+    import NativeBanner from "#lib/components/NativeBanner.svelte";
   import Obfuscate from "#lib/components/Obfuscate.svelte";
   import Button from "#lib/components/ui/Button.svelte";
   import Card from "#lib/components/ui/Card.svelte";
@@ -292,6 +293,7 @@
         </a>
       </div>
     </div>
+    <NativeBanner />
     <Cards
       title="Featured"
       data={featuredData}
