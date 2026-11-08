@@ -5,6 +5,7 @@ import { defineConfig } from "vite";
 import mkcert from "vite-plugin-mkcert";
 
 export default defineConfig(({ mode }) => ({
+  envPrefix: ["VITE_", "PUBLIC_"],
   plugins: [
     {
       name: "headers",

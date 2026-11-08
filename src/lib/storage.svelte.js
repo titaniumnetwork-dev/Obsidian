@@ -28,6 +28,7 @@ class StorageManager {
     overlay: "default",
     launch: "newTab",
     libraryMode: false,
+    ads: true,
   });
   favorites = $state([]);
   isLoaded = $state(false);
@@ -178,8 +179,15 @@ class StorageManager {
 
     if (storedSettings) {
       try {
-        this.settings = JSON.parse(storedSettings);
+        const parsedSettings = JSON.parse(storedSettings);
+        this.settings = {
+          ...this.settings,
+          ...parsedSettings,
+        };
+        localStorage.setItem("settings", JSON.stringify(this.settings));
       } catch (e) {}
+    } else {
+      localStorage.setItem("settings", JSON.stringify(this.settings));
     }
 
     if (storedFavorites) {

@@ -2,11 +2,10 @@
   import logo from "#lib/assets/logo.svg";
   import { storage } from "#lib/storage.svelte";
   import { themes } from "#lib/themes";
+  import GlobalAds from "./GlobalAds.svelte";
   import { hiddenClass } from "#lib/utils";
 
-  const adsensePubId = import.meta.env.PUBLIC_ADSENSE_PUB_ID;
-
-  let { title, forceTitle, icon } = $props();
+  let { title, forceTitle, icon, ads = true } = $props();
 
   let favicon = $state();
   let pageTitle = $state();
@@ -111,17 +110,14 @@
   );
 </script>
 
+{#if ads}
+  <GlobalAds />
+{/if}
+
 <svelte:head>
   <title>{activeTitle}</title>
   <link crossorigin="anonymous" rel="icon" href={activeIcon} />
   {@html `<style>${themeCustomCSS}</style>`}
   {@html `<style>${storage.settings.customCSS}</style>`}
   {@html `<style>.${hiddenClass} {position: absolute;z-index: -10;opacity: 0;}</style>`}
-  {#if adsensePubId}
-    <script
-      async
-      src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsensePubId}`}
-      crossorigin="anonymous"
-    ></script>
-  {/if}
 </svelte:head>
