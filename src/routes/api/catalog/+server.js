@@ -1,4 +1,4 @@
-import { env } from "cloudflare:workers";
+import { env, waitUntil } from "cloudflare:workers";
 
 export async function GET({ request, platform }) {
   const runtimeEnv = platform?.env ?? env;
@@ -42,15 +42,18 @@ export async function GET({ request, platform }) {
     "Cache-Control",
     "public, max-age=300, s-maxage=300, stale-while-revalidate=86400",
   );
+  headers.set("Cross-Origin-Opener-Policy", "same-origin");
+  headers.set("Cross-Origin-Embedder-Policy", "credentialless");
+  headers.set("Cross-Origin-Resource-Policy", "cross-origin");
   if (r2Object.httpEtag) {
     headers.set("ETag", r2Object.httpEtag);
   }
 
   response = new Response(r2Object.body, { headers });
 
-  if (cache && platform?.ctx?.waitUntil) {
+  if (cache) {
     try {
-      platform.ctx.waitUntil(cache.put(request, response.clone()));
+      waitUntil(cache.put(request, response.clone()));
     } catch {}
   }
 

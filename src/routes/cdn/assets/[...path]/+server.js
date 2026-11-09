@@ -1,16 +1,25 @@
 import { error } from "@sveltejs/kit";
+import { env, waitUntil } from "cloudflare:workers";
 
 function setCommonHeaders(headers, object) {
   const contentType =
     object.httpMetadata?.contentType || "application/octet-stream";
   headers.set("Content-Type", contentType);
-  headers.set("ETag", object.httpEtag);
-  headers.set("Cache-Control", "public, max-age=31536000, immutable");
+  if (object.httpEtag) {
+    headers.set("ETag", object.httpEtag);
+  }
+  headers.set(
+    "Cache-Control",
+    "public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400",
+  );
   headers.set("Accept-Ranges", "bytes");
+  headers.set("Cross-Origin-Opener-Policy", "same-origin");
+  headers.set("Cross-Origin-Embedder-Policy", "credentialless");
+  headers.set("Cross-Origin-Resource-Policy", "cross-origin");
 }
 
 export async function HEAD({ platform, params }) {
-  const bucket = platform?.env?.FILES;
+  const bucket = platform?.env?.FILES ?? env?.FILES;
   if (!bucket) error(500, "R2 binding not found");
 
   const cleanPath = params.path.replace(/^\/+/, "");
@@ -26,7 +35,7 @@ export async function HEAD({ platform, params }) {
 }
 
 export async function GET({ request, platform, params }) {
-  const bucket = platform?.env?.FILES;
+  const bucket = platform?.env?.FILES ?? env?.FILES;
   if (!bucket) error(500, "R2 binding not found");
 
   const cleanPath = params.path.replace(/^\/+/, "");
@@ -37,9 +46,11 @@ export async function GET({ request, platform, params }) {
     platform?.caches?.default ||
     (typeof caches !== "undefined" ? caches.default : null);
 
-  if (cache && !rangeHeader) {
-    const cachedResponse = await cache.match(request);
-    if (cachedResponse) return cachedResponse;
+  if (cache) {
+    try {
+      const cachedResponse = await cache.match(request);
+      if (cachedResponse) return cachedResponse;
+    } catch {}
   }
 
   let range;
@@ -107,8 +118,10 @@ export async function GET({ request, platform, params }) {
 
   const response = new Response(object.body, { status, headers });
 
-  if (status === 200 && platform?.ctx?.waitUntil && cache) {
-    platform.ctx.waitUntil(cache.put(request, response.clone()));
+  if (status === 200 && cache) {
+    try {
+      waitUntil(cache.put(request, response.clone()));
+    } catch {}
   }
 
   return response;

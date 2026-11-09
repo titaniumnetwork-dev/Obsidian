@@ -10,7 +10,7 @@
     EJS_emulator.storage.states
       .get(EJS_emulator.getBaseFileName() + ".state")
       .then((t) => {
-        EJS_emulator.gameManager.loadState(t);
+        if (t) EJS_emulator.gameManager.loadState(t);
       });
   }
 

@@ -17,7 +17,7 @@ export const themes = [
   },
   {
     name: "Nord",
-    primary: "##88c0d0",
+    primary: "#88c0d0",
   },
   {
     name: "Fractal",

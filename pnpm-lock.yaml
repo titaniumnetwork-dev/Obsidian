@@ -12,7 +12,7 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
       '@babel/runtime':
-        specifier: ^8.1.0
+        specifier: ^8.0.10
         version: 8.1.0
       '@codemirror/lang-css':
         specifier: ^6.3.1
@@ -36,7 +36,7 @@ importers:
         specifier: ^1.2.5
         version: 1.2.5
       '@lucide/svelte':
-        specifier: ^1.70.0
+        specifier: ^1.66.0
         version: 1.70.0(svelte@5.57.3)
       '@ruffle-rs/ruffle':
         specifier: 0.6.0
@@ -54,7 +54,7 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0(codemirror@6.0.2)(svelte@5.57.3)
       svelte-sonner:
-        specifier: ^1.2.3
+        specifier: ^1.2.2
         version: 1.2.3(svelte@5.57.3)
       tailwind-merge:
         specifier: ^3.7.0
@@ -67,7 +67,7 @@ importers:
         version: 2.1.0(vite@8.3.6(esbuild@0.28.2)(jiti@2.7.0))
     devDependencies:
       '@inlang/cli':
-        specifier: ^3.6.0
+        specifier: ^3.4.5
         version: 3.6.0
       '@sveltejs/adapter-cloudflare':
         specifier: ^8.0.2
@@ -79,19 +79,19 @@ importers:
         specifier: ^7.3.1
         version: 7.3.1(svelte@5.57.3)(vite@8.3.6(esbuild@0.28.2)(jiti@2.7.0))
       '@tailwindcss/vite':
-        specifier: ^4.3.5
+        specifier: ^4.3.3
         version: 4.3.5(vite@8.3.6(esbuild@0.28.2)(jiti@2.7.0))
       svelte:
         specifier: ^5.57.3
         version: 5.57.3
       tailwindcss:
-        specifier: ^4.3.5
+        specifier: ^4.3.3
         version: 4.3.5
       vite:
-        specifier: ^8.3.6
+        specifier: ^8.3.5
         version: 8.3.6(esbuild@0.28.2)(jiti@2.7.0)
       wrangler:
-        specifier: ^4.158.0
+        specifier: ^4.156.1
         version: 4.158.0(@cloudflare/workers-types@5.20261107.1)
 
 packages:

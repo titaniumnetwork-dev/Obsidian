@@ -1,4 +1,4 @@
-import { env } from "cloudflare:workers";
+import { env, waitUntil } from "cloudflare:workers";
 
 export const offlineCatalog = [
   {
@@ -41,9 +41,17 @@ export const offlineCatalog = [
 
 const offline = import.meta.env.MODE === "offline";
 
+let memoryCatalog = null;
+let memoryCatalogExpiry = 0;
+
 export async function getCatalog(platform, pageUrl) {
   if (offline) {
     return offlineCatalog;
+  }
+
+  const now = Date.now();
+  if (memoryCatalog && now < memoryCatalogExpiry) {
+    return memoryCatalog;
   }
 
   const cache =
@@ -59,6 +67,8 @@ export async function getCatalog(platform, pageUrl) {
       if (cachedResponse) {
         const cachedCatalog = await cachedResponse.json();
         if (Array.isArray(cachedCatalog)) {
+          memoryCatalog = cachedCatalog;
+          memoryCatalogExpiry = now + 60_000;
           return cachedCatalog;
         }
       }
@@ -82,26 +92,28 @@ export async function getCatalog(platform, pageUrl) {
       return [];
     }
 
-    const catalogData = await catalogObject.json();
+    const rawText = await catalogObject.text();
+    const catalogData = JSON.parse(rawText);
     if (!Array.isArray(catalogData)) {
       return [];
     }
+
+    memoryCatalog = catalogData;
+    memoryCatalogExpiry = now + 60_000;
 
     if (cache && cacheRequest) {
       const headers = new Headers({
         "Content-Type": "application/json",
         "Cache-Control":
           "public, max-age=300, s-maxage=300, stale-while-revalidate=86400",
+        "Cross-Origin-Opener-Policy": "same-origin",
+        "Cross-Origin-Embedder-Policy": "credentialless",
+        "Cross-Origin-Resource-Policy": "cross-origin",
       });
-      const response = new Response(JSON.stringify(catalogData), { headers });
+      const response = new Response(rawText, { headers });
 
       try {
-        const cacheWrite = cache.put(cacheRequest, response);
-        if (platform?.ctx?.waitUntil) {
-          platform.ctx.waitUntil(cacheWrite);
-        } else {
-          await cacheWrite;
-        }
+        waitUntil(cache.put(cacheRequest, response));
       } catch {}
     }
 
