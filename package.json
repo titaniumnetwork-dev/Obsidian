@@ -10,6 +10,7 @@
     "local": "vite dev --mode offline --open",
     "preview": "vite preview",
     "build": "vite build",
+    "build-assets": "node build-ruffle.js && node build-emulatorjs.js",
     "deploy": "pnpm run build && wrangler pages deploy .svelte-kit/cloudflare"
   },
   "devDependencies": {
