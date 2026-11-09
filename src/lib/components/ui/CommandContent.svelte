@@ -3,7 +3,7 @@
   import { twMerge } from "tailwind-merge";
   import { tv } from "tailwind-variants";
 
-  let { class: className, children, onclose, ...restProps } = $props();
+  let { class: className, children, onclose, onclick, ...restProps } = $props();
 
   const ctx = getContext("Command");
 

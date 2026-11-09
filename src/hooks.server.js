@@ -1,24 +1,40 @@
 import { getMetaDataForRoute } from "#lib/metadata.js";
 import { sequence } from "@sveltejs/kit/hooks";
-import { env } from "cloudflare:workers";
+import { env, waitUntil } from "cloudflare:workers";
 
 async function securityHeaders({ event, resolve }) {
   event.platform ??= {
     env,
     caches: globalThis.caches,
-    ctx: event.platform?.ctx,
+    ctx: { waitUntil },
   };
+  event.platform.ctx ??= event.platform.context ?? event.context ?? { waitUntil };
 
   const response = await resolve(event);
-  response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
-  response.headers.set("Cross-Origin-Embedder-Policy", "credentialless");
-  response.headers.set("Cross-Origin-Resource-Policy", "cross-origin");
-  return response;
+  if (response.headers.has("Cross-Origin-Resource-Policy")) {
+    return response;
+  }
+
+  let target = response;
+  try {
+    target.headers.set("Cross-Origin-Opener-Policy", "same-origin");
+  } catch {
+    target = new Response(response.body, response);
+    target.headers.set("Cross-Origin-Opener-Policy", "same-origin");
+  }
+
+  target.headers.set("Cross-Origin-Embedder-Policy", "credentialless");
+  target.headers.set("Cross-Origin-Resource-Policy", "cross-origin");
+  return target;
 }
 
 async function handleSocialBots({ event, resolve }) {
-  const userAgent = event.request.headers.get("user-agent") || "";
   const url = event.url;
+  if (url.pathname.startsWith("/cdn/") || url.pathname.startsWith("/api/")) {
+    return resolve(event);
+  }
+
+  const userAgent = event.request.headers.get("user-agent") || "";
 
   const isSocialBot =
     /Discordbot|Twitterbot|facebookexternalhit|LinkedInBot/i.test(userAgent);
