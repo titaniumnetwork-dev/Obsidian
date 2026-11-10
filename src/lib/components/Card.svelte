@@ -1,16 +1,7 @@
 <script>
   import { storage } from "#lib/storage.svelte";
   import { goto } from "$app/navigation";
-  import {
-    Check,
-    Download,
-    Pause,
-    Play,
-    Plus,
-    Star,
-    Trash,
-    X,
-  } from "@lucide/svelte";
+  import { Check, Pause, Play, Plus, Star, Trash, X } from "@lucide/svelte";
   import Obfuscate from "./Obfuscate.svelte";
   import AlertDialog from "./ui/AlertDialog.svelte";
   import AlertDialogClose from "./ui/AlertDialogClose.svelte";
@@ -23,6 +14,14 @@
   import ContextMenuTrigger from "./ui/ContextMenuTrigger.svelte";
 
   let { data, buttons, link, newBadge } = $props();
+
+  let storeLink = $derived(
+    (link === "/library/"
+      ? link
+      : storage.installed.includes(data.id)
+        ? "/library/"
+        : link) + data.id,
+  );
 </script>
 
 <div
@@ -38,10 +37,7 @@
   {/if}
   <ContextMenu>
     <ContextMenuTrigger>
-      <a
-        class="h-full w-full rounded-lg border border-border"
-        href={link + data.id}
-      >
+      <a class="h-full w-full rounded-lg border border-border" href={storeLink}>
         <img
           draggable="false"
           loading="lazy"
@@ -172,7 +168,7 @@
   </ContextMenu>
   <div class="flex">
     <a
-      href={link + data.id}
+      href={storeLink}
       class="text-nowrap overflow-hidden text-ellipsis text-sm cursor-pointer pt-2 pr-2 flex-1"
     >
       {data.title}
