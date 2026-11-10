@@ -40,6 +40,7 @@ export const collections = {
       "d6937337-5bda-436a-a10e-823891fa1224",
       "a92208ff-b7fa-4131-9acc-2bbad728c1a4",
       "34aa1d02-a522-4f99-bf62-2595a30e9a8f",
+      "4e350a0b-b27b-48ea-9da0-670d821c4a08",
     ],
   },
   "72661620-2a8f-4ae8-8489-e272f67a229b": {
@@ -95,7 +96,7 @@ export const collections = {
     ],
   },
   "59469c2e-a54e-4dc4-beaf-68c540354b12": {
-    title: "The World’s Hardest Game",
+    title: "The World's Hardest Game",
     items: [
       "b903985f-a31d-42e6-8058-250072d85e2a",
       "1d44d099-582a-4287-a88c-750ca9305f02",
@@ -149,5 +150,23 @@ export const collections = {
       "d5c5e925-1eff-449f-ac66-5ac8cbff1f64",
       "df22abbd-9c33-4cce-88f8-9533ac49e42e",
     ],
+  },
+  "6583436b-2f60-4195-b8c0-d8f7adb188e8": {
+    title: "There Is No Game",
+    items: [
+      "c24f5bd8-7211-462e-820b-7fc81c96a5c0",
+      "9f5f39e7-0ed2-4f4c-acd1-6ded48ae3d87",
+    ],
+  },
+  "788fb536-a47a-4313-aa9d-02851048d424": {
+    title: "Milk Bag",
+    items: [
+      "a66ba12c-9e5c-4f4a-806d-26881c2050d1",
+      "6219ab68-154e-4782-9c8d-46953825b121",
+    ],
+  },
+  "ff4e0122-9495-49f4-8a53-93a6a43feb0b": {
+    title: "Doom",
+    items: ["d3696402-40a1-4926-8b97-0b50e11b6280"],
   },
 };
