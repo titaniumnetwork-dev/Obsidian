@@ -27,6 +27,7 @@ export const collections = {
       "2676f50b-183b-4d09-88ce-a5fc8711d468",
       "1003f11d-8e34-48ae-8d82-090341b4c42c",
       "924818d5-dcf1-4dd5-bbf3-7e5265e31ef5",
+      "2e3a7661-1d57-40f5-872d-79a414b8d78d",
     ],
   },
   "90980804-79f0-433d-9103-c3294a3c7ff4": {
@@ -37,10 +38,10 @@ export const collections = {
       "8352ad78-c55d-472f-b4c2-0b4aad8d146c",
       "dad4c5b9-f2bd-4816-908e-c870c7b3293e",
       "b99014f5-52d7-4a18-a6ce-38e9afccb966",
+      "4e350a0b-b27b-48ea-9da0-670d821c4a08",
       "d6937337-5bda-436a-a10e-823891fa1224",
       "a92208ff-b7fa-4131-9acc-2bbad728c1a4",
       "34aa1d02-a522-4f99-bf62-2595a30e9a8f",
-      "4e350a0b-b27b-48ea-9da0-670d821c4a08",
     ],
   },
   "72661620-2a8f-4ae8-8489-e272f67a229b": {
@@ -168,5 +169,12 @@ export const collections = {
   "ff4e0122-9495-49f4-8a53-93a6a43feb0b": {
     title: "Doom",
     items: ["d3696402-40a1-4926-8b97-0b50e11b6280"],
+  },
+  "e6a58dba-dca2-4b65-8435-fde0552f492b": {
+    title: "Dealers Life",
+    items: [
+      "cf1c69d9-7acd-4661-9c03-b804c26ac651",
+      "52991e36-3ef4-4360-acdc-6b9b8ea99d6a",
+    ],
   },
 };
