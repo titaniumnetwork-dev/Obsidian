@@ -8,7 +8,8 @@ async function securityHeaders({ event, resolve }) {
     caches: globalThis.caches,
     ctx: { waitUntil },
   };
-  event.platform.ctx ??= event.platform.context ?? event.context ?? { waitUntil };
+  event.platform.ctx ??= event.platform.context ??
+    event.context ?? { waitUntil };
 
   const response = await resolve(event);
   if (response.headers.has("Cross-Origin-Resource-Policy")) {
