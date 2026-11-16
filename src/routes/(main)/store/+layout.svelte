@@ -50,20 +50,14 @@
     <Store size="16" />
     <span>Store</span>
   </Button>
-  <a
-    class="h-9 px-2.5 bg-card rounded-lg flex gap-1.5 items-center cursor-pointer border border-input text-sm"
-    href="/store/flash"
-  >
+  <Button variant="outline" href="/store/flash">
     <Ruffle class="size-4" />
     <span>Flash</span>
-  </a>
-  <a
-    class="h-9 px-2.5 bg-card rounded-lg flex gap-1.5 items-center cursor-pointer border border-input text-sm"
-    href="/store/retro"
-  >
+  </Button>
+  <Button variant="outline" href="/store/retro">
     <Gamepad size="16" />
     <span>Retro</span>
-  </a>
+  </Button>
   <Button
     variant="outline"
     popovertarget="tags"

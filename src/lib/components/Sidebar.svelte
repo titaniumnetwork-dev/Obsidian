@@ -378,7 +378,7 @@
                             draggable="false"
                             loading="lazy"
                             class="shrink-0 size-4 rounded"
-                            alt={game.name}
+                            alt={game.title}
                             src={"/cdn/assets/assets/" + game.id + "/icon.webp"}
                           />
                           <span>{game.title}</span>
@@ -401,7 +401,7 @@
                             draggable="false"
                             loading="lazy"
                             class="shrink-0 size-4 rounded"
-                            alt={game.name}
+                            alt={game.title}
                             src={"/cdn/assets/assets/" + game.id + "/icon.webp"}
                           />
                           <span>{game.title}</span>
@@ -428,7 +428,7 @@
                           draggable="false"
                           loading="lazy"
                           class="shrink-0 size-4 rounded"
-                          alt={game.name}
+                          alt={game.title}
                           src={"/cdn/assets/assets/" + game.id + "/icon.webp"}
                         />
                         <span>{game.title}</span>
@@ -453,7 +453,7 @@
                         draggable="false"
                         loading="lazy"
                         class="shrink-0 size-4 rounded"
-                        alt={game.name}
+                        alt={game.title}
                         src={"/cdn/assets/assets/" + game.id + "/icon.webp"}
                       />
                       <span>{game.title}</span>
@@ -474,7 +474,7 @@
                         draggable="false"
                         loading="lazy"
                         class="shrink-0 size-4 rounded"
-                        alt={game.name}
+                        alt={game.title}
                         src={"/cdn/assets/assets/" + game.id + "/icon.webp"}
                       />
                       <span>{game.title}</span>

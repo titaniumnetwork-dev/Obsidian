@@ -163,7 +163,7 @@
       {/if}
     </InputGroup>
     <details
-      class="relative bg-card rounded-lg border border-input h-9"
+      class="relative bg-input/30 rounded-lg border border-input h-9"
       bind:this={tagsNode}
     >
       <summary
@@ -202,7 +202,7 @@
               )}
             />
             <Check
-              class="absolute hidden peer-checked:block text-card"
+              class="absolute hidden peer-checked:block text-primary-foreground"
               size="14"
             />
           </div>
@@ -230,7 +230,7 @@
                 }}
               />
               <Check
-                class="absolute hidden peer-checked:block text-card"
+                class="absolute hidden peer-checked:block text-primary-foreground"
                 size="14"
               />
             </div>
@@ -252,7 +252,7 @@
   </div>
   <div class="flex gap-2">
     <div
-      class="bg-card flex items-center p-1 h-9 rounded-lg text-sm border border-input gap-1"
+      class="bg-input/30 flex items-center p-1 h-9 rounded-lg text-sm border border-input gap-1"
     >
       <button
         onclick={() => ((sortCategory = "all"), removeURLParam("category"))}
@@ -289,7 +289,7 @@
       >
     </div>
     <details
-      class="relative bg-card rounded-lg border border-input h-9"
+      class="relative bg-input/30 rounded-lg border border-input h-9"
       bind:this={sortNode}
     >
       <summary

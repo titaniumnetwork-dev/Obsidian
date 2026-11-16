@@ -1,3 +1,7 @@
+<script module>
+  let savedDisplayCount = 10;
+</script>
+
 <script>
   import { collections } from "#lib/collections.js";
   import Cards from "#lib/components/Cards.svelte";
@@ -77,8 +81,12 @@
   );
 
   const batchSize = 10;
-  let displayCount = $state(batchSize);
+  let displayCount = $state(savedDisplayCount);
   let sentinelNode = $state(null);
+
+  $effect(() => {
+    savedDisplayCount = displayCount;
+  });
 
   let infiniteScrollData = $derived(
     [...storage.catalog]
@@ -108,7 +116,7 @@
           displayCount += batchSize;
         }
       },
-      { threshold: 0.1 },
+      { threshold: 0, rootMargin: "0px 0px 200px 0px" },
     );
 
     observer.observe(sentinelNode);

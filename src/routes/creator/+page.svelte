@@ -415,7 +415,7 @@
                 }}
               />
               <Check
-                class="absolute hidden peer-checked:block text-card"
+                class="absolute hidden peer-checked:block text-primary-foreground"
                 size="14"
               />
             </div>
@@ -489,7 +489,7 @@
                   }}
                 />
                 <Check
-                  class="absolute hidden peer-checked:block text-card"
+                  class="absolute hidden peer-checked:block text-primary-foreground"
                   size="14"
                 />
               </div>

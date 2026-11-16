@@ -6,10 +6,43 @@
   import "#lib/konami.svelte.js";
   import { storage } from "#lib/storage.svelte";
   import "#lib/style/layout.css";
+  import { afterNavigate, beforeNavigate } from "$app/navigation";
   import { onMount } from "svelte";
   import { Toaster } from "svelte-sonner";
 
   let { children, data } = $props();
+
+  let scrollContainer = $state(null);
+  const scrollPositions = new Map();
+
+  beforeNavigate(({ from }) => {
+    if (scrollContainer && from?.url) {
+      scrollPositions.set(
+        from.url.pathname + from.url.search,
+        scrollContainer.scrollTop,
+      );
+    }
+  });
+
+  afterNavigate(({ to, type }) => {
+    if (!scrollContainer || !to?.url) return;
+    const key = to.url.pathname + to.url.search;
+    const saved = scrollPositions.get(key);
+    if (saved != null && type !== "enter") {
+      requestAnimationFrame(() => {
+        if (scrollContainer) {
+          scrollContainer.scrollTop = saved;
+          requestAnimationFrame(() => {
+            if (scrollContainer && scrollContainer.scrollTop !== saved) {
+              scrollContainer.scrollTop = saved;
+            }
+          });
+        }
+      });
+    } else {
+      scrollContainer.scrollTop = 0;
+    }
+  });
 
   onMount(async () => {
     await storage.loadStorage(data.catalogData);
@@ -79,7 +112,7 @@
 {#if storage.isLoaded}
   <MobileBlocker>
     <Sidebar />
-    <div class="w-full overflow-auto flex flex-col">
+    <div bind:this={scrollContainer} class="w-full overflow-auto flex flex-col">
       {@render children()}
       <Footer />
     </div>
