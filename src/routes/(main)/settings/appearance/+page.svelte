@@ -209,7 +209,7 @@
         class="data-[active=true]:bg-secondary border border-border h-auto py-3 px-2 flex flex-col items-center justify-between gap-2.5"
       >
         <div class="h-16 flex items-center justify-center">
-          <div class="size-11 rounded-lg bg-input/30 border border-input"></div>
+          <div class="size-10 rounded-md bg-input/30 border border-input"></div>
         </div>
         <span class="text-xs">Compact</span>
       </Button>
@@ -237,7 +237,7 @@
       >
         <div class="h-16 flex items-center justify-center">
           <div
-            class="rounded-xl border border-input bg-card p-1.5 flex flex-col items-center gap-1"
+            class="rounded-md border border-input bg-card p-1 flex flex-col items-center gap-1"
           >
             <div
               class="w-7 aspect-2/3 rounded-sm bg-input/30 border border-input"

@@ -29,10 +29,12 @@
   class="group/card w-full data-[cards-style=default]:aspect-2/3 data-[cards-style=compact]:aspect-square bg-cover bg-center flex flex-col relative data-[cards-style=showcase]:bg-card
          data-[cards-style=showcase]:border
          data-[cards-style=showcase]:border-border
-         data-[cards-style=showcase]:rounded-2xl data-[cards-style=showcase]:p-2.5"
+         data-[cards-style=showcase]:rounded-xl data-[cards-style=showcase]:p-2.5"
 >
   {#if storage.settings.cards === "showcase"}
-    <div class="absolute top-4 left-4 pointer-events-none flex gap-1">
+    <div
+      class="absolute top-4 left-4 group-data-[cards-style=showcase]/card:top-4.5 group-data-[cards-style=showcase]/card:left-4.5 pointer-events-none flex gap-1"
+    >
       <div
         class="h-5 px-2 py-0.5 text-xs rounded-full bg-secondary flex items-center"
       >
@@ -42,19 +44,22 @@
   {/if}
   {#if newBadge === true}
     <div
-      class="absolute top-4 right-4 h-5 px-2 py-0.5 text-xs rounded-full bg-secondary flex items-center pointer-events-none"
+      class="absolute top-4 right-4 group-data-[cards-style=showcase]/card:top-4.5 group-data-[cards-style=showcase]/card:right-4.5 h-5 px-2 py-0.5 text-xs rounded-full bg-secondary flex items-center pointer-events-none"
     >
       New
     </div>
   {/if}
   <ContextMenu>
     <ContextMenuTrigger>
-      <a class="h-full w-full rounded-lg border border-border" href={storeLink}>
+      <a
+        class="h-full w-full rounded-lg group-data-[cards-style=showcase]/card:rounded-md border border-border overflow-hidden"
+        href={storeLink}
+      >
         <img
           draggable="false"
           loading="lazy"
           alt={data.title + " cover"}
-          class="w-full h-full object-cover group-data-[cards-style=default]/card:object-center group-data-[cards-style=compact]/card:object-top cursor-pointer rounded-lg"
+          class="w-full h-full object-cover group-data-[cards-style=default]/card:object-center group-data-[cards-style=compact]/card:object-top cursor-pointer"
           src={"/cdn/assets/assets/" + data.id + "/cover.webp"}
         />
       </a>
@@ -179,7 +184,7 @@
     </ContextMenuContent>
   </ContextMenu>
   <div
-    class="flex flex-col group-data-[cards-style=compact]/card:opacity-0 not-group-data-[cards-style=compact]/card:pt-2"
+    class="flex flex-col group-data-[cards-style=compact]/card:opacity-0 not-group-data-[cards-style=compact]/card:pt-2 group-data-[cards-style=showcase]/card:px-1"
   >
     <div class="flex">
       <a

@@ -168,7 +168,7 @@
                 "/hero.webp')"}
               class="shrink-0 [background:linear-gradient(to_left,var(--color-overlay)0%,var(--theme-card)60%)padding-box,var(--hero)left/cover_padding-box,var(--color-card)] w-full h-96 flex flex-col items-start justify-between p-4 gap-4 rounded-lg border border-border relative"
             >
-              <div class="absolute top-4 right-4 flex flex-wrap gap-2">
+              <div class="absolute top-5 right-5 flex flex-wrap gap-2">
                 {#each item.tags as tag}
                   <a
                     href={"/store/tag/" + tag}
