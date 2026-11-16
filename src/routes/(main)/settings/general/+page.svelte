@@ -34,21 +34,38 @@
     <div class="flex flex-wrap gap-2">
       <Button
         variant="ghost"
-        aria-label="Default Card Size"
-        onclick={() => storage.updateSetting("cards", "default")}
-        data-active={storage.settings.cards === "default"}
-        class="data-[active=true]:bg-secondary border border-border h-auto py-2.5 items-start"
+        aria-label="Compact Cards"
+        onclick={() => storage.updateSetting("cards", "compact")}
+        data-active={storage.settings.cards === "compact"}
+        class="data-[active=true]:bg-secondary border border-border h-auto py-2.5 justify-center items-start flex flex-col"
       >
-        <div class="bg-input aspect-2/3 w-8 rounded-md"></div>
+        <div class="bg-input aspect-square w-8 rounded-md"></div>
       </Button>
       <Button
         variant="ghost"
-        aria-label="Square Card Size"
-        onclick={() => storage.updateSetting("cards", "square")}
-        data-active={storage.settings.cards === "square"}
-        class="data-[active=true]:bg-secondary border border-border h-auto py-2.5 items-start"
+        aria-label="Default Cards"
+        onclick={() => storage.updateSetting("cards", "default")}
+        data-active={storage.settings.cards === "default"}
+        class="data-[active=true]:bg-secondary border border-border h-auto py-2.5 justify-center items-start flex flex-col gap-1"
       >
-        <div class="bg-input aspect-square w-8 rounded-md"></div>
+        <div class="bg-input aspect-2/3 w-8 rounded-md"></div>
+        <span class="text-xs text-muted"
+          ><Obfuscate text="Game"></Obfuscate></span
+        >
+      </Button>
+      <Button
+        variant="ghost"
+        aria-label="Showcase Cards"
+        onclick={() => storage.updateSetting("cards", "showcase")}
+        data-active={storage.settings.cards === "showcase"}
+        class="data-[active=true]:bg-secondary border border-border h-auto py-2.5 items-start flex flex-col gap-1 text-start"
+      >
+        <div class="bg-input p-2.5 rounded-lg">
+          <div class="bg-input aspect-2/3 w-8 rounded-md"></div>
+          <span class="text-xs text-muted"
+            ><Obfuscate text="Game"></Obfuscate></span
+          >
+        </div>
       </Button>
     </div>
   </Card>

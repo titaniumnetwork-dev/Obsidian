@@ -1,4 +1,5 @@
 <script>
+  import { storage } from "#lib/storage.svelte.js";
   import { ChevronRight } from "@lucide/svelte";
   import Card from "./Card.svelte";
   import Button from "./ui/Button.svelte";
@@ -32,7 +33,8 @@
       {/if}
     {/if}
     <div
-      class="grid grid-cols-[repeat(auto-fill,minmax(13rem,1fr))] gap-4
+      data-cards-style={storage.settings.cards}
+      class="grid data-[cards-style=compact]:grid-cols-[repeat(auto-fill,minmax(8.5rem,1fr))] data-[cards-style=default]:grid-cols-[repeat(auto-fill,minmax(11rem,1fr))] data-[cards-style=showcase]:grid-cols-[repeat(auto-fill,minmax(13.5rem,1fr))] gap-4 data-[cards-style=compact]:gap-y-0
             group-data-[row=true]:grid-rows-1
             group-data-[row=true]:gap-y-0
             group-data-[row=true]:overflow-hidden

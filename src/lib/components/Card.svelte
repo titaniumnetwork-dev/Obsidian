@@ -26,8 +26,20 @@
 
 <div
   data-cards-style={storage.settings.cards}
-  class="group/card w-full data-[cards-style=default]:aspect-2/3 data-[cards-style=square]:aspect-square bg-cover bg-center flex flex-col relative"
+  class="group/card w-full data-[cards-style=default]:aspect-2/3 data-[cards-style=compact]:aspect-square bg-cover bg-center flex flex-col relative data-[cards-style=showcase]:bg-card
+         data-[cards-style=showcase]:border
+         data-[cards-style=showcase]:border-border
+         data-[cards-style=showcase]:rounded-2xl data-[cards-style=showcase]:p-2.5"
 >
+  {#if storage.settings.cards === "showcase"}
+    <div class="absolute top-4 left-4 pointer-events-none flex gap-1">
+      <div
+        class="h-5 px-2 py-0.5 text-xs rounded-full bg-secondary flex items-center"
+      >
+        {data.tags[0]}
+      </div>
+    </div>
+  {/if}
   {#if newBadge === true}
     <div
       class="absolute top-4 right-4 h-5 px-2 py-0.5 text-xs rounded-full bg-secondary flex items-center pointer-events-none"
@@ -42,7 +54,7 @@
           draggable="false"
           loading="lazy"
           alt={data.title + " cover"}
-          class="w-full h-full object-cover group-data-[cards-style=default]/card:object-center group-data-[cards-style=square]/card:object-top cursor-pointer rounded-lg"
+          class="w-full h-full object-cover group-data-[cards-style=default]/card:object-center group-data-[cards-style=compact]/card:object-top cursor-pointer rounded-lg"
           src={"/cdn/assets/assets/" + data.id + "/cover.webp"}
         />
       </a>
@@ -166,46 +178,20 @@
       {/if}
     </ContextMenuContent>
   </ContextMenu>
-  <div class="flex">
-    <a
-      href={storeLink}
-      class="text-nowrap overflow-hidden text-ellipsis text-sm cursor-pointer pt-2 pr-2 flex-1"
-    >
-      {data.title}
-    </a>
-    <div
-      class="opacity-0 group-hover/card:opacity-100 transition-opacity text-muted flex items-center pt-2"
-    >
-      {#if buttons === "default"}
-        {#if storage.active[data.id]}
-          <div class="flex gap-2">
-            <button
-              aria-label="Pause"
-              onclick={(e) => storage.resumeActive(data.id)}
-              class="cursor-pointer"
-            >
-              <Pause size="16" />
-            </button>
-            <button
-              aria-label="Quit"
-              onclick={(e) => storage.quitActive(data.id)}
-              class="cursor-pointer"
-            >
-              <X size="18" />
-            </button>
-          </div>
-        {:else}
-          <button
-            aria-label="Play"
-            onclick={(e) => storage.setActive(data.id)}
-            class="cursor-pointer"
-          >
-            <Play size="16" />
-          </button>
-        {/if}
-      {/if}
-      {#if buttons === "store"}
-        {#if storage.installed.includes(data.id)}
+  <div
+    class="flex flex-col group-data-[cards-style=compact]/card:opacity-0 not-group-data-[cards-style=compact]/card:pt-2"
+  >
+    <div class="flex">
+      <a
+        href={storeLink}
+        class="text-nowrap overflow-hidden text-ellipsis text-sm cursor-pointer pr-2 flex-1"
+      >
+        {data.title}
+      </a>
+      <div
+        class="opacity-0 group-hover/card:opacity-100 transition-opacity text-muted flex items-center"
+      >
+        {#if buttons === "default"}
           {#if storage.active[data.id]}
             <div class="flex gap-2">
               <button
@@ -232,16 +218,49 @@
               <Play size="16" />
             </button>
           {/if}
-        {:else}
-          <button
-            aria-label="Add to Library"
-            onclick={() => storage.install(data.id)}
-            class="cursor-pointer"
-          >
-            <Plus size="16" />
-          </button>
         {/if}
-      {/if}
+        {#if buttons === "store"}
+          {#if storage.installed.includes(data.id)}
+            {#if storage.active[data.id]}
+              <div class="flex gap-2">
+                <button
+                  aria-label="Pause"
+                  onclick={(e) => storage.resumeActive(data.id)}
+                  class="cursor-pointer"
+                >
+                  <Pause size="16" />
+                </button>
+                <button
+                  aria-label="Quit"
+                  onclick={(e) => storage.quitActive(data.id)}
+                  class="cursor-pointer"
+                >
+                  <X size="18" />
+                </button>
+              </div>
+            {:else}
+              <button
+                aria-label="Play"
+                onclick={(e) => storage.setActive(data.id)}
+                class="cursor-pointer"
+              >
+                <Play size="16" />
+              </button>
+            {/if}
+          {:else}
+            <button
+              aria-label="Add to Library"
+              onclick={() => storage.install(data.id)}
+              class="cursor-pointer"
+            >
+              <Plus size="16" />
+            </button>
+          {/if}
+        {/if}
+      </div>
     </div>
+    {#if storage.settings.cards === "showcase"}
+      <div class="text-xs text-muted">{data.developer}</div>
+    {/if}
   </div>
 </div>
