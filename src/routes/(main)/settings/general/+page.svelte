@@ -28,54 +28,6 @@
   </Card>
   <Card size="sm">
     <div>
-      <p>Cards</p>
-      <p class="text-sm text-muted">Change the card style to your liking</p>
-    </div>
-    <div class="grid grid-cols-3 gap-2">
-      <Button
-        variant="ghost"
-        aria-label="Compact Cards"
-        onclick={() => storage.updateSetting("cards", "compact")}
-        data-active={storage.settings.cards === "compact"}
-        class="data-[active=true]:bg-secondary border border-border h-auto py-3 px-2 flex flex-col items-center justify-between gap-2.5"
-      >
-        <div class="h-16 flex items-center justify-center">
-          <div class="size-11 rounded-lg bg-input/30 border border-input"></div>
-        </div>
-        <span class="text-xs">Compact</span>
-      </Button>
-      <Button
-        variant="ghost"
-        aria-label="Default Cards"
-        onclick={() => storage.updateSetting("cards", "default")}
-        data-active={storage.settings.cards === "default"}
-        class="data-[active=true]:bg-secondary border border-border h-auto py-3 px-2 flex flex-col items-center justify-between gap-2.5"
-      >
-        <div class="h-16 flex flex-col items-center justify-center gap-1.5">
-          <div class="w-8 aspect-2/3 rounded-md bg-input/30 border border-input"></div>
-          <div class="w-8 h-1.5 rounded-full bg-input"></div>
-        </div>
-        <span class="text-xs">Default</span>
-      </Button>
-      <Button
-        variant="ghost"
-        aria-label="Showcase Cards"
-        onclick={() => storage.updateSetting("cards", "showcase")}
-        data-active={storage.settings.cards === "showcase"}
-        class="data-[active=true]:bg-secondary border border-border h-auto py-3 px-2 flex flex-col items-center justify-between gap-2.5"
-      >
-        <div class="h-16 flex items-center justify-center">
-          <div class="rounded-xl border border-input bg-card p-1.5 flex flex-col items-center gap-1">
-            <div class="w-7 aspect-2/3 rounded-sm bg-input/30 border border-input"></div>
-            <div class="w-7 h-1 rounded-full bg-input"></div>
-          </div>
-        </div>
-        <span class="text-xs">Showcase</span>
-      </Button>
-    </div>
-  </Card>
-  <Card size="sm">
-    <div>
       <p>Aspect Ratio</p>
       <p class="text-sm text-muted">
         Change the size in which the <Obfuscate text="game"></Obfuscate> is rendered
