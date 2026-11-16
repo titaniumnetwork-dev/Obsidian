@@ -260,7 +260,7 @@
       </div>
     </div>
     {#if storage.settings.cards === "showcase"}
-      <div class="text-xs text-muted">{data.developer}</div>
+      <a href={storeLink} class="text-xs text-muted no-underline">{data.developer}</a>
     {/if}
   </div>
 </div>
