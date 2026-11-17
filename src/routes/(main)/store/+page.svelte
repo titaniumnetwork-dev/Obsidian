@@ -83,20 +83,13 @@
   const rowsPerBatch = 2;
   let rowsToShow = $state(savedRows);
   let cols = $state(5);
-  let displayCount = $derived(rowsToShow * cols);
   let sentinelNode = $state(null);
 
   $effect(() => {
     savedRows = rowsToShow;
   });
 
-  let infiniteScrollData = $derived(
-    [...storage.catalog]
-      .sort((a, b) => (a.title || "").localeCompare(b.title || ""))
-      .slice(0, displayCount),
-  );
-
-  let hasMoreItems = $derived(displayCount < storage.catalog.length);
+  let hasMoreItems = $derived(rowsToShow * cols < storage.catalog.length);
 
   $effect(() => {
     if (isHovered || searchQuery() || carouselData.length <= 1) return;
@@ -470,7 +463,8 @@
     />
     <Cards
       title="All Games"
-      data={infiniteScrollData}
+      data={sortedLibrary}
+      row={rowsToShow}
       link="/store/"
       buttons="store"
       bind:cols

@@ -15,17 +15,29 @@
   let scrollContainer = $state(null);
   const scrollPositions = new Map();
 
-  beforeNavigate(({ from }) => {
+  beforeNavigate(({ from, to }) => {
     if (scrollContainer && from?.url) {
-      scrollPositions.set(
-        from.url.pathname + from.url.search,
-        scrollContainer.scrollTop,
-      );
+      if (!to?.url || from.url.pathname !== to.url.pathname) {
+        scrollPositions.set(
+          from.url.pathname + from.url.search,
+          scrollContainer.scrollTop,
+        );
+      }
     }
   });
 
-  afterNavigate(({ to, type }) => {
+  afterNavigate(({ from, to, type }) => {
     if (!scrollContainer || !to?.url) return;
+
+    // In-page search and filter changes reset/stay at top
+    if (from?.url && from.url.pathname === to.url.pathname) {
+      scrollContainer.scrollTop = 0;
+      requestAnimationFrame(() => {
+        if (scrollContainer) scrollContainer.scrollTop = 0;
+      });
+      return;
+    }
+
     const key = to.url.pathname + to.url.search;
     const saved = scrollPositions.get(key);
     if (saved != null && type !== "enter") {
