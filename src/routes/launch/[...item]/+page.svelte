@@ -22,7 +22,7 @@
     Video,
     X,
   } from "@lucide/svelte";
-  import { untrack } from "svelte";
+  import { onDestroy, untrack } from "svelte";
 
   let { data } = $props();
 
@@ -83,8 +83,10 @@
   let gamepadBinding = $state({});
   let shader = $state();
 
+  let selectedControlsTab = $state(null);
   let controlsTab = $derived(
-    data.currentData.controls ? "keyboard" : "controller",
+    selectedControlsTab ??
+      (data.currentData.controls ? "keyboard" : "controller"),
   );
 
   $effect(() => {
@@ -117,7 +119,7 @@
         controlsTab === "controller" &&
         data.currentData.controls
       ) {
-        controlsTab = "keyboard";
+        selectedControlsTab = "keyboard";
       }
     };
 
@@ -242,17 +244,20 @@
       }
     }
 
-    frame.contentWindow.addEventListener("keydown", (event) =>
-      interceptKeybinds(event, "keydown"),
-    );
-    frame.contentWindow.addEventListener("keyup", (event) =>
-      interceptKeybinds(event, "keyup"),
-    );
+    try {
+      frame.contentWindow.addEventListener("keydown", (event) =>
+        interceptKeybinds(event, "keydown"),
+      );
+      frame.contentWindow.addEventListener("keyup", (event) =>
+        interceptKeybinds(event, "keyup"),
+      );
+    } catch {}
 
     let previousGamepadState = {};
     let previousAxisState = {};
     const DEADZONE = 0.4;
     let gamepadPollingActive = false;
+    let rafId = null;
 
     function startGamepadPolling() {
       if (gamepadPollingActive) return;
@@ -403,11 +408,16 @@
           }
         }
 
-        requestAnimationFrame(poll);
+        rafId = requestAnimationFrame(poll);
       }
 
-      requestAnimationFrame(poll);
+      rafId = requestAnimationFrame(poll);
     }
+
+    onDestroy(() => {
+      if (rafId) cancelAnimationFrame(rafId);
+      gamepadPollingActive = false;
+    });
 
     if (
       data.currentData.gamepadControls &&
@@ -809,7 +819,7 @@
             {#if data.currentData.controls}
               <Button
                 variant="ghost"
-                onclick={() => (controlsTab = "keyboard")}
+                onclick={() => (selectedControlsTab = "keyboard")}
                 data-active={controlsTab === "keyboard"}
                 class="data-[active=true]:bg-secondary border border-border"
               >
@@ -820,7 +830,7 @@
             {#if data.currentData.gamepadControls && isGamepadConnected}
               <Button
                 variant="ghost"
-                onclick={() => (controlsTab = "controller")}
+                onclick={() => (selectedControlsTab = "controller")}
                 data-active={controlsTab === "controller"}
                 class="data-[active=true]:bg-secondary border border-border"
               >

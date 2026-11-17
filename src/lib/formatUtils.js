@@ -3,7 +3,7 @@ export function formatLastPlayed(date) {
   const now = new Date();
 
   const diffDays = Math.round(
-    (now.setHours(0, 0, 0, 0) - new Date(d).setHours(0, 0, 0, 0)) / 86400000,
+    (now.setHours(0, 0, 0, 0) - d.setHours(0, 0, 0, 0)) / 86400000,
   );
 
   if (diffDays === 0) return "Today";
@@ -13,7 +13,7 @@ export function formatLastPlayed(date) {
   return d.toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
-    year: d.getFullYear() === new Date().getFullYear() ? undefined : "numeric",
+    year: d.getFullYear() === now.getFullYear() ? undefined : "numeric",
   });
 }
 

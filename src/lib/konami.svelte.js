@@ -20,7 +20,11 @@ let keyPresses = [];
 
 if (typeof window !== "undefined") {
   window.addEventListener("keydown", (e) => {
-    if (["INPUT", "TEXTAREA"].includes(e.target.tagName)) return;
+    if (
+      e.target.isContentEditable ||
+      ["INPUT", "TEXTAREA"].includes(e.target.tagName)
+    )
+      return;
 
     keyPresses.push(e.key.toLowerCase());
 

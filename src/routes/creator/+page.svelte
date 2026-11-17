@@ -85,7 +85,9 @@
       { name: "hero", url: hero },
       { name: "cover", url: cover },
       { name: "icon", url: icon },
-    ];
+    ].filter((img) => Boolean(img.url));
+
+    if (images.length === 0) return;
 
     const zip = new JSZip();
     const folder = zip.folder(id);

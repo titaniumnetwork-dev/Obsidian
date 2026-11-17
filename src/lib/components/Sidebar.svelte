@@ -96,10 +96,7 @@
       .sort((a, b) => {
         const lastPlayedA = Number(storage.playTime[a.id]?.lastPlayed) || 0;
         const lastPlayedB = Number(storage.playTime[b.id]?.lastPlayed) || 0;
-
-        if (lastPlayedA !== lastPlayedB) {
-          return lastPlayedB - lastPlayedA;
-        }
+        return lastPlayedB - lastPlayedA;
       })
       .slice(0, 3),
   );
@@ -237,11 +234,10 @@
   );
 
   function toggleSidebar() {
-    if (storage.settings.sidebarCollapsed === true) {
-      storage.updateSetting("sidebarCollapsed", false);
-    } else {
-      storage.updateSetting("sidebarCollapsed", true);
-    }
+    storage.updateSetting(
+      "sidebarCollapsed",
+      !storage.settings.sidebarCollapsed,
+    );
   }
 
   let copied = $state(false);

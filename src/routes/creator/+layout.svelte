@@ -42,8 +42,14 @@
         const win = entry?.win;
 
         if (win) {
-          if (win.closed || win.location.pathname !== entry.initialPath) {
-            storage.quitActive(id);
+          try {
+            if (win.closed || win.location.pathname !== entry.initialPath) {
+              storage.quitActive(id);
+            }
+          } catch {
+            if (win.closed) {
+              storage.quitActive(id);
+            }
           }
         }
       }
@@ -60,7 +66,7 @@
   }
 </script>
 
-<svelte:window on:beforeunload={beforeUnload} />
+<svelte:window onbeforeunload={beforeUnload} />
 
 <Toaster
   toastOptions={{

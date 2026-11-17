@@ -2,7 +2,6 @@
   import MobileBlocker from "#lib/components/MobileBlocker.svelte";
   import "#lib/consoleMessage.js";
   import "#lib/konami.svelte.js";
-  import { pwa } from "#lib/pwa.svelte.js";
   import { storage } from "#lib/storage.svelte";
   import "#lib/style/layout.css";
   import { onMount } from "svelte";
@@ -41,8 +40,14 @@
         const win = entry?.win;
 
         if (win) {
-          if (win.closed || win.location.pathname !== entry.initialPath) {
-            storage.quitActive(id);
+          try {
+            if (win.closed || win.location.pathname !== entry.initialPath) {
+              storage.quitActive(id);
+            }
+          } catch {
+            if (win.closed) {
+              storage.quitActive(id);
+            }
           }
         }
       }
@@ -59,7 +64,7 @@
   }
 </script>
 
-<svelte:window on:beforeunload={beforeUnload} />
+<svelte:window onbeforeunload={beforeUnload} />
 
 <Toaster
   toastOptions={{

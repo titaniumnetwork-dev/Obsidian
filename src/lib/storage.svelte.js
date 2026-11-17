@@ -419,8 +419,7 @@ class StorageManager {
     const standalone = window.matchMedia("(display-mode: standalone)").matches;
     const width = window.screen.width;
     const height = window.screen.height;
-    const launchMode =
-      storage.settings.launch === "newTab" ? "_blank" : "_self";
+    const launchMode = this.settings.launch === "newTab" ? "_blank" : "_self";
 
     this.active[ID] = {
       win: window.open(
@@ -428,7 +427,7 @@ class StorageManager {
         launchMode,
         standalone ? `width=${width},height=${height},left=0,top=0` : null,
       ),
-      tabID: storage.tabID,
+      tabID: this.tabID,
       initialPath: "/launch/" + ID,
       time: Date.now(),
       lastTick: now,
@@ -467,7 +466,7 @@ class StorageManager {
     const entry = this.active[ID];
     if (entry) {
       clearInterval(entry.intervalId);
-      if (storage.settings.launch === "newTab") {
+      if (this.settings.launch === "newTab") {
         if (entry.win) {
           entry.win.close();
         }

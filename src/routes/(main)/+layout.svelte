@@ -59,14 +59,16 @@
   onMount(async () => {
     await storage.loadStorage(data.catalogData);
 
-    window.addEventListener("keydown", (e) => {
+    const handlePanicKey = (e) => {
       if (e.code === storage.settings.panicKey) {
         if (storage.settings.panicURL) {
           e.preventDefault();
           window.location.assign(storage.settings.panicURL);
         }
       }
-    });
+    };
+
+    window.addEventListener("keydown", handlePanicKey);
 
     if (navigator.storage && navigator.storage.persist) {
       if (await navigator.storage.persisted()) {
@@ -76,6 +78,10 @@
       const granted = await navigator.storage.persist();
       console.log("Storage persistence: ", granted);
     }
+
+    return () => {
+      window.removeEventListener("keydown", handlePanicKey);
+    };
   });
 
   $effect(() => {
@@ -87,8 +93,14 @@
         const win = entry?.win;
 
         if (win) {
-          if (win.closed || win.location.pathname !== entry.initialPath) {
-            storage.quitActive(id);
+          try {
+            if (win.closed || win.location.pathname !== entry.initialPath) {
+              storage.quitActive(id);
+            }
+          } catch {
+            if (win.closed) {
+              storage.quitActive(id);
+            }
           }
         }
       }
@@ -105,7 +117,7 @@
   }
 </script>
 
-<svelte:window on:beforeunload={beforeUnload} />
+<svelte:window onbeforeunload={beforeUnload} />
 
 <Toaster
   toastOptions={{

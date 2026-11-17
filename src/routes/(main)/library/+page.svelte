@@ -49,25 +49,19 @@
   }
 
   let allTagsSelected = $derived(tagFilter.length === storage.tags.length);
+  let query = $derived(searchQuery.trim().toLowerCase());
 
   let sortedLibrary = $derived(
     storage.library
-      .filter((item) =>
-        item.title.toLowerCase().includes(searchQuery.toLowerCase()),
-      )
       .filter((item) => {
-        if (allTagsSelected) {
-          return true;
-        }
-
-        return item.tags.some((tag) => tagFilter.includes(tag));
-      })
-      .filter((item) => {
-        if (sortCategory === "all") {
-          return true;
-        } else {
-          return item.type === sortCategory;
-        }
+        if (query && !item.title.toLowerCase().includes(query)) return false;
+        if (sortCategory !== "all" && item.type !== sortCategory) return false;
+        if (
+          !allTagsSelected &&
+          !item.tags.some((tag) => tagFilter.includes(tag))
+        )
+          return false;
+        return true;
       })
       .sort((a, b) => {
         const compareAlphabetically = () =>
@@ -82,21 +76,11 @@
         } else if (storage.settings.sortBy === "recent") {
           const lastPlayedA = Number(storage.playTime[a.id]?.lastPlayed) || 0;
           const lastPlayedB = Number(storage.playTime[b.id]?.lastPlayed) || 0;
-
-          if (lastPlayedA !== lastPlayedB) {
-            return lastPlayedB - lastPlayedA;
-          }
-
-          return compareAlphabetically();
+          return lastPlayedB - lastPlayedA || compareAlphabetically();
         } else if (storage.settings.sortBy === "most_played") {
           const playTimeA = Number(storage.playTime[a.id]?.playTime) || 0;
           const playTimeB = Number(storage.playTime[b.id]?.playTime) || 0;
-
-          if (playTimeA !== playTimeB) {
-            return playTimeB - playTimeA;
-          }
-
-          return compareAlphabetically();
+          return playTimeB - playTimeA || compareAlphabetically();
         }
 
         return 0;

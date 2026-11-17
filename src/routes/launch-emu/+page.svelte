@@ -46,13 +46,16 @@
   }
 
   onMount(() => {
-    window.addEventListener("message", function (e) {
+    function handleMessage(e) {
       if (e.data && e.data.type === "run") {
         const core = e.data.core;
         const file = e.data.file;
         run(core, file);
       }
-    });
+    }
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
   });
 </script>
 
