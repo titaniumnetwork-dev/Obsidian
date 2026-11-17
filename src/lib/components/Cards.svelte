@@ -12,12 +12,33 @@
     row = false,
     viewAll,
     newBadge = false,
+    cols = $bindable(5),
   } = $props();
 
-  const newData = $derived(row ? data.slice(0, 8) : data);
+  let gridNode = $state(null);
+  let gridWidth = $state(0);
+
+  const rowCount = $derived(
+    row === true ? 1 : typeof row === "number" && row > 0 ? row : 0,
+  );
+
+  $effect(() => {
+    gridWidth;
+    storage.settings.cards;
+    if (!gridNode) return;
+
+    const tracks = getComputedStyle(gridNode).gridTemplateColumns;
+    if (tracks && tracks !== "none") {
+      cols = tracks.split(" ").length;
+    }
+  });
+
+  const newData = $derived(
+    rowCount > 0 ? data.slice(0, rowCount * cols) : data,
+  );
 </script>
 
-<div data-row={row} class="group flex flex-col px-4 gap-4">
+<div class="group flex flex-col px-4 gap-4">
   {#if data.length > 0}
     {#if title}
       {#if viewAll}
@@ -33,12 +54,10 @@
       {/if}
     {/if}
     <div
+      bind:this={gridNode}
+      bind:clientWidth={gridWidth}
       data-cards-style={storage.settings.cards}
-      class="grid data-[cards-style=compact]:grid-cols-[repeat(auto-fill,minmax(8.5rem,1fr))] data-[cards-style=default]:grid-cols-[repeat(auto-fill,minmax(11rem,1fr))] data-[cards-style=showcase]:grid-cols-[repeat(auto-fill,minmax(13.5rem,1fr))] gap-4 data-[cards-style=compact]:gap-y-0
-            group-data-[row=true]:grid-rows-1
-            group-data-[row=true]:gap-y-0
-            group-data-[row=true]:overflow-hidden
-            group-data-[row=true]:auto-rows-[0px]"
+      class="grid data-[cards-style=compact]:grid-cols-[repeat(auto-fill,minmax(8.5rem,1fr))] data-[cards-style=default]:grid-cols-[repeat(auto-fill,minmax(11rem,1fr))] data-[cards-style=showcase]:grid-cols-[repeat(auto-fill,minmax(13.5rem,1fr))] gap-4 data-[cards-style=compact]:gap-y-0"
     >
       {#each newData as item (item.id)}
         <Card data={item} {link} {buttons} {newBadge} />

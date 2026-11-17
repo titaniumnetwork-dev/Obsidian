@@ -1,5 +1,5 @@
 <script module>
-  let savedDisplayCount = 10;
+  let savedRows = 2;
 </script>
 
 <script>
@@ -80,12 +80,14 @@
     }),
   );
 
-  const batchSize = 10;
-  let displayCount = $state(savedDisplayCount);
+  const rowsPerBatch = 2;
+  let rowsToShow = $state(savedRows);
+  let cols = $state(5);
+  let displayCount = $derived(rowsToShow * cols);
   let sentinelNode = $state(null);
 
   $effect(() => {
-    savedDisplayCount = displayCount;
+    savedRows = rowsToShow;
   });
 
   let infiniteScrollData = $derived(
@@ -113,7 +115,7 @@
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasMoreItems) {
-          displayCount += batchSize;
+          rowsToShow += rowsPerBatch;
         }
       },
       { threshold: 0, rootMargin: "0px 0px 200px 0px" },
@@ -140,7 +142,6 @@
         item.title.toLowerCase().includes(searchQuery().toLowerCase()),
       )
       .sort((a, b) => {
-        //Alphabetical
         return (a.title || "").localeCompare(b.title || "");
       }),
   );
@@ -314,7 +315,7 @@
       buttons="store"
       link="/store/"
       newBadge={true}
-      row={true}
+      row={2}
     />
     <Card class="flex-row items-center mx-4" size="sm">
       <div class="flex-col gap-1">
@@ -389,6 +390,8 @@
       <Cards
         title="FNAF Collection"
         data={getCollection("90980804-79f0-433d-9103-c3294a3c7ff4")}
+        row={true}
+        viewAll={"/store/collection/90980804-79f0-433d-9103-c3294a3c7ff4"}
         link="/store/"
         buttons="store"
       />
@@ -470,6 +473,7 @@
       data={infiniteScrollData}
       link="/store/"
       buttons="store"
+      bind:cols
     />
     {#if hasMoreItems}
       <div
