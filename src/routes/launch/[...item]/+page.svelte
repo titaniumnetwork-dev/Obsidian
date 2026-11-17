@@ -604,7 +604,7 @@
       id="keybinds"
       tabindex="-1"
       bind:this={keybindsMenu}
-      class="[&:popover-open]:flex flex-col bg-card rounded-xl text-foreground [position-anchor:--keybinds-button] group-data-[overlay-style=default]:[position-area:bottom_span-right] group-data-[overlay-style=compact]:[position-area:bottom_span-left] mt-2.5 z-20 p-3 border border-input min-w-80 gap-2 max-h-[calc(100vh-5rem)] overflow-y-auto outline-none"
+      class="[&:popover-open]:flex flex-col bg-card rounded-xl text-foreground [position-anchor:--keybinds-button] group-data-[overlay-style=default]:[position-area:bottom_center] group-data-[overlay-style=compact]:[position-area:bottom_span-right] mt-2.5 group-data-[overlay-style=compact]:mr-2.5 group-data-[overlay-style=compact]:mt-4 z-20 p-3 border border-input min-w-80 max-w-[calc(100vw-2rem)] gap-2 max-h-[calc(100vh-5rem)] overflow-y-auto outline-none"
     >
       {#if bindingModal}
         <div class="flex flex-col items-center justify-center gap-2.5 py-3">
@@ -813,7 +813,7 @@
       id="recording"
       bind:this={recordingMenu}
       ontoggle={(e) => (isRecordingOpen = e.newState === "open")}
-      class="[&:popover-open]:flex flex-col bg-card rounded-lg text-inherit [position-anchor:--recording-button] group-data-[overlay-style=default]:[position-area:bottom_span-right] group-data-[overlay-style=compact]:[position-area:bottom_span-left] mt-2.5 z-20 p-1 border border-input min-w-36"
+      class="[&:popover-open]:flex flex-col bg-card rounded-lg text-inherit [position-anchor:--recording-button] [position-area:bottom_center] mt-2.5 group-data-[overlay-style=compact]:mt-4 z-20 p-1 border border-input min-w-38"
     >
       {#if videoBlob}
         <button
