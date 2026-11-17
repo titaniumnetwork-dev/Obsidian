@@ -57,7 +57,7 @@
       bind:this={gridNode}
       bind:clientWidth={gridWidth}
       data-cards-style={storage.settings.cards}
-      class="grid data-[cards-style=compact]:grid-cols-[repeat(auto-fill,minmax(8.5rem,1fr))] data-[cards-style=default]:grid-cols-[repeat(auto-fill,minmax(11rem,1fr))] data-[cards-style=showcase]:grid-cols-[repeat(auto-fill,minmax(13.5rem,1fr))] gap-4 data-[cards-style=compact]:gap-y-0"
+      class="grid data-[cards-style=compact]:grid-cols-[repeat(auto-fill,minmax(8.5rem,1fr))] data-[cards-style=default]:grid-cols-[repeat(auto-fill,minmax(11rem,1fr))] data-[cards-style=showcase]:grid-cols-[repeat(auto-fill,minmax(13.5rem,1fr))] gap-4"
     >
       {#each newData as item (item.id)}
         <Card data={item} {link} {buttons} {newBadge} />

@@ -1,5 +1,4 @@
 <script>
-  import { page } from "$app/state";
   import Head from "#lib/components/Head.svelte";
   import Button from "#lib/components/ui/Button.svelte";
   import InputGroup from "#lib/components/ui/InputGroup.svelte";
@@ -8,6 +7,7 @@
   import { companies, emulators } from "#lib/emulators";
   import { links } from "#lib/links";
   import { removeURLParam, setURLParam } from "#lib/utils";
+  import { page } from "$app/state";
   import { SiDiscord } from "@icons-pack/svelte-simple-icons";
   import { Search, SearchX, X } from "@lucide/svelte";
 
@@ -58,7 +58,7 @@
       </InputGroupAddon>
     {/if}
   </InputGroup>
-  <div class="flex gap-2 overflow-y-scroll scrollbar-none">
+  <div class="flex gap-2 overflow-x-auto overflow-y-hidden scrollbar-none">
     <Button
       variant="outline"
       onclick={() => ((filterCompany = ""), removeURLParam("company"))}
@@ -108,12 +108,9 @@
         server to request an emulator.
       </p>
     </div>
-    <a
-      href={links.discord}
-      class="h-9 px-2.5 bg-primary text-primary-foreground rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
-    >
+    <Button href={links.discord}>
       <SiDiscord size="16" />
       <span>Join Discord Server</span>
-    </a>
+    </Button>
   </div>
 {/if}

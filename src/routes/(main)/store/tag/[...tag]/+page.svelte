@@ -1,6 +1,7 @@
 <script>
   import Cards from "#lib/components/Cards.svelte";
   import Obfuscate from "#lib/components/Obfuscate.svelte";
+  import Button from "#lib/components/ui/Button.svelte";
   import { links } from "#lib/links.js";
   import { storage } from "#lib/storage.svelte";
   import { SiDiscord } from "@icons-pack/svelte-simple-icons";
@@ -41,12 +42,9 @@
         server to request a <Obfuscate text="game"></Obfuscate>.
       </p>
     </div>
-    <a
-      href={links.discord}
-      class="h-9 px-2.5 bg-primary text-primary-foreground rounded-lg flex gap-1.5 items-center cursor-pointer text-sm"
-    >
+    <Button href={links.discord}>
       <SiDiscord size="16" />
       <span>Join Discord Server</span>
-    </a>
+    </Button>
   </div>
 {/if}

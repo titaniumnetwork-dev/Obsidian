@@ -257,7 +257,7 @@
       <button
         onclick={() => ((sortCategory = "all"), removeURLParam("category"))}
         data-active={sortCategory === "all"}
-        class="h-full flex items-center data-[active=true]:bg-input transition-colors rounded-md px-2 cursor-pointer"
+        class="h-full flex items-center data-[active=true]:bg-secondary transition-colors rounded-md px-2 cursor-pointer"
         >All</button
       >
       <button
@@ -266,7 +266,7 @@
           setURLParam("category", "HTML")
         )}
         data-active={sortCategory === "HTML"}
-        class="h-full flex items-center data-[active=true]:bg-input transition-colors rounded-md px-2 cursor-pointer"
+        class="h-full flex items-center data-[active=true]:bg-secondary transition-colors rounded-md px-2 cursor-pointer"
         >HTML</button
       >
       <button
@@ -275,7 +275,7 @@
           setURLParam("category", "Flash")
         )}
         data-active={sortCategory === "Flash"}
-        class="h-full flex items-center data-[active=true]:bg-input transition-colors rounded-md px-2 cursor-pointer"
+        class="h-full flex items-center data-[active=true]:bg-secondary transition-colors rounded-md px-2 cursor-pointer"
         >Flash</button
       >
       <button
@@ -284,7 +284,7 @@
           setURLParam("category", "Emulation")
         )}
         data-active={sortCategory === "Emulation"}
-        class="h-full flex items-center data-[active=true]:bg-input transition-colors rounded-md px-2 cursor-pointer"
+        class="h-full flex items-center data-[active=true]:bg-secondary transition-colors rounded-md px-2 cursor-pointer"
         >Emulation</button
       >
     </div>
@@ -407,13 +407,10 @@
         you're looking for?
       </p>
     </div>
-    <a
-      href={"/store?search=" + searchQuery}
-      class="h-9 px-2.5 bg-primary text-primary-foreground rounded-md flex gap-1.5 items-center cursor-pointer text-sm"
-    >
+    <Button href={"/store?search=" + searchQuery}>
       <Store size="16" />
       <span>Search the Store</span>
-    </a>
+    </Button>
   </div>
 {/if}
 {#if storage.library.length === 0}
@@ -426,12 +423,9 @@
         favorite <Obfuscate text="game"></Obfuscate> and start building your collection.
       </p>
     </div>
-    <a
-      href="/store"
-      class="h-9 px-2.5 bg-primary text-primary-foreground rounded-md flex gap-1.5 items-center cursor-pointer text-sm"
-    >
+    <Button href="/store">
       <Store size="16" />
       <span>Browse Store</span>
-    </a>
+    </Button>
   </div>
 {/if}

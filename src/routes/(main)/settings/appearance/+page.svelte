@@ -237,10 +237,10 @@
       >
         <div class="h-16 flex items-center justify-center">
           <div
-            class="rounded-md border border-input bg-card p-1 flex flex-col items-center gap-1"
+            class="rounded-sm border border-input bg-card p-1 flex flex-col items-center gap-1"
           >
             <div
-              class="w-7 aspect-2/3 rounded-sm bg-input/30 border border-input"
+              class="w-7 aspect-2/3 rounded-xs bg-input/30 border border-input"
             ></div>
             <div class="w-7 h-1 rounded-full bg-input"></div>
           </div>

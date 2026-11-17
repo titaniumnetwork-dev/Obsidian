@@ -1,5 +1,4 @@
 <script>
-  import { page } from "$app/state";
   import Ruffle from "#lib/assets/emulation/Ruffle.svelte";
   import Head from "#lib/components/Head.svelte";
   import Button from "#lib/components/ui/Button.svelte";
@@ -8,7 +7,8 @@
   import InputGroupInput from "#lib/components/ui/InputGroupInput.svelte";
   import { tags } from "#lib/tags.js";
   import { removeURLParam, setURLParam } from "#lib/utils.js";
-  import { ChevronDown, Gamepad, Home, Search, Store, Tag, X } from "@lucide/svelte";
+  import { page } from "$app/state";
+  import { ChevronDown, Gamepad, Search, Store, Tag, X } from "@lucide/svelte";
   import { setContext } from "svelte";
 
   let { data, children } = $props();
@@ -46,15 +46,30 @@
       </InputGroupAddon>
     {/if}
   </InputGroup>
-  <Button variant="outline" href="/store">
+  <Button
+    variant="outline"
+    href="/store"
+    data-active={page.url.pathname === "/store"}
+    class="data-[active=true]:bg-secondary"
+  >
     <Store size="16" />
     <span>Store</span>
   </Button>
-  <Button variant="outline" href="/store/flash">
+  <Button
+    variant="outline"
+    href="/store/flash"
+    data-active={page.url.pathname === "/store/flash"}
+    class="data-[active=true]:bg-secondary"
+  >
     <Ruffle class="size-4" />
     <span>Flash</span>
   </Button>
-  <Button variant="outline" href="/store/retro">
+  <Button
+    variant="outline"
+    href="/store/retro"
+    data-active={page.url.pathname === "/store/retro"}
+    class="data-[active=true]:bg-secondary"
+  >
     <Gamepad size="16" />
     <span>Retro</span>
   </Button>
@@ -72,7 +87,7 @@
     id="tags"
     bind:this={tagsMenu}
     class="[&:popover-open]:grid grid-cols-3 bg-card rounded-lg text-foreground [position-anchor:--tags-button]
-              [position-area:bottom] border border-input p-1 mt-2.5 gap-2 max-w-130 max-h-130"
+              [position-area:bottom] border border-input p-1 mt-2.5 gap-2 max-w-130 max-h-130 overflow-y-auto"
   >
     {#each tags as tag}
       <a

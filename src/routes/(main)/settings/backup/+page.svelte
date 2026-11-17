@@ -122,7 +122,7 @@
     <div>
       <p>Backup</p>
       <p class="text-sm text-muted">
-        Keep a local Obsidian backup. Your libary, settings, and save data
+        Keep a local Obsidian backup. Your library, settings, and save data
       </p>
     </div>
     <div class="flex gap-2">
@@ -156,7 +156,7 @@
   <Card size="sm">
     <div>
       <p>Data</p>
-      <p class="text-sm text-muted">Your entire libary and settings</p>
+      <p class="text-sm text-muted">Your entire library and settings</p>
     </div>
     <div class="flex gap-2">
       <div>

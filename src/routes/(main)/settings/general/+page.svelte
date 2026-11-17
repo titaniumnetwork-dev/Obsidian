@@ -35,10 +35,10 @@
     </div>
     <div class="flex flex-wrap gap-2">
       <Button
-        variant="outline"
+        variant="ghost"
         onclick={() => storage.updateSetting("aspect", "")}
         data-active={storage.settings.aspect.length === 0}
-        class="data-[active=true]:bg-secondary"
+        class="data-[active=true]:bg-secondary border border-border"
       >
         <span>Default</span>
       </Button>

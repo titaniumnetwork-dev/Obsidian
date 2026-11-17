@@ -282,7 +282,7 @@ html[data-rounding="Default"] {
 }
 
 html[data-rounding="Soft"] {
-  --theme-radius: 1rem;
+  --theme-radius: 0.75rem;
 }
 
 @theme inline {

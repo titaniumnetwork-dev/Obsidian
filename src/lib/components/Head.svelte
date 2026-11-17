@@ -83,7 +83,7 @@
   }
 
   $effect(() => {
-    if (themeData.css) {
+    if (themeData?.css) {
       themeCustomCSS = Object.entries(themeData.css)
         .map((item) => {
           return `${item[0]} {${generateProperties(item[1])}}`;

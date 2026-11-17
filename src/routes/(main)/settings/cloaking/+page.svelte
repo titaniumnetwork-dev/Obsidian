@@ -96,9 +96,14 @@
           onclick={() => setMask(mask.title, mask.icon)}
           data-active={storage.settings.maskTitle === mask.title &&
             storage.settings.maskIcon === mask.icon}
-          class="rounded-full p-2 data-[active=true]:bg-secondary border border-border"
+          class="rounded-full data-[active=true]:bg-secondary border border-border"
         >
-          <img draggable="false" alt={mask.title} src={mask.icon} size="16" />
+          <img
+            draggable="false"
+            alt={mask.title}
+            src={mask.icon}
+            class="size-4 object-contain"
+          />
         </Button>
       {/each}
     </div>

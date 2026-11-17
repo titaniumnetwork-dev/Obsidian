@@ -184,7 +184,7 @@
     </ContextMenuContent>
   </ContextMenu>
   <div
-    class="flex flex-col group-data-[cards-style=compact]/card:opacity-0 not-group-data-[cards-style=compact]/card:pt-2 group-data-[cards-style=showcase]/card:px-1"
+    class="flex flex-col group-data-[cards-style=compact]/card:hidden not-group-data-[cards-style=compact]/card:pt-2 group-data-[cards-style=showcase]/card:px-1"
   >
     <div class="flex">
       <a
@@ -265,7 +265,9 @@
       </div>
     </div>
     {#if storage.settings.cards === "showcase"}
-      <a href={storeLink} class="text-xs text-muted no-underline">{data.developer}</a>
+      <a href={storeLink} class="text-xs text-muted no-underline truncate"
+        >{data.developer}</a
+      >
     {/if}
   </div>
 </div>

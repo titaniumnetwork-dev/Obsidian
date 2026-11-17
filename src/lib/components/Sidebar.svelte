@@ -312,7 +312,8 @@
           size="icon-sm"
           aria-label="Home Logo"
           href={storage.settings.libraryMode ? "/library" : "/"}
-          onpointerdown={() => sidebarScrollEl?.scrollTo({ top: 0, behavior: "smooth" })}
+          onpointerdown={() =>
+            sidebarScrollEl?.scrollTo({ top: 0, behavior: "smooth" })}
         >
           <Logo class="size-5" />
         </Button>
@@ -544,7 +545,7 @@
               <a
                 data-active={isActive}
                 href={settingsTab.href}
-                class="text-sm px-2 rounded-md h-8 flex items-center transition-colors hover:bg-secondary data-[active=true]:bg-secondary"
+                class="text-sm px-2 group-data-[collapsed=true]:px-0 group-data-[collapsed=true]:w-8 group-data-[collapsed=true]:justify-center rounded-md h-8 flex items-center transition-colors hover:bg-secondary data-[active=true]:bg-secondary"
               >
                 <settingsTab.icon
                   size="16"

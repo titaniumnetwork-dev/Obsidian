@@ -603,7 +603,7 @@
       <div class="flex flex-col gap-4">
         {#each controls as actionItem, actionIdx}
           <div
-            class="flex flex-col gap-2 bg-secondary border border-input rounded-xl p-2"
+            class="flex flex-col gap-2 bg-secondary border border-input rounded-lg p-2"
           >
             <div class="flex gap-2">
               <Input
@@ -681,7 +681,7 @@
       <div class="flex flex-col gap-4">
         {#each gamepadControls as actionItem, actionIdx}
           <div
-            class="flex flex-col gap-2 bg-secondary border border-input rounded-xl p-2"
+            class="flex flex-col gap-2 bg-secondary border border-input rounded-lg p-2"
           >
             <div class="flex gap-2">
               <Input type="text" bind:value={actionItem.action} />
