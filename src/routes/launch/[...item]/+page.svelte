@@ -96,9 +96,9 @@
   );
 
   function startBinding(modal) {
-    document.activeElement?.blur();
-    window.focus();
     bindingModal = modal;
+    document.activeElement?.blur();
+    keybindsMenu?.focus();
   }
 
   function handleKeydown(e) {
@@ -131,6 +131,21 @@
       } else {
         storage.setGamepadBind(game.id, trigger, e.code, e.keyCode, e.key, id);
       }
+    }
+  }
+
+  function handleGameKey(e) {
+    if (!e.isTrusted) return;
+    if (bindingModal) {
+      if (e.type === "keydown") handleKeydown(e);
+      return;
+    }
+    const bind = keybinds.find((b) => b.from === e.code);
+    if (bind) {
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      e.preventDefault();
+      dispatchGameEvent(e.type, bind.to, bind.toKeyCode, bind.toKey);
     }
   }
 
@@ -298,27 +313,15 @@
 
     try {
       win.addEventListener("click", () => {
-        keybindsMenu?.hidePopover();
-        recordingMenu?.hidePopover();
-        emulationMenu?.hidePopover();
-        shadersMenu?.hidePopover();
+        if (isKeybindsOpen) keybindsMenu?.hidePopover();
+        if (isRecordingOpen) recordingMenu?.hidePopover();
+        if (isEmulationOpen) emulationMenu?.hidePopover();
+        if (isShadersOpen) shadersMenu?.hidePopover();
+        win.focus();
       });
 
       for (const type of ["keydown", "keyup"]) {
-        win.addEventListener(type, (e) => {
-          if (!e.isTrusted) return;
-          if (bindingModal) {
-            if (type === "keydown") handleKeydown(e);
-            return;
-          }
-          const bind = keybinds.find((b) => b.from === e.code);
-          if (bind) {
-            e.stopPropagation();
-            e.stopImmediatePropagation();
-            e.preventDefault();
-            dispatchGameEvent(type, bind.to, bind.toKeyCode, bind.toKey);
-          }
-        });
+        win.addEventListener(type, handleGameKey, true);
       }
     } catch {}
   }
@@ -483,7 +486,7 @@
   ads={false}
 />
 
-<svelte:window onkeydown={handleKeydown} />
+<svelte:window onkeydown={handleGameKey} onkeyup={handleGameKey} />
 
 <div
   data-overlay-style={storage.settings.overlay}
@@ -592,12 +595,16 @@
     <div
       ontoggle={(e) => {
         isKeybindsOpen = e.newState === "open";
-        if (e.newState === "closed") bindingModal = null;
+        if (e.newState === "closed") {
+          bindingModal = null;
+          frame?.contentWindow?.focus();
+        }
       }}
       popover="auto"
       id="keybinds"
+      tabindex="-1"
       bind:this={keybindsMenu}
-      class="[&:popover-open]:flex flex-col bg-card rounded-xl text-foreground [position-anchor:--keybinds-button] group-data-[overlay-style=default]:[position-area:bottom_span-right] group-data-[overlay-style=compact]:[position-area:bottom_span-left] mt-2.5 z-20 p-3 border border-input min-w-80 gap-2 max-h-[calc(100vh-5rem)] overflow-y-auto"
+      class="[&:popover-open]:flex flex-col bg-card rounded-xl text-foreground [position-anchor:--keybinds-button] group-data-[overlay-style=default]:[position-area:bottom_span-right] group-data-[overlay-style=compact]:[position-area:bottom_span-left] mt-2.5 z-20 p-3 border border-input min-w-80 gap-2 max-h-[calc(100vh-5rem)] overflow-y-auto outline-none"
     >
       {#if bindingModal}
         <div class="flex flex-col items-center justify-center gap-2.5 py-3">

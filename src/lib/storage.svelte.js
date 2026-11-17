@@ -195,7 +195,8 @@ class StorageManager {
   }
 
   setKeybind(ID, from, to, toKeyCode, toKey = "", bindId = null, share = true) {
-    const list = (this.keybinds[ID] ??= []);
+    this.keybinds[ID] ??= [];
+    const list = this.keybinds[ID];
     const idx = list.findIndex(
       (b) => b.id === bindId || (!bindId && b.from === from),
     );
@@ -230,7 +231,8 @@ class StorageManager {
     bindId = null,
     share = true,
   ) {
-    const list = (this.gamepadBinds[ID] ??= []);
+    this.gamepadBinds[ID] ??= [];
+    const list = this.gamepadBinds[ID];
     const idx = list.findIndex((b) => b.id === bindId);
     const entry = {
       id: idx >= 0 ? list[idx].id : bindId || crypto.randomUUID(),
