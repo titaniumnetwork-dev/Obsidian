@@ -9,11 +9,8 @@
     Check,
     Clock,
     Cookie,
-    Download,
     Ellipsis,
     Gamepad,
-    Gamepad2,
-    Keyboard,
     Pause,
     Play,
     Plus,
@@ -38,8 +35,6 @@
   let { data } = $props();
 
   let optionsMenu = $state();
-
-  const keybinds = $derived(storage.keybinds[data.currentData.id] || {});
 
   const collectionData = $derived(
     data.currentData.collection &&
@@ -195,8 +190,7 @@
                       onclick={() =>
                         storage.uninstall(data.currentData.id) &
                         optionsMenu.hidePopover() &
-                        goto("/library")}
-                      >Remove</Button
+                        goto("/library")}>Remove</Button
                     >
                   </div>
                 </AlertDialogContent>
@@ -243,25 +237,6 @@
             <Button variant="outline" class="whitespace-nowrap cursor-default">
               <Tag size="16" />
               <span>{data.currentData.version}</span>
-            </Button>
-          {/if}
-          {#if data.currentData.controls || data.currentData.gamepadControls}
-            <Button variant="outline" class="whitespace-nowrap cursor-default">
-              {#if data.currentData.controls}
-                <Keyboard size="16" />
-              {/if}
-              {#if data.currentData.gamepadControls}
-                <Gamepad2 size="16" />
-              {/if}
-              {#if data.currentData.controls}
-                <span>Keyboard</span>
-              {/if}
-              {#if data.currentData.controls && data.currentData.gamepadControls}
-                <span> + </span>
-              {/if}
-              {#if data.currentData.gamepadControls}
-                <span>Controller</span>
-              {/if}
             </Button>
           {/if}
           {#if data.currentData.emulator}

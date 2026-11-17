@@ -2,12 +2,9 @@
   import Logo from "#lib/assets/logo.svelte";
   import Footer from "#lib/components/Footer.svelte";
   import Head from "#lib/components/Head.svelte";
-  import KenneyGamepadIcon from "#lib/components/KenneyGamepadIcon.svelte";
-  import KenneyKeyboardIcon from "#lib/components/KenneyKeyboardIcon.svelte";
   import Obfuscate from "#lib/components/Obfuscate.svelte";
   import Button from "#lib/components/ui/Button.svelte";
   import Input from "#lib/components/ui/Input.svelte";
-  import Switch from "#lib/components/ui/Switch.svelte";
   import Textarea from "#lib/components/ui/Textarea.svelte";
   import { emulators } from "#lib/emulators";
   import { storage } from "#lib/storage.svelte";
@@ -20,18 +17,13 @@
     Ellipsis,
     ExternalLink,
     Gamepad,
-    Gamepad2,
-    Keyboard,
     Play,
-    Plus,
     RefreshCcw,
     Share,
     Tag,
     Tags,
-    Trash,
     Upload,
     User,
-    X,
   } from "@lucide/svelte";
   import JSZip from "jszip";
 
@@ -49,9 +41,6 @@
   let emulator = $state("");
   let path = $state("/index.html");
   let rom = $state("");
-  let controls = $state([]);
-  let gamepadControls = $state([]);
-  let controllerSupport = $state(false);
 
   async function formatImage(file, sizeWidth, sizeHeight) {
     if (!file) return null;
@@ -131,7 +120,6 @@
       id,
       dateAdded,
       type,
-      controllerSupport,
     };
 
     if (tags.length) {
@@ -149,9 +137,6 @@
     if (description) {
       data.description = description;
     }
-
-    if (controls.length > 0) data.controls = controls;
-    if (gamepadControls.length > 0) data.gamepadControls = gamepadControls;
 
     if (version) {
       data.version = version;
@@ -178,144 +163,6 @@
     return data;
   });
 
-  let activeListeningIndex = $state({ actionIdx: null, keyIdx: null });
-  let newActionName = $state("");
-
-  function addAction() {
-    if (!newActionName.trim()) return;
-    controls.push({
-      action: newActionName.trim(),
-      keys: [],
-    });
-    newActionName = "";
-  }
-
-  function removeAction(actionIdx) {
-    controls.splice(actionIdx, 1);
-  }
-
-  function addKeySlot(actionIdx) {
-    controls[actionIdx].keys.push({ key: "Press a key...", keyCode: 0 });
-    startListening(actionIdx, controls[actionIdx].keys.length - 1);
-  }
-
-  function removeKey(actionIdx, keyIdx) {
-    controls[actionIdx].keys.splice(keyIdx, 1);
-    if (
-      activeListeningIndex.actionIdx === actionIdx &&
-      activeListeningIndex.keyIdx === keyIdx
-    ) {
-      stopListening();
-    }
-  }
-
-  function startListening(actionIdx, keyIdx) {
-    activeListeningIndex = { actionIdx, keyIdx };
-    window.addEventListener("keydown", handleKeyDown);
-  }
-
-  function stopListening() {
-    activeListeningIndex = { actionIdx: null, keyIdx: null };
-    window.removeEventListener("keydown", handleKeyDown);
-  }
-
-  let activeGamepadListeningIndex = $state(null);
-  let newGamepadActionName = $state("");
-  let gamepadPollingFrame = null;
-
-  function addGamepadAction() {
-    if (!newGamepadActionName.trim()) return;
-    gamepadControls.push({
-      action: newGamepadActionName.trim(),
-    });
-    newGamepadActionName = "";
-  }
-
-  function removeGamepadAction(actionIdx) {
-    gamepadControls.splice(actionIdx, 1);
-  }
-
-  function startGamepadListening(actionIdx) {
-    activeGamepadListeningIndex = actionIdx;
-
-    setTimeout(() => {
-      if (activeGamepadListeningIndex === actionIdx) {
-        pollForGamepadInput();
-      }
-    }, 200);
-  }
-
-  function stopGamepadListening() {
-    activeGamepadListeningIndex = null;
-    if (gamepadPollingFrame) cancelAnimationFrame(gamepadPollingFrame);
-  }
-
-  function pollForGamepadInput() {
-    if (activeGamepadListeningIndex === null) return;
-
-    const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
-    let mapped = false;
-    const DEADZONE = 0.5;
-
-    for (let gp of gamepads) {
-      if (!gp) continue;
-
-      for (let i = 0; i < gp.buttons.length; i++) {
-        if (gp.buttons[i].pressed) {
-          const action = gamepadControls[activeGamepadListeningIndex];
-          if (!action.buttons) action.buttons = [];
-          if (!action.buttons.includes(i)) action.buttons.push(i);
-          mapped = true;
-        }
-      }
-
-      if (!mapped && gp.axes) {
-        for (let i = 0; i < gp.axes.length; i++) {
-          const val = gp.axes[i];
-          if (Math.abs(val) > DEADZONE) {
-            const dir = val > 0 ? 1 : -1;
-            const action = gamepadControls[activeGamepadListeningIndex];
-            if (!action.axes) action.axes = [];
-            if (
-              !action.axes.some((a) => a.index === i && a.direction === dir)
-            ) {
-              action.axes.push({ index: i, direction: dir });
-            }
-            mapped = true;
-          }
-        }
-      }
-
-      if (mapped) break;
-    }
-
-    if (mapped) {
-      stopGamepadListening();
-    } else {
-      gamepadPollingFrame = requestAnimationFrame(pollForGamepadInput);
-    }
-  }
-
-  function handleKeyDown(e) {
-    e.preventDefault();
-
-    if (activeGamepadListeningIndex !== null) {
-      if (e.code === "Escape") {
-        stopGamepadListening();
-      }
-      return;
-    }
-
-    const { actionIdx, keyIdx } = activeListeningIndex;
-    if (actionIdx !== null && keyIdx !== null) {
-      controls[actionIdx].keys[keyIdx] = {
-        key: e.code === "Space" ? "Space" : e.code,
-        keyCode: e.keyCode,
-      };
-    }
-    stopListening();
-  }
-
   function reset() {
     id = self.crypto.randomUUID();
     dateAdded = Date.now();
@@ -331,9 +178,6 @@
     type = "HTML";
     path = "/index.html";
     rom = "";
-    controls = [];
-    gamepadControls = [];
-    controllerSupport = false;
   }
 
   let allTagsSelected = $derived(tags.length === storage.tags.length);
@@ -584,184 +428,6 @@
         }}
       />
     </div>
-    <p class="text-sm">Keyboard Controls</p>
-    <div class="flex gap-2">
-      <Input
-        placeholder="Action"
-        bind:value={newActionName}
-        onkeydown={(e) => e.key === "Enter" && addAction()}
-      />
-      <Button
-        size="icon"
-        variant="outline"
-        onclick={addAction}
-        disabled={!newActionName.trim()}
-        class="shrink-0"
-      >
-        <Plus size="16" />
-      </Button>
-    </div>
-    {#if controls.length > 0}
-      <div class="flex flex-col gap-4">
-        {#each controls as actionItem, actionIdx}
-          <div
-            class="flex flex-col gap-2 bg-secondary border border-input rounded-lg p-2"
-          >
-            <div class="flex gap-2">
-              <Input
-                type="text"
-                bind:value={actionItem.action}
-                class="w-auto"
-              />
-              <Button
-                size="icon"
-                variant="outline"
-                class="shrink-0"
-                onclick={() => removeAction(actionIdx)}
-              >
-                <Trash size="16" />
-              </Button>
-            </div>
-            <div class="flex flex-col gap-2">
-              {#each actionItem.keys as keyItem, keyIdx}
-                {@const isListening =
-                  activeListeningIndex.actionIdx === actionIdx &&
-                  activeListeningIndex.keyIdx === keyIdx}
-                <div class="flex gap-2">
-                  <Button
-                    variant="outline"
-                    class="w-full justify-center outline-none"
-                    onclick={() => startListening(actionIdx, keyIdx)}
-                  >
-                    {#if isListening}
-                      <span>Waiting for key...</span>
-                    {:else}
-                      <KenneyKeyboardIcon key={keyItem.key} />
-                    {/if}
-                  </Button>
-                  <Button
-                    size="icon"
-                    variant="outline"
-                    class="shrink-0"
-                    onclick={() => removeKey(actionIdx, keyIdx)}
-                  >
-                    <X size="16" />
-                  </Button>
-                </div>
-              {/each}
-              <Button
-                class="justify-center outline-none"
-                variant="outline"
-                onclick={() => addKeySlot(actionIdx)}
-              >
-                <Plus size="16" />
-                <span>Add Key</span>
-              </Button>
-            </div>
-          </div>
-        {/each}
-      </div>
-    {/if}
-    <p class="text-sm">Gamepad Controls</p>
-    <div class="flex gap-2">
-      <Input
-        placeholder="Action"
-        bind:value={newGamepadActionName}
-        onkeydown={(e) => e.key === "Enter" && addGamepadAction()}
-      />
-      <Button
-        size="icon"
-        variant="outline"
-        onclick={addGamepadAction}
-        disabled={!newGamepadActionName.trim()}
-        class="shrink-0"
-      >
-        <Plus size="16" />
-      </Button>
-    </div>
-    {#if gamepadControls.length > 0}
-      <div class="flex flex-col gap-4">
-        {#each gamepadControls as actionItem, actionIdx}
-          <div
-            class="flex flex-col gap-2 bg-secondary border border-input rounded-lg p-2"
-          >
-            <div class="flex gap-2">
-              <Input type="text" bind:value={actionItem.action} />
-              <Button
-                size="icon"
-                variant="outline"
-                class="shrink-0"
-                onclick={() => removeGamepadAction(actionIdx)}
-              >
-                <Trash size="16" />
-              </Button>
-            </div>
-            {#if actionItem.buttons && actionItem.buttons.length > 0}
-              <div class="flex flex-col gap-2">
-                {#each actionItem.buttons as btn, btnIdx}
-                  <div class="flex gap-2">
-                    <Button
-                      variant="outline"
-                      class="w-full justify-center outline-none"
-                    >
-                      <KenneyGamepadIcon button={btn} type="xbox" />
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      onclick={() => actionItem.buttons.splice(btnIdx, 1)}
-                      class="shrink-0"
-                    >
-                      <X size="16" />
-                    </Button>
-                  </div>
-                {/each}
-              </div>
-            {/if}
-            {#if actionItem.axes && actionItem.axes.length > 0}
-              <div class="flex flex-col gap-2">
-                {#each actionItem.axes as axis, axisIdx}
-                  <div class="flex gap-2">
-                    <Button
-                      variant="outline"
-                      class="w-full justify-center outline-none"
-                    >
-                      <KenneyGamepadIcon {axis} type="xbox" />
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      onclick={() => actionItem.axes.splice(axisIdx, 1)}
-                      class="shrink-0"
-                    >
-                      <X size="16" />
-                    </Button>
-                  </div>
-                {/each}
-              </div>
-            {/if}
-            <Button
-              variant="outline"
-              class="justify-center"
-              onclick={() => startGamepadListening(actionIdx)}
-            >
-              {#if activeGamepadListeningIndex === actionIdx}
-                <span>Waiting for input...</span>
-              {:else}
-                <Plus size="16" />
-                <span>Add Bind</span>
-              {/if}
-            </Button>
-          </div>
-        {/each}
-      </div>
-    {/if}
-    <p class="text-sm">Controller Support</p>
-    <Switch
-      aria-label="Controller Support"
-      checked={controllerSupport}
-      onchange={(e) => (controllerSupport = e.target.checked)}
-    />
     <p class="text-sm">JSON Data</p>
     <Textarea readonly value={JSON.stringify(generateData, null, 2)}></Textarea>
     {#if hero && cover && icon}
@@ -886,28 +552,6 @@
                   >
                     <Tag size="16" />
                     <span>{version}</span>
-                  </Button>
-                {/if}
-                {#if controls.length > 0 || gamepadControls.length > 0}
-                  <Button
-                    variant="outline"
-                    class="whitespace-nowrap cursor-default"
-                  >
-                    {#if controls.length > 0}
-                      <Keyboard size="16" />
-                    {/if}
-                    {#if gamepadControls.length > 0}
-                      <Gamepad2 size="16" />
-                    {/if}
-                    {#if controls.length > 0}
-                      <span>Keyboard</span>
-                    {/if}
-                    {#if controls.length > 0 && gamepadControls.length > 0}
-                      <span> + </span>
-                    {/if}
-                    {#if gamepadControls.length > 0}
-                      <span>Controller</span>
-                    {/if}
                   </Button>
                 {/if}
                 {#if emulator}
