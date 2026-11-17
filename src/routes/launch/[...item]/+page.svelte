@@ -617,9 +617,11 @@
 
 <div
   data-overlay-style={storage.settings.overlay}
-  class="group bg-background fixed top-0 right-0 left-0 flex justify-between items-center border-b border-border h-17 px-4"
+  class="group fixed z-20 flex items-center transition-all data-[overlay-style=default]:top-0 data-[overlay-style=default]:right-0 data-[overlay-style=default]:left-0 data-[overlay-style=default]:h-17 data-[overlay-style=default]:px-4 data-[overlay-style=default]:bg-background data-[overlay-style=default]:border-b data-[overlay-style=default]:border-border data-[overlay-style=default]:justify-between data-[overlay-style=compact]:top-3 data-[overlay-style=compact]:right-3 data-[overlay-style=compact]:p-1.5 data-[overlay-style=compact]:bg-card/90 data-[overlay-style=compact]:backdrop-blur-md data-[overlay-style=compact]:border data-[overlay-style=compact]:border-border data-[overlay-style=compact]:rounded-xl data-[overlay-style=compact]:shadow-lg data-[overlay-style=compact]:justify-end"
 >
-  <div class="flex items-center gap-2 text-sm">
+  <div
+    class="group-data-[overlay-style=compact]:hidden flex items-center gap-2 text-sm"
+  >
     <img
       draggable="false"
       class="size-8 rounded-lg"
@@ -628,11 +630,13 @@
     />
     <p>{data.currentData.title}</p>
   </div>
-  <div class="flex items-center gap-2">
+  <div class="flex items-center gap-1.5 sm:gap-2">
     {#if data.currentData.type === "Emulation"}
       <button
         popovertarget="emulation"
-        class="[anchor-name:--emulation-button] h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
+        title="Emulation"
+        aria-label="Emulation"
+        class="[anchor-name:--emulation-button] h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm hover:bg-secondary transition-colors"
       >
         <Gamepad size="16" />
         <span class="group-data-[overlay-style=compact]:hidden">Emulation</span>
@@ -641,7 +645,7 @@
         popover="auto"
         id="emulation"
         bind:this={emulationMenu}
-        class="[&:popover-open]:flex flex-col bg-card rounded-lg text-inherit [position-anchor:--emulation-button] [position-area:bottom_span-right] mt-2.5 z-20 p-1 overflow-visible border border-input"
+        class="[&:popover-open]:flex flex-col bg-card rounded-lg text-inherit [position-anchor:--emulation-button] group-data-[overlay-style=default]:[position-area:bottom_span-right] group-data-[overlay-style=compact]:[position-area:bottom_span-left] mt-2.5 z-20 p-1 overflow-visible border border-input"
       >
         <button
           onclick={() => {
@@ -677,7 +681,7 @@
           popover="auto"
           id="shaders"
           bind:this={shadersMenu}
-          class="[&:popover-open]:flex flex-col bg-card rounded-lg text-inherit [position-anchor:--shaders-button] [position-area:right_span-bottom] z-20 p-1 overflow-visible border border-input min-w-36"
+          class="[&:popover-open]:flex flex-col bg-card rounded-lg text-inherit [position-anchor:--shaders-button] group-data-[overlay-style=default]:[position-area:right_span-bottom] group-data-[overlay-style=compact]:[position-area:left_span-bottom] z-20 p-1 overflow-visible border border-input min-w-36"
         >
           <button
             onclick={(e) => {
@@ -733,7 +737,9 @@
     {#if data.currentData.controls || (data.currentData.gamepadControls && isGamepadConnected)}
       <button
         popovertarget="controls"
-        class="[anchor-name:--controls-button] h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm outline-none"
+        title="Controls"
+        aria-label="Controls"
+        class="[anchor-name:--controls-button] h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm outline-none hover:bg-secondary transition-colors"
       >
         <Keyboard size="16" />
         <span class="group-data-[overlay-style=compact]:hidden">Controls</span>
@@ -748,7 +754,7 @@
         popover="auto"
         id="controls"
         bind:this={controlsMenu}
-        class={"[&:popover-open]:flex flex-col bg-card rounded-xl text-foreground [position-anchor:--controls-button] group-data-[overlay-style=default]:[position-area:bottom_span-right] group-data-[overlay-style=compact]:[position-area:bottom_span-left] mt-2.5 z-20 p-2 border border-input min-w-xs gap-2" +
+        class={"[&:popover-open]:flex flex-col bg-card rounded-xl text-foreground [position-anchor:--controls-button] group-data-[overlay-style=default]:[position-area:bottom_span-right] group-data-[overlay-style=compact]:[position-area:bottom_span-left] mt-2.5 z-20 p-2 border border-input min-w-xs gap-2 max-h-[calc(100vh-5rem)] overflow-y-auto" +
           (binding.key || gamepadBinding.action ? " min-h-32" : "")}
       >
         {#if binding.key || gamepadBinding.action}
@@ -953,16 +959,24 @@
     {/if}
     <button
       onclick={() => frame.requestFullscreen()}
-      class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
+      title="Fullscreen"
+      aria-label="Fullscreen"
+      class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm hover:bg-secondary transition-colors"
     >
       <Maximize size="16" />
       <span class="group-data-[overlay-style=compact]:hidden">Fullscreen</span>
     </button>
     <button
       popovertarget="recording"
-      class="[anchor-name:--recording-button] h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
+      title="Record"
+      aria-label="Record"
+      class="[anchor-name:--recording-button] h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm hover:bg-secondary transition-colors"
     >
-      <Video size="16" />
+      {#if mediaRecorder}
+        <span class="size-2 rounded-full bg-red-500 animate-pulse"></span>
+      {:else}
+        <Video size="16" />
+      {/if}
       <span class="group-data-[overlay-style=compact]:hidden">Record</span>
     </button>
     <div
@@ -1008,7 +1022,9 @@
     </div>
     <button
       onclick={() => frame.contentWindow.location.reload()}
-      class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
+      title="Reload"
+      aria-label="Reload"
+      class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm hover:bg-secondary transition-colors"
     >
       <RotateCw size="16" />
       <span class="group-data-[overlay-style=compact]:hidden">Reload</span>
@@ -1016,16 +1032,19 @@
     {#if window.opener}
       <button
         onclick={() => window.close()}
-        class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
+        title="Quit"
+        aria-label="Quit"
+        class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm hover:bg-secondary transition-colors"
       >
         <X size="16" />
         <span class="group-data-[overlay-style=compact]:hidden">Quit</span>
       </button>
-    {/if}
-    {#if storage.settings.launch === "currentTab"}
+    {:else if storage.settings.launch === "currentTab"}
       <button
         onclick={quitCurrent}
-        class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
+        title="Quit"
+        aria-label="Quit"
+        class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm hover:bg-secondary transition-colors"
       >
         <X size="16" />
         <span class="group-data-[overlay-style=compact]:hidden">Quit</span>
@@ -1035,7 +1054,7 @@
 </div>
 <div
   data-overlay-style={storage.settings.overlay}
-  class="fixed data-[overlay-style=default]:top-17 bottom-0 right-0 left-0 h-[calc(100vh-4.25rem)] w-full flex items-center justify-center"
+  class="fixed data-[overlay-style=default]:top-17 data-[overlay-style=default]:h-[calc(100vh-4.25rem)] data-[overlay-style=compact]:top-0 data-[overlay-style=compact]:h-full bottom-0 right-0 left-0 w-full flex items-center justify-center"
 >
   <iframe
     bind:this={frame}

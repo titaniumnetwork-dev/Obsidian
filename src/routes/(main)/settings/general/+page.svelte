@@ -56,9 +56,9 @@
   </Card>
   <Card size="sm">
     <div>
-      <p><Obfuscate text="Game"></Obfuscate> Options</p>
+      <p><Obfuscate text="Game"></Obfuscate> Controls</p>
       <p class="text-sm text-muted">
-        Change the in <Obfuscate text="game"></Obfuscate> options style
+        Change the in <Obfuscate text="game"></Obfuscate> controls style
       </p>
     </div>
     <div class="flex flex-wrap gap-2">

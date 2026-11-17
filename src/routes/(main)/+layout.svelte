@@ -29,7 +29,6 @@
   afterNavigate(({ from, to, type }) => {
     if (!scrollContainer || !to?.url) return;
 
-    // In-page search and filter changes reset/stay at top
     if (from?.url && from.url.pathname === to.url.pathname) {
       scrollContainer.scrollTop = 0;
       requestAnimationFrame(() => {

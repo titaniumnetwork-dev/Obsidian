@@ -116,12 +116,14 @@
 <div class={playerHidden ? " hidden" : ""}>
   <div
     data-overlay-style={storage.settings.overlay}
-    class="group bg-background fixed top-0 right-0 left-0 flex justify-end items-center border-b border-border h-17 px-4 z-10"
+    class="group fixed z-20 flex items-center transition-all data-[overlay-style=default]:top-0 data-[overlay-style=default]:right-0 data-[overlay-style=default]:left-0 data-[overlay-style=default]:h-17 data-[overlay-style=default]:px-4 data-[overlay-style=default]:bg-background data-[overlay-style=default]:border-b data-[overlay-style=default]:border-border data-[overlay-style=default]:justify-end data-[overlay-style=compact]:top-3 data-[overlay-style=compact]:right-3 data-[overlay-style=compact]:p-1.5 data-[overlay-style=compact]:bg-card/90 data-[overlay-style=compact]:backdrop-blur-md data-[overlay-style=compact]:border data-[overlay-style=compact]:border-border data-[overlay-style=compact]:rounded-xl data-[overlay-style=compact]:shadow-lg data-[overlay-style=compact]:justify-end"
   >
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-1.5 sm:gap-2">
       <button
         onclick={() => frame.requestFullscreen()}
-        class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
+        title="Fullscreen"
+        aria-label="Fullscreen"
+        class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm hover:bg-secondary transition-colors"
       >
         <Maximize size="16" />
         <span class="group-data-[overlay-style=compact]:hidden">Fullscreen</span
@@ -129,14 +131,18 @@
       </button>
       <button
         onclick={() => frame.contentWindow.location.reload()}
-        class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
+        title="Reload"
+        aria-label="Reload"
+        class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm hover:bg-secondary transition-colors"
       >
         <RotateCw size="16" />
         <span class="group-data-[overlay-style=compact]:hidden">Reload</span>
       </button>
       <button
         onclick={() => exit()}
-        class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm"
+        title="Exit"
+        aria-label="Exit"
+        class="h-9 group-data-[overlay-style=compact]:w-9 group-data-[overlay-style=default]:px-2.5 bg-card rounded-lg flex gap-1.5 items-center justify-center cursor-pointer border border-input text-sm hover:bg-secondary transition-colors"
       >
         <X size="16" />
         <span class="group-data-[overlay-style=compact]:hidden">Exit</span>
@@ -145,7 +151,7 @@
   </div>
   <div
     data-overlay-style={storage.settings.overlay}
-    class="fixed data-[overlay-style=default]:top-17 bottom-0 right-0 left-0 h-[calc(100vh-4.25rem)] w-full flex items-center justify-center"
+    class="fixed data-[overlay-style=default]:top-17 data-[overlay-style=default]:h-[calc(100vh-4.25rem)] data-[overlay-style=compact]:top-0 data-[overlay-style=compact]:h-full bottom-0 right-0 left-0 w-full flex items-center justify-center"
   >
     <iframe
       bind:this={frame}
