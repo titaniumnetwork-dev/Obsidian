@@ -365,8 +365,8 @@
     />
     <div class="mx-4 py-4 rounded-xl border border-border bg-card">
       <Cards
-        title="GTA Collection"
-        data={getCollection("4c2a56b7-a699-415e-b4c4-6ade2f2edf65")}
+        title="BTD Collection"
+        data={getCollection("142e23ea-e81a-4ccf-9ba9-e1007f64738d")}
         link="/store/"
         buttons="store"
       />
@@ -445,14 +445,6 @@
       link="/store/"
       buttons="store"
     />
-    <div class="mx-4 py-4 rounded-xl border border-border bg-card">
-      <Cards
-        title="BTD Collection"
-        data={getCollection("142e23ea-e81a-4ccf-9ba9-e1007f64738d")}
-        link="/store/"
-        buttons="store"
-      />
-    </div>
     <Cards
       title="Retro"
       row={true}
