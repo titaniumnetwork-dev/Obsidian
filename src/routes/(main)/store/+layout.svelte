@@ -14,6 +14,7 @@
   let { data, children } = $props();
 
   let tagsMenu = $state();
+  let isTagsOpen = $state(false);
 
   let searchQuery = $state(page.data.search || "");
 
@@ -76,7 +77,8 @@
   <Button
     variant="outline"
     popovertarget="tags"
-    class="[anchor-name:--tags-button]"
+    data-active={isTagsOpen || page.url.pathname.startsWith("/store/tag/")}
+    class="[anchor-name:--tags-button] data-[active=true]:bg-secondary"
   >
     <Tag size="16" />
     <span>Tags</span>
@@ -86,6 +88,7 @@
     popover="auto"
     id="tags"
     bind:this={tagsMenu}
+    ontoggle={(e) => (isTagsOpen = e.newState === "open")}
     class="[&:popover-open]:grid grid-cols-3 bg-card rounded-lg text-foreground [position-anchor:--tags-button]
               [position-area:bottom] border border-input p-1 mt-2.5 gap-2 max-w-130 max-h-130 overflow-y-auto"
   >
@@ -95,7 +98,9 @@
           tagsMenu.hidePopover();
         }}
         href={"/store/tag/" + tag}
-        class="rounded-md flex items-center px-2 py-1.5 gap-2 cursor-pointer hover:bg-secondary text-sm transition-colors justify-between"
+        data-active={decodeURIComponent(page.url.pathname) ===
+          "/store/tag/" + tag}
+        class="rounded-md flex items-center px-2 py-1.5 gap-2 cursor-pointer hover:bg-secondary data-[active=true]:bg-secondary text-sm transition-colors justify-between"
       >
         {tag}
       </a>

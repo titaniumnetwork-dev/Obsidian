@@ -194,7 +194,7 @@
         {data.title}
       </a>
       <div
-        class="opacity-0 group-hover/card:opacity-100 transition-opacity text-muted flex items-center"
+        class="opacity-0 group-hover/card:opacity-100 group-focus-within/card:opacity-100 group-data-[cards-style=showcase]/card:opacity-100 [@media(hover:none)]:opacity-100 transition-opacity text-muted flex items-center"
       >
         {#if buttons === "default"}
           {#if storage.active[data.id]}
